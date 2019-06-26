@@ -1,0 +1,20 @@
+{"resourceType" : "Patient",
+  "id" : "p-21666",
+  "meta" : {"versionId" : "8", "lastUpdated" : "2018-02-05T17:54:58.861+01:00", "extension" : [{"url" : "http://eNahar.org/nabu/extension#lastUpdatedBy", "valueReference" : {"reference" : "metis/practitioners/u-vkr", "display" : "von Kleist-Retzow, Jürgen-Christoph"}}]},
+  "text" : {"status" : "generated", "div" : "Nausea, Michael, *2010-03-17"},
+  "multipleBirthBoolean" : false,
+  "identifier" : [{"use" : "usual", "type" : {"coding" : [{"code" : "PNR"}]}, "system" : "http://uk-koeln.de/#patient-orbis-pnr", "value" : "", "assigner" : {"reference" : "metis/organizations/ukk", "display" : "Unikliniken Köln"}}],
+  "name" : [{"use" : "official", "family" : "Nausea", "given" : ["Michael"]}],
+  "gender" : "male",
+  "birthDate" : "2000-02-17",
+  "deceasedBoolean" : false,
+  "address" : [{"use" : "home", "line" : ["Balthasar-Platz 4"], "city" : "Köln", "state" : "NW", "postalCode" : "50933", "country" : "DEU", "period" : {"start" : "1970-01-01T00:00:00+01:00", "end" : "1970-01-01T00:00:00+01:00"}}],
+  "telecom" : [{"use" : "home", "system" : "phone", "value" : "0221 - 557678", "rank" : 1},
+               {"use" : "mobile", "system" : "phone", "value" : "0176-12343235 Vater", "rank" : 1}],
+  "communication" : [{
+  "language" : {"coding" : [{"system" : "urn:ietf:bcp:47", "code" : "de-DE", "display" : "Deutsch"}], "text" : "Deutsch"},
+  "preferred" : true}],
+  "extension" :
+  [{"url" : "http://eNahar.org/nabu/extension#patient-medical-insurance", "valueCodeableConcept" : {"coding" : [{"system" : "http://eNahar.org/nabu/extension#patient-medical-insurance", "code" : "gkv", "display" : "MH plus"}]}}],
+  "managingOrganization" : {"reference" : "metis/organizations/ukk-oe0734", "display" : "SPZ OE0734"},
+  "active" : true}
