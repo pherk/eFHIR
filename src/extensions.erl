@@ -1,6 +1,6 @@
--module(fhir_extension).
+-module(extensions).
 -compile(export_all).
--include("fhir_primitives.hrl").
+-include("primitives.hrl").
 
 -export_type([extension/0]).
 
@@ -29,10 +29,10 @@
 -record(valueUri,      {value :: uri()}).
 -record(valueUrl,      {value :: url()}).
 -record(valueUuid,     {value :: uuid()}). 
--record(valueAnnotation,      {value :: fhir_datatypes:annotation()}).
--record(valueCodeableConcept, {value :: fhir_datatypes:codeableConcept()}).
--record(valueCoding,          {value :: fhir_datatypes:coding()}).
--record(valueReference,       {value :: fhir_datatypes:fhir_reference()}).
+-record(valueAnnotation,      {value :: complex:annotation()}).
+-record(valueCodeableConcept, {value :: complex:codeableConcept()}).
+-record(valueCoding,          {value :: complex:coding()}).
+-record(valueReference,       {value :: complex:reference()}).
 
 -type extensionValue() :: 
       #valueBase64Binary{}
@@ -97,7 +97,10 @@
 %%====================================================================
 to_extension_list(Props) ->
     ExtList = proplists:get_value(<<"extension">>, Props),
-    map(fun to_extension/1,ExtList).
+    case ExtList of
+        undefined -> [];
+        _ -> lists:map(fun to_extension/1, ExtList)
+    end.
 
 to_extension({Props}) ->    to_extension(Props);
 to_extension(Props) ->
@@ -150,14 +153,11 @@ to_extensionValue(<<"valueUrl">>, Props) ->
 to_extensionValue(<<"valueUuid">>, Props) ->
     #valueReference{ value = proplists:get_value(<<"valueUuid">>, Props) };
 to_extensionValue(<<"valueAnnotation">>, Props) ->
-    #valueReference{ value = fhir_datatypes:to_annotation(Props) };
+    #valueReference{ value = complex:to_annotation(Props) };
 to_extensionValue(<<"valueCodeableConcept">>, Props) ->
-    #valueReference{ value = fhir_datatypes:to_codeableConcept(Props) };
+    #valueReference{ value = complex:to_codeableConcept(Props) };
 to_extensionValue(<<"valueCoding">>, Props) ->
-    #valueReference{ value = fhir_datatypes:to_coding(Props) };
+    #valueReference{ value = complex:to_coding(Props) };
 to_extensionValue(<<"valueReference">>, Props) ->
-    #valueReference{ value = fhir_datatypes:to_reference(Props) }.
+    #valueReference{ value = complex:to_reference(Props) }.
     
-
-map(_, []) -> [];
-map(F, [H|T]) -> [F(H)|map(F,T)].

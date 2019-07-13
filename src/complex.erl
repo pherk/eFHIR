@@ -1,6 +1,7 @@
--module(fhir_datatypes).
+-module(complex).
 -compile(export_all).
--include("fhir_primitives.hrl").
+-include("primitives.hrl").
+-include("complex.hrl").
 %%
 %% API exports
 %%-export([]).
@@ -203,13 +204,13 @@
 
 
 -record(meta, {
-       versionId = 0 :: non_neg_integer()
+       versionId = 0 :: positiveInt()
      , lastUpdated   :: dateTime()
      , source        :: binary()
      , profile       :: [uri()]
      , security      :: [coding()]
      , tag           :: [coding()]
-     , extension     :: [fhir_extension:extension()]
+     , extension     :: [extensions:extension()]
 }).
 -opaque meta()   :: #meta{}.
 
@@ -221,17 +222,20 @@ to_reference_list(Key, Props) ->
     List = proplists:get_value(Key, Props),
     case List of
         undefined -> [];
-        _         -> map(fun to_reference/1,List)
+        _         -> lists:map(fun to_reference/1,List)
     end.
 
 to_reference(Key, Props) ->
-    {RefProps} = proplists:get_value(Key, Props),
+    RefProps = proplists:get_value(Key, Props),
     case RefProps of
         undefined -> undefined;
         _         -> to_reference(RefProps)
     end.
 
+to_reference({Props}) -> to_reference(Props);
 to_reference(Props) ->
+    DT = maps:get(<<"reference">>,?ct_info),
+    io:format("~p~n~p~n",[Props,DT]),
     #reference{
         reference_ = proplists:get_value(<<"reference">>, Props)
       , display    = proplists:get_value(<<"display">>, Props)
@@ -241,53 +245,59 @@ to_humanName_list(Key, Props) ->
     List = proplists:get_value(Key, Props),
     case List of
         undefined -> [];
-        _         -> map(fun to_humanName/1,List)
+        _         -> lists:map(fun to_humanName/1,List)
     end.
 
 to_humanName({Props}) -> to_humanName(Props);
 to_humanName(Props) ->
+    DT = maps:get(<<"humanName">>,?ct_info),
+    io:format("~p~n~p~n",[Props,DT]),
     #humanName{
-       use     = proplists:get_value(<<"use">>, Props) 
-     , text    = proplists:get_value(<<"use">>, Props) 
-     , family  = proplists:get_value(<<"family">>, Props) 
-     , given   = to_list(<<"given">>, Props) 
-     , prefix  = to_list(<<"prefix">>, Props) 
-     , suffix  = to_list(<<"suffix">>, Props) 
-     , period  = to_period(<<"period">>, Props)
+       use     = get_value(<<"use">>, Props, DT) 
+     , text    = get_value(<<"text">>, Props, DT) 
+     , family  = get_value(<<"family">>, Props, DT) 
+     , given   = get_value(<<"given">>, Props, DT) 
+     , prefix  = get_value(<<"prefix">>, Props, DT) 
+     , suffix  = get_value(<<"suffix">>, Props, DT) 
+     , period  = get_value(<<"period">>, Props, DT)
     }.
 
 to_address_list(Key, Props) ->
     List = proplists:get_value(Key, Props),
     case List of
         undefined -> [];
-        _         -> map(fun to_address/1,List)
+        _         -> lists:map(fun to_address/1,List)
     end.
 
 to_address({Props}) -> to_address(Props);
 to_address(Props) -> 
-  #address{
-     use        = proplists:get_value(<<"use">>, Props) 
-   , type       = proplists:get_value(<<"type">>, Props) 
-   , text       = proplists:get_value(<<"text">>, Props) 
-   , line       = to_list(<<"line">>, Props)
-   , city       = proplists:get_value(<<"city">>, Props) 
-   , district   = proplists:get_value(<<"distrinct">>, Props) 
-   , state      = proplists:get_value(<<"state">>, Props) 
-   , postalCode = proplists:get_value(<<"postalCode">>, Props) 
-   , country    = proplists:get_value(<<"country">>, Props) 
-   , period     = to_period(<<"period">>, Props)
-   }.
+    DT = maps:get(<<"address">>,?ct_info),
+    io:format("~p~n~p~n",[Props,DT]),
+    #address{
+      use        = proplists:get_value(<<"use">>, Props) 
+    , type       = proplists:get_value(<<"type">>, Props) 
+    , text       = proplists:get_value(<<"text">>, Props) 
+    , line       = get_value(<<"line">>, Props, [])
+    , city       = proplists:get_value(<<"city">>, Props) 
+    , district   = proplists:get_value(<<"distrinct">>, Props) 
+    , state      = proplists:get_value(<<"state">>, Props) 
+    , postalCode = proplists:get_value(<<"postalCode">>, Props) 
+    , country    = proplists:get_value(<<"country">>, Props) 
+    , period     = to_period(<<"period">>, Props)
+    }.
 
 to_contactPoint_list(Key, Props) ->
     List = proplists:get_value(Key, Props),
     case List of
         undefined -> [];
-        _         -> map(fun to_contactPoint/1,List)
+        _         -> lists:map(fun to_contactPoint/1,List)
     end.
 
 to_contactPoint({Props}) -> to_contactPoint(Props);
 to_contactPoint(Props) -> 
-  #contactPoint{
+    DT = maps:get(<<"contactPoint">>,?ct_info),
+    io:format("~p~n~p~n",[Props,DT]),
+    #contactPoint{
       use    = proplists:get_value(<<"use">>, Props)
     , system = proplists:get_value(<<"system">>, Props)
     , value  = proplists:get_value(<<"value">>, Props)
@@ -299,12 +309,14 @@ to_attachment_list(Key, Props) ->
     List = proplists:get_value(Key, Props),
     case List of
         undefined -> [];
-        _         -> map(fun to_attachment/1,List)
+        _         -> lists:map(fun to_attachment/1,List)
     end.
 
 to_attachment({Props}) -> to_attachment(Props);
 to_attachment(Props) -> 
-  #attachment{
+    DT = maps:get(<<"attachment">>,?ct_info),
+    io:format("~p~n~p~n",[Props,DT]),
+    #attachment{
       contentType = proplists:get_value(<<"contentType">>, Props) 
     , language    = proplists:get_value(<<"language">>, Props) 
     , data        = proplists:get_value(<<"data">>, Props) 
@@ -317,65 +329,46 @@ to_attachment(Props) ->
 
 to_annotation({Props}) -> to_annotation(Props);
 to_annotation(Props) ->
-  #annotation{
+    DT = maps:get(<<"annotation">>,?ct_info),
+    io:format("~p~n~p~n",[Props,DT]),
+    #annotation{
       authorReference = to_reference(<<"authorReference">>, Props)
     , time = proplists:get_value(<<"time">>, Props) 
     , text = proplists:get_value(<<"text">>, Props)
     }.
 
-to_narrative(Key, Props) ->
-    {RefProps} = proplists:get_value(Key, Props),
-    case RefProps of
-        undefined -> undefined;
-        _         -> to_narrative(RefProps)
-    end.
-
-to_narrative(Props) ->
-    #narrative{
-        status = proplists:get_value(<<"status">>, Props)
-      , div_   = proplists:get_value(<<"div">>, Props)
-      }.
-
-to_meta(Key, Props) ->
-    {RefProps} = proplists:get_value(Key, Props),
-    case RefProps of
-        undefined -> undefined;
-        _         -> to_meta(RefProps)
-    end.
-
-to_meta(Props) ->
-    #meta{
-        versionId    = proplists:get_value(<<"versionId">>, Props)
-      , lastUpdated  = proplists:get_value(<<"lastUpdated">>, Props)
-      , source       = proplists:get_value(<<"source">>, Props)
-      , profile      = to_uri_list(<<"profile">>, Props) 
-      , security     = to_coding_list(<<"security">>, Props)
-      , tag          = to_coding_list(<<"tag">>, Props)
-      , extension    = fhir_extension:to_extension_list(Props)
-      }.
 
 to_coding_list(Key, Props) ->
     List = proplists:get_value(Key, Props),
     case List of
         undefined -> [];
-        _         -> map(fun to_coding/1,List)
+        _         -> lists:map(fun to_coding/1,List)
+    end.
+
+to_coding(Key, Props) ->
+    RefProps = proplists:get_value(Key, Props),
+    case RefProps of
+        undefined -> undefined;
+        _         -> to_coding(RefProps)
     end.
 
 to_coding({Props}) -> to_coding(Props);
 to_coding(Props) ->
+    DT = maps:get(<<"coding">>,?ct_info),
+    io:format("~p~n~p~n",[Props,DT]),
     #coding{
-        system  = proplists:get_value(<<"uri">>, Props)
-      , version = proplists:get_value(<<"version">>, Props)
-      , code    = proplists:get_value(<<"code">>, Props)
-      , display = proplists:get_value(<<"display">>, Props)
-      , userSelected = proplists:get_value(<<"userSelected">>, Props)
+        system  = get_value(<<"system">>, Props, DT)
+      , version = get_value(<<"version">>, Props, DT)
+      , code    = get_value(<<"code">>, Props, DT)
+      , display = get_value(<<"display">>, Props, DT)
+      , userSelected = get_value(<<"userSelected">>, Props, DT)
       }.
 
 to_codeableConcept_list(Key, Props) ->
     List = proplists:get_value(Key, Props),
     case List of
         undefined -> [];
-        _         -> map(fun to_codeableConcept/1,List)
+        _         -> lists:map(fun to_codeableConcept/1,List)
     end.
 
 to_codeableConcept(Key, Props) ->
@@ -387,31 +380,25 @@ to_codeableConcept(Key, Props) ->
 
 to_codeableConcept({Props}) -> to_codeableConcept(Props);
 to_codeableConcept(Props) ->
+    DT = maps:get(<<"codeableConcept">>,?ct_info),
+    io:format("~p~n~p~n",[Props,DT]),
     #codeableConcept{
         coding  = to_coding_list(<<"coding">>, Props)
       , text = proplists:get_value(<<"text">>, Props)
       }.
 
-to_uri_list(Key,Props) ->
-    List = proplists:get_value(Key, Props),
-    case List of
-        undefined -> [];
-        _         -> map(fun to_uri/1,List)
-    end.
-
-to_uri({Props}) -> to_uri(Props);
-to_uri(Props) ->
-    proplists:get_value(<<"uri">>, Props).
 
 to_identifier_list(Key, Props) ->
     List = proplists:get_value(Key, Props),
     case List of
         undefined -> [];
-        _         -> map(fun to_identifier/1,List)
+        _         -> lists:map(fun to_identifier/1,List)
     end.
 
 to_identifier({Props}) -> to_identifier(Props);
 to_identifier(Props) ->
+    DT = maps:get(<<"identifier">>,?ct_info),
+    io:format("~p~n~p~n",[Props,DT]),
     #identifier{
         use  = proplists:get_value(<<"use">>, Props)
       , type = to_codeableConcept(<<"type">>, Props)
@@ -430,24 +417,144 @@ to_period(Key, Props) ->
 
 to_period({Props}) -> to_period(Props);
 to_period(Props) ->
+    DT = maps:get(<<"period">>,?ct_info),
+    io:format("~p~n~p~n",[Props,DT]),
     #period{
         start_  = proplists:get_value(<<"start">>, Props)
       , end_    = proplists:get_value(<<"end">>, Props)
       }.
 
+%%
 %%====================================================================
-%% Internal functions
+%% Primitive Data Types
 %%====================================================================
-to_list(Key, Props) ->
+%%
+to_uri_list(Key,Props) ->
     List = proplists:get_value(Key, Props),
     case List of
         undefined -> [];
-        _         -> map(fun to_binary/1, List)
+        _         -> lists:map(fun to_uri/1,List)
     end.
+
+to_uri({Props}) -> to_uri(Props);
+to_uri(Props) ->
+    proplists:get_value(<<"uri">>, Props).
+
+
+to_uri(Key, Props) ->
+    Value = proplists:get_value(Key, Props),
+    case Value of
+        undefined -> undefined;
+        _         -> Value
+    end.
+
+to_boolean(Key, Props) ->
+    Value = proplists:get_value(Key, Props),
+    case Value of
+        undefined -> undefined;
+        _         -> Value
+    end.
+
+to_boolean({Props}) -> to_boolean(Props);
+to_boolean(Props) ->
+    proplists:get_value(<<"uri">>, Props).
 
 to_binary({Bin}) -> Bin;
 to_binary(Bin) -> Bin.
 
+%%
+%%====================================================================
+%% Special data types
+%%====================================================================
+%%
+to_narrative(Key, Props) ->
+    RefProps = proplists:get_value(Key, Props),
+    case RefProps of
+        undefined -> undefined;
+        _         -> to_narrative(RefProps)
+    end.
 
-map(_, []) -> [];
-map(F, [H|T]) -> [F(H)|map(F,T)].
+to_narrative({Props}) -> to_narrative(Props);
+to_narrative(Props) ->
+    DT = maps:get(<<"narrative">>,?ct_info),
+    io:format("~p~n~p~n",[Props,DT]),
+    #narrative{
+        status = proplists:get_value(<<"status">>, Props)
+      , div_   = proplists:get_value(<<"div">>, Props)
+      }.
+
+to_meta(Key, Props) ->
+    RefProps = proplists:get_value(Key, Props),
+    case RefProps of
+        undefined -> undefined;
+        _         -> to_meta(RefProps)
+    end.
+
+to_meta({Props}) -> to_meta(Props);
+to_meta(Props) ->
+    DT = maps:get(<<"meta">>,?ct_info),
+    io:format("~p~n~p~n",[Props,DT]),
+    #meta{
+        versionId    = proplists:get_value(<<"versionId">>, Props)
+      , lastUpdated  = proplists:get_value(<<"lastUpdated">>, Props)
+      , source       = proplists:get_value(<<"source">>, Props)
+      , profile      = to_uri_list(<<"profile">>, Props) 
+      , security     = to_coding_list(<<"security">>, Props)
+      , tag          = to_coding_list(<<"tag">>, Props)
+      , extension    = extensions:to_extension_list(Props)
+      }.
+%%====================================================================
+%% Internal functions
+%%====================================================================
+get_value(Key, Props, DT) ->
+    {Type,Occurs} = proplists:get_value(Key, DT),
+    io:format("get_value: ~s: ~p~n",[Key, {Type,Occurs}]),
+    Value = proplists:get_value(Key, Props),
+    io:format("get_value: ~p~n",[Value]),
+    case {Value,Occurs} of
+        {undefined, optional}       -> undefined;
+        {undefined, required}       -> error;
+        {undefined, list}           -> [];
+        {undefined, non_empty_list} -> error;
+        {Value,     optional}       -> validate(Type,Value);
+        {Value,     required}       -> validate(Type,Value);
+        {Value,     list}           -> Fun = get_fun(Type), lists:map(Fun, Value);
+        {Value,     non_empty_list} -> Fun = get_fun(Type), lists:map(Fun, Value)
+    end.
+
+validate(binary,  Value) -> Value;
+validate(boolean, Value) -> utils:binary_to_boolean(Value,error);
+validate(coding,  Value) -> Value;
+validate(period,  Value) -> Value;
+validate(uri,     Value) -> Value.
+
+
+get_fun(binary) -> fun to_binary/1;
+get_fun(coding) -> fun to_coding/1.
+
+
+%%%
+%%% EUnit
+%%%
+-ifdef(TEST).
+
+-include_lib("eunit/include/eunit.hrl").
+
+-define(asrtto(A, B), ?assertEqual(B, A)).
+-define(asrtpr(A, B), ?assertEqual(B, utils:rec_to_prop(A))).
+
+complex_to_test() ->
+    ?asrtto(complex:to_coding({[{<<"code">>, <<"test">>}]}),
+            {coding,undefined,undefined,<<"test">>,undefined,undefined}),
+    ?asrtto(complex:to_coding({[{<<"userSelected">>, <<"false">>}]}),
+            {coding,undefined,undefined,undefined,undefined, false}),
+    ?asrtto(complex:to_coding({[{<<"system">>,<<"http://eNahar.org/test">>}, {<<"code">>, <<"test">>},{<<"display">>,<<"test">>}]}),
+            {coding,<<"http://eNahar.org/test">>,undefined,<<"test">>,<<"test">>,undefined}),
+    ?asrtto(complex:to_humanName({[{<<"use">>, <<"official">>}]}),
+            {humanName,<<"official">>,undefined,undefined,[],[],[],undefined}),
+    ?asrtto(complex:to_humanName({[{<<"use">>, <<"official">>},{<<"family">>,<<"Sokolow">>},{<<"given">>,[<<"Nicolai">>]}]}),
+            {humanName,<<"official">>,undefined,<<"Sokolow">>,[<<"Nicolai">>],[],[],undefined}).
+
+
+-endif.
+

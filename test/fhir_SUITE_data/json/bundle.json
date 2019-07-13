@@ -1,0 +1,15 @@
+         { "resourceType" : "Bundle"
+                    , "id" : "bundle-example"
+                    , "meta" : {"lastUpdated" : "2014-08-18T01:43:30Z"}
+                    , "type" : "searchset"
+                    , "total" : 1
+                   , "link" : [
+                                { "relation" : "self", "url" : "https://eNahar.org/base/Patient"}
+                              , { "relation" : "next", "url" : "https://eNahar.org/base/Patient"}
+                              ]
+                    , "entry" : 
+                              [ { "fullUrl" : "http://localhost:8080/exist/restxq/nabu/tasks/p-21666"
+                                , "search" : {  "mode" : "match", "score" : 1}
+                                }
+                              ]
+                    }
