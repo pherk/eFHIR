@@ -1,6 +1,9 @@
 {"resourceType" : "Patient",
   "id" : "p-21666",
-  "meta" : {"versionId" : "8", "lastUpdated" : "2018-02-05T17:54:58.861+01:00", "extension" : [{"url" : "http://eNahar.org/nabu/extension#lastUpdatedBy", "valueReference" : {"reference" : "metis/practitioners/u-vkr", "display" : "von Kleist-Retzow, Jürgen-Christoph"}}]},
+  "meta" : {"versionId" : "8", "lastUpdated" : "2018-02-05T17:54:58.861+01:00",
+            "extension" : [{"url" : "http://eNahar.org/nabu/extension#lastUpdatedBy", "valueReference" : {"reference" : "metis/practitioners/u-vkr", "display" : "von Kleist-Retzow, Jürgen-Christoph"}}],
+            "tag" : [{"system" : "urn:ietf:bcp:47", "code" : "de-DE", "display" : "Deutsch"}]
+           },
   "text" : {"status" : "generated", "div" : "Nausea, Michael, *2010-03-17"},
   "multipleBirthBoolean" : false,
   "identifier" : [{"use" : "usual", "type" : {"coding" : [{"code" : "PNR"}]}, "system" : "http://uk-koeln.de/#patient-orbis-pnr", "value" : "", "assigner" : {"reference" : "metis/organizations/ukk", "display" : "Unikliniken Köln"}}],

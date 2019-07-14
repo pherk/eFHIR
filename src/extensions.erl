@@ -1,9 +1,13 @@
 -module(extensions).
 -compile(export_all).
 -include("primitives.hrl").
+-include("complex.hrl").
 
 -export_type([extension/0]).
 
+-define(ext_info, [{<<"url">>, {binary, required}},
+                   {<<"value">>, {extensionValue, optional}}
+	              ]).
 -record(extension, {
       url :: binary()
     , value :: extensionValue()
@@ -90,24 +94,19 @@
 
 %%
 %% API exports
--export([to_extension_list/1, to_extension/1]).
+-export([to_extension/1]).
 
 %%====================================================================
 %% API functions
 %%====================================================================
-to_extension_list(Props) ->
-    ExtList = proplists:get_value(<<"extension">>, Props),
-    case ExtList of
-        undefined -> [];
-        _ -> lists:map(fun to_extension/1, ExtList)
-    end.
-
 to_extension({Props}) ->    to_extension(Props);
 to_extension(Props) ->
+    DT = ?ext_info,
     [ValueType] = lists:delete(<<"url">>,proplists:get_keys(Props)),
     {Value} = proplists:get_value(ValueType,Props),
+    io:format("extensions: ~s: ~p~n",[ValueType, Value]),
     #extension{
-        url    = proplists:get_value(<<"url">>, Props)
+        url    = complex:get_value(<<"url">>, Props, DT)
       , value  = to_extensionValue(ValueType,Value)
       }.
 

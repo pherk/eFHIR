@@ -15,12 +15,8 @@
                                  {<<"value">>, {binary, optional}},
                                  {<<"period">>, {period, optional}},
                                  {<<"assigner">>, {reference, optional}}]
-     , <<"period">>          => [{<<"start_">>, {dateTime, optional}},
-                                 {<<"end_">>, {dateTime, optional}}]
-     , <<"reference">>       => [{<<"reference_">>, {binary, optional}},
-%                                 {<<"type">>, {uri, optional}},
-%                                 {<<"identifier">>, {identifier, optional}},
-                                 {<<"display">>, {binary, optional}}]
+     , <<"period">>          => [{<<"start">>, {dateTime, optional}},
+                                 {<<"end">>, {dateTime, optional}}]
      , <<"humanName">>       => [{<<"use">>, {binary, optional}},
                                  {<<"text">>, {binary, optional}},
                                  {<<"family">>, {binary, optional}},
@@ -80,20 +76,31 @@
                                  {<<"periodUnit">>, {code, optional}},
                                  {<<"dayOfWeek">>, {code, list}},
                                  {<<"timeOfDay">>, {time, list}},
-                                 {<<"when_">>, {code, list}},
+                                 {<<"when">>, {code, list}},
                                  {<<"offset">>, {unsignedInt, optional}}]
      , <<"annotation">>      => [{<<"authorReference">>, {reference, optional}},
                                  {<<"time">>, {dateTime, optional}},
                                  {<<"text">>, {markdown, required}}]
      , <<"signature">>       => [{<<"type">>, {coding, non_empty_list}},
-                                 {<<"when_">>, {instant, required}},
+                                 {<<"when">>, {instant, required}},
                                  {<<"whoReference">>, {reference, required}},
                                  {<<"onBehalfOfReference">>, {reference, optional}},
                                  {<<"targetFormat">>, {code, optional}},
                                  {<<"sigFormat">>, {code, optional}},
                                  {<<"data">>, {base64Binary, optional}}]
+     , <<"reference">>       => [{<<"reference">>, {binary, optional}},
+%                                 {<<"type">>, {uri, optional}},
+%                                 {<<"identifier">>, {identifier, optional}},
+                                 {<<"display">>, {binary, optional}}]
      , <<"narrative">>       => [{<<"status">>, {code, required}},
                                  {<<"div">>, {binary, required}}]
+     , <<"meta">>            => [{<<"versionId">>, {binary, optional}},
+                                 {<<"lastUpdated">>, {dateTime, optional}},
+                                 {<<"source">>, {binary, optional}},
+                                 {<<"profile">>, {uri, list}},
+                                 {<<"security">>, {coding, list}},
+                                 {<<"tag">>, {coding, list}},
+                                 {<<"extension">>, {extension, list}}]
 	 }).
 
 %%
