@@ -3,54 +3,93 @@
 -include("fhir.hrl").
 -include("primitives.hrl").
 
-%-import(datatypes, [meta/0]).
+-define(patient_info,
+    #{
+     <<"patient">> => [
+         {id          , {id, optional}}
+       , {meta        , {meta, optional}}
+       , {text        , {narrative, optional}}
+       , {extension   , {extensions:extension, optional}}
+       , {identifier_ , {identifier, optional}}
+       , {active      , {boolean, optional}}
+       , {name        , {humanName, list}}
+       , {telecom     , {contactPoint, list}}
+       , {gender      , {code, optional}}
+       , {birthDate   , {date, optional}}
+       , {deceasedBoolean  , {boolean, optional}}
+       , {deceasedDateTime , {dateTime, optional}}
+       , {address          , {address, list}}
+       , {maritalStatus    , {codeableConcept, optional}}
+       , {multipleBirthBoolean , {boolean, optional}}
+       , {multipleBirthInteger , {integer, optional}}
+       , {photo                , {attachment, list}}
+       , {contact              , {contact, list}}	
+       , {communication        , {communication, list}}
+       , {generalPractitioner  , {reference_, list}}
+       , {managingOrganization , {reference_, optional}}
+       , {link                 , {link_, list}}]
+     , <<"contact">> => [
+         {relationship , {codeableConcept, list}}
+       , {name         , {humanName, optional}}
+       , {telecom      , {contactPoint, list}}
+       , {address      , {address, optional}}
+       , {gender       , {code, optional}}
+       , {organization , {reference_, optional}}
+       , {period       , {period, optional}} ]
+    , <<"communication">> => []
+         {language     , {codeableCOncept, optional}}
+       , {preferred    , {boolean, optional}} ]
+    , <<"link">> => [
+         {other        , {reference_, optional}}
+       , {type         , {code, optional}} ]
+    }).
 
 -record(patient, {
       id          :: id()
-    , meta        :: datatypes:meta()
-    , text        :: datatypes:narrative()
+    , meta        :: complex:meta()
+    , text        :: complex:narrative()
     , extension   :: extensions:extension()
-    , identifier_ :: datatypes:identifier()
+    , identifier_ :: complex:identifier()
     , active      :: boolean()
-    , name        :: [datatypes:humanName()]
-    , telecom     :: [datatypes:contactPoint()]
+    , name        :: [complex:humanName()]
+    , telecom     :: [complex:contactPoint()]
     , gender      :: code()
     , birthDate   :: date()
     , deceasedBoolean  :: boolean()
     , deceasedDateTime :: dateTime()
-    , address          :: [datatypes:address()]
-    , maritalStatus    :: datatypes:codeableConcept()
+    , address          :: [complex:address()]
+    , maritalStatus    :: complex:codeableConcept()
     , multipleBirthBoolean :: boolean()
     , multipleBirthInteger :: integer()
-    , photo                :: [datatypes:attachment()]
+    , photo                :: [complex:attachment()]
     , contact              :: [contact()]	
     , communication        :: [communication()]
-    , generalPractitioner  :: [datatypes:reference_()]
-    , managingOrganization :: datatypes:reference_()
+    , generalPractitioner  :: [complex:reference_()]
+    , managingOrganization :: complex:reference_()
     , link                 :: [link_()]
     }).
 -opaque patient() :: #patient{}.
 
 -record(contact, {
-	  relationship :: [datatypes:codeableConcept()]
-        , name         :: datatypes:humanName()
-        , telecom      :: [datatypes:contactPoint()]
-        , address      :: datatypes:address()
-        , gender       :: datatypes:code()
-        , organization :: datatypes:reference_()
-        , period       :: datatypes:period()
+	  relationship :: [complex:codeableConcept()]
+    , name         :: complex:humanName()
+    , telecom      :: [complex:contactPoint()]
+    , address      :: complex:address()
+    , gender       :: complex:code()
+    , organization :: complex:reference_()
+    , period       :: complex:period()
     }).
 -opaque contact() :: #contact{}.
 
 -record(communication, {
-          language :: datatypes:codeableCOncept()
+          language :: complex:codeableCOncept()
         , preferred :: boolean()
     }).
 -opaque communication() :: #communication{}.
 
 -record(link, {
-          other :: datatypes:reference_()
-        , type  :: datatypes:code()
+          other :: complex:reference_()
+        , type  :: complex:code()
     }). 
 -opaque link_() :: #link{}.
 
@@ -63,90 +102,62 @@
 %%====================================================================
 
 
+to_patient({Props}) -> to_patient(Props);
 to_patient(Props) ->
   #patient{ 
-      id          = proplists:get_value(<<"id">>, Props)
-    , meta        = datatypes:to_meta(<<"meta">>, Props)
-    , text        = datatypes:to_narrative(<<"text">>, Props)
-    , extension   = extensions:to_extension_list(Props)
-    , identifier_ = datatypes:to_identifier_list(<<"identifier">>, Props)
-    , active      = proplists:get_value(<<"active">>, Props)
-    , name        = datatypes:to_humanName_list(<<"name">>, Props)
-    , telecom     = datatypes:to_contactPoint_list(<<"telecom">>, Props)
-    , gender      = proplists:get_value(<<"gender">>, Props)
-    , birthDate   = proplists:get_value(<<"birthDate">>, Props)
-    , deceasedBoolean  = proplists:get_value(<<"deceasedBoolean">>, Props)
-    , deceasedDateTime = proplists:get_value(<<"deceasedDateTime">>, Props)
-    , address          = datatypes:to_address_list(<<"address">>, Props)
-    , maritalStatus    = datatypes:to_codeableConcept(<<"maritalStatus">>, Props)
-    , multipleBirthBoolean = proplists:get_value(<<"multipleBirthBoolean">>, Props)
-    , multipleBirthInteger = proplists:get_value(<<"multipleBirthInteger">>, Props)
-    , photo                = datatypes:to_attachment_list(<<"photo">>, Props)
-    , contact              = to_contact_list(Props)	
-    , communication        = to_communication_list(Props)
-    , generalPractitioner  = datatypes:to_reference_list(<<"generalPractitioner">>, Props)
-    , managingOrganization = datatypes:to_reference(<<"managingOrganization">>, Props)
-    , link                 = to_link_list(Props)
+      id               = complex:get_value(<<"id">>, Props, DT)
+    , meta             = complex:get_value(<<"meta">>, Props, DT)
+    , text             = complex:get_value(<<"text">>, Props, DT)
+    , extension        = complex:get_value(<<"extension">>, Props, DT)
+    , identifier_      = complex:get_value(<<"identifier">>, Props, DT)
+    , active           = complex:get_value(<<"active">>, Props, DT)
+    , name             = complex:get_value(<<"name">>, Props, DT)
+    , telecom          = complex:get_value(<<"telecom">>, Props, DT)
+    , gender           = complex:get_value(<<"gender">>, Props, DT)
+    , birthDate        = complex:get_value(<<"birthDate">>, Props, DT)
+    , deceasedBoolean  = complex:get_value(<<"deceasedBoolean">>, Props, DT)
+    , deceasedDateTime = complex:get_value(<<"deceasedDateTime">>, Props, DT)
+    , address          = complex:get_value(<<"address">>, Props, DT)
+    , maritalStatus    = complex:get_value(<<"maritalStatus">>, Props, DT)
+    , multipleBirthBoolean = complex:get_value(<<"multipleBirthBoolean">>, Props, DT)
+    , multipleBirthInteger = complex:get_value(<<"multipleBirthInteger">>, Props, DT)
+    , photo                = complex:get_value(<<"photo">>, Props, DT)
+    , contact              = complex:get_value(<<"contact">>, Props, DT)	
+    , communication        = complex:get_value(<<"communication">>, Props, DT)
+    , generalPractitioner  = complex:get_value(<<"generalPractitioner">>, Props, DT)
+    , managingOrganization = complex:get_value(<<"managingOrganization">>, Props, DT)
+    , link                 = complex:get_value(<<"link">>, Props, DT)
     }.
 
 
 %%====================================================================
 %% Internal functions
 %%====================================================================
-to_contact_list(Props) ->
-    List = proplists:get_value(<<"contact">>, Props),
-    case List of
-        undefined -> [];
-	    _  -> lists:map(fun to_contact/1, List)
-    end.
-
 to_contact({Props}) -> to_contact(Props);
 to_contact(Props) ->
   #contact{ 
-      relationship = datatypes:to_codeableConcept(<<"relationship">>, Props)
-    , name         = datatypes:to_humanName(<<"name">>, Props)
-    , telecom      = datatypes:to_contactPoint_list(<<"telecom">>, Props)
-    , address      = datatypes:to_address(<<"address">>, Props)
-    , gender       = proplists:get_value(<<"gender">>, Props)
-    , organization = datatypes:to_reference(<<"organization">>, Props)
-    , period       = datatypes:to_period(<<"period">>, Props)
+      relationship = complex:get_value(<<"relationship">>, Props, DT)
+    , name         = complex:get_value(<<"name">>, Props, DT)
+    , telecom      = complex:get_value(<<"telecom">>, Props, DT)
+    , address      = complex:get_value(<<"address">>, Props, DT)
+    , gender       = complex:get_value(<<"gender">>, Props, DT)
+    , organization = complex:get_value(<<"organization">>, Props, DT)
+    , period       = complex:get_value(<<"period">>, Props, DT)
     }.
-
-to_communication_list(Props) ->
-    List = proplists:get_value(<<"communication">>, Props),
-    case List of
-        undefined -> [];
-	    _  -> lists:map(fun to_communication/1, List)
-    end.
 
 to_communication({Props}) -> to_communication(Props);
 to_communication(Props) -> 
   #communication{
-      language  = datatypes:to_codeableConcept(<<"language">>, Props)
-    , preferred = proplists:get_value(<<"preferred">>, Props)
+      language  = complex:get_value(<<"language">>, Props, DT)
+    , preferred = complex:get_value(<<"preferred">>, Props, DT)
     }.
 
-to_link_list(Props) ->
-    List = proplists:get_value(<<"link">>, Props),
-    case List of
-        undefined -> [];
-	    _  -> lists:map(fun to_link/1, List)
-    end.
-
-
-to_link({Props}) -> to_link(Props);
+to_link(Props) -> to_link(Props);
 to_link(Props) -> 
   #link{
-      other = datatypes:to_reference(<<"other">>, Props)
-    , type  = proplists:get_value(<<"type">>, Props)
+      other = complex:get_value(<<"other">>, Props, DT)
+    , type  = complex:get_value(<<"type">>, Props, DT)
     }.
-
-record_to_proplist(Rec) ->
-  L =  [{resourceType, patient}] ++
-      lists:zip(record_info(fields, patient), tl(tuple_to_list(Rec))),
-  J =jiffy:encode({L}),
-  io:format("~p~n",[J]),
-  J.
 
 %% EUnit Tests
 %%

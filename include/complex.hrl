@@ -2,29 +2,7 @@
 
 -define(ct_info, 
     #{
-       <<"coding">>          => [{<<"system">>, {uri, optional}},
-                                 {<<"version">>, {binary, optional}},
-                                 {<<"code">>, {binary, optional}},
-                                 {<<"display">>, {binary, optional}},
-                                 {<<"userSelected">>, {boolean, optional}}]
-     , <<"codeableConcept">> => [{<<"coding">>, {coding, list}}, 
-                                 {<<"text">>, {binary, optional}}]
-     , <<"identifier">>      => [{<<"use">>, {binary, optional}},
-                                 {<<"type">>, {codeableConcept, optional}},
-                                 {<<"system">>, {uri, optional}},
-                                 {<<"value">>, {binary, optional}},
-                                 {<<"period">>, {period, optional}},
-                                 {<<"assigner">>, {reference, optional}}]
-     , <<"period">>          => [{<<"start">>, {dateTime, optional}},
-                                 {<<"end">>, {dateTime, optional}}]
-     , <<"humanName">>       => [{<<"use">>, {binary, optional}},
-                                 {<<"text">>, {binary, optional}},
-                                 {<<"family">>, {binary, optional}},
-                                 {<<"given">>, {binary, list}},
-                                 {<<"prefix">>, {binary, list}},
-                                 {<<"suffix">>, {binary, list}},
-                                 {<<"period">>, {period, optional}}]
-     , <<"address">>         => [{<<"use">>, {binary, optional}},
+       <<"address">>         => [{<<"use">>, {binary, optional}},
                                  {<<"type">>, {binary, optional}},
                                  {<<"text">>, {binary, optional}},
                                  {<<"line">>, {binary, list}},
@@ -34,15 +12,9 @@
                                  {<<"postalCode">>, {binary, optional}},
                                  {<<"country">>, {binary, optional}},
                                  {<<"period">>, {period, optional}}]
-     , <<"contactPoint">>    => [{<<"value">>, {binary, optional}},
-                                 {<<"rank">>, {positiveInt, optional}},
-                                 {<<"period">>, {period, optional}}]
-     , <<"relatedArtifact">> => [{<<"type">>, {binary, optional}},
-                                 {<<"display">>, {binary, optional}},
-                                 {<<"citation">>, {binary, optional}},
-                                 {<<"url">>, {binary, optional}},
-                                 {<<"document">>, {attachment, optional}},
-                                 {<<"resource">>, {reference, optional}}]
+     , <<"annotation">>      => [{<<"authorReference">>, {reference, optional}},
+                                 {<<"time">>, {dateTime, optional}},
+                                 {<<"text">>, {markdown, required}}]
      , <<"attachment">>      => [{<<"contentType">>, {binary, optional}},
                                  {<<"langugae">>, {binary, optional}},
                                  {<<"data">>, {base64Binary, optional}},
@@ -51,6 +23,31 @@
                                  {<<"hash">>, {base64Binary, optional}},
                                  {<<"title">>, {binary, optional}},
                                  {<<"creation">>, {date, optional}}]
+     , <<"codeableConcept">> => [{<<"coding">>, {coding, list}}, 
+                                 {<<"text">>, {binary, optional}}]
+     , <<"coding">>          => [{<<"system">>, {uri, optional}},
+                                 {<<"version">>, {binary, optional}},
+                                 {<<"code">>, {binary, optional}},
+                                 {<<"display">>, {binary, optional}},
+                                 {<<"userSelected">>, {boolean, optional}}]
+     , <<"contactPoint">>    => [{<<"value">>, {binary, optional}},
+                                 {<<"rank">>, {positiveInt, optional}},
+                                 {<<"period">>, {period, optional}}]
+     , <<"humanName">>       => [{<<"use">>, {binary, optional}},
+                                 {<<"text">>, {binary, optional}},
+                                 {<<"family">>, {binary, optional}},
+                                 {<<"given">>, {binary, list}},
+                                 {<<"prefix">>, {binary, list}},
+                                 {<<"suffix">>, {binary, list}},
+                                 {<<"period">>, {period, optional}}]
+     , <<"identifier">>      => [{<<"use">>, {binary, optional}},
+                                 {<<"type">>, {codeableConcept, optional}},
+                                 {<<"system">>, {uri, optional}},
+                                 {<<"value">>, {binary, optional}},
+                                 {<<"period">>, {period, optional}},
+                                 {<<"assigner">>, {reference, optional}}]
+     , <<"period">>          => [{<<"start">>, {dateTime, optional}},
+                                 {<<"end">>, {dateTime, optional}}]
      , <<"quantity">>        => [{<<"value">>, {float, optional}},
                                  {<<"comparator">>, {binary, optional}},
                                  {<<"unit">>, {binary, optional}},
@@ -60,9 +57,6 @@
                                  {<<"high">>, {quantity, optional}}]
      , <<"ratio">>           => [{<<"numerator">>, {quantity, optional}},
                                  {<<"denominator">>, {quantity, optional}}]
-     , <<"timing">>          => [{<<"event">>, {dateTime, list}},
-                                 {<<"repeat">>, {repeat, optional}},
-                                 {<<"code">>, {codeableConcept, optional}}]
      , <<"repeat">>          => [{<<"boundsPeriod">>, {period, optional}},
                                  {<<"count">>, {positiveInt, optional}},
                                  {<<"countMax">>, {positiveInt, optional}},
@@ -78,9 +72,6 @@
                                  {<<"timeOfDay">>, {time, list}},
                                  {<<"when">>, {code, list}},
                                  {<<"offset">>, {unsignedInt, optional}}]
-     , <<"annotation">>      => [{<<"authorReference">>, {reference, optional}},
-                                 {<<"time">>, {dateTime, optional}},
-                                 {<<"text">>, {markdown, required}}]
      , <<"signature">>       => [{<<"type">>, {coding, non_empty_list}},
                                  {<<"when">>, {instant, required}},
                                  {<<"whoReference">>, {reference, required}},
@@ -88,6 +79,10 @@
                                  {<<"targetFormat">>, {code, optional}},
                                  {<<"sigFormat">>, {code, optional}},
                                  {<<"data">>, {base64Binary, optional}}]
+     , <<"timing">>          => [{<<"event">>, {dateTime, list}},
+                                 {<<"repeat">>, {repeat, optional}},
+                                 {<<"code">>, {codeableConcept, optional}}]
+%% Special
      , <<"reference">>       => [{<<"reference">>, {binary, optional}},
 %                                 {<<"type">>, {uri, optional}},
 %                                 {<<"identifier">>, {identifier, optional}},
@@ -101,6 +96,12 @@
                                  {<<"security">>, {coding, list}},
                                  {<<"tag">>, {coding, list}},
                                  {<<"extension">>, {extension, list}}]
+     , <<"relatedArtifact">> => [{<<"type">>, {binary, optional}},
+                                 {<<"display">>, {binary, optional}},
+                                 {<<"citation">>, {binary, optional}},
+                                 {<<"url">>, {binary, optional}},
+                                 {<<"document">>, {attachment, optional}},
+                                 {<<"resource">>, {reference, optional}}]
 	 }).
 
 %%

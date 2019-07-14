@@ -20,6 +20,39 @@
 -export_type([meta/0]).
 
 
+-record(address, {
+       use                    :: binary()     %% home | work | temp | old
+     , type                   :: binary()     %% postal | physical | both
+     , text                   :: binary()
+     , line                   :: [binary()]
+     , city                   :: binary()
+     , district               :: binary()
+     , state                  :: binary()
+     , postalCode             :: binary()
+     , country                :: binary()
+     , period                 :: period()
+}).
+-opaque address() :: #address{}.
+
+-record(annotation, {
+      authorReference :: reference_()
+    , time :: date()
+    , text :: binary()
+    }).
+-type annotation() :: #annotation{}.
+
+-record(attachment, { 
+      contentType :: binary()
+    , language :: binary()
+    , data :: base64Binary()
+    , url :: binary()
+    , size :: integer()
+    , hash :: base64Binary()
+    , title :: binary()
+    , creation :: date()
+    }).
+-opaque attachment() :: #attachment{}.
+
 -record(coding, {
       system       :: uri()
     , version      :: binary()
@@ -36,6 +69,25 @@
 }).
 -opaque codeableConcept() :: #codeableConcept{}.
 
+-record(contactPoint, {
+      use                    :: binary()     %% home | work | temp | old | mobile
+    , system                 :: binary()     %% phone | fax | email | pager | other
+    , value                  :: binary()
+    , rank                   :: non_neg_integer()
+    , period                 :: period()
+}).
+-opaque contactPoint() :: #contactPoint{}.
+
+-record(humanName, {
+       use       = <<"official">>   :: binary()  %% usual | official | temp | nickname | anonymous | old | maiden
+     , text                   :: binary()
+     , family                 :: [binary()]
+     , given                  :: [binary()]
+     , prefix                 :: [binary()]
+     , suffix                 :: [binary()]
+     , period                 :: period()
+}).
+-opaque humanName() :: #humanName{}.
 
 -record(identifier, {
        use = <<"official">> :: binary()    %% usual | official | temp | secondary 
@@ -53,67 +105,6 @@
 }).
 -opaque period() :: #period{}.
 
--record(humanName, {
-       use       = <<"official">>   :: binary()  %% usual | official | temp | nickname | anonymous | old | maiden
-     , text                   :: binary()
-     , family                 :: [binary()]
-     , given                  :: [binary()]
-     , prefix                 :: [binary()]
-     , suffix                 :: [binary()]
-     , period                 :: period()
-}).
--opaque humanName() :: #humanName{}.
-
-
--record(address, {
-       use                    :: binary()     %% home | work | temp | old
-     , type                   :: binary()     %% postal | physical | both
-     , text                   :: binary()
-     , line                   :: [binary()]
-     , city                   :: binary()
-     , district               :: binary()
-     , state                  :: binary()
-     , postalCode             :: binary()
-     , country                :: binary()
-     , period                 :: period()
-}).
--opaque address() :: #address{}.
-
-
--record(contactPoint, {
-      use                    :: binary()     %% home | work | temp | old | mobile
-    , system                 :: binary()     %% phone | fax | email | pager | other
-    , value                  :: binary()
-    , rank                   :: non_neg_integer()
-    , period                 :: period()
-}).
--opaque contactPoint() :: #contactPoint{}.
-
-
--record(relatedArtifact, {
-     type :: binary()
-    , display :: binary()
-    , citation :: binary()
-    , url :: binary()
-    , document :: attachment()
-    , resource :: reference_()
-    }).
--opaque relatedArtifact() :: #relatedArtifact{}.
-
-
--record(attachment, { 
-      contentType :: binary()
-    , language :: binary()
-    , data :: base64Binary()
-    , url :: binary()
-    , size :: integer()
-    , hash :: base64Binary()
-    , title :: binary()
-    , creation :: date()
-    }).
--opaque attachment() :: #attachment{}.
-
-
 -record(quantity, {
       value :: float()
     , comparator :: binary()
@@ -123,28 +114,17 @@
     }).
 -opaque quantity() :: #quantity{}.
 
-
 -record(range, {
       low :: quantity()
     , high :: quantity()
     }).
 -opaque range() :: #range{}.
 
-
 -record(ratio, {
       numerator :: quantity()
     , denominator :: quantity()
     }).
 -opaque ratio() :: #ratio{}.
-
-
--record(timing, {
-      event :: [binary()]
-    , repeat :: repeat()
-    , code :: codeableConcept()
-    }).
--opaque timing() :: #timing{}.
-
 
 -record(repeat, {
       boundsPeriod :: period()
@@ -165,15 +145,6 @@
     }).
 -opaque repeat() :: #repeat{}.
 
-
--record(annotation, {
-      authorReference :: reference_()
-    , time :: date()
-    , text :: binary()
-    }).
--type annotation() :: #annotation{}.
-
-
 -record(signature, {
       type :: [coding]
     , when_ :: binary()
@@ -184,18 +155,21 @@
     }).
 -opaque signature() :: #signature{}.
 
+-record(timing, {
+      event :: [binary()]
+    , repeat :: repeat()
+    , code :: codeableConcept()
+    }).
+-opaque timing() :: #timing{}.
 
 %%
 %%   - Special Datatypes
 %%
-
-
 -record(narrative, {
       status :: binary()
     , div_ :: binary()
     }).
 -opaque narrative() :: #narrative{}.
-
 
 -record(meta, {
        versionId = 0 :: positiveInt()
@@ -214,24 +188,19 @@
 }).
 -opaque reference_()    :: #reference{}.
 
+-record(relatedArtifact, {
+      type :: binary()
+    , display :: binary()
+    , citation :: binary()
+    , url :: binary()
+    , document :: attachment()
+    , resource :: reference_()
+    }).
+-opaque relatedArtifact() :: #relatedArtifact{}.
 
 %%====================================================================
 %% API functions
 %%====================================================================
-to_humanName({Props}) -> to_humanName(Props);
-to_humanName(Props) ->
-    DT = maps:get(<<"humanName">>,?ct_info),
-    io:format("~p~n~p~n",[Props,DT]),
-    #humanName{
-       use     = get_value(<<"use">>, Props, DT) 
-     , text    = get_value(<<"text">>, Props, DT) 
-     , family  = get_value(<<"family">>, Props, DT) 
-     , given   = get_value(<<"given">>, Props, DT) 
-     , prefix  = get_value(<<"prefix">>, Props, DT) 
-     , suffix  = get_value(<<"suffix">>, Props, DT) 
-     , period  = get_value(<<"period">>, Props, DT)
-    }.
-
 to_address({Props}) -> to_address(Props);
 to_address(Props) -> 
     DT = maps:get(<<"address">>,?ct_info),
@@ -249,16 +218,14 @@ to_address(Props) ->
     , period     = get_value(<<"period">>, Props, DT)
     }.
 
-to_contactPoint({Props}) -> to_contactPoint(Props);
-to_contactPoint(Props) -> 
-    DT = maps:get(<<"contactPoint">>,?ct_info),
+to_annotation({Props}) -> to_annotation(Props);
+to_annotation(Props) ->
+    DT = maps:get(<<"annotation">>,?ct_info),
     io:format("~p~n~p~n",[Props,DT]),
-    #contactPoint{
-      use    = get_value(<<"use">>, Props, DT)
-    , system = get_value(<<"system">>, Props, DT)
-    , value  = get_value(<<"value">>, Props, DT)
-    , rank   = get_value(<<"rank">>, Props, DT)
-    , period = get_value(<<"period">>, Props, DT)
+    #annotation{
+      authorReference = get_value(<<"authorReference">>, Props, DT)
+    , time = get_value(<<"time">>, Props, DT)
+    , text = get_value(<<"text">>, Props, DT)
     }.
 
 to_attachment({Props}) -> to_attachment(Props);
@@ -274,16 +241,6 @@ to_attachment(Props) ->
     , hash        = get_value(<<"hash">>, Props, DT)
     , title       = get_value(<<"title">>, Props, DT)
     , creation    = get_value(<<"creation">>, Props, DT)
-    }.
-
-to_annotation({Props}) -> to_annotation(Props);
-to_annotation(Props) ->
-    DT = maps:get(<<"annotation">>,?ct_info),
-    io:format("~p~n~p~n",[Props,DT]),
-    #annotation{
-      authorReference = get_value(<<"authorReference">>, Props, DT)
-    , time = get_value(<<"time">>, Props, DT)
-    , text = get_value(<<"text">>, Props, DT)
     }.
 
 to_coding({Props}) -> to_coding(Props);
@@ -307,11 +264,34 @@ to_codeableConcept(Props) ->
       , text = get_value(<<"text">>, Props, DT)
       }.
 
+to_contactPoint({Props}) -> to_contactPoint(Props);
+to_contactPoint(Props) -> 
+    DT = maps:get(<<"contactPoint">>,?ct_info),
+    io:format("~p~n~p~n",[Props,DT]),
+    #contactPoint{
+      use    = get_value(<<"use">>, Props, DT)
+    , system = get_value(<<"system">>, Props, DT)
+    , value  = get_value(<<"value">>, Props, DT)
+    , rank   = get_value(<<"rank">>, Props, DT)
+    , period = get_value(<<"period">>, Props, DT)
+    }.
+
+to_humanName({Props}) -> to_humanName(Props);
+to_humanName(Props) ->
+    DT = maps:get(<<"humanName">>,?ct_info),
+    #humanName{
+       use     = get_value(<<"use">>, Props, DT) 
+     , text    = get_value(<<"text">>, Props, DT) 
+     , family  = get_value(<<"family">>, Props, DT) 
+     , given   = get_value(<<"given">>, Props, DT) 
+     , prefix  = get_value(<<"prefix">>, Props, DT) 
+     , suffix  = get_value(<<"suffix">>, Props, DT) 
+     , period  = get_value(<<"period">>, Props, DT)
+    }.
 
 to_identifier({Props}) -> to_identifier(Props);
 to_identifier(Props) ->
     DT = maps:get(<<"identifier">>,?ct_info),
-    io:format("~p~n~p~n",[Props,DT]),
     #identifier{
         use  = get_value(<<"use">>, Props, DT)
       , type = get_value(<<"type">>, Props, DT)
@@ -324,11 +304,79 @@ to_identifier(Props) ->
 to_period({Props}) -> to_period(Props);
 to_period(Props) ->
     DT = maps:get(<<"period">>,?ct_info),
-    io:format("~p~n~p~n",[Props,DT]),
     #period{
         start_  = get_value(<<"start">>, Props, DT)
       , end_    = get_value(<<"end">>, Props, DT)
       }.
+
+to_quantity({Props}) -> to_quantity(Props);
+to_quantity(Props) ->
+    DT = maps:get(<<"quantity">>,?ct_info),
+    #quantity{
+        value = get_value(<<"value">>, Props, DT)
+      , comparator = get_value(<<"comparator">>, Props, DT)
+      , unit = get_value(<<"unit">>, Props, DT)
+      , system = get_value(<<"system">>, Props, DT)
+      , code = get_value(<<"code">>, Props, DT)
+      }.
+
+to_range({Props}) -> to_range(Props);
+to_range(Props) ->
+    DT = maps:get(<<"range">>,?ct_info),
+    #range{
+      low = get_value(<<"low">>, Props, DT)
+    , high = get_value(<<"high">>, Props, DT)
+    }.
+
+to_ratio({Props}) -> to_ratio(Props);
+to_ratio(Props) ->
+    DT = maps:get(<<"ratio">>,?ct_info),
+    #ratio{
+      numerator = get_value(<<"numerator">>, Props, DT)
+    , denominator = get_value(<<"denominator">>, Props, DT)
+    }.
+
+to_repeat({Props}) -> to_repeat(Props);
+to_repeat(Props) ->
+    DT = maps:get(<<"repeat">>,?ct_info),
+    #repeat{
+      boundsPeriod = get_value(<<"boundsPeriod">>, Props, DT)
+    , count = get_value(<<"count">>, Props, DT)
+    , countMax = get_value(<<"countMax">>, Props, DT)
+    , duration = get_value(<<"duration">>, Props, DT)
+    , durationMax = get_value(<<"durationMax">>, Props, DT)
+    , durationUnit = get_value(<<"durationUnit">>, Props, DT)
+    , frequency = get_value(<<"frequency">>, Props, DT)
+    , frequencyMax = get_value(<<"frequencyMax">>, Props, DT)
+    , period = get_value(<<"period">>, Props, DT)
+    , periodMax = get_value(<<"periodMax">>, Props, DT)
+    , periodUnit = get_value(<<"periodUnit">>, Props, DT)
+    , dayOfWeek = get_value(<<"dayOfWeek">>, Props, DT)
+    , timeOfDay = get_value(<<"timeOfDay">>, Props, DT)
+    , when_ = get_value(<<"when_">>, Props, DT)
+    , offset = get_value(<<"offset">>, Props, DT)
+    }.
+
+to_signature({Props}) -> to_signature(Props);
+to_signature(Props) ->
+    DT = maps:get(<<"signature">>,?ct_info),
+    #signature{
+      type = get_value(<<"type">>, Props, DT)
+    , when_ = get_value(<<"when_">>, Props, DT)
+    , whoReference = get_value(<<"whoReference">>, Props, DT)
+    , onBehalfOfReference = get_value(<<"onBehalfOfReference">>, Props, DT)
+    , contentType = get_value(<<"contentType">>, Props, DT)
+    , blob = get_value(<<"blob">>, Props, DT)
+    }.
+
+to_timing({Props}) -> to_timing(Props);
+to_timing(Props) ->
+    DT = maps:get(<<"timing">>,?ct_info),
+    #timing{
+      event = get_value(<<"event">>, Props, DT)
+    , repeat = get_value(<<"repeat">>, Props, DT)
+    , code = get_value(<<"code">>, Props, DT)
+    }.
 
 %%
 %%====================================================================
@@ -485,7 +533,7 @@ complex_meta_test() ->
 
 complex_timing_test() ->
     ?asrtto(complex:to_timing({[{<<"event">>, [<<"2019-07-15T12:00:00">>]}]}),
-            {event,[<<"2019-07-15T12:00:00">>], undefined}).
+            {timing,[<<"2019-07-15T12:00:00">>], undefined, undefined}).
 
 -endif.
 
