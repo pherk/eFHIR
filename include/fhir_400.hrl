@@ -105,43 +105,43 @@
 %%
 %% Resources
 %%
-     , <<"patient">> => [
-         {id          , {id, optional}}
-       , {meta        , {meta, optional}}
-       , {text        , {narrative, optional}}
-       , {extension   , {extensions:extension, optional}}
-       , {identifier_ , {identifier, optional}}
-       , {active      , {boolean, optional}}
-       , {name        , {humanName, list}}
-       , {telecom     , {contactPoint, list}}
-       , {gender      , {code, optional}}
-       , {birthDate   , {date, optional}}
-       , {deceasedBoolean  , {boolean, optional}}
-       , {deceasedDateTime , {dateTime, optional}}
-       , {address          , {address, list}}
-       , {maritalStatus    , {codeableConcept, optional}}
-       , {multipleBirthBoolean , {boolean, optional}}
-       , {multipleBirthInteger , {integer, optional}}
-       , {photo                , {attachment, list}}
-       , {contact              , {patient_contact, list}}	
-       , {communication        , {patient_communication, list}}
-       , {generalPractitioner  , {reference_, list}}
-       , {managingOrganization , {reference_, optional}}
-       , {link                 , {patient_link_, list}}]
-     , <<"patient_contact">> => [
-         {relationship , {codeableConcept, list}}
-       , {name         , {humanName, optional}}
-       , {telecom      , {contactPoint, list}}
-       , {address      , {address, optional}}
-       , {gender       , {code, optional}}
-       , {organization , {reference_, optional}}
-       , {period       , {period, optional}} ]
-    , <<"patient_communication">> => []
-         {language     , {codeableCOncept, optional}}
-       , {preferred    , {boolean, optional}} ]
-    , <<"patient_link">> => [
-         {other        , {reference_, optional}}
-       , {type         , {code, optional}} ]
+     , <<"Patient">> => [
+         {<<"id">>       , {binary, optional}}
+       , {<<"meta">>     , {meta, optional}}
+       , {<<"text">>     , {narrative, optional}}
+       , {<<"extension">>, {extension, optional}}
+       , {<<"identifier">>, {identifier, optional}}
+       , {<<"active">>   , {boolean, optional}}
+       , {<<"name">>     , {humanName, list}}
+       , {<<"telecom">>  , {contactPoint, list}}
+       , {<<"gender">>   , {code, optional}}
+       , {<<"birthDate">>, {date, optional}}
+       , {<<"deceasedBoolean">>,  {boolean, optional}}
+       , {<<"deceasedDateTime">>, {dateTime, optional}}
+       , {<<"address">>       ,   {address, list}}
+       , {<<"maritalStatus">> ,   {codeableConcept, optional}}
+       , {<<"multipleBirthBoolean">>, {boolean, optional}}
+       , {<<"multipleBirthInteger">>, {integer, optional}}
+       , {<<"photo">>             , {attachment, list}}
+       , {<<"contact">>           , {<<"Patient.Contact">>, list}}	
+       , {<<"communication">>     , {<<"Patient.Communication">>, list}}
+       , {<<"generalPractitioner">>,  {reference_, list}}
+       , {<<"managingOrganization">>, {reference_, optional}}
+       , {<<"link">>              , {<<"Patient.Link">>, list}}]
+     , <<"Patient.Contact">> => [
+         {<<"relationship">>, {codeableConcept, list}}
+       , {<<"name">>        , {humanName, optional}}
+       , {<<"telecom">>     , {contactPoint, list}}
+       , {<<"address">>     , {address, optional}}
+       , {<<"gender">>      , {code, optional}}
+       , {<<"organization">>, {reference_, optional}}
+       , {<<"period">>      , {period, optional}} ]
+    , <<"Patient.Communication">> => [
+         {<<"language">>  , {codeableConcept, required}}
+       , {<<"preferred">> , {boolean, optional}} ]
+    , <<"Patient.Link">> => [
+         {<<"other">>     , {reference_, required}}
+       , {<<"type">>      , {code, required}} ]
 	 }).
 
 %%

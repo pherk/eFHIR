@@ -1,10 +1,9 @@
 -module(complex).
 -compile(export_all).
 -include("primitives.hrl").
--include("complex.hrl").
+-include("fhir_400.hrl").
 %%
 %% API exports
-%% -export([get_value/3]).
 %%
 -export_type([decimal/0,uri/0,url/0,canonical/0,base64Binary/0]).
 -export_type([instant/0,date/0,dateTime/0,yearMonth/0,year/0,dow/0,time/0]).
@@ -203,7 +202,7 @@
 %%====================================================================
 to_address({Props}) -> to_address(Props);
 to_address(Props) -> 
-    DT = maps:get(<<"address">>,?ct_info),
+    DT = maps:get(<<"address">>,?fhir_xsd),
     io:format("~p~n~p~n",[Props,DT]),
     #address{
       use        = get_value(<<"use">>, Props, DT)
@@ -220,7 +219,7 @@ to_address(Props) ->
 
 to_annotation({Props}) -> to_annotation(Props);
 to_annotation(Props) ->
-    DT = maps:get(<<"annotation">>,?ct_info),
+    DT = maps:get(<<"annotation">>,?fhir_xsd),
     io:format("~p~n~p~n",[Props,DT]),
     #annotation{
       authorReference = get_value(<<"authorReference">>, Props, DT)
@@ -230,7 +229,7 @@ to_annotation(Props) ->
 
 to_attachment({Props}) -> to_attachment(Props);
 to_attachment(Props) -> 
-    DT = maps:get(<<"attachment">>,?ct_info),
+    DT = maps:get(<<"attachment">>,?fhir_xsd),
     io:format("~p~n~p~n",[Props,DT]),
     #attachment{
       contentType = get_value(<<"contentType">>, Props, DT)
@@ -245,7 +244,7 @@ to_attachment(Props) ->
 
 to_coding({Props}) -> to_coding(Props);
 to_coding(Props) ->
-    DT = maps:get(<<"coding">>,?ct_info),
+    DT = maps:get(<<"coding">>,?fhir_xsd),
     io:format("~p~n~p~n",[Props,DT]),
     #coding{
         system  = get_value(<<"system">>, Props, DT)
@@ -257,7 +256,7 @@ to_coding(Props) ->
 
 to_codeableConcept({Props}) -> to_codeableConcept(Props);
 to_codeableConcept(Props) ->
-    DT = maps:get(<<"codeableConcept">>,?ct_info),
+    DT = maps:get(<<"codeableConcept">>,?fhir_xsd),
     io:format("~p~n~p~n",[Props,DT]),
     #codeableConcept{
         coding  = get_value(<<"coding">>, Props, DT)
@@ -266,7 +265,7 @@ to_codeableConcept(Props) ->
 
 to_contactPoint({Props}) -> to_contactPoint(Props);
 to_contactPoint(Props) -> 
-    DT = maps:get(<<"contactPoint">>,?ct_info),
+    DT = maps:get(<<"contactPoint">>,?fhir_xsd),
     io:format("~p~n~p~n",[Props,DT]),
     #contactPoint{
       use    = get_value(<<"use">>, Props, DT)
@@ -278,7 +277,7 @@ to_contactPoint(Props) ->
 
 to_humanName({Props}) -> to_humanName(Props);
 to_humanName(Props) ->
-    DT = maps:get(<<"humanName">>,?ct_info),
+    DT = maps:get(<<"humanName">>,?fhir_xsd),
     #humanName{
        use     = get_value(<<"use">>, Props, DT) 
      , text    = get_value(<<"text">>, Props, DT) 
@@ -291,7 +290,7 @@ to_humanName(Props) ->
 
 to_identifier({Props}) -> to_identifier(Props);
 to_identifier(Props) ->
-    DT = maps:get(<<"identifier">>,?ct_info),
+    DT = maps:get(<<"identifier">>,?fhir_xsd),
     #identifier{
         use  = get_value(<<"use">>, Props, DT)
       , type = get_value(<<"type">>, Props, DT)
@@ -303,7 +302,7 @@ to_identifier(Props) ->
 
 to_period({Props}) -> to_period(Props);
 to_period(Props) ->
-    DT = maps:get(<<"period">>,?ct_info),
+    DT = maps:get(<<"period">>,?fhir_xsd),
     #period{
         start_  = get_value(<<"start">>, Props, DT)
       , end_    = get_value(<<"end">>, Props, DT)
@@ -311,7 +310,7 @@ to_period(Props) ->
 
 to_quantity({Props}) -> to_quantity(Props);
 to_quantity(Props) ->
-    DT = maps:get(<<"quantity">>,?ct_info),
+    DT = maps:get(<<"quantity">>,?fhir_xsd),
     #quantity{
         value = get_value(<<"value">>, Props, DT)
       , comparator = get_value(<<"comparator">>, Props, DT)
@@ -322,7 +321,7 @@ to_quantity(Props) ->
 
 to_range({Props}) -> to_range(Props);
 to_range(Props) ->
-    DT = maps:get(<<"range">>,?ct_info),
+    DT = maps:get(<<"range">>,?fhir_xsd),
     #range{
       low = get_value(<<"low">>, Props, DT)
     , high = get_value(<<"high">>, Props, DT)
@@ -330,7 +329,7 @@ to_range(Props) ->
 
 to_ratio({Props}) -> to_ratio(Props);
 to_ratio(Props) ->
-    DT = maps:get(<<"ratio">>,?ct_info),
+    DT = maps:get(<<"ratio">>,?fhir_xsd),
     #ratio{
       numerator = get_value(<<"numerator">>, Props, DT)
     , denominator = get_value(<<"denominator">>, Props, DT)
@@ -338,7 +337,7 @@ to_ratio(Props) ->
 
 to_repeat({Props}) -> to_repeat(Props);
 to_repeat(Props) ->
-    DT = maps:get(<<"repeat">>,?ct_info),
+    DT = maps:get(<<"repeat">>,?fhir_xsd),
     #repeat{
       boundsPeriod = get_value(<<"boundsPeriod">>, Props, DT)
     , count = get_value(<<"count">>, Props, DT)
@@ -359,7 +358,7 @@ to_repeat(Props) ->
 
 to_signature({Props}) -> to_signature(Props);
 to_signature(Props) ->
-    DT = maps:get(<<"signature">>,?ct_info),
+    DT = maps:get(<<"signature">>,?fhir_xsd),
     #signature{
       type = get_value(<<"type">>, Props, DT)
     , when_ = get_value(<<"when_">>, Props, DT)
@@ -371,7 +370,7 @@ to_signature(Props) ->
 
 to_timing({Props}) -> to_timing(Props);
 to_timing(Props) ->
-    DT = maps:get(<<"timing">>,?ct_info),
+    DT = maps:get(<<"timing">>,?fhir_xsd),
     #timing{
       event = get_value(<<"event">>, Props, DT)
     , repeat = get_value(<<"repeat">>, Props, DT)
@@ -413,7 +412,7 @@ to_time(Bin) -> Bin.
 %%
 to_narrative({Props}) -> to_narrative(Props);
 to_narrative(Props) ->
-    DT = maps:get(<<"narrative">>,?ct_info),
+    DT = maps:get(<<"narrative">>,?fhir_xsd),
     io:format("~p~n~p~n",[Props,DT]),
     #narrative{
         status = get_value(<<"status">>, Props, DT)
@@ -422,7 +421,7 @@ to_narrative(Props) ->
 
 to_meta({Props}) -> to_meta(Props);
 to_meta(Props) ->
-    DT = maps:get(<<"meta">>,?ct_info),
+    DT = maps:get(<<"meta">>,?fhir_xsd),
     io:format("~p~n~p~n",[Props,DT]),
     #meta{
         versionId    = get_value(<<"versionId">>, Props, DT)
@@ -436,7 +435,7 @@ to_meta(Props) ->
 
 to_reference({Props}) -> to_reference(Props);
 to_reference(Props) ->
-    DT = maps:get(<<"reference">>,?ct_info),
+    DT = maps:get(<<"reference">>,?fhir_xsd),
     io:format("~p~n~p~n",[Props,DT]),
     #reference{
         reference_ = get_value(<<"reference">>, Props, DT)

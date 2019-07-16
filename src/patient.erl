@@ -2,50 +2,10 @@
 -compile(export_all).
 -include("fhir.hrl").
 -include("primitives.hrl").
-
--define(patient_info,
-    #{
-     <<"patient">> => [
-         {id          , {id, optional}}
-       , {meta        , {meta, optional}}
-       , {text        , {narrative, optional}}
-       , {extension   , {extensions:extension, optional}}
-       , {identifier_ , {identifier, optional}}
-       , {active      , {boolean, optional}}
-       , {name        , {humanName, list}}
-       , {telecom     , {contactPoint, list}}
-       , {gender      , {code, optional}}
-       , {birthDate   , {date, optional}}
-       , {deceasedBoolean  , {boolean, optional}}
-       , {deceasedDateTime , {dateTime, optional}}
-       , {address          , {address, list}}
-       , {maritalStatus    , {codeableConcept, optional}}
-       , {multipleBirthBoolean , {boolean, optional}}
-       , {multipleBirthInteger , {integer, optional}}
-       , {photo                , {attachment, list}}
-       , {contact              , {contact, list}}	
-       , {communication        , {communication, list}}
-       , {generalPractitioner  , {reference_, list}}
-       , {managingOrganization , {reference_, optional}}
-       , {link                 , {link_, list}}]
-     , <<"contact">> => [
-         {relationship , {codeableConcept, list}}
-       , {name         , {humanName, optional}}
-       , {telecom      , {contactPoint, list}}
-       , {address      , {address, optional}}
-       , {gender       , {code, optional}}
-       , {organization , {reference_, optional}}
-       , {period       , {period, optional}} ]
-    , <<"communication">> => []
-         {language     , {codeableCOncept, optional}}
-       , {preferred    , {boolean, optional}} ]
-    , <<"link">> => [
-         {other        , {reference_, optional}}
-       , {type         , {code, optional}} ]
-    }).
+-include("fhir_400.hrl").
 
 -record(patient, {
-      id          :: id()
+      id          :: binary()
     , meta        :: complex:meta()
     , text        :: complex:narrative()
     , extension   :: extensions:extension()
@@ -62,15 +22,15 @@
     , multipleBirthBoolean :: boolean()
     , multipleBirthInteger :: integer()
     , photo                :: [complex:attachment()]
-    , contact              :: [contact()]	
-    , communication        :: [communication()]
+    , contact              :: [patient_contact()]	
+    , communication        :: [patient_communication()]
     , generalPractitioner  :: [complex:reference_()]
     , managingOrganization :: complex:reference_()
-    , link                 :: [link_()]
+    , link                 :: [patient_link()]
     }).
 -opaque patient() :: #patient{}.
 
--record(contact, {
+-record(patient_contact, {
 	  relationship :: [complex:codeableConcept()]
     , name         :: complex:humanName()
     , telecom      :: [complex:contactPoint()]
@@ -79,19 +39,19 @@
     , organization :: complex:reference_()
     , period       :: complex:period()
     }).
--opaque contact() :: #contact{}.
+-opaque patient_contact() :: #patient_contact{}.
 
--record(communication, {
+-record(patient_communication, {
           language :: complex:codeableCOncept()
         , preferred :: boolean()
     }).
--opaque communication() :: #communication{}.
+-opaque patient_communication() :: #patient_communication{}.
 
--record(link, {
+-record(patient_link, {
           other :: complex:reference_()
         , type  :: complex:code()
     }). 
--opaque link_() :: #link{}.
+-opaque patient_link() :: #patient_link{}.
 
 %%
 %% API exports
@@ -104,6 +64,7 @@
 
 to_patient({Props}) -> to_patient(Props);
 to_patient(Props) ->
+  DT = maps:get(<<"Patient">>, ?fhir_xsd),
   #patient{ 
       id               = complex:get_value(<<"id">>, Props, DT)
     , meta             = complex:get_value(<<"meta">>, Props, DT)
@@ -133,9 +94,10 @@ to_patient(Props) ->
 %%====================================================================
 %% Internal functions
 %%====================================================================
-to_contact({Props}) -> to_contact(Props);
-to_contact(Props) ->
-  #contact{ 
+to_patient_contact({Props}) -> to_patient_contact(Props);
+to_patient_contact(Props) ->
+  DT = maps:get(<<"Patient.Contact">>, ?fhir_xsd),
+  #patient_contact{ 
       relationship = complex:get_value(<<"relationship">>, Props, DT)
     , name         = complex:get_value(<<"name">>, Props, DT)
     , telecom      = complex:get_value(<<"telecom">>, Props, DT)
@@ -145,16 +107,18 @@ to_contact(Props) ->
     , period       = complex:get_value(<<"period">>, Props, DT)
     }.
 
-to_communication({Props}) -> to_communication(Props);
-to_communication(Props) -> 
-  #communication{
+to_patient_communication({Props}) -> to_patient_communication(Props);
+to_patient_communication(Props) -> 
+  DT = maps:get(<<"Patient.Communication">>, ?fhir_xsd),
+  #patient_communication{
       language  = complex:get_value(<<"language">>, Props, DT)
     , preferred = complex:get_value(<<"preferred">>, Props, DT)
     }.
 
-to_link(Props) -> to_link(Props);
-to_link(Props) -> 
-  #link{
+to_patient_link({Props}) -> to_patient_link(Props);
+to_patient_link(Props) -> 
+  DT = maps:get(<<"Patient.Link">>, ?fhir_xsd),
+  #patient_link{
       other = complex:get_value(<<"other">>, Props, DT)
     , type  = complex:get_value(<<"type">>, Props, DT)
     }.
@@ -170,8 +134,10 @@ to_link(Props) ->
 
 patient_to_test() ->
     ?asrtto([{<<"id">>, <<"p-21666">>}],
-         {patient,<<"p-21666">>,undefined,undefined,[],[],undefined, [],[],undefined,undefined,undefined,undefined,[], undefined,undefined,undefined,[],[],[],[],undefined, []}).
-
+         {patient,<<"p-21666">>,undefined,undefined,undefined,
+                          undefined,undefined,[],[],undefined,undefined,
+                          undefined,undefined,[],undefined,undefined,
+                          undefined,[],[],[],[],undefined,[]}).
 patient_toprop_test() ->
     ?asrtp({patient,<<"p-21666">>,undefined,undefined,[],[],undefined, [],[],undefined,undefined,undefined,undefined,[], undefined,undefined,undefined,[],[],[],[],undefined, []},
            <<"{\"resourceType\":\"patient\",\"id\":\"p-21666\",\"meta\":\"undefined\",\"text\":\"undefined\",\"extension\":[],\"identifier_\":[],\"active\":\"undefined\",\"name\":[],\"telecom\":[],\"gender\":\"undefined\",\"birthDate\":\"undefined\",\"deceasedBoolean\":\"undefined\",\"deceasedDateTime\":\"undefined\",\"address\":[],\"maritalStatus\":\"undefined\",\"multipleBirthBoolean\":\"undefined\",\"multipleBirthInteger\":\"undefined\",\"photo\":[],\"contact\":[],\"communication\":[],\"generalPractitioner\":[],\"managingOrganization\":\"undefined\",\"link\":[]}">>).
