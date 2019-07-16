@@ -16,6 +16,13 @@ rec_to_prop(PropName, Rec, DT) ->
 	PropList = lists:filtermap(fun({Key,Value}) -> check_value(Key,Value,Info) end, FL),
 	io:format("~p~n", [PropList]),
 	{[{ PropName, {PropList}}]}.
+
+patient_to_proplist(Rec) ->
+    L = [{resourceType, element(1,Rec)}] ++
+        lists:zip(complex:record_info(fields, <<"Patient">>), tl(tuple_to_list(Rec))),
+    J = jiffy:encode({L}),
+    io:format("~p~n", [J]),
+    J.
 %
 %-------------------------------------------------------------------------
 

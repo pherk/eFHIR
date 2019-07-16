@@ -2,13 +2,16 @@
 -compile(export_all).
 -include("fhir.hrl").
 -include("primitives.hrl").
--include("fhir_400.hrl").
 
 -record(patient, {
       id          :: binary()
     , meta        :: complex:meta()
+    , implicitRules :: uri()
+    , language    :: code()
     , text        :: complex:narrative()
-    , extension   :: extensions:extension()
+    , contained   :: [complex:resource()]
+    , extension   :: [extensions:extension()]
+    , modifierExtension   :: [extensions:extension()]
     , identifier_ :: complex:identifier()
     , active      :: boolean()
     , name        :: [complex:humanName()]
@@ -64,12 +67,16 @@
 
 to_patient({Props}) -> to_patient(Props);
 to_patient(Props) ->
-  DT = maps:get(<<"Patient">>, ?fhir_xsd),
+  DT = complex:xsd_info(<<"Patient">>),
   #patient{ 
       id               = complex:get_value(<<"id">>, Props, DT)
     , meta             = complex:get_value(<<"meta">>, Props, DT)
+    , implicitRules    = complex:get_value(<<"implicitRules">>, Props, DT)
+    , language         = complex:get_value(<<"language">>, Props, DT)
     , text             = complex:get_value(<<"text">>, Props, DT)
+    , contained        = complex:get_value(<<"contained">>, Props, DT)
     , extension        = complex:get_value(<<"extension">>, Props, DT)
+    , modifierExtension = complex:get_value(<<"modifierExtension">>, Props, DT)
     , identifier_      = complex:get_value(<<"identifier">>, Props, DT)
     , active           = complex:get_value(<<"active">>, Props, DT)
     , name             = complex:get_value(<<"name">>, Props, DT)
@@ -96,7 +103,7 @@ to_patient(Props) ->
 %%====================================================================
 to_patient_contact({Props}) -> to_patient_contact(Props);
 to_patient_contact(Props) ->
-  DT = maps:get(<<"Patient.Contact">>, ?fhir_xsd),
+  DT = complex:xsd_info(<<"Patient.Contact">>),
   #patient_contact{ 
       relationship = complex:get_value(<<"relationship">>, Props, DT)
     , name         = complex:get_value(<<"name">>, Props, DT)
@@ -109,7 +116,7 @@ to_patient_contact(Props) ->
 
 to_patient_communication({Props}) -> to_patient_communication(Props);
 to_patient_communication(Props) -> 
-  DT = maps:get(<<"Patient.Communication">>, ?fhir_xsd),
+  DT = complex:xsd_info(<<"Patient.Communication">>),
   #patient_communication{
       language  = complex:get_value(<<"language">>, Props, DT)
     , preferred = complex:get_value(<<"preferred">>, Props, DT)
@@ -117,7 +124,7 @@ to_patient_communication(Props) ->
 
 to_patient_link({Props}) -> to_patient_link(Props);
 to_patient_link(Props) -> 
-  DT = maps:get(<<"Patient.Link">>, ?fhir_xsd),
+  DT = complex:xsd_info(<<"Patient.Link">>),
   #patient_link{
       other = complex:get_value(<<"other">>, Props, DT)
     , type  = complex:get_value(<<"type">>, Props, DT)
@@ -134,12 +141,17 @@ to_patient_link(Props) ->
 
 patient_to_test() ->
     ?asrtto([{<<"id">>, <<"p-21666">>}],
-         {patient,<<"p-21666">>,undefined,undefined,undefined,
-                          undefined,undefined,[],[],undefined,undefined,
+         {patient,<<"p-21666">>,undefined,undefined, undefined, 
+                  undefined,[], [], [],
+                          [],undefined,[],[],undefined,undefined,
                           undefined,undefined,[],undefined,undefined,
                           undefined,[],[],[],[],undefined,[]}).
 patient_toprop_test() ->
-    ?asrtp({patient,<<"p-21666">>,undefined,undefined,[],[],undefined, [],[],undefined,undefined,undefined,undefined,[], undefined,undefined,undefined,[],[],[],[],undefined, []},
+    ?asrtp({patient,<<"p-21666">>,undefined,undefined,undefined, 
+                  undefined, [],[], [],
+                          [],undefined,[],[],undefined,undefined,
+                          undefined,undefined,[],undefined,undefined,
+                          undefined,[],[],[],[],undefined, []},
            <<"{\"resourceType\":\"patient\",\"id\":\"p-21666\",\"meta\":\"undefined\",\"text\":\"undefined\",\"extension\":[],\"identifier_\":[],\"active\":\"undefined\",\"name\":[],\"telecom\":[],\"gender\":\"undefined\",\"birthDate\":\"undefined\",\"deceasedBoolean\":\"undefined\",\"deceasedDateTime\":\"undefined\",\"address\":[],\"maritalStatus\":\"undefined\",\"multipleBirthBoolean\":\"undefined\",\"multipleBirthInteger\":\"undefined\",\"photo\":[],\"contact\":[],\"communication\":[],\"generalPractitioner\":[],\"managingOrganization\":\"undefined\",\"link\":[]}">>).
 
 -endif.

@@ -489,6 +489,10 @@ fhir_to_erlang(<<"when">>) -> <<"when_">>;
 fhir_to_erlang(<<"start">>) -> <<"start_">>;
 fhir_to_erlang(<<"end">>) -> <<"end_">>;
 fhir_to_erlang(Key) -> Key.
+
+xsd_info(Key) -> maps:get(Key,?fhir_xsd).
+
+record_info(DT) -> proplists:keys(DT).
 %%%
 %%% EUnit
 %%%

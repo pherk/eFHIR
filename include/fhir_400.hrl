@@ -108,9 +108,13 @@
      , <<"Patient">> => [
          {<<"id">>       , {binary, optional}}
        , {<<"meta">>     , {meta, optional}}
+       , {<<"implicitRules">>     , {uri, optional}}
+       , {<<"language">> , {code, optional}}
        , {<<"text">>     , {narrative, optional}}
-       , {<<"extension">>, {extension, optional}}
-       , {<<"identifier">>, {identifier, optional}}
+       , {<<"contained">>, {resource, list}}
+       , {<<"extension">>, {extension, list}}
+       , {<<"modifierExtension">>, {extension, list}}
+       , {<<"identifier">>, {identifier, list}}
        , {<<"active">>   , {boolean, optional}}
        , {<<"name">>     , {humanName, list}}
        , {<<"telecom">>  , {contactPoint, list}}
