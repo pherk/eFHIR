@@ -1,13 +1,14 @@
 -module(extensions).
 -compile(export_all).
 -include("primitives.hrl").
--include("complex.hrl").
+-include("fhir_400.hrl").
 
 -export_type([extension/0]).
 
--define(ext_info, [{<<"url">>, {binary, required}},
+-define(ext_info, {<<"Element">>, [
+                   {<<"url">>, {binary, required}},
                    {<<"value">>, {extensionValue, optional}}
-	              ]).
+                  ]}).
 -record(extension, {
       url :: binary()
     , value :: extensionValue()
