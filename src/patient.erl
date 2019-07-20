@@ -137,7 +137,7 @@ to_patient_link(Props) ->
 -include_lib("eunit/include/eunit.hrl").
 
 -define(asrtto(A, B), ?assertEqual(B, patient:to_patient(A))).
--define(asrtp(A, B), ?assertEqual(B, patient:record_to_proplist(A))).
+-define(asrtp(A, B), ?assertEqual(B, utils:rec_to_proplist(A))).
 
 patient_to_test() ->
     ?asrtto([{<<"id">>, <<"p-21666">>}],

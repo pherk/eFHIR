@@ -23,35 +23,35 @@
     , type        :: boolean()                           % TODO code
     , timestamp   :: datatypes:instant()
     , total       :: datatypes:unsigned_int()
-    , link        :: [link_()]
-    , entry       :: [entry()]
+    , link        :: [bundlelink()]
+    , entry       :: [bundleentry()]
     , signature   :: datatypes:signature()
     }).
 -type bundle() :: #bundle{}.
 
--record(link, {
+-record(bundlelink, {
            relation :: binary()
          , uri :: datatypes:uri()
          }).
--type link_() :: #link{}.
+-type bundlelink() :: #bundlelink{}.
 
--record(entry, {
-           link :: [link_()]
+-record(bundleentry, {
+           link :: [bundlelink()]
          , full_uri :: datatypes:uri()
-         , resource :: datatypes:resource()
-         , search   :: search()
-         , request  :: request()
-         , reponse  :: response()
+         , resource :: resource()
+         , search   :: bundlesearch()
+         , request  :: bundlerequest()
+         , reponse  :: bundleresponse()
          }).
--type entry() :: #entry{}.
+-type bundleentry() :: #bundleentry{}.
 
--record(search, {
+-record(bundlesearch, {
            mode :: datatypes:code()
          , score :: datatypes:decimal()
          }).
--type search() :: #search{}.
+-type bundlesearch() :: #bundlesearch{}.
 
--record(request, {
+-record(bundlerequest, {
            method :: binary()                      % code()
          , uri    :: datatypes:uri()
          , if_none_match :: binary()
@@ -59,18 +59,18 @@
          , if_match :: binary()
          , if_none_exist :: binary()
          }).
--type request() :: #request{}.
+-type bundlerequest() :: #bundlerequest{}.
 
--record(response, {
+-record(bundleresponse, {
            status :: binary()
          , location :: datatypes:uri()
          , etag :: binary()
          , last_modified :: datatypes:instant()
-         , outcome :: dfatatype:resource()
+         , outcome :: resource()
          }).
--type response() :: #response{}.
+-type bundleresponse() :: #bundleresponse{}.
 
-- type resource() ::
+-type resource() ::
       patient:patient().
 %%      careplan()
 %%    | careteam()
@@ -95,111 +95,71 @@
 
 
 to_bundle(Props) ->
+  DT = complex:get_info(<<"Bundle">>),
   #bundle{
-      id          = proplists:get_value(<<"id">>, Props)
-    , meta        = datatypes:to_meta(<<"meta">>, Props)
-    , text        = datatypes:to_narrative(<<"text">>, Props)
-    , extension   = extension:to_extension_list(Props)
-    , identifier_ = datatypes:to_identifier_list(<<"identifier">>, Props)
-    , type        = proplists:get_value(<<"id">>, Props)        % TODO code
-    , timestamp   = datatypes:to_instant(<<"timestamp">>, Props)
-    , total       = datatypes:to_unsigned_int(<<"total">>, Props)
-    , link        = to_link_list(<<"link">>, Props)
-    , entry       = to_entry_list(<<"entry">>, Props)
-    , signature   = datatypes:signature(<<"signature">>, Props)
+      id          = complex:get_value(<<"id">>, Props, DT)
+    , meta        = complex:get_value(<<"meta">>, Props, DT)
+    , text        = complex:get_value(<<"text">>, Props, DT)
+    , extension   = complex:get_value(<<"Extension">>, Props, DT)
+    , identifier_ = complex:get_value(<<"identifier">>, Props, DT)
+    , type        = complex:get_value(<<"type">>, Props, DT)        % TODO code
+    , timestamp   = complex:get_value(<<"timestamp">>, Props, DT)
+    , total       = complex:get_value(<<"total">>, Props, DT)
+    , link        = complex:get_value(<<"Bundle.Link">>, Props, DT)
+    , entry       = complex:get_value(<<"Bundle.Entry">>, Props, DT)
+    , signature   = complex:get_value(<<"signature">>, Props, DT)
     }.
 
 %%====================================================================
 %% Internal functions
 %%====================================================================
-to_link_list(Key, Props) ->
-    List = proplists:get_value(Key, Props),
-    case List of
-        undefined -> [];
-            _  -> lists:map(fun to_link/1, List)
-    end.
-
 to_link({Props}) -> to_link(Props);
 to_link(Props) ->
-  #link{
-      relation = proplists:get_value(<<"relationship">>, Props)
-    , uri  = datatypes:to_uri(<<"uri">>, Props)
+  DT = complex:get_info(<<"Bundle.Link">>),
+  #bundlelink{
+      relation = complex:get_value(<<"relationship">>, Props, DT)
+    , uri  = complex:get_value(<<"uri">>, Props, DT)
     }.
-
-to_entry_list(Key, Props) ->
-    List = proplists:get_value(Key, Props),
-    case List of
-        undefined -> [];
-            _  -> lists:map(fun to_entry/1, List)
-    end.
 
 to_entry({Props}) -> to_entry(Props);
 to_entry(Props) ->
-  #entry{
-      link      = to_link_list(<<"link">>,Props)
-    , full_uri  = datatypes:to_uri(<<"fullUri">>, Props)
-    , resource  = to_resource_list(<<"resource">>,Props)
-    , search    = to_search(<<"search">>,Props)
-    , request   = to_request(<<"request">>, Props)
-    , reponse   = to_response(<<"response">>, Props)
+  DT = complex:get_info(<<"Bundle.Entry">>),
+  #bundleentry{
+      link      = complex:get_value(<<"link">>,Props, DT)
+    , full_uri  = complex:get_value(<<"fullUri">>, Props, DT)
+    , resource  = complex:get_value(<<"resource">>,Props, DT)
+    , search    = complex:get_value(<<"search">>,Props, DT)
+    , request   = complex:get_value(<<"request">>, Props, DT)
+    , reponse   = complex:get_value(<<"response">>, Props, DT)
     }.
 
-to_search(Key, Props) ->
-    List = proplists:get_value(Key, Props),	
-    case List of
-        undefined -> undefined;
-        _  -> to_search(List)
-    end.
 to_search({Props}) -> to_search(Props);
 to_search(Props) ->
-	#search{
-       mode = proplists:get_value(<<"mode">>, Props)
-     , score = datatypes:to_decimal(<<"score">>, Props)
+    DT = complex:get_info(<<"Bundle.Search">>),
+	#bundlesearch{
+       mode = complex:get_value(<<"mode">>, Props, DT)
+     , score = complex:get_value(<<"score">>, Props, DT)
 	 }.
 
-to_request(Key, Props) ->
-    List = proplists:get_value(Key, Props),	
-    case List of
-        undefined -> undefined;
-        _  -> to_request(List)
-    end.
 to_request({Props}) -> to_request(Props);
 to_request(Props) ->
-    #request{
-           method = proplists:get_value(<<"mode">>, Props)
-         , uri    = datatypes:to_uri(<<"uri">>, Props)
-         , if_none_match = proplists:get_value(<<"ifNoneMatch">>, Props)
-         , if_modified_since = datatypes:instant(<<"ifModifiedSince">>, Props)
-         , if_match  = proplists:get_value(<<"ifMatch">>, Props)
-         , if_none_exist = proplists:get_value(<<"ifNoneExist">>, Props)
+    DT = complex:get_info(<<"Bundle.Request">>),
+    #bundlerequest{
+           method        = complex:get_value(<<"mode">>, Props, DT)
+         , uri           = complex:get_value(<<"uri">>, Props, DT)
+         , if_none_match = complex:get_value(<<"ifNoneMatch">>, Props, DT)
+         , if_modified_since = complex:get_value(<<"ifModifiedSince">>, Props, DT)
+         , if_match      = complex:get_value(<<"ifMatch">>, Props, DT)
+         , if_none_exist = complex:get_value(<<"ifNoneExist">>, Props, DT)
 		}.
 
-to_response(Key, Props) ->
-    List = proplists:get_value(Key, Props),	
-    case List of
-        undefined -> undefined;
-        _  -> to_response(List)
-    end.
 to_response({Props}) -> to_response(Props);
 to_response(Props) ->
-    #response{
-           status = proplists:get_value(<<"status">>, Props)
-         , location = datatypes:to_uri(<<"location">>, Props)
-         , etag = proplists:get_value(<<"etag">>, Props)
-         , last_modified = datatypes:instant(<<"lastModified">>, Props)
-         , outcome = resource:resource(<<"outcode">>, Props)
+    DT = complex:get_info(<<"Bundle.Response">>),
+    #bundleresponse{
+           status        = complex:get_value(<<"status">>, Props, DT)
+         , location      = complex:get_value(<<"location">>, Props, DT)
+         , etag          = complex:get_value(<<"etag">>, Props, DT)
+         , last_modified = complex:get_value(<<"lastModified">>, Props, DT)
+         , outcome       = complex:get_value(<<"outcome">>, Props, DT)
 	}.
-
-to_resource_list(Key, Props) ->
-    List = proplists:get_value(Key, Props),
-    case List of
-        undefined -> [];
-            _  -> lists:map(fun to_resource/1, List)
-    end.
-
-to_resource({Props}) -> to_resource(Props);
-to_resource(Props) ->
-   Rtype = proplists:get_value(<<"resource_type">>, Props),
-   to_resource(Rtype, Props). 
-
-to_resource(<<"Patient">>, Props) -> patient:to_patient(Props).

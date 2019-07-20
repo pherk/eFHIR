@@ -1,6 +1,6 @@
 -module(utils).
 
--export([rec_to_prop/3,binary_to_boolean/2,binary_to_boolean/3]).
+-export([rec_to_proplist/1,binary_to_boolean/2,binary_to_boolean/3]).
 
 check_value(Field, Value, RecInfo) ->
 	FieldInfo = proplists:get_value(Field,RecInfo),
@@ -9,13 +9,18 @@ check_value(Field, Value, RecInfo) ->
 	  _          -> {true, {Field, Value}}
 	end.	
 
-rec_to_prop(PropName, Rec, DT) ->
+rec_to_proplist(Rec) ->
     RecName = element(1,Rec),
-	Info = maps:get(atom_to_binary(RecName,utf8), DT),
-	FL = lists:zip(proplists:keys(Info), tl(tuple_to_list(Rec))), 
+    io:format("r2p-0: ~p~n",[Rec]),
+    XSDType  = complex:get_type(RecName),
+    io:format("r2p-1: ~p~n",[XSDType]),
+    Info = complex:record_info(XSDType),
+    io:format("r2p-2: ~p~n",[Info]),
+	FL = lists:zip(Info, tl(tuple_to_list(Rec))), 
+	io:format("r2p-3: ~p~n", [FL]),
 	PropList = lists:filtermap(fun({Key,Value}) -> check_value(Key,Value,Info) end, FL),
-	io:format("~p~n", [PropList]),
-	{[{ PropName, {PropList}}]}.
+	io:format("r2p-4: ~p~n", [PropList]),
+	{[{ [{<<"resource_type">>, RecName}] ++ PropList}]}.
 
 patient_to_proplist(Rec) ->
     L = [{resourceType, element(1,Rec)}] ++

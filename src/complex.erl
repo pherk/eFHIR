@@ -202,7 +202,7 @@
 %%====================================================================
 to_address({Props}) -> to_address(Props);
 to_address(Props) -> 
-    DT = maps:get(<<"Address">>,?fhir_xsd),
+    DT = xsd_info(<<"Address">>),
     io:format("~p~n~p~n",[Props,DT]),
     #address{
       use        = get_value(<<"use">>, Props, DT)
@@ -219,7 +219,7 @@ to_address(Props) ->
 
 to_annotation({Props}) -> to_annotation(Props);
 to_annotation(Props) ->
-    DT = maps:get(<<"Annotation">>,?fhir_xsd),
+    DT = xsd_info(<<"Annotation">>),
     io:format("~p~n~p~n",[Props,DT]),
     #annotation{
       authorReference = get_value(<<"authorReference">>, Props, DT)
@@ -229,7 +229,7 @@ to_annotation(Props) ->
 
 to_attachment({Props}) -> to_attachment(Props);
 to_attachment(Props) -> 
-    DT = maps:get(<<"Attachment">>,?fhir_xsd),
+    DT = xsd_info(<<"Attachment">>),
     io:format("~p~n~p~n",[Props,DT]),
     #attachment{
       contentType = get_value(<<"contentType">>, Props, DT)
@@ -244,7 +244,7 @@ to_attachment(Props) ->
 
 to_coding({Props}) -> to_coding(Props);
 to_coding(Props) ->
-    DT = maps:get(<<"Coding">>,?fhir_xsd),
+    DT = xsd_info(<<"Coding">>),
     io:format("~p~n~p~n",[Props,DT]),
     #coding{
         system  = get_value(<<"system">>, Props, DT)
@@ -256,7 +256,7 @@ to_coding(Props) ->
 
 to_codeableConcept({Props}) -> to_codeableConcept(Props);
 to_codeableConcept(Props) ->
-    DT = maps:get(<<"CodeableConcept">>,?fhir_xsd),
+    DT = xsd_info(<<"CodeableConcept">>),
     io:format("~p~n~p~n",[Props,DT]),
     #codeableConcept{
         coding  = get_value(<<"coding">>, Props, DT)
@@ -265,7 +265,7 @@ to_codeableConcept(Props) ->
 
 to_contactPoint({Props}) -> to_contactPoint(Props);
 to_contactPoint(Props) -> 
-    DT = maps:get(<<"ContactPoint">>,?fhir_xsd),
+    DT = xsd_info(<<"ContactPoint">>),
     io:format("~p~n~p~n",[Props,DT]),
     #contactPoint{
       use    = get_value(<<"use">>, Props, DT)
@@ -277,7 +277,7 @@ to_contactPoint(Props) ->
 
 to_humanName({Props}) -> to_humanName(Props);
 to_humanName(Props) ->
-    DT = maps:get(<<"HumanName">>,?fhir_xsd),
+    DT = xsd_info(<<"HumanName">>),
     #humanName{
        use     = get_value(<<"use">>, Props, DT) 
      , text    = get_value(<<"text">>, Props, DT) 
@@ -290,7 +290,7 @@ to_humanName(Props) ->
 
 to_identifier({Props}) -> to_identifier(Props);
 to_identifier(Props) ->
-    DT = maps:get(<<"Identifier">>,?fhir_xsd),
+    DT = xsd_info(<<"Identifier">>),
     #identifier{
         use  = get_value(<<"use">>, Props, DT)
       , type = get_value(<<"type">>, Props, DT)
@@ -302,7 +302,7 @@ to_identifier(Props) ->
 
 to_period({Props}) -> to_period(Props);
 to_period(Props) ->
-    DT = maps:get(<<"Period">>,?fhir_xsd),
+    DT = xsd_info(<<"Period">>),
     #period{
         start_  = get_value(<<"start">>, Props, DT)
       , end_    = get_value(<<"end">>, Props, DT)
@@ -310,7 +310,7 @@ to_period(Props) ->
 
 to_quantity({Props}) -> to_quantity(Props);
 to_quantity(Props) ->
-    DT = maps:get(<<"Quantity">>,?fhir_xsd),
+    DT = xsd_info(<<"Quantity">>),
     #quantity{
         value = get_value(<<"value">>, Props, DT)
       , comparator = get_value(<<"comparator">>, Props, DT)
@@ -321,7 +321,7 @@ to_quantity(Props) ->
 
 to_range({Props}) -> to_range(Props);
 to_range(Props) ->
-    DT = maps:get(<<"Range">>,?fhir_xsd),
+    DT = xsd_info(<<"Range">>),
     #range{
       low = get_value(<<"low">>, Props, DT)
     , high = get_value(<<"high">>, Props, DT)
@@ -329,7 +329,7 @@ to_range(Props) ->
 
 to_ratio({Props}) -> to_ratio(Props);
 to_ratio(Props) ->
-    DT = maps:get(<<"Ratio">>,?fhir_xsd),
+    DT = xsd_info(<<"Ratio">>),
     #ratio{
       numerator = get_value(<<"numerator">>, Props, DT)
     , denominator = get_value(<<"denominator">>, Props, DT)
@@ -337,7 +337,7 @@ to_ratio(Props) ->
 
 to_repeat({Props}) -> to_repeat(Props);
 to_repeat(Props) ->
-    DT = maps:get(<<"Repeat">>,?fhir_xsd),
+    DT = xsd_info(<<"Repeat">>),
     #repeat{
       boundsPeriod = get_value(<<"boundsPeriod">>, Props, DT)
     , count = get_value(<<"count">>, Props, DT)
@@ -358,7 +358,7 @@ to_repeat(Props) ->
 
 to_signature({Props}) -> to_signature(Props);
 to_signature(Props) ->
-    DT = maps:get(<<"Signature">>,?fhir_xsd),
+    DT = xsd_info(<<"Signature">>),
     #signature{
       type = get_value(<<"type">>, Props, DT)
     , when_ = get_value(<<"when_">>, Props, DT)
@@ -370,7 +370,7 @@ to_signature(Props) ->
 
 to_timing({Props}) -> to_timing(Props);
 to_timing(Props) ->
-    DT = maps:get(<<"Timing">>,?fhir_xsd),
+    DT = xsd_info(<<"Timing">>),
     #timing{
       event = get_value(<<"event">>, Props, DT)
     , repeat = get_value(<<"repeat">>, Props, DT)
@@ -412,7 +412,7 @@ to_time(Bin) -> Bin.
 %%
 to_narrative({Props}) -> to_narrative(Props);
 to_narrative(Props) ->
-    DT = maps:get(<<"Narrative">>,?fhir_xsd),
+    DT = xsd_info(<<"Narrative">>),
     io:format("~p~n~p~n",[Props,DT]),
     #narrative{
         status = get_value(<<"status">>, Props, DT)
@@ -421,7 +421,7 @@ to_narrative(Props) ->
 
 to_meta({Props}) -> to_meta(Props);
 to_meta(Props) ->
-    DT = maps:get(<<"Meta">>,?fhir_xsd),
+    DT = xsd_info(<<"Meta">>),
     io:format("~p~n~p~n",[Props,DT]),
     #meta{
         versionId    = get_value(<<"versionId">>, Props, DT)
@@ -435,7 +435,7 @@ to_meta(Props) ->
 
 to_reference({Props}) -> to_reference(Props);
 to_reference(Props) ->
-    DT = maps:get(<<"Reference">>,?fhir_xsd),
+    DT = xsd_info(<<"Reference">>),
     io:format("~p~n~p~n",[Props,DT]),
     #reference{
         reference_ = get_value(<<"reference">>, Props, DT)
@@ -468,8 +468,9 @@ get_value(Key, Props, {Base,FI}=DT) ->
 resolve_base(Base) -> 
     resolve_base(Base,[]).
 resolve_base(undefined, L) -> L;
+resolve_base(<<"BackboneElement">>, L) -> L;
 resolve_base(Base, L) -> 
-    {NewBase, BI} = maps:get(Base,?fhir_xsd),
+    {NewBase, BI} = xsd_info(Base),
     resolve_base(NewBase, BI++L).
 
 validate(binary,   Value) -> Value;
@@ -502,7 +503,13 @@ fhir_to_erlang(Key) -> Key.
 
 xsd_info(Key) -> maps:get(Key,?fhir_xsd).
 
-record_info(DT) -> proplists:keys(DT).
+get_type(patient) -> <<"Patient">>.
+
+record_info(XSDType) -> 
+    {Base,FI} = xsd_info(XSDType), 
+    BFI = resolve_base(Base,FI),
+    io:format("r_i: ~p~n",[BFI]),
+    proplists:get_keys(BFI).
 %%%
 %%% EUnit
 %%%

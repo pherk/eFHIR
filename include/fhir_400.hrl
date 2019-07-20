@@ -2,15 +2,15 @@
 
 -define(fhir_xsd, 
     #{
-       <<"Element">>         => {undefined, [{<<"Extension">>, {extension, optional}}]}
-     , <<"DomainResource">>   => {<<"Resource">>,  [{<<"text">>, {narrative, optional}},
-                                 {<<"contained">>, {resourceContainer, list}},
-                                 {<<"extension">>, {extension, list}},
-                                 {<<"modifierExtension">>, {extension, list}}]}
-     , <<"Resource">>        => {undefined, [{<<"id">>, {binary, optional}},
-                                 {<<"meta">>, {meta, optional}},
-                                 {<<"implicitRules">>, {uri, optional}},
-                                 {<<"language">>, {binary, optional}}]}
+       <<"Element">>         => {undefined, [{<<"Extension">>, {<<"Extension">>, extension, optional}}]}
+     , <<"DomainResource">>   => {<<"Resource">>,  [{<<"text">>, {<<"Narrative">>, complex, optional}},
+                                 {<<"contained">>, {<<"ResourceContainer">>, container, list}},
+                                 {<<"extension">>, {<<"Extension">>, extension, list}},
+                                 {<<"modifierExtension">>, {<<"extension">>, extension, list}}]}
+     , <<"Resource">>        => {undefined, [{<<"id">>, {<<"binary">>, primitive, optional}},
+                                 {<<"meta">>, {<<"meta">>, complex, optional}},
+                                 {<<"implicitRules">>, {<<"uri">>, primitive, optional}},
+                                 {<<"language">>, {<<"binary">>, primitive, optional}}]}
      , <<"Address">>         => {<<"Element">>,  [{<<"use">>, {binary, optional}},
                                  {<<"type">>, {binary, optional}},
                                  {<<"text">>, {binary, optional}},
@@ -127,53 +127,53 @@
 %% If the element is present, it must have either a @value, an @id, or extensions
 %%
     , <<"Patient">> => {<<"DomainResource">>, [
-              {<<"identifier">>, {<<"Identifier">>, list}}
-            , {<<"active">>, {<<"boolean">>, optional}}
-            , {<<"name">>, {<<"HumanName">>, list}}
-            , {<<"telecom">>, {<<"ContactPoint">>, list}}
-            , {<<"gender">>, {<<"AdministrativeGender">>, optional}}
-            , {<<"birthDate">>, {<<"date">>, optional}}
-            , {<<"deceasedBoolean">>, {<<"boolean">>, optional}}
-            , {<<"deceasedDateTime">>, {<<"dateTime">>, optional}}
-            , {<<"address">>, {<<"Address">>, list}}
-            , {<<"maritalStatus">>, {<<"CodeableConcept">>, optional}}
-            , {<<"multipleBirthBoolean">>, {<<"boolean">>, optional}}
-            , {<<"multipleBirthInteger">>, {<<"integer">>, optional}}
-            , {<<"photo">>, {<<"Attachment">>, list}}
-            , {<<"contact">>, {<<"Patient.Contact">>, list}}
-            , {<<"communication">>, {<<"Patient.Communication">>, list}}
-            , {<<"generalPractitioner">>, {<<"Reference">>, list}}
-            , {<<"managingOrganization">>, {<<"Reference">>, optional}}
-            , {<<"link">>, {<<"Patient.Link">>, list}}
+              {<<"identifier">>, {<<"Identifier">>, complex, list}}
+            , {<<"active">>, {<<"boolean">>, primitive, optional}}
+            , {<<"name">>, {<<"HumanName">>, complex, list}}
+            , {<<"telecom">>, {<<"ContactPoint">>, complex, list}}
+            , {<<"gender">>, {<<"AdministrativeGender">>, code, optional}}
+            , {<<"birthDate">>, {<<"date">>, primitive, optional}}
+            , {<<"deceasedBoolean">>, {<<"boolean">>, primitive, optional}}
+            , {<<"deceasedDateTime">>, {<<"dateTime">>, primitive, optional}}
+            , {<<"address">>, {<<"Address">>, complex, list}}
+            , {<<"maritalStatus">>, {<<"CodeableConcept">>, complex, optional}}
+            , {<<"multipleBirthBoolean">>, {<<"boolean">>, primitive, optional}}
+            , {<<"multipleBirthInteger">>, {<<"integer">>, primitive, optional}}
+            , {<<"photo">>, {<<"Attachment">>, complex, list}}
+            , {<<"contact">>, {<<"Patient.Contact">>, bbelement, list}}
+            , {<<"communication">>, {<<"Patient.Communication">>, bbelement,list}}
+            , {<<"generalPractitioner">>, {<<"Reference">>, complex, list}}
+            , {<<"managingOrganization">>, {<<"Reference">>, complex, optional}}
+            , {<<"link">>, {<<"Patient.Link">>, bbelement, list}}
             ]} 
 %%
 %% Patient.Contact
 %% Demographics and other administrative information about an individual or animal receiving care or other health-related services.
 %%
     , <<"Patient.Contact">> => {<<"BackboneElement">>, [
-              {<<"relationship">>, {<<"CodeableConcept">>, list}}
-            , {<<"name">>, {<<"HumanName">>, optional}}
-            , {<<"telecom">>, {<<"ContactPoint">>, list}}
-            , {<<"address">>, {<<"Address">>, optional}}
-            , {<<"gender">>, {<<"AdministrativeGender">>, optional}}
-            , {<<"organization">>, {<<"Reference">>, optional}}
-            , {<<"period">>, {<<"Period">>, optional}}
+              {<<"relationship">>, {<<"CodeableConcept">>, complex, list}}
+            , {<<"name">>, {<<"HumanName">>, complex, optional}}
+            , {<<"telecom">>, {<<"ContactPoint">>, complex, list}}
+            , {<<"address">>, {<<"Address">>, complex, optional}}
+            , {<<"gender">>, {<<"AdministrativeGender">>, code, optional}}
+            , {<<"organization">>, {<<"Reference">>, complex, optional}}
+            , {<<"period">>, {<<"Period">>, complex, optional}}
             ]} 
 %%
 %% Patient.Communication
 %% Demographics and other administrative information about an individual or animal receiving care or other health-related services.
 %%
     , <<"Patient.Communication">> => {<<"BackboneElement">>, [
-              {<<"language">>, {<<"CodeableConcept">>, required}}
-            , {<<"preferred">>, {<<"boolean">>, optional}}
+              {<<"language">>, {<<"CodeableConcept">>, complex, required}}
+            , {<<"preferred">>, {<<"boolean">>, complex, optional}}
             ]} 
 %%
 %% Patient.Link
 %% Demographics and other administrative information about an individual or animal receiving care or other health-related services.
 %%
     , <<"Patient.Link">> => {<<"BackboneElement">>, [
-              {<<"other">>, {<<"Reference">>, required}}
-            , {<<"type">>, {<<"LinkType">>, required}}
+              {<<"other">>, {<<"Reference">>, complex, required}}
+            , {<<"type">>, {<<"LinkType">>, code, required}}
             ]}
          }).
 
