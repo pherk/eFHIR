@@ -402,6 +402,9 @@ to_date(Bin) -> Bin.
 to_dateTime({Bin}) -> Bin;
 to_dateTime(Bin) -> Bin.
 
+to_string({Bin}) -> Bin;
+to_string(Bin) -> Bin.
+
 to_time({Bin}) -> Bin;
 to_time(Bin) -> Bin.
 
@@ -445,7 +448,7 @@ to_reference(Props) ->
 %%====================================================================
 %% Internal functions
 %%====================================================================
-get_value(Key, Props, {Base,FI}=DT) ->
+get_value(Key, Props, {Base,FI,Attrs,Restriction}=DT) ->
     io:format("get_value: ~s~n",[Key]),
     BFI = resolve_base(Base,FI),
 %    io:format("get_value: ~p~n",[BFI]),
@@ -467,27 +470,32 @@ get_value(Key, Props, {Base,FI}=DT) ->
 -spec resolve_base(Base :: binary()) -> list().
 resolve_base(Base) -> 
     resolve_base(Base,[]).
-resolve_base(undefined, L) -> L;
+resolve_base(<<>>, L) -> L;
 resolve_base(<<"BackboneElement">>, L) -> L;
 resolve_base(Base, L) -> 
-    {NewBase, BI} = xsd_info(Base),
+    {NewBase, BI, Attrs, Restrictions} = xsd_info(Base),
     resolve_base(NewBase, BI++L).
 
-validate(binary,   Value) -> Value;
-validate(boolean,  Value) -> utils:binary_to_boolean(Value,error);
-validate(dateTime, Value) -> Value;
-validate(uri,      Value) -> Value;
-validate(coding,  Value) -> Value;
-validate(period,  Value) -> Value.
+validate({primitive, <<"boolean">>},   Value) -> utils:binary_to_boolean(Value,error);
+validate({primitive, <<"canonical">>},   Value) -> Value;
+validate({primitive, <<"code">>},   Value) -> Value;
+validate({primitive, <<"dateTime">>},   Value) -> Value;
+validate({primitive, <<"id">>},   Value) -> Value;
+validate({primitive, <<"instant">>},   Value) -> Value;
+validate({primitive, <<"period">>},   Value) -> Value;
+validate({primitive, <<"string">>},   Value) -> Value;
+validate({primitive, <<"uri">>},   Value) -> Value;
+validate({code, Type},   Value) -> Value.
 
 
-get_fun(binary)    -> fun to_binary/1;
-get_fun(code)      -> fun to_code/1;
-get_fun(coding)    -> fun to_coding/1;
-get_fun(date)      -> fun to_time/1;
-get_fun(dateTime)  -> fun to_dateTime/1;
-get_fun(time)      -> fun to_time/1;
-get_fun(extension) -> fun extensions:to_extension/1.
+get_fun({primitive, <<"binary">>})     -> fun to_binary/1; % not used?!
+get_fun({primitive, <<"code">>})       -> fun to_code/1;
+get_fun({primitive, <<"date">>})       -> fun to_date/1;
+get_fun({primitive, <<"dateTime">>})   -> fun to_dateTime/1;
+get_fun({primitive, <<"string">>})     -> fun to_string/1;
+get_fun({primitive, <<"time">>})       -> fun to_time/1;
+get_fun({complex,   <<"Coding">>})     -> fun to_coding/1;
+get_fun({complex,   <<"Extension">>})  -> fun extensions:to_extension/1.
 
 erlang_to_fhir(<<"reference_">>) -> <<"reference">>;
 erlang_to_fhir(<<"when_">>) -> <<"when">>;

@@ -6,9 +6,12 @@
 -export_type([extension/0]).
 
 -define(ext_info, {<<"Element">>, [
-                   {<<"url">>, {binary, required}},
                    {<<"value">>, {extensionValue, optional}}
-                  ]}).
+                  ],
+                  [
+                   {<<"url">>, {primitive, <<"uri">>}, required}}
+                  ], []
+                  }).
 -record(extension, {
       url :: binary()
     , value :: extensionValue()
@@ -102,12 +105,12 @@
 %%====================================================================
 to_extension({Props}) ->    to_extension(Props);
 to_extension(Props) ->
-    DT = ?ext_info,
+    % DT = ?ext_info,
     [ValueType] = lists:delete(<<"url">>,proplists:get_keys(Props)),
     {Value} = proplists:get_value(ValueType,Props),
     io:format("extensions: ~s: ~p~n",[ValueType, Value]),
     #extension{
-        url    = complex:get_value(<<"url">>, Props, DT)
+        url    = <<"http://eNahar.org/nabu/extension#lastUpdatedBy">> % complex:get_value(<<"url">>, Props, DT)
       , value  = to_extensionValue(ValueType,Value)
       }.
 
