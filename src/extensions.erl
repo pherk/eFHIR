@@ -1,17 +1,14 @@
 -module(extensions).
--compile(export_all).
 -include("primitives.hrl").
--include("fhir_400.hrl").
 
 -export_type([extension/0]).
+-exports([to_extension/1]).
 
 -define(ext_info, {<<"Element">>, [
-                   {<<"value">>, {extensionValue, optional}}
-                  ],
-                  [
-                   {<<"url">>, {primitive, <<"uri">>}, required}}
-                  ], []
-                  }).
+                   {<<"value">>, {extensionValue, optional}} ],
+                  [ {<<"url">>, {primitive, <<"uri">>}, required}} ],
+                  [] }).
+
 -record(extension, {
       url :: binary()
     , value :: extensionValue()
@@ -110,57 +107,57 @@ to_extension(Props) ->
     {Value} = proplists:get_value(ValueType,Props),
     io:format("extensions: ~s: ~p~n",[ValueType, Value]),
     #extension{
-        url    = <<"http://eNahar.org/nabu/extension#lastUpdatedBy">> % complex:get_value(<<"url">>, Props, DT)
+        url    = proplists:get_value(<<"url">>, Props)
       , value  = to_extensionValue(ValueType,Value)
       }.
 
-
+%% TODO replace by makeTuple
 %%====================================================================
 %% Internal functions
 %%====================================================================
 
 to_extensionValue(<<"valueBase64Binary">>, Props) ->
-    #valueReference{ value = proplists:get_value(<<"valueBase64Binary">>, Props) };
+    #valueBase64Binary{ value = proplists:get_value(<<"valueBase64Binary">>, Props) };
 to_extensionValue(<<"valueBoolean">>, Props) ->
-    #valueReference{ value = proplists:get_value(<<"valueBoolean">>, Props) };
+    #valueBoolean{ value = proplists:get_value(<<"valueBoolean">>, Props) };
 to_extensionValue(<<"valueCode">>, Props) ->
-    #valueReference{ value = proplists:get_value(<<"valueCode">>, Props) };
+    #valueCode{ value = proplists:get_value(<<"valueCode">>, Props) };
 to_extensionValue(<<"valueDate">>, Props) ->
-    #valueReference{ value = proplists:get_value(<<"valueDate">>, Props) };
+    #valueDate{ value = proplists:get_value(<<"valueDate">>, Props) };
 to_extensionValue(<<"valueDateTime">>, Props) ->
-    #valueReference{ value = proplists:get_value(<<"valueDateTime">>, Props) };
+    #valueDateTime{ value = proplists:get_value(<<"valueDateTime">>, Props) };
 to_extensionValue(<<"valueDecimal">>, Props) ->
-    #valueReference{ value = proplists:get_value(<<"valueDecimal">>, Props) };
+    #valueDecimal{ value = proplists:get_value(<<"valueDecimal">>, Props) };
 to_extensionValue(<<"valueId">>, Props) ->
-    #valueReference{ value = proplists:get_value(<<"valueId">>, Props) };
+    #valueId{ value = proplists:get_value(<<"valueId">>, Props) };
 to_extensionValue(<<"valueInstant">>, Props) ->
-    #valueReference{ value = proplists:get_value(<<"valueInstant">>, Props) };
+    #valueInstant{ value = proplists:get_value(<<"valueInstant">>, Props) };
 to_extensionValue(<<"valueInteger">>, Props) ->
-    #valueReference{ value = proplists:get_value(<<"valueInteger">>, Props) };
+    #valueInteger{ value = proplists:get_value(<<"valueInteger">>, Props) };
 to_extensionValue(<<"valueMarkdown">>, Props) ->
-    #valueReference{ value = proplists:get_value(<<"valueMarkdown">>, Props) };
+    #valueMarkdown{ value = proplists:get_value(<<"valueMarkdown">>, Props) };
 to_extensionValue(<<"valueOid">>, Props) ->
-    #valueReference{ value = proplists:get_value(<<"valueOid">>, Props) };
+    #valueOid{ value = proplists:get_value(<<"valueOid">>, Props) };
 to_extensionValue(<<"valuePositiveInt">>, Props) ->
-    #valueReference{ value = proplists:get_value(<<"valuePositiveInt">>, Props) };
+    #valuePositiveInt{ value = proplists:get_value(<<"valuePositiveInt">>, Props) };
 to_extensionValue(<<"valueString">>, Props) ->
-    #valueReference{ value = proplists:get_value(<<"valueString">>, Props) };
+    #valueString{ value = proplists:get_value(<<"valueString">>, Props) };
 to_extensionValue(<<"valueTime">>, Props) ->
-    #valueReference{ value = proplists:get_value(<<"valueTime">>, Props) };
+    #valueTime{ value = proplists:get_value(<<"valueTime">>, Props) };
 to_extensionValue(<<"valueUnsignedInt">>, Props) ->
-    #valueReference{ value = proplists:get_value(<<"valueUnsignedInt">>, Props) };
+    #valueUnsignedInt{ value = proplists:get_value(<<"valueUnsignedInt">>, Props) };
 to_extensionValue(<<"valueUri">>, Props) ->
-    #valueReference{ value = proplists:get_value(<<"valueUri">>, Props) };
+    #valueUri{ value = proplists:get_value(<<"valueUri">>, Props) };
 to_extensionValue(<<"valueUrl">>, Props) ->
-    #valueReference{ value = proplists:get_value(<<"valueUrl">>, Props) };
+    #valueUrl{ value = proplists:get_value(<<"valueUrl">>, Props) };
 to_extensionValue(<<"valueUuid">>, Props) ->
-    #valueReference{ value = proplists:get_value(<<"valueUuid">>, Props) };
+    #valueUuid{ value = proplists:get_value(<<"valueUuid">>, Props) };
 to_extensionValue(<<"valueAnnotation">>, Props) ->
-    #valueReference{ value = complex:to_annotation(Props) };
+    #valueAnnotation{ value = complex:to_annotation(Props) };
 to_extensionValue(<<"valueCodeableConcept">>, Props) ->
-    #valueReference{ value = complex:to_codeableConcept(Props) };
+    #valueCodeableConcept{ value = complex:to_codeableConcept(Props) };
 to_extensionValue(<<"valueCoding">>, Props) ->
-    #valueReference{ value = complex:to_coding(Props) };
+    #valueCoding{ value = complex:to_coding(Props) };
 to_extensionValue(<<"valueReference">>, Props) ->
     #valueReference{ value = complex:to_reference(Props) }.
     

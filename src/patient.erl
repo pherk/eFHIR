@@ -67,34 +67,34 @@
 
 to_patient({Props}) -> to_patient(Props);
 to_patient(Props) ->
-  DT = complex:xsd_info(<<"Patient">>),
+  DT = types:xsd_info(<<"Patient">>),
   #patient{ 
-      id               = complex:get_value(<<"id">>, Props, DT)
-    , meta             = complex:get_value(<<"meta">>, Props, DT)
-    , implicitRules    = complex:get_value(<<"implicitRules">>, Props, DT)
-    , language         = complex:get_value(<<"language">>, Props, DT)
-    , text             = complex:get_value(<<"text">>, Props, DT)
-    , contained        = complex:get_value(<<"contained">>, Props, DT)
-    , extension        = complex:get_value(<<"extension">>, Props, DT)
-    , modifierExtension = complex:get_value(<<"modifierExtension">>, Props, DT)
-    , identifier_      = complex:get_value(<<"identifier">>, Props, DT)
-    , active           = complex:get_value(<<"active">>, Props, DT)
-    , name             = complex:get_value(<<"name">>, Props, DT)
-    , telecom          = complex:get_value(<<"telecom">>, Props, DT)
-    , gender           = complex:get_value(<<"gender">>, Props, DT)
-    , birthDate        = complex:get_value(<<"birthDate">>, Props, DT)
-    , deceasedBoolean  = complex:get_value(<<"deceasedBoolean">>, Props, DT)
-    , deceasedDateTime = complex:get_value(<<"deceasedDateTime">>, Props, DT)
-    , address          = complex:get_value(<<"address">>, Props, DT)
-    , maritalStatus    = complex:get_value(<<"maritalStatus">>, Props, DT)
-    , multipleBirthBoolean = complex:get_value(<<"multipleBirthBoolean">>, Props, DT)
-    , multipleBirthInteger = complex:get_value(<<"multipleBirthInteger">>, Props, DT)
-    , photo                = complex:get_value(<<"photo">>, Props, DT)
-    , contact              = complex:get_value(<<"contact">>, Props, DT)	
-    , communication        = complex:get_value(<<"communication">>, Props, DT)
-    , generalPractitioner  = complex:get_value(<<"generalPractitioner">>, Props, DT)
-    , managingOrganization = complex:get_value(<<"managingOrganization">>, Props, DT)
-    , link                 = complex:get_value(<<"link">>, Props, DT)
+      id               = types:get_value(<<"id">>, Props, DT)
+    , meta             = types:get_value(<<"meta">>, Props, DT)
+    , implicitRules    = types:get_value(<<"implicitRules">>, Props, DT)
+    , language         = types:get_value(<<"language">>, Props, DT)
+    , text             = types:get_value(<<"text">>, Props, DT)
+    , contained        = types:get_value(<<"contained">>, Props, DT)
+    , extension        = types:get_value(<<"extension">>, Props, DT)
+    , modifierExtension = types:get_value(<<"modifierExtension">>, Props, DT)
+    , identifier_      = types:get_value(<<"identifier">>, Props, DT)
+    , active           = types:get_value(<<"active">>, Props, DT)
+    , name             = types:get_value(<<"name">>, Props, DT)
+    , telecom          = types:get_value(<<"telecom">>, Props, DT)
+    , gender           = types:get_value(<<"gender">>, Props, DT)
+    , birthDate        = types:get_value(<<"birthDate">>, Props, DT)
+    , deceasedBoolean  = types:get_value(<<"deceasedBoolean">>, Props, DT)
+    , deceasedDateTime = types:get_value(<<"deceasedDateTime">>, Props, DT)
+    , address          = types:get_value(<<"address">>, Props, DT)
+    , maritalStatus    = types:get_value(<<"maritalStatus">>, Props, DT)
+    , multipleBirthBoolean = types:get_value(<<"multipleBirthBoolean">>, Props, DT)
+    , multipleBirthInteger = types:get_value(<<"multipleBirthInteger">>, Props, DT)
+    , photo                = types:get_value(<<"photo">>, Props, DT)
+    , contact              = types:get_value(<<"contact">>, Props, DT)	
+    , communication        = types:get_value(<<"communication">>, Props, DT)
+    , generalPractitioner  = types:get_value(<<"generalPractitioner">>, Props, DT)
+    , managingOrganization = types:get_value(<<"managingOrganization">>, Props, DT)
+    , link                 = types:get_value(<<"link">>, Props, DT)
     }.
 
 
@@ -103,31 +103,31 @@ to_patient(Props) ->
 %%====================================================================
 to_patient_contact({Props}) -> to_patient_contact(Props);
 to_patient_contact(Props) ->
-  DT = complex:xsd_info(<<"Patient.Contact">>),
+  DT = types:xsd_info(<<"Patient.Contact">>),
   #patient_contact{ 
-      relationship = complex:get_value(<<"relationship">>, Props, DT)
-    , name         = complex:get_value(<<"name">>, Props, DT)
-    , telecom      = complex:get_value(<<"telecom">>, Props, DT)
-    , address      = complex:get_value(<<"address">>, Props, DT)
-    , gender       = complex:get_value(<<"gender">>, Props, DT)
-    , organization = complex:get_value(<<"organization">>, Props, DT)
-    , period       = complex:get_value(<<"period">>, Props, DT)
+      relationship = types:get_value(<<"relationship">>, Props, DT)
+    , name         = types:get_value(<<"name">>, Props, DT)
+    , telecom      = types:get_value(<<"telecom">>, Props, DT)
+    , address      = types:get_value(<<"address">>, Props, DT)
+    , gender       = types:get_value(<<"gender">>, Props, DT)
+    , organization = types:get_value(<<"organization">>, Props, DT)
+    , period       = types:get_value(<<"period">>, Props, DT)
     }.
 
 to_patient_communication({Props}) -> to_patient_communication(Props);
 to_patient_communication(Props) -> 
-  DT = complex:xsd_info(<<"Patient.Communication">>),
+  DT = types:xsd_info(<<"Patient.Communication">>),
   #patient_communication{
-      language  = complex:get_value(<<"language">>, Props, DT)
-    , preferred = complex:get_value(<<"preferred">>, Props, DT)
+      language  = types:get_value(<<"language">>, Props, DT)
+    , preferred = types:get_value(<<"preferred">>, Props, DT)
     }.
 
 to_patient_link({Props}) -> to_patient_link(Props);
 to_patient_link(Props) -> 
-  DT = complex:xsd_info(<<"Patient.Link">>),
+  DT = types:xsd_info(<<"Patient.Link">>),
   #patient_link{
-      other = complex:get_value(<<"other">>, Props, DT)
-    , type  = complex:get_value(<<"type">>, Props, DT)
+      other = types:get_value(<<"other">>, Props, DT)
+    , type  = types:get_value(<<"type">>, Props, DT)
     }.
 
 %% EUnit Tests

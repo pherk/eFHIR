@@ -95,19 +95,19 @@
 
 
 to_bundle(Props) ->
-  DT = complex:get_info(<<"Bundle">>),
+  DT = types:get_info(<<"Bundle">>),
   #bundle{
-      id          = complex:get_value(<<"id">>, Props, DT)
-    , meta        = complex:get_value(<<"meta">>, Props, DT)
-    , text        = complex:get_value(<<"text">>, Props, DT)
-    , extension   = complex:get_value(<<"Extension">>, Props, DT)
-    , identifier_ = complex:get_value(<<"identifier">>, Props, DT)
-    , type        = complex:get_value(<<"type">>, Props, DT)        % TODO code
-    , timestamp   = complex:get_value(<<"timestamp">>, Props, DT)
-    , total       = complex:get_value(<<"total">>, Props, DT)
-    , link        = complex:get_value(<<"Bundle.Link">>, Props, DT)
-    , entry       = complex:get_value(<<"Bundle.Entry">>, Props, DT)
-    , signature   = complex:get_value(<<"signature">>, Props, DT)
+      id          = types:get_value(<<"id">>, Props, DT)
+    , meta        = types:get_value(<<"meta">>, Props, DT)
+    , text        = types:get_value(<<"text">>, Props, DT)
+    , extension   = types:get_value(<<"Extension">>, Props, DT)
+    , identifier_ = types:get_value(<<"identifier">>, Props, DT)
+    , type        = types:get_value(<<"type">>, Props, DT)        % TODO code
+    , timestamp   = types:get_value(<<"timestamp">>, Props, DT)
+    , total       = types:get_value(<<"total">>, Props, DT)
+    , link        = types:get_value(<<"Bundle.Link">>, Props, DT)
+    , entry       = types:get_value(<<"Bundle.Entry">>, Props, DT)
+    , signature   = types:get_value(<<"signature">>, Props, DT)
     }.
 
 %%====================================================================
@@ -115,51 +115,51 @@ to_bundle(Props) ->
 %%====================================================================
 to_link({Props}) -> to_link(Props);
 to_link(Props) ->
-  DT = complex:get_info(<<"Bundle.Link">>),
+  DT = types:get_info(<<"Bundle.Link">>),
   #bundlelink{
-      relation = complex:get_value(<<"relationship">>, Props, DT)
-    , uri  = complex:get_value(<<"uri">>, Props, DT)
+      relation = types:get_value(<<"relationship">>, Props, DT)
+    , uri  = types:get_value(<<"uri">>, Props, DT)
     }.
 
 to_entry({Props}) -> to_entry(Props);
 to_entry(Props) ->
-  DT = complex:get_info(<<"Bundle.Entry">>),
+  DT = types:get_info(<<"Bundle.Entry">>),
   #bundleentry{
-      link      = complex:get_value(<<"link">>,Props, DT)
-    , full_uri  = complex:get_value(<<"fullUri">>, Props, DT)
-    , resource  = complex:get_value(<<"resource">>,Props, DT)
-    , search    = complex:get_value(<<"search">>,Props, DT)
-    , request   = complex:get_value(<<"request">>, Props, DT)
-    , reponse   = complex:get_value(<<"response">>, Props, DT)
+      link      = types:get_value(<<"link">>,Props, DT)
+    , full_uri  = types:get_value(<<"fullUri">>, Props, DT)
+    , resource  = types:get_value(<<"resource">>,Props, DT)
+    , search    = types:get_value(<<"search">>,Props, DT)
+    , request   = types:get_value(<<"request">>, Props, DT)
+    , reponse   = types:get_value(<<"response">>, Props, DT)
     }.
 
 to_search({Props}) -> to_search(Props);
 to_search(Props) ->
-    DT = complex:get_info(<<"Bundle.Search">>),
+    DT = types:get_info(<<"Bundle.Search">>),
 	#bundlesearch{
-       mode = complex:get_value(<<"mode">>, Props, DT)
-     , score = complex:get_value(<<"score">>, Props, DT)
+       mode = types:get_value(<<"mode">>, Props, DT)
+     , score = types:get_value(<<"score">>, Props, DT)
 	 }.
 
 to_request({Props}) -> to_request(Props);
 to_request(Props) ->
-    DT = complex:get_info(<<"Bundle.Request">>),
+    DT = types:get_info(<<"Bundle.Request">>),
     #bundlerequest{
-           method        = complex:get_value(<<"mode">>, Props, DT)
-         , uri           = complex:get_value(<<"uri">>, Props, DT)
-         , if_none_match = complex:get_value(<<"ifNoneMatch">>, Props, DT)
-         , if_modified_since = complex:get_value(<<"ifModifiedSince">>, Props, DT)
-         , if_match      = complex:get_value(<<"ifMatch">>, Props, DT)
-         , if_none_exist = complex:get_value(<<"ifNoneExist">>, Props, DT)
+           method        = types:get_value(<<"mode">>, Props, DT)
+         , uri           = types:get_value(<<"uri">>, Props, DT)
+         , if_none_match = types:get_value(<<"ifNoneMatch">>, Props, DT)
+         , if_modified_since = types:get_value(<<"ifModifiedSince">>, Props, DT)
+         , if_match      = types:get_value(<<"ifMatch">>, Props, DT)
+         , if_none_exist = types:get_value(<<"ifNoneExist">>, Props, DT)
 		}.
 
 to_response({Props}) -> to_response(Props);
 to_response(Props) ->
-    DT = complex:get_info(<<"Bundle.Response">>),
+    DT = types:get_info(<<"Bundle.Response">>),
     #bundleresponse{
-           status        = complex:get_value(<<"status">>, Props, DT)
-         , location      = complex:get_value(<<"location">>, Props, DT)
-         , etag          = complex:get_value(<<"etag">>, Props, DT)
-         , last_modified = complex:get_value(<<"lastModified">>, Props, DT)
-         , outcome       = complex:get_value(<<"outcome">>, Props, DT)
+           status        = types:get_value(<<"status">>, Props, DT)
+         , location      = types:get_value(<<"location">>, Props, DT)
+         , etag          = types:get_value(<<"etag">>, Props, DT)
+         , last_modified = types:get_value(<<"lastModified">>, Props, DT)
+         , outcome       = types:get_value(<<"outcome">>, Props, DT)
 	}.
