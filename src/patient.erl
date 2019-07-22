@@ -153,9 +153,16 @@ patient_toprop_test() ->
                           [],undefined,[],[],undefined,undefined,
                           undefined,undefined,[],undefined,undefined,
                           undefined,[],[],[],[],undefined, []},
-            [{<<"resource_type">>,<<"patient">>},
+            [{<<"resourceType">>,<<"patient">>},
               {<<"id">>,<<"p-21666">>}
             ]).
-%           <<"{\"resourceType\":\"patient\",\"id\":\"p-21666\",\"meta\":\"undefined\",\"text\":\"undefined\",\"extension\":[],\"identifier_\":[],\"active\":\"undefined\",\"name\":[],\"telecom\":[],\"gender\":\"undefined\",\"birthDate\":\"undefined\",\"deceasedBoolean\":\"undefined\",\"deceasedDateTime\":\"undefined\",\"address\":[],\"maritalStatus\":\"undefined\",\"multipleBirthBoolean\":\"undefined\",\"multipleBirthInteger\":\"undefined\",\"photo\":[],\"contact\":[],\"communication\":[],\"generalPractitioner\":[],\"managingOrganization\":\"undefined\",\"link\":[]}">>).
+
+patient_json_test() ->
+    ?asrtjson({patient,<<"p-21666">>,undefined,undefined,undefined, 
+                  undefined, [],[], [],
+                          [],undefined,[],[],undefined,undefined,
+                          undefined,undefined,[],undefined,undefined,
+                          undefined,[],[],[],[],undefined, []},
+           <<"{\"resourceType\":\"patient\",\"id\":\"p-21666\"}">>).
 
 -endif.

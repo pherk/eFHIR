@@ -138,7 +138,7 @@ rec_to_proplist(Rec) ->
 	io:format("r2p-3: ~p~n", [FL]),
 	PropList = lists:filtermap(fun({Key,Value}) -> check_value(Key,Value,Info) end, FL),
 	io:format("r2p-4: ~p~n", [PropList]),
-	[{<<"resource_type">>, atom_to_binary(RecName,utf8)}] ++ PropList.
+	[{<<"resourceType">>, atom_to_binary(RecName,utf8)}] ++ PropList.
 
 patient_to_proplist(Rec) ->
     L = [{resourceType, element(1,Rec)}] ++
