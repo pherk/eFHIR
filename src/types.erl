@@ -110,10 +110,42 @@ xsd_info(Key) -> maps:get(Key,?fhir_xsd).
 get_type(patient) -> <<"Patient">>.
 
 record_info(XSDType) -> 
-    {Base,FI} = xsd_info(XSDType), 
+    {Base,FI,Attrs,Restrictions} = xsd_info(XSDType), 
     BFI = resolve_base(Base,FI),
     io:format("r_i: ~p~n",[BFI]),
-    proplists:get_keys(BFI).
+    utils:keys(BFI).
+
+
+%%
+%% Serialization back to ejson
+%%
+check_value(Field, Value, RecInfo) ->
+	FieldInfo = proplists:get_value(Field,RecInfo),
+	case Value of
+          undefined  -> false;
+          []         -> false;
+          _          -> {true, {Field, Value}}
+	end.	
+
+rec_to_proplist(Rec) ->
+    RecName = element(1,Rec),
+    io:format("r2p-0: ~p~n",[Rec]),
+    XSDType  = get_type(RecName),
+    io:format("r2p-1: ~p~n",[XSDType]),
+    Info = types:record_info(XSDType),
+    io:format("r2p-2: ~p~n",[Info]),
+	FL = lists:zip(Info, tl(tuple_to_list(Rec))), 
+	io:format("r2p-3: ~p~n", [FL]),
+	PropList = lists:filtermap(fun({Key,Value}) -> check_value(Key,Value,Info) end, FL),
+	io:format("r2p-4: ~p~n", [PropList]),
+	[{<<"resource_type">>, atom_to_binary(RecName,utf8)}] ++ PropList.
+
+patient_to_proplist(Rec) ->
+    L = [{resourceType, element(1,Rec)}] ++
+        lists:zip(types:record_info(fields, <<"Patient">>), tl(tuple_to_list(Rec))),
+    J = jiffy:encode({L}),
+    io:format("~p~n", [J]),
+    J.
 %%%
 %%% EUnit
 %%%

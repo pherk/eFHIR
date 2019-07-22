@@ -137,7 +137,8 @@ to_patient_link(Props) ->
 -include_lib("eunit/include/eunit.hrl").
 
 -define(asrtto(A, B), ?assertEqual(B, patient:to_patient(A))).
--define(asrtp(A, B), ?assertEqual(B, utils:rec_to_proplist(A))).
+-define(asrtp(A, B), ?assertEqual(B, types:rec_to_proplist(A))).
+-define(asrtjson(A, B), ?assertEqual(B, jiffy:encode({types:rec_to_proplist(A)}))).
 
 patient_to_test() ->
     ?asrtto([{<<"id">>, <<"p-21666">>}],
@@ -152,6 +153,9 @@ patient_toprop_test() ->
                           [],undefined,[],[],undefined,undefined,
                           undefined,undefined,[],undefined,undefined,
                           undefined,[],[],[],[],undefined, []},
-           <<"{\"resourceType\":\"patient\",\"id\":\"p-21666\",\"meta\":\"undefined\",\"text\":\"undefined\",\"extension\":[],\"identifier_\":[],\"active\":\"undefined\",\"name\":[],\"telecom\":[],\"gender\":\"undefined\",\"birthDate\":\"undefined\",\"deceasedBoolean\":\"undefined\",\"deceasedDateTime\":\"undefined\",\"address\":[],\"maritalStatus\":\"undefined\",\"multipleBirthBoolean\":\"undefined\",\"multipleBirthInteger\":\"undefined\",\"photo\":[],\"contact\":[],\"communication\":[],\"generalPractitioner\":[],\"managingOrganization\":\"undefined\",\"link\":[]}">>).
+            [{<<"resource_type">>,<<"patient">>},
+              {<<"id">>,<<"p-21666">>}
+            ]).
+%           <<"{\"resourceType\":\"patient\",\"id\":\"p-21666\",\"meta\":\"undefined\",\"text\":\"undefined\",\"extension\":[],\"identifier_\":[],\"active\":\"undefined\",\"name\":[],\"telecom\":[],\"gender\":\"undefined\",\"birthDate\":\"undefined\",\"deceasedBoolean\":\"undefined\",\"deceasedDateTime\":\"undefined\",\"address\":[],\"maritalStatus\":\"undefined\",\"multipleBirthBoolean\":\"undefined\",\"multipleBirthInteger\":\"undefined\",\"photo\":[],\"contact\":[],\"communication\":[],\"generalPractitioner\":[],\"managingOrganization\":\"undefined\",\"link\":[]}">>).
 
 -endif.
