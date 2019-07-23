@@ -67,34 +67,34 @@
 
 to_patient({Props}) -> to_patient(Props);
 to_patient(Props) ->
-  DT = types:xsd_info(<<"Patient">>),
+  DT = decode:xsd_info(<<"Patient">>),
   #patient{ 
-      id               = types:get_value(<<"id">>, Props, DT)
-    , meta             = types:get_value(<<"meta">>, Props, DT)
-    , implicitRules    = types:get_value(<<"implicitRules">>, Props, DT)
-    , language         = types:get_value(<<"language">>, Props, DT)
-    , text             = types:get_value(<<"text">>, Props, DT)
-    , contained        = types:get_value(<<"contained">>, Props, DT)
-    , extension        = types:get_value(<<"extension">>, Props, DT)
-    , modifierExtension = types:get_value(<<"modifierExtension">>, Props, DT)
-    , identifier_      = types:get_value(<<"identifier">>, Props, DT)
-    , active           = types:get_value(<<"active">>, Props, DT)
-    , name             = types:get_value(<<"name">>, Props, DT)
-    , telecom          = types:get_value(<<"telecom">>, Props, DT)
-    , gender           = types:get_value(<<"gender">>, Props, DT)
-    , birthDate        = types:get_value(<<"birthDate">>, Props, DT)
-    , deceasedBoolean  = types:get_value(<<"deceasedBoolean">>, Props, DT)
-    , deceasedDateTime = types:get_value(<<"deceasedDateTime">>, Props, DT)
-    , address          = types:get_value(<<"address">>, Props, DT)
-    , maritalStatus    = types:get_value(<<"maritalStatus">>, Props, DT)
-    , multipleBirthBoolean = types:get_value(<<"multipleBirthBoolean">>, Props, DT)
-    , multipleBirthInteger = types:get_value(<<"multipleBirthInteger">>, Props, DT)
-    , photo                = types:get_value(<<"photo">>, Props, DT)
-    , contact              = types:get_value(<<"contact">>, Props, DT)	
-    , communication        = types:get_value(<<"communication">>, Props, DT)
-    , generalPractitioner  = types:get_value(<<"generalPractitioner">>, Props, DT)
-    , managingOrganization = types:get_value(<<"managingOrganization">>, Props, DT)
-    , link                 = types:get_value(<<"link">>, Props, DT)
+      id               = decode:value(<<"id">>, Props, DT)
+    , meta             = decode:value(<<"meta">>, Props, DT)
+    , implicitRules    = decode:value(<<"implicitRules">>, Props, DT)
+    , language         = decode:value(<<"language">>, Props, DT)
+    , text             = decode:value(<<"text">>, Props, DT)
+    , contained        = decode:value(<<"contained">>, Props, DT)
+    , extension        = decode:value(<<"extension">>, Props, DT)
+    , modifierExtension = decode:value(<<"modifierExtension">>, Props, DT)
+    , identifier_      = decode:value(<<"identifier">>, Props, DT)
+    , active           = decode:value(<<"active">>, Props, DT)
+    , name             = decode:value(<<"name">>, Props, DT)
+    , telecom          = decode:value(<<"telecom">>, Props, DT)
+    , gender           = decode:value(<<"gender">>, Props, DT)
+    , birthDate        = decode:value(<<"birthDate">>, Props, DT)
+    , deceasedBoolean  = decode:value(<<"deceasedBoolean">>, Props, DT)
+    , deceasedDateTime = decode:value(<<"deceasedDateTime">>, Props, DT)
+    , address          = decode:value(<<"address">>, Props, DT)
+    , maritalStatus    = decode:value(<<"maritalStatus">>, Props, DT)
+    , multipleBirthBoolean = decode:value(<<"multipleBirthBoolean">>, Props, DT)
+    , multipleBirthInteger = decode:value(<<"multipleBirthInteger">>, Props, DT)
+    , photo                = decode:value(<<"photo">>, Props, DT)
+    , contact              = decode:value(<<"contact">>, Props, DT)	
+    , communication        = decode:value(<<"communication">>, Props, DT)
+    , generalPractitioner  = decode:value(<<"generalPractitioner">>, Props, DT)
+    , managingOrganization = decode:value(<<"managingOrganization">>, Props, DT)
+    , link                 = decode:value(<<"link">>, Props, DT)
     }.
 
 
@@ -103,31 +103,31 @@ to_patient(Props) ->
 %%====================================================================
 to_patient_contact({Props}) -> to_patient_contact(Props);
 to_patient_contact(Props) ->
-  DT = types:xsd_info(<<"Patient.Contact">>),
+  DT = decode:xsd_info(<<"Patient.Contact">>),
   #patient_contact{ 
-      relationship = types:get_value(<<"relationship">>, Props, DT)
-    , name         = types:get_value(<<"name">>, Props, DT)
-    , telecom      = types:get_value(<<"telecom">>, Props, DT)
-    , address      = types:get_value(<<"address">>, Props, DT)
-    , gender       = types:get_value(<<"gender">>, Props, DT)
-    , organization = types:get_value(<<"organization">>, Props, DT)
-    , period       = types:get_value(<<"period">>, Props, DT)
+      relationship = decode:value(<<"relationship">>, Props, DT)
+    , name         = decode:value(<<"name">>, Props, DT)
+    , telecom      = decode:value(<<"telecom">>, Props, DT)
+    , address      = decode:value(<<"address">>, Props, DT)
+    , gender       = decode:value(<<"gender">>, Props, DT)
+    , organization = decode:value(<<"organization">>, Props, DT)
+    , period       = decode:value(<<"period">>, Props, DT)
     }.
 
 to_patient_communication({Props}) -> to_patient_communication(Props);
 to_patient_communication(Props) -> 
-  DT = types:xsd_info(<<"Patient.Communication">>),
+  DT = decode:xsd_info(<<"Patient.Communication">>),
   #patient_communication{
-      language  = types:get_value(<<"language">>, Props, DT)
-    , preferred = types:get_value(<<"preferred">>, Props, DT)
+      language  = decode:value(<<"language">>, Props, DT)
+    , preferred = decode:value(<<"preferred">>, Props, DT)
     }.
 
 to_patient_link({Props}) -> to_patient_link(Props);
 to_patient_link(Props) -> 
-  DT = types:xsd_info(<<"Patient.Link">>),
+  DT = decode:xsd_info(<<"Patient.Link">>),
   #patient_link{
-      other = types:get_value(<<"other">>, Props, DT)
-    , type  = types:get_value(<<"type">>, Props, DT)
+      other = decode:value(<<"other">>, Props, DT)
+    , type  = decode:value(<<"type">>, Props, DT)
     }.
 
 %% EUnit Tests
@@ -137,8 +137,8 @@ to_patient_link(Props) ->
 -include_lib("eunit/include/eunit.hrl").
 
 -define(asrtto(A, B), ?assertEqual(B, patient:to_patient(A))).
--define(asrtp(A, B), ?assertEqual(B, types:rec_to_proplist(A))).
--define(asrtjson(A, B), ?assertEqual(B, jiffy:encode({types:rec_to_proplist(A)}))).
+-define(asrtp(A, B), ?assertEqual(B, encode:rec_to_proplist(A))).
+-define(asrtjson(A, B), ?assertEqual(B, jiffy:encode({encode:rec_to_proplist(A)}))).
 
 patient_to_test() ->
     ?asrtto([{<<"id">>, <<"p-21666">>}],

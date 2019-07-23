@@ -95,19 +95,19 @@
 
 
 to_bundle(Props) ->
-  DT = types:get_info(<<"Bundle">>),
+  DT = decode:xsd_info(<<"Bundle">>),
   #bundle{
-      id          = types:get_value(<<"id">>, Props, DT)
-    , meta        = types:get_value(<<"meta">>, Props, DT)
-    , text        = types:get_value(<<"text">>, Props, DT)
-    , extension   = types:get_value(<<"Extension">>, Props, DT)
-    , identifier_ = types:get_value(<<"identifier">>, Props, DT)
-    , type        = types:get_value(<<"type">>, Props, DT)        % TODO code
-    , timestamp   = types:get_value(<<"timestamp">>, Props, DT)
-    , total       = types:get_value(<<"total">>, Props, DT)
-    , link        = types:get_value(<<"Bundle.Link">>, Props, DT)
-    , entry       = types:get_value(<<"Bundle.Entry">>, Props, DT)
-    , signature   = types:get_value(<<"signature">>, Props, DT)
+      id          = decode:value(<<"id">>, Props, DT)
+    , meta        = decode:value(<<"meta">>, Props, DT)
+    , text        = decode:value(<<"text">>, Props, DT)
+    , extension   = decode:value(<<"Extension">>, Props, DT)
+    , identifier_ = decode:value(<<"identifier">>, Props, DT)
+    , type        = decode:value(<<"type">>, Props, DT)        % TODO code
+    , timestamp   = decode:value(<<"timestamp">>, Props, DT)
+    , total       = decode:value(<<"total">>, Props, DT)
+    , link        = decode:value(<<"Bundle.Link">>, Props, DT)
+    , entry       = decode:value(<<"Bundle.Entry">>, Props, DT)
+    , signature   = decode:value(<<"signature">>, Props, DT)
     }.
 
 %%====================================================================
@@ -115,51 +115,51 @@ to_bundle(Props) ->
 %%====================================================================
 to_link({Props}) -> to_link(Props);
 to_link(Props) ->
-  DT = types:get_info(<<"Bundle.Link">>),
+  DT = decode:xsd_info(<<"Bundle.Link">>),
   #bundlelink{
-      relation = types:get_value(<<"relationship">>, Props, DT)
-    , uri  = types:get_value(<<"uri">>, Props, DT)
+      relation = decode:value(<<"relationship">>, Props, DT)
+    , uri  = decode:value(<<"uri">>, Props, DT)
     }.
 
 to_entry({Props}) -> to_entry(Props);
 to_entry(Props) ->
-  DT = types:get_info(<<"Bundle.Entry">>),
+  DT = decode:xsd_info(<<"Bundle.Entry">>),
   #bundleentry{
-      link      = types:get_value(<<"link">>,Props, DT)
-    , full_uri  = types:get_value(<<"fullUri">>, Props, DT)
-    , resource  = types:get_value(<<"resource">>,Props, DT)
-    , search    = types:get_value(<<"search">>,Props, DT)
-    , request   = types:get_value(<<"request">>, Props, DT)
-    , reponse   = types:get_value(<<"response">>, Props, DT)
+      link      = decode:value(<<"link">>,Props, DT)
+    , full_uri  = decode:value(<<"fullUri">>, Props, DT)
+    , resource  = decode:value(<<"resource">>,Props, DT)
+    , search    = decode:value(<<"search">>,Props, DT)
+    , request   = decode:value(<<"request">>, Props, DT)
+    , reponse   = decode:value(<<"response">>, Props, DT)
     }.
 
 to_search({Props}) -> to_search(Props);
 to_search(Props) ->
-    DT = types:get_info(<<"Bundle.Search">>),
+    DT = decode:xsd_info(<<"Bundle.Search">>),
 	#bundlesearch{
-       mode = types:get_value(<<"mode">>, Props, DT)
-     , score = types:get_value(<<"score">>, Props, DT)
+       mode = decode:value(<<"mode">>, Props, DT)
+     , score = decode:value(<<"score">>, Props, DT)
 	 }.
 
 to_request({Props}) -> to_request(Props);
 to_request(Props) ->
-    DT = types:get_info(<<"Bundle.Request">>),
+    DT = decode:xsd_info(<<"Bundle.Request">>),
     #bundlerequest{
-           method        = types:get_value(<<"mode">>, Props, DT)
-         , uri           = types:get_value(<<"uri">>, Props, DT)
-         , if_none_match = types:get_value(<<"ifNoneMatch">>, Props, DT)
-         , if_modified_since = types:get_value(<<"ifModifiedSince">>, Props, DT)
-         , if_match      = types:get_value(<<"ifMatch">>, Props, DT)
-         , if_none_exist = types:get_value(<<"ifNoneExist">>, Props, DT)
+           method        = decode:value(<<"mode">>, Props, DT)
+         , uri           = decode:value(<<"uri">>, Props, DT)
+         , if_none_match = decode:value(<<"ifNoneMatch">>, Props, DT)
+         , if_modified_since = decode:value(<<"ifModifiedSince">>, Props, DT)
+         , if_match      = decode:value(<<"ifMatch">>, Props, DT)
+         , if_none_exist = decode:value(<<"ifNoneExist">>, Props, DT)
 		}.
 
 to_response({Props}) -> to_response(Props);
 to_response(Props) ->
-    DT = types:get_info(<<"Bundle.Response">>),
+    DT = decode:xsd_info(<<"Bundle.Response">>),
     #bundleresponse{
-           status        = types:get_value(<<"status">>, Props, DT)
-         , location      = types:get_value(<<"location">>, Props, DT)
-         , etag          = types:get_value(<<"etag">>, Props, DT)
-         , last_modified = types:get_value(<<"lastModified">>, Props, DT)
-         , outcome       = types:get_value(<<"outcome">>, Props, DT)
+           status        = decode:value(<<"status">>, Props, DT)
+         , location      = decode:value(<<"location">>, Props, DT)
+         , etag          = decode:value(<<"etag">>, Props, DT)
+         , last_modified = decode:value(<<"lastModified">>, Props, DT)
+         , outcome       = decode:value(<<"outcome">>, Props, DT)
 	}.

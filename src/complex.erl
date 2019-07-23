@@ -198,179 +198,179 @@
 %%====================================================================
 to_address({Props}) -> to_address(Props);
 to_address(Props) -> 
-    DT = types:xsd_info(<<"Address">>),
+    DT = decode:xsd_info(<<"Address">>),
     io:format("~p~n~p~n",[Props,DT]),
     #address{
-      use        = types:get_value(<<"use">>, Props, DT)
-    , type       = types:get_value(<<"type">>, Props, DT) 
-    , text       = types:get_value(<<"text">>, Props, DT)
-    , line       = types:get_value(<<"line">>, Props, DT)
-    , city       = types:get_value(<<"city">>, Props, DT) 
-    , district   = types:get_value(<<"distrinct">>, Props, DT) 
-    , state      = types:get_value(<<"state">>, Props, DT) 
-    , postalCode = types:get_value(<<"postalCode">>, Props, DT) 
-    , country    = types:get_value(<<"country">>, Props, DT) 
-    , period     = types:get_value(<<"period">>, Props, DT)
+      use        = decode:value(<<"use">>, Props, DT)
+    , type       = decode:value(<<"type">>, Props, DT) 
+    , text       = decode:value(<<"text">>, Props, DT)
+    , line       = decode:value(<<"line">>, Props, DT)
+    , city       = decode:value(<<"city">>, Props, DT) 
+    , district   = decode:value(<<"distrinct">>, Props, DT) 
+    , state      = decode:value(<<"state">>, Props, DT) 
+    , postalCode = decode:value(<<"postalCode">>, Props, DT) 
+    , country    = decode:value(<<"country">>, Props, DT) 
+    , period     = decode:value(<<"period">>, Props, DT)
     }.
 
 to_annotation({Props}) -> to_annotation(Props);
 to_annotation(Props) ->
-    DT = types:xsd_info(<<"Annotation">>),
+    DT = decode:xsd_info(<<"Annotation">>),
     io:format("~p~n~p~n",[Props,DT]),
     #annotation{
-      authorReference = types:get_value(<<"authorReference">>, Props, DT)
-    , time = types:get_value(<<"time">>, Props, DT)
-    , text = types:get_value(<<"text">>, Props, DT)
+      authorReference = decode:value(<<"authorReference">>, Props, DT)
+    , time = decode:value(<<"time">>, Props, DT)
+    , text = decode:value(<<"text">>, Props, DT)
     }.
 
 to_attachment({Props}) -> to_attachment(Props);
 to_attachment(Props) -> 
-    DT = types:xsd_info(<<"Attachment">>),
+    DT = decode:xsd_info(<<"Attachment">>),
     io:format("~p~n~p~n",[Props,DT]),
     #attachment{
-      contentType = types:get_value(<<"contentType">>, Props, DT)
-    , language    = types:get_value(<<"language">>, Props, DT)
-    , data        = types:get_value(<<"data">>, Props, DT)
-    , url         = types:get_value(<<"url">>, Props, DT)
-    , size        = types:get_value(<<"size">>, Props, DT)
-    , hash        = types:get_value(<<"hash">>, Props, DT)
-    , title       = types:get_value(<<"title">>, Props, DT)
-    , creation    = types:get_value(<<"creation">>, Props, DT)
+      contentType = decode:value(<<"contentType">>, Props, DT)
+    , language    = decode:value(<<"language">>, Props, DT)
+    , data        = decode:value(<<"data">>, Props, DT)
+    , url         = decode:value(<<"url">>, Props, DT)
+    , size        = decode:value(<<"size">>, Props, DT)
+    , hash        = decode:value(<<"hash">>, Props, DT)
+    , title       = decode:value(<<"title">>, Props, DT)
+    , creation    = decode:value(<<"creation">>, Props, DT)
     }.
 
 to_coding({Props}) -> to_coding(Props);
 to_coding(Props) ->
-    DT = types:xsd_info(<<"Coding">>),
+    DT = decode:xsd_info(<<"Coding">>),
     io:format("~p~n~p~n",[Props,DT]),
     #coding{
-        system  = types:get_value(<<"system">>, Props, DT)
-      , version = types:get_value(<<"version">>, Props, DT)
-      , code    = types:get_value(<<"code">>, Props, DT)
-      , display = types:get_value(<<"display">>, Props, DT)
-      , userSelected = types:get_value(<<"userSelected">>, Props, DT)
+        system  = decode:value(<<"system">>, Props, DT)
+      , version = decode:value(<<"version">>, Props, DT)
+      , code    = decode:value(<<"code">>, Props, DT)
+      , display = decode:value(<<"display">>, Props, DT)
+      , userSelected = decode:value(<<"userSelected">>, Props, DT)
       }.
 
 to_codeableConcept({Props}) -> to_codeableConcept(Props);
 to_codeableConcept(Props) ->
-    DT = types:xsd_info(<<"CodeableConcept">>),
+    DT = decode:xsd_info(<<"CodeableConcept">>),
     io:format("~p~n~p~n",[Props,DT]),
     #codeableConcept{
-        coding  = types:get_value(<<"coding">>, Props, DT)
-      , text = types:get_value(<<"text">>, Props, DT)
+        coding  = decode:value(<<"coding">>, Props, DT)
+      , text = decode:value(<<"text">>, Props, DT)
       }.
 
 to_contactPoint({Props}) -> to_contactPoint(Props);
 to_contactPoint(Props) -> 
-    DT = types:xsd_info(<<"ContactPoint">>),
+    DT = decode:xsd_info(<<"ContactPoint">>),
     io:format("~p~n~p~n",[Props,DT]),
     #contactPoint{
-      use    = types:get_value(<<"use">>, Props, DT)
-    , system = types:get_value(<<"system">>, Props, DT)
-    , value  = types:get_value(<<"value">>, Props, DT)
-    , rank   = types:get_value(<<"rank">>, Props, DT)
-    , period = types:get_value(<<"period">>, Props, DT)
+      use    = decode:value(<<"use">>, Props, DT)
+    , system = decode:value(<<"system">>, Props, DT)
+    , value  = decode:value(<<"value">>, Props, DT)
+    , rank   = decode:value(<<"rank">>, Props, DT)
+    , period = decode:value(<<"period">>, Props, DT)
     }.
 
 to_humanName({Props}) -> to_humanName(Props);
 to_humanName(Props) ->
-    DT = types:xsd_info(<<"HumanName">>),
+    DT = decode:xsd_info(<<"HumanName">>),
     #humanName{
-       use     = types:get_value(<<"use">>, Props, DT) 
-     , text    = types:get_value(<<"text">>, Props, DT) 
-     , family  = types:get_value(<<"family">>, Props, DT) 
-     , given   = types:get_value(<<"given">>, Props, DT) 
-     , prefix  = types:get_value(<<"prefix">>, Props, DT) 
-     , suffix  = types:get_value(<<"suffix">>, Props, DT) 
-     , period  = types:get_value(<<"period">>, Props, DT)
+       use     = decode:value(<<"use">>, Props, DT) 
+     , text    = decode:value(<<"text">>, Props, DT) 
+     , family  = decode:value(<<"family">>, Props, DT) 
+     , given   = decode:value(<<"given">>, Props, DT) 
+     , prefix  = decode:value(<<"prefix">>, Props, DT) 
+     , suffix  = decode:value(<<"suffix">>, Props, DT) 
+     , period  = decode:value(<<"period">>, Props, DT)
     }.
 
 to_identifier({Props}) -> to_identifier(Props);
 to_identifier(Props) ->
-    DT = types:xsd_info(<<"Identifier">>),
+    DT = decode:xsd_info(<<"Identifier">>),
     #identifier{
-        use  = types:get_value(<<"use">>, Props, DT)
-      , type = types:get_value(<<"type">>, Props, DT)
-      , system = types:get_value(<<"system">>, Props, DT)
-      , value  = types:get_value(<<"value">>, Props, DT)
-      , period   = types:get_value(<<"period">>, Props, DT)
-      , assigner = types:get_value(<<"assigner">>, Props, DT)
+        use  = decode:value(<<"use">>, Props, DT)
+      , type = decode:value(<<"type">>, Props, DT)
+      , system = decode:value(<<"system">>, Props, DT)
+      , value  = decode:value(<<"value">>, Props, DT)
+      , period   = decode:value(<<"period">>, Props, DT)
+      , assigner = decode:value(<<"assigner">>, Props, DT)
       }.
 
 to_period({Props}) -> to_period(Props);
 to_period(Props) ->
-    DT = types:xsd_info(<<"Period">>),
+    DT = decode:xsd_info(<<"Period">>),
     #period{
-        start_  = types:get_value(<<"start">>, Props, DT)
-      , end_    = types:get_value(<<"end">>, Props, DT)
+        start_  = decode:value(<<"start">>, Props, DT)
+      , end_    = decode:value(<<"end">>, Props, DT)
       }.
 
 to_quantity({Props}) -> to_quantity(Props);
 to_quantity(Props) ->
-    DT = types:xsd_info(<<"Quantity">>),
+    DT = decode:xsd_info(<<"Quantity">>),
     #quantity{
-        value = types:get_value(<<"value">>, Props, DT)
-      , comparator = types:get_value(<<"comparator">>, Props, DT)
-      , unit = types:get_value(<<"unit">>, Props, DT)
-      , system = types:get_value(<<"system">>, Props, DT)
-      , code = types:get_value(<<"code">>, Props, DT)
+        value = decode:value(<<"value">>, Props, DT)
+      , comparator = decode:value(<<"comparator">>, Props, DT)
+      , unit = decode:value(<<"unit">>, Props, DT)
+      , system = decode:value(<<"system">>, Props, DT)
+      , code = decode:value(<<"code">>, Props, DT)
       }.
 
 to_range({Props}) -> to_range(Props);
 to_range(Props) ->
-    DT = types:xsd_info(<<"Range">>),
+    DT = decode:xsd_info(<<"Range">>),
     #range{
-      low = types:get_value(<<"low">>, Props, DT)
-    , high = types:get_value(<<"high">>, Props, DT)
+      low = decode:value(<<"low">>, Props, DT)
+    , high = decode:value(<<"high">>, Props, DT)
     }.
 
 to_ratio({Props}) -> to_ratio(Props);
 to_ratio(Props) ->
-    DT = types:xsd_info(<<"Ratio">>),
+    DT = decode:xsd_info(<<"Ratio">>),
     #ratio{
-      numerator = types:get_value(<<"numerator">>, Props, DT)
-    , denominator = types:get_value(<<"denominator">>, Props, DT)
+      numerator = decode:value(<<"numerator">>, Props, DT)
+    , denominator = decode:value(<<"denominator">>, Props, DT)
     }.
 
 to_repeat({Props}) -> to_repeat(Props);
 to_repeat(Props) ->
-    DT = types:xsd_info(<<"Repeat">>),
+    DT = decode:xsd_info(<<"Repeat">>),
     #repeat{
-      boundsPeriod = types:get_value(<<"boundsPeriod">>, Props, DT)
-    , count = types:get_value(<<"count">>, Props, DT)
-    , countMax = types:get_value(<<"countMax">>, Props, DT)
-    , duration = types:get_value(<<"duration">>, Props, DT)
-    , durationMax = types:get_value(<<"durationMax">>, Props, DT)
-    , durationUnit = types:get_value(<<"durationUnit">>, Props, DT)
-    , frequency = types:get_value(<<"frequency">>, Props, DT)
-    , frequencyMax = types:get_value(<<"frequencyMax">>, Props, DT)
-    , period = types:get_value(<<"period">>, Props, DT)
-    , periodMax = types:get_value(<<"periodMax">>, Props, DT)
-    , periodUnit = types:get_value(<<"periodUnit">>, Props, DT)
-    , dayOfWeek = types:get_value(<<"dayOfWeek">>, Props, DT)
-    , timeOfDay = types:get_value(<<"timeOfDay">>, Props, DT)
-    , when_ = types:get_value(<<"when_">>, Props, DT)
-    , offset = types:get_value(<<"offset">>, Props, DT)
+      boundsPeriod = decode:value(<<"boundsPeriod">>, Props, DT)
+    , count = decode:value(<<"count">>, Props, DT)
+    , countMax = decode:value(<<"countMax">>, Props, DT)
+    , duration = decode:value(<<"duration">>, Props, DT)
+    , durationMax = decode:value(<<"durationMax">>, Props, DT)
+    , durationUnit = decode:value(<<"durationUnit">>, Props, DT)
+    , frequency = decode:value(<<"frequency">>, Props, DT)
+    , frequencyMax = decode:value(<<"frequencyMax">>, Props, DT)
+    , period = decode:value(<<"period">>, Props, DT)
+    , periodMax = decode:value(<<"periodMax">>, Props, DT)
+    , periodUnit = decode:value(<<"periodUnit">>, Props, DT)
+    , dayOfWeek = decode:value(<<"dayOfWeek">>, Props, DT)
+    , timeOfDay = decode:value(<<"timeOfDay">>, Props, DT)
+    , when_ = decode:value(<<"when_">>, Props, DT)
+    , offset = decode:value(<<"offset">>, Props, DT)
     }.
 
 to_signature({Props}) -> to_signature(Props);
 to_signature(Props) ->
-    DT = types:xsd_info(<<"Signature">>),
+    DT = decode:xsd_info(<<"Signature">>),
     #signature{
-      type = types:get_value(<<"type">>, Props, DT)
-    , when_ = types:get_value(<<"when_">>, Props, DT)
-    , whoReference = types:get_value(<<"whoReference">>, Props, DT)
-    , onBehalfOfReference = types:get_value(<<"onBehalfOfReference">>, Props, DT)
-    , contentType = types:get_value(<<"contentType">>, Props, DT)
-    , blob = types:get_value(<<"blob">>, Props, DT)
+      type = decode:value(<<"type">>, Props, DT)
+    , when_ = decode:value(<<"when_">>, Props, DT)
+    , whoReference = decode:value(<<"whoReference">>, Props, DT)
+    , onBehalfOfReference = decode:value(<<"onBehalfOfReference">>, Props, DT)
+    , contentType = decode:value(<<"contentType">>, Props, DT)
+    , blob = decode:value(<<"blob">>, Props, DT)
     }.
 
 to_timing({Props}) -> to_timing(Props);
 to_timing(Props) ->
-    DT = types:xsd_info(<<"Timing">>),
+    DT = decode:xsd_info(<<"Timing">>),
     #timing{
-      event = types:get_value(<<"event">>, Props, DT)
-    , repeat = types:get_value(<<"repeat">>, Props, DT)
-    , code = types:get_value(<<"code">>, Props, DT)
+      event = decode:value(<<"event">>, Props, DT)
+    , repeat = decode:value(<<"repeat">>, Props, DT)
+    , code = decode:value(<<"code">>, Props, DT)
     }.
 
 %%
@@ -380,34 +380,34 @@ to_timing(Props) ->
 %%
 to_narrative({Props}) -> to_narrative(Props);
 to_narrative(Props) ->
-    DT = types:xsd_info(<<"Narrative">>),
+    DT = decode:xsd_info(<<"Narrative">>),
     io:format("~p~n~p~n",[Props,DT]),
     #narrative{
-        status = types:get_value(<<"status">>, Props, DT)
-      , div_   = types:get_value(<<"div">>, Props, DT)
+        status = decode:value(<<"status">>, Props, DT)
+      , div_   = decode:value(<<"div">>, Props, DT)
       }.
 
 to_meta({Props}) -> to_meta(Props);
 to_meta(Props) ->
-    DT = types:xsd_info(<<"Meta">>),
+    DT = decode:xsd_info(<<"Meta">>),
     io:format("~p~n~p~n",[Props,DT]),
     #meta{
-        versionId    = types:get_value(<<"versionId">>, Props, DT)
-      , lastUpdated  = types:get_value(<<"lastUpdated">>, Props, DT)
-      , source       = types:get_value(<<"source">>, Props, DT)
-      , profile      = types:get_value(<<"profile">>, Props, DT) 
-      , security     = types:get_value(<<"security">>, Props, DT)
-      , tag          = types:get_value(<<"tag">>, Props, DT)
-      , extension    = types:get_value(<<"extension">>, Props, DT)
+        versionId    = decode:value(<<"versionId">>, Props, DT)
+      , lastUpdated  = decode:value(<<"lastUpdated">>, Props, DT)
+      , source       = decode:value(<<"source">>, Props, DT)
+      , profile      = decode:value(<<"profile">>, Props, DT) 
+      , security     = decode:value(<<"security">>, Props, DT)
+      , tag          = decode:value(<<"tag">>, Props, DT)
+      , extension    = decode:value(<<"extension">>, Props, DT)
       }.
 
 to_reference({Props}) -> to_reference(Props);
 to_reference(Props) ->
-    DT = types:xsd_info(<<"Reference">>),
+    DT = decode:xsd_info(<<"Reference">>),
     io:format("~p~n~p~n",[Props,DT]),
     #reference{
-        reference_ = types:get_value(<<"reference">>, Props, DT)
-      , display    = types:get_value(<<"display">>, Props, DT)
+        reference_ = decode:value(<<"reference">>, Props, DT)
+      , display    = decode:value(<<"display">>, Props, DT)
       }.
 
 %%%
