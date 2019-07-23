@@ -2,6 +2,7 @@
 -compile(export_all).
 -include("fhir.hrl").
 -include("primitives.hrl").
+-include("codes.hrl").
 
 -record(patient, {
       id          :: binary()
@@ -130,6 +131,7 @@ to_patient_link(Props) ->
     , type  = decode:value(<<"type">>, Props, DT)
     }.
 
+%%
 %% EUnit Tests
 %%
 -ifdef(TEST).

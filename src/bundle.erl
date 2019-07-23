@@ -16,29 +16,29 @@
 
 -record(bundle, {
       id          :: id()
-    , meta        :: datatypes:meta()
-    , text        :: datatypes:narrative()
-    , extension   :: extensions:extension()
-    , identifier_ :: datatypes:identifier()
+    , meta        :: complex:meta()
+    , implicitRules :: uri()
+    , language    :: code()
+    , identifier_ :: complex:identifier()
     , type        :: boolean()                           % TODO code
-    , timestamp   :: datatypes:instant()
-    , total       :: datatypes:unsigned_int()
+    , timestamp   :: instant()
+    , total       :: unsignedInt()
     , link        :: [bundlelink()]
     , entry       :: [bundleentry()]
-    , signature   :: datatypes:signature()
+    , signature   :: complex:signature()
     }).
 -type bundle() :: #bundle{}.
 
 -record(bundlelink, {
            relation :: binary()
-         , uri :: datatypes:uri()
+         , uri :: uri()
          }).
 -type bundlelink() :: #bundlelink{}.
 
 -record(bundleentry, {
            link :: [bundlelink()]
-         , full_uri :: datatypes:uri()
-         , resource :: resource()
+         , full_uri :: uri()
+         , resource :: resource:resourceContainer()
          , search   :: bundlesearch()
          , request  :: bundlerequest()
          , reponse  :: bundleresponse()
@@ -46,16 +46,16 @@
 -type bundleentry() :: #bundleentry{}.
 
 -record(bundlesearch, {
-           mode :: datatypes:code()
-         , score :: datatypes:decimal()
+           mode :: code()
+         , score :: decimal()
          }).
 -type bundlesearch() :: #bundlesearch{}.
 
 -record(bundlerequest, {
            method :: binary()                      % code()
-         , uri    :: datatypes:uri()
+         , uri    :: uri()
          , if_none_match :: binary()
-         , if_modified_since :: datatypes:instant()
+         , if_modified_since :: instant()
          , if_match :: binary()
          , if_none_exist :: binary()
          }).
@@ -63,26 +63,13 @@
 
 -record(bundleresponse, {
            status :: binary()
-         , location :: datatypes:uri()
+         , location :: uri()
          , etag :: binary()
-         , last_modified :: datatypes:instant()
-         , outcome :: resource()
+         , last_modified :: instant()
+         , outcome :: resource:resourceContainer()
          }).
 -type bundleresponse() :: #bundleresponse{}.
 
--type resource() ::
-      patient:patient().
-%%      careplan()
-%%    | careteam()
-%%    | composition()
-%%    | condition()
-%%    | consent()
-%%    | encounter()
-%%    | episodeocare()
-%%    | goal()
-%%    | patient()
-%%    | requestgroup()
-%%    | task().
 
 
 %%
@@ -99,8 +86,8 @@ to_bundle(Props) ->
   #bundle{
       id          = decode:value(<<"id">>, Props, DT)
     , meta        = decode:value(<<"meta">>, Props, DT)
-    , text        = decode:value(<<"text">>, Props, DT)
-    , extension   = decode:value(<<"Extension">>, Props, DT)
+    , implicitRules = decode:value(<<"inplicitRules">>, Props, DT)
+    , language    = decode:value(<<"language">>, Props, DT)
     , identifier_ = decode:value(<<"identifier">>, Props, DT)
     , type        = decode:value(<<"type">>, Props, DT)        % TODO code
     , timestamp   = decode:value(<<"timestamp">>, Props, DT)
@@ -163,3 +150,37 @@ to_response(Props) ->
          , last_modified = decode:value(<<"lastModified">>, Props, DT)
          , outcome       = decode:value(<<"outcome">>, Props, DT)
 	}.
+%%
+%%
+%% EUnit Tests
+%%
+-ifdef(TEST).
+
+-include_lib("eunit/include/eunit.hrl").
+
+-define(asrtto(A, B), ?assertEqual(B, patient:to_patient(A))).
+-define(asrtp(A, B), ?assertEqual(B, encode:rec_to_proplist(A))).
+-define(asrtjson(A, B), ?assertEqual(B, jiffy:encode({encode:rec_to_proplist(A)}))).
+
+bundle_to_test() ->
+    ?asrtto([{<<"id">>, <<"p-21666">>}],
+         {bundle,<<"p-21666">>,undefined,undefined, undefined, 
+                  undefined,undefined, undefined, unsigned,
+                          [],[],undefined}).
+bundle_toprop_test() ->
+    ?asrtp(
+         {bundle,<<"p-21666">>,undefined,undefined, undefined, 
+                  undefined,undefined, undefined, unsigned,
+                          [],[],undefined},
+            [{<<"resourceType">>,<<"Bundle">>},
+              {<<"id">>,<<"p-21666">>}
+            ]).
+
+bundle_json_test() ->
+    ?asrtjson(
+         {bundle,<<"p-21666">>,undefined,undefined, undefined, 
+                  undefined,undefined, undefined, unsigned,
+                          [],[],undefined},
+           <<"{\"resourceType\":\"Bundle\",\"id\":\"p-21666\"}">>).
+
+-endif.
