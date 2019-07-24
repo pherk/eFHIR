@@ -94,7 +94,7 @@ type({TypeName, TypeClass, Rep}) ->
         complex   -> [<<"complex:">>,fhir_to_erl(Name),<<"()">>];
         extension -> [<<"extension:">>,fhir_to_erl(Name),<<"()">>];
         container -> [<<"container:">>,fhir_to_erl(Name),<<"()">>];
-        code      -> [fhir_to_erl(Name),<<"()">>];
+        code      -> [fhir_to_erl(Name),<<"()">>];   % TODO split off _list, code name is in map now
         bbelement -> [fhir_to_erl(Name),<<"()">>]
         end,
     case RepClass of

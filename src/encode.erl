@@ -29,6 +29,7 @@ fhir_to_erlang(Key) -> Key.
 
 xsd_info(Key) -> maps:get(Key,?fhir_xsd).
 
+get_type(bundle) -> <<"Bundle">>;
 get_type(patient) -> <<"Patient">>.
 
 record_info(XSDType) -> 
@@ -60,7 +61,7 @@ rec_to_proplist(Rec) ->
 	io:format("r2p-3: ~p~n", [FL]),
 	PropList = lists:filtermap(fun({Key,Value}) -> check_value(Key,Value,Info) end, FL),
 	io:format("r2p-4: ~p~n", [PropList]),
-	[{<<"resourceType">>, atom_to_binary(RecName,utf8)}] ++ PropList.
+	[{<<"resourceType">>, get_type(RecName)}] ++ PropList.
 
 patient_to_proplist(Rec) ->
     L = [{resourceType, element(1,Rec)}] ++

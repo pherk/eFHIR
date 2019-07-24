@@ -20,7 +20,7 @@
     , implicitRules :: uri()
     , language    :: code()
     , identifier_ :: complex:identifier()
-    , type        :: boolean()                           % TODO code
+    , type        :: code() 
     , timestamp   :: instant()
     , total       :: unsignedInt()
     , link        :: [bundlelink()]
@@ -86,14 +86,14 @@ to_bundle(Props) ->
   #bundle{
       id          = decode:value(<<"id">>, Props, DT)
     , meta        = decode:value(<<"meta">>, Props, DT)
-    , implicitRules = decode:value(<<"inplicitRules">>, Props, DT)
+    , implicitRules = decode:value(<<"implicitRules">>, Props, DT)
     , language    = decode:value(<<"language">>, Props, DT)
     , identifier_ = decode:value(<<"identifier">>, Props, DT)
-    , type        = decode:value(<<"type">>, Props, DT)        % TODO code
+    , type        = decode:value(<<"type">>, Props, DT) 
     , timestamp   = decode:value(<<"timestamp">>, Props, DT)
     , total       = decode:value(<<"total">>, Props, DT)
-    , link        = decode:value(<<"Bundle.Link">>, Props, DT)
-    , entry       = decode:value(<<"Bundle.Entry">>, Props, DT)
+    , link        = decode:value(<<"link">>, Props, DT)
+    , entry       = decode:value(<<"entry">>, Props, DT)
     , signature   = decode:value(<<"signature">>, Props, DT)
     }.
 
@@ -158,19 +158,19 @@ to_response(Props) ->
 
 -include_lib("eunit/include/eunit.hrl").
 
--define(asrtto(A, B), ?assertEqual(B, patient:to_patient(A))).
+-define(asrtto(A, B), ?assertEqual(B, bundle:to_bundle(A))).
 -define(asrtp(A, B), ?assertEqual(B, encode:rec_to_proplist(A))).
 -define(asrtjson(A, B), ?assertEqual(B, jiffy:encode({encode:rec_to_proplist(A)}))).
 
 bundle_to_test() ->
-    ?asrtto([{<<"id">>, <<"p-21666">>}],
+    ?asrtto([{<<"id">>, <<"p-21666">>},{<<"type">>,<<"searchset">>}],
          {bundle,<<"p-21666">>,undefined,undefined, undefined, 
-                  undefined,undefined, undefined, unsigned,
+                  undefined,<<"searchset">>, undefined, undefined,
                           [],[],undefined}).
 bundle_toprop_test() ->
     ?asrtp(
          {bundle,<<"p-21666">>,undefined,undefined, undefined, 
-                  undefined,undefined, undefined, unsigned,
+                  undefined,undefined, undefined, undefined,
                           [],[],undefined},
             [{<<"resourceType">>,<<"Bundle">>},
               {<<"id">>,<<"p-21666">>}
@@ -179,7 +179,7 @@ bundle_toprop_test() ->
 bundle_json_test() ->
     ?asrtjson(
          {bundle,<<"p-21666">>,undefined,undefined, undefined, 
-                  undefined,undefined, undefined, unsigned,
+                  undefined,undefined, undefined, undefined,
                           [],[],undefined},
            <<"{\"resourceType\":\"Bundle\",\"id\":\"p-21666\"}">>).
 

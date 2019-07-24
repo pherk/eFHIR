@@ -155,7 +155,7 @@ patient_toprop_test() ->
                           [],undefined,[],[],undefined,undefined,
                           undefined,undefined,[],undefined,undefined,
                           undefined,[],[],[],[],undefined, []},
-            [{<<"resourceType">>,<<"patient">>},
+            [{<<"resourceType">>,<<"Patient">>},
               {<<"id">>,<<"p-21666">>}
             ]).
 
@@ -165,6 +165,6 @@ patient_json_test() ->
                           [],undefined,[],[],undefined,undefined,
                           undefined,undefined,[],undefined,undefined,
                           undefined,[],[],[],[],undefined, []},
-           <<"{\"resourceType\":\"patient\",\"id\":\"p-21666\"}">>).
+           <<"{\"resourceType\":\"Patient\",\"id\":\"p-21666\"}">>).
 
 -endif.

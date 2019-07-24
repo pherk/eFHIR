@@ -16,8 +16,8 @@
 
 
 -record(address, {
-       use                    :: binary()     %% home | work | temp | old
-     , type                   :: binary()     %% postal | physical | both
+       use                    :: code()     %% home | work | temp | old
+     , type                   :: code()     %% postal | physical | both
      , text                   :: binary()
      , line                   :: [binary()]
      , city                   :: binary()
@@ -37,8 +37,8 @@
 -type annotation() :: #annotation{}.
 
 -record(attachment, { 
-      contentType :: binary()
-    , language :: binary()
+      contentType :: code()
+    , language :: code()
     , data :: base64Binary()
     , url :: binary()
     , size :: integer()
@@ -65,8 +65,8 @@
 -opaque codeableConcept() :: #codeableConcept{}.
 
 -record(contactPoint, {
-      use                    :: binary()     %% home | work | temp | old | mobile
-    , system                 :: binary()     %% phone | fax | email | pager | other
+      use                    :: code()     %% home | work | temp | old | mobile
+    , system                 :: code()     %% phone | fax | email | pager | other
     , value                  :: binary()
     , rank                   :: non_neg_integer()
     , period                 :: period()
@@ -74,7 +74,7 @@
 -opaque contactPoint() :: #contactPoint{}.
 
 -record(humanName, {
-       use       = <<"official">>   :: binary()  %% usual | official | temp | nickname | anonymous | old | maiden
+       use       = <<"official">>   :: code()  %% usual | official | temp | nickname | anonymous | old | maiden
      , text                   :: binary()
      , family                 :: [binary()]
      , given                  :: [binary()]
@@ -85,7 +85,7 @@
 -opaque humanName() :: #humanName{}.
 
 -record(identifier, {
-       use = <<"official">> :: binary()    %% usual | official | temp | secondary 
+       use = <<"official">> :: code()    %% usual | official | temp | secondary 
      , type           :: codeableConcept() %% Description of fhir_identifier
      , system         :: uri()             %% The namespace for the fhir_identifier
      , value          :: binary()          %% The value that is unique

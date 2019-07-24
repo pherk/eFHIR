@@ -2,6 +2,7 @@
 -compile(export_all).
 -include("primitives.hrl").
 -include("fhir_400.hrl").
+-include("codes.hrl").
 %%
 %% API exports
 %%
@@ -81,7 +82,10 @@ validate({primitive, <<"instant">>},   Value) -> Value;
 validate({primitive, <<"period">>},   Value) -> Value;
 validate({primitive, <<"string">>},   Value) -> Value;
 validate({primitive, <<"uri">>},   Value) -> Value;
-validate({code, Type},   Value) -> Value.
+validate({code, Type},   Value) -> 
+    List = maps:get(Type,?fhir_codes),
+    io:format("code: ~s in ~p~n",[Value,List]),
+    Value.
 
 
 get_fun({primitive, <<"binary">>})     -> fun to_binary/1; % not used?!

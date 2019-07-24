@@ -99,7 +99,7 @@
 %%
     , <<"Narrative">> => {<<"Element">>,
             [
-            {<<"status">>, {{code, <<"narrativestatus">>}, required}},
+            {<<"status">>, {{code, <<"narrativestatus_list">>}, required}},
             {<<"">>, {{complex, <<"">>}, required}}
             ],
             [],
@@ -141,8 +141,8 @@
 %%
     , <<"Address">> => {<<"Element">>,
             [
-            {<<"use">>, {{code, <<"addressuse">>}, optional}},
-            {<<"type">>, {{code, <<"addresstype">>}, optional}},
+            {<<"use">>, {{code, <<"addressuse_list">>}, optional}},
+            {<<"type">>, {{code, <<"addresstype_list">>}, optional}},
             {<<"text">>, {{primitive, <<"string">>}, optional}},
             {<<"line">>, {{primitive, <<"string">>}, list}},
             {<<"city">>, {{primitive, <<"string">>}, optional}},
@@ -162,7 +162,7 @@
 %%
     , <<"Contributor">> => {<<"Element">>,
             [
-            {<<"type">>, {{code, <<"contributortype">>}, required}},
+            {<<"type">>, {{code, <<"contributortype_list">>}, required}},
             {<<"name">>, {{primitive, <<"string">>}, required}},
             {<<"contact">>, {{complex, <<"ContactDetail">>}, list}}
             ],
@@ -261,7 +261,7 @@
     , <<"DataRequirement.Sort">> => {<<"Element">>,
             [
             {<<"path">>, {{primitive, <<"string">>}, required}},
-            {<<"direction">>, {{code, <<"sortdirection">>}, required}}
+            {<<"direction">>, {{code, <<"sortdirection_list">>}, required}}
             ],
             [],
             []
@@ -333,7 +333,7 @@
 %%
     , <<"HumanName">> => {<<"Element">>,
             [
-            {<<"use">>, {{code, <<"nameuse">>}, optional}},
+            {<<"use">>, {{code, <<"nameuse_list">>}, optional}},
             {<<"text">>, {{primitive, <<"string">>}, optional}},
             {<<"family">>, {{primitive, <<"string">>}, optional}},
             {<<"given">>, {{primitive, <<"string">>}, list}},
@@ -351,9 +351,9 @@
 %%
     , <<"ContactPoint">> => {<<"Element">>,
             [
-            {<<"system">>, {{code, <<"contactpointsystem">>}, optional}},
+            {<<"system">>, {{code, <<"contactpointsystem_list">>}, optional}},
             {<<"value">>, {{primitive, <<"string">>}, optional}},
-            {<<"use">>, {{code, <<"contactpointuse">>}, optional}},
+            {<<"use">>, {{code, <<"contactpointuse_list">>}, optional}},
             {<<"rank">>, {{primitive, <<"positiveInt">>}, optional}},
             {<<"period">>, {{complex, <<"Period">>}, optional}}
             ],
@@ -383,7 +383,7 @@
 %%
     , <<"Identifier">> => {<<"Element">>,
             [
-            {<<"use">>, {{code, <<"identifieruse">>}, optional}},
+            {<<"use">>, {{code, <<"identifieruse_list">>}, optional}},
             {<<"type">>, {{complex, <<"CodeableConcept">>}, optional}},
             {<<"system">>, {{primitive, <<"uri">>}, optional}},
             {<<"value">>, {{primitive, <<"string">>}, optional}},
@@ -532,7 +532,7 @@
 %%
     , <<"TriggerDefinition">> => {<<"Element">>,
             [
-            {<<"type">>, {{code, <<"triggertype">>}, required}},
+            {<<"type">>, {{code, <<"triggertype_list">>}, required}},
             {<<"name">>, {{primitive, <<"string">>}, optional}},
             {<<"timingTiming">>, {{bbelement, <<"Timing">>}, optional}},
             {<<"timingReference">>, {{complex, <<"Reference">>}, optional}},
@@ -554,7 +554,7 @@
     , <<"Quantity">> => {<<"Element">>,
             [
             {<<"value">>, {{primitive, <<"decimal">>}, optional}},
-            {<<"comparator">>, {{code, <<"quantitycomparator">>}, optional}},
+            {<<"comparator">>, {{code, <<"quantitycomparator_list">>}, optional}},
             {<<"unit">>, {{primitive, <<"string">>}, optional}},
             {<<"system">>, {{primitive, <<"uri">>}, optional}},
             {<<"code">>, {{primitive, <<"code">>}, optional}}
@@ -605,7 +605,7 @@
 %%
     , <<"RelatedArtifact">> => {<<"Element">>,
             [
-            {<<"type">>, {{code, <<"relatedartifacttype">>}, required}},
+            {<<"type">>, {{code, <<"relatedartifacttype_list">>}, required}},
             {<<"label">>, {{primitive, <<"string">>}, optional}},
             {<<"display">>, {{primitive, <<"string">>}, optional}},
             {<<"citation">>, {{primitive, <<"markdown">>}, optional}},
@@ -688,7 +688,7 @@
             [
             {<<"description">>, {{primitive, <<"string">>}, optional}},
             {<<"name">>, {{primitive, <<"id">>}, optional}},
-            {<<"language">>, {{code, <<"expressionlanguage">>}, required}},
+            {<<"language">>, {{code, <<"expressionlanguage_list">>}, required}},
             {<<"expression">>, {{primitive, <<"string">>}, optional}},
             {<<"reference">>, {{primitive, <<"uri">>}, optional}}
             ],
@@ -741,15 +741,15 @@
             {<<"countMax">>, {{primitive, <<"positiveInt">>}, optional}},
             {<<"duration">>, {{primitive, <<"decimal">>}, optional}},
             {<<"durationMax">>, {{primitive, <<"decimal">>}, optional}},
-            {<<"durationUnit">>, {{code, <<"unitsoftime">>}, optional}},
+            {<<"durationUnit">>, {{code, <<"unitsoftime_list">>}, optional}},
             {<<"frequency">>, {{primitive, <<"positiveInt">>}, optional}},
             {<<"frequencyMax">>, {{primitive, <<"positiveInt">>}, optional}},
             {<<"period">>, {{primitive, <<"decimal">>}, optional}},
             {<<"periodMax">>, {{primitive, <<"decimal">>}, optional}},
-            {<<"periodUnit">>, {{code, <<"unitsoftime">>}, optional}},
+            {<<"periodUnit">>, {{code, <<"unitsoftime_list">>}, optional}},
             {<<"dayOfWeek">>, {{primitive, <<"code">>}, list}},
             {<<"timeOfDay">>, {{primitive, <<"time">>}, list}},
-            {<<"when">>, {{code, <<"eventtiming">>}, list}},
+            {<<"when">>, {{code, <<"eventtiming_list">>}, list}},
             {<<"offset">>, {{primitive, <<"unsignedInt">>}, optional}}
             ],
             [],
@@ -818,7 +818,7 @@
     , <<"ElementDefinition">> => {<<"BackboneElement">>,
             [
             {<<"path">>, {{primitive, <<"string">>}, required}},
-            {<<"representation">>, {{code, <<"propertyrepresentation">>}, list}},
+            {<<"representation">>, {{code, <<"propertyrepresentation_list">>}, list}},
             {<<"sliceName">>, {{primitive, <<"string">>}, optional}},
             {<<"sliceIsConstraining">>, {{primitive, <<"boolean">>}, optional}},
             {<<"label">>, {{primitive, <<"string">>}, optional}},
@@ -1030,7 +1030,7 @@
             [
             {<<"key">>, {{primitive, <<"id">>}, required}},
             {<<"requirements">>, {{primitive, <<"string">>}, optional}},
-            {<<"severity">>, {{code, <<"constraintseverity">>}, required}},
+            {<<"severity">>, {{code, <<"constraintseverity_list">>}, required}},
             {<<"human">>, {{primitive, <<"string">>}, required}},
             {<<"expression">>, {{primitive, <<"string">>}, optional}},
             {<<"xpath">>, {{primitive, <<"string">>}, optional}},
@@ -1078,8 +1078,8 @@
             {<<"code">>, {{primitive, <<"uri">>}, required}},
             {<<"profile">>, {{primitive, <<"canonical">>}, list}},
             {<<"targetProfile">>, {{primitive, <<"canonical">>}, list}},
-            {<<"aggregation">>, {{code, <<"aggregationmode">>}, list}},
-            {<<"versioning">>, {{code, <<"referenceversionrules">>}, optional}}
+            {<<"aggregation">>, {{code, <<"aggregationmode_list">>}, list}},
+            {<<"versioning">>, {{code, <<"referenceversionrules_list">>}, optional}}
             ],
             [],
             []
@@ -1157,7 +1157,7 @@
             {<<"discriminator">>, {{bbelement, <<"ElementDefinition.Discriminator">>}, list}},
             {<<"description">>, {{primitive, <<"string">>}, optional}},
             {<<"ordered">>, {{primitive, <<"boolean">>}, optional}},
-            {<<"rules">>, {{code, <<"slicingrules">>}, required}}
+            {<<"rules">>, {{code, <<"slicingrules_list">>}, required}}
             ],
             [],
             []
@@ -1169,7 +1169,7 @@
 %%
     , <<"ElementDefinition.Binding">> => {<<"BackboneElement">>,
             [
-            {<<"strength">>, {{code, <<"bindingstrength">>}, required}},
+            {<<"strength">>, {{code, <<"bindingstrength_list">>}, required}},
             {<<"description">>, {{primitive, <<"string">>}, optional}},
             {<<"valueSet">>, {{primitive, <<"canonical">>}, optional}}
             ],
@@ -1183,7 +1183,7 @@
 %%
     , <<"ElementDefinition.Discriminator">> => {<<"BackboneElement">>,
             [
-            {<<"type">>, {{code, <<"discriminatortype">>}, required}},
+            {<<"type">>, {{code, <<"discriminatortype_list">>}, required}},
             {<<"path">>, {{primitive, <<"string">>}, required}}
             ],
             [],
@@ -1225,7 +1225,7 @@
     , <<"Account">> => {<<"DomainResource">>,
             [
             {<<"identifier">>, {{complex, <<"Identifier">>}, list}},
-            {<<"status">>, {{code, <<"accountstatus">>}, required}},
+            {<<"status">>, {{code, <<"accountstatus_list">>}, required}},
             {<<"type">>, {{complex, <<"CodeableConcept">>}, optional}},
             {<<"name">>, {{primitive, <<"string">>}, optional}},
             {<<"subject">>, {{complex, <<"Reference">>}, list}},
@@ -1277,7 +1277,7 @@
             {<<"name">>, {{primitive, <<"string">>}, optional}},
             {<<"title">>, {{primitive, <<"string">>}, optional}},
             {<<"subtitle">>, {{primitive, <<"string">>}, optional}},
-            {<<"status">>, {{code, <<"publicationstatus">>}, required}},
+            {<<"status">>, {{code, <<"publicationstatus_list">>}, required}},
             {<<"experimental">>, {{primitive, <<"boolean">>}, optional}},
             {<<"subjectCodeableConcept">>, {{complex, <<"CodeableConcept">>}, optional}},
             {<<"subjectReference">>, {{complex, <<"Reference">>}, optional}},
@@ -1300,11 +1300,11 @@
             {<<"endorser">>, {{complex, <<"ContactDetail">>}, list}},
             {<<"relatedArtifact">>, {{complex, <<"RelatedArtifact">>}, list}},
             {<<"library">>, {{primitive, <<"canonical">>}, list}},
-            {<<"kind">>, {{code, <<"requestresourcetype">>}, optional}},
+            {<<"kind">>, {{code, <<"requestresourcetype_list">>}, optional}},
             {<<"profile">>, {{primitive, <<"canonical">>}, optional}},
             {<<"code">>, {{complex, <<"CodeableConcept">>}, optional}},
-            {<<"intent">>, {{code, <<"requestintent">>}, optional}},
-            {<<"priority">>, {{code, <<"requestpriority">>}, optional}},
+            {<<"intent">>, {{code, <<"requestintent_list">>}, optional}},
+            {<<"priority">>, {{code, <<"requestpriority_list">>}, optional}},
             {<<"doNotPerform">>, {{primitive, <<"boolean">>}, optional}},
             {<<"timingTiming">>, {{bbelement, <<"Timing">>}, optional}},
             {<<"timingDateTime">>, {{primitive, <<"dateTime">>}, optional}},
@@ -1338,7 +1338,7 @@
 %%
     , <<"ActivityDefinition.Participant">> => {<<"BackboneElement">>,
             [
-            {<<"type">>, {{code, <<"actionparticipanttype">>}, required}},
+            {<<"type">>, {{code, <<"actionparticipanttype_list">>}, required}},
             {<<"role">>, {{complex, <<"CodeableConcept">>}, optional}}
             ],
             [],
@@ -1364,7 +1364,7 @@
     , <<"AdverseEvent">> => {<<"DomainResource">>,
             [
             {<<"identifier">>, {{complex, <<"Identifier">>}, optional}},
-            {<<"actuality">>, {{code, <<"adverseeventactuality">>}, required}},
+            {<<"actuality">>, {{code, <<"adverseeventactuality_list">>}, required}},
             {<<"category">>, {{complex, <<"CodeableConcept">>}, list}},
             {<<"event">>, {{complex, <<"CodeableConcept">>}, optional}},
             {<<"subject">>, {{complex, <<"Reference">>}, required}},
@@ -1423,9 +1423,9 @@
             {<<"identifier">>, {{complex, <<"Identifier">>}, list}},
             {<<"clinicalStatus">>, {{complex, <<"CodeableConcept">>}, optional}},
             {<<"verificationStatus">>, {{complex, <<"CodeableConcept">>}, optional}},
-            {<<"type">>, {{code, <<"allergyintolerancetype">>}, optional}},
-            {<<"category">>, {{code, <<"allergyintolerancecategory">>}, list}},
-            {<<"criticality">>, {{code, <<"allergyintolerancecriticality">>}, optional}},
+            {<<"type">>, {{code, <<"allergyintolerancetype_list">>}, optional}},
+            {<<"category">>, {{code, <<"allergyintolerancecategory_list">>}, list}},
+            {<<"criticality">>, {{code, <<"allergyintolerancecriticality_list">>}, optional}},
             {<<"code">>, {{complex, <<"CodeableConcept">>}, optional}},
             {<<"patient">>, {{complex, <<"Reference">>}, required}},
             {<<"encounter">>, {{complex, <<"Reference">>}, optional}},
@@ -1456,7 +1456,7 @@
             {<<"manifestation">>, {{complex, <<"CodeableConcept">>}, non_empty_list}},
             {<<"description">>, {{primitive, <<"string">>}, optional}},
             {<<"onset">>, {{primitive, <<"dateTime">>}, optional}},
-            {<<"severity">>, {{code, <<"allergyintoleranceseverity">>}, optional}},
+            {<<"severity">>, {{code, <<"allergyintoleranceseverity_list">>}, optional}},
             {<<"exposureRoute">>, {{complex, <<"CodeableConcept">>}, optional}},
             {<<"note">>, {{complex, <<"Annotation">>}, list}}
             ],
@@ -1471,7 +1471,7 @@
     , <<"Appointment">> => {<<"DomainResource">>,
             [
             {<<"identifier">>, {{complex, <<"Identifier">>}, list}},
-            {<<"status">>, {{code, <<"appointmentstatus">>}, required}},
+            {<<"status">>, {{code, <<"appointmentstatus_list">>}, required}},
             {<<"cancelationReason">>, {{complex, <<"CodeableConcept">>}, optional}},
             {<<"serviceCategory">>, {{complex, <<"CodeableConcept">>}, list}},
             {<<"serviceType">>, {{complex, <<"CodeableConcept">>}, list}},
@@ -1504,8 +1504,8 @@
             [
             {<<"type">>, {{complex, <<"CodeableConcept">>}, list}},
             {<<"actor">>, {{complex, <<"Reference">>}, optional}},
-            {<<"required">>, {{code, <<"participantrequired">>}, optional}},
-            {<<"status">>, {{code, <<"participationstatus">>}, required}},
+            {<<"required">>, {{code, <<"participantrequired_list">>}, optional}},
+            {<<"status">>, {{code, <<"participationstatus_list">>}, required}},
             {<<"period">>, {{complex, <<"Period">>}, optional}}
             ],
             [],
@@ -1524,7 +1524,7 @@
             {<<"end">>, {{primitive, <<"instant">>}, optional}},
             {<<"participantType">>, {{complex, <<"CodeableConcept">>}, list}},
             {<<"actor">>, {{complex, <<"Reference">>}, optional}},
-            {<<"participantStatus">>, {{code, <<"participationstatus">>}, required}},
+            {<<"participantStatus">>, {{code, <<"participationstatus_list">>}, required}},
             {<<"comment">>, {{primitive, <<"string">>}, optional}}
             ],
             [],
@@ -1539,10 +1539,10 @@
             [
             {<<"type">>, {{complex, <<"Coding">>}, required}},
             {<<"subtype">>, {{complex, <<"Coding">>}, list}},
-            {<<"action">>, {{code, <<"auditeventaction">>}, optional}},
+            {<<"action">>, {{code, <<"auditeventaction_list">>}, optional}},
             {<<"period">>, {{complex, <<"Period">>}, optional}},
             {<<"recorded">>, {{primitive, <<"instant">>}, required}},
-            {<<"outcome">>, {{code, <<"auditeventoutcome">>}, optional}},
+            {<<"outcome">>, {{code, <<"auditeventoutcome_list">>}, optional}},
             {<<"outcomeDesc">>, {{primitive, <<"string">>}, optional}},
             {<<"purposeOfEvent">>, {{complex, <<"CodeableConcept">>}, list}},
             {<<"agent">>, {{bbelement, <<"AuditEvent.Agent">>}, non_empty_list}},
@@ -1580,7 +1580,7 @@
     , <<"AuditEvent.Network">> => {<<"BackboneElement">>,
             [
             {<<"address">>, {{primitive, <<"string">>}, optional}},
-            {<<"type">>, {{code, <<"auditeventagentnetworktype">>}, optional}}
+            {<<"type">>, {{code, <<"auditeventagentnetworktype_list">>}, optional}}
             ],
             [],
             []
@@ -1671,9 +1671,9 @@
     , <<"BiologicallyDerivedProduct">> => {<<"DomainResource">>,
             [
             {<<"identifier">>, {{complex, <<"Identifier">>}, list}},
-            {<<"productCategory">>, {{code, <<"biologicallyderivedproductcategory">>}, optional}},
+            {<<"productCategory">>, {{code, <<"biologicallyderivedproductcategory_list">>}, optional}},
             {<<"productCode">>, {{complex, <<"CodeableConcept">>}, optional}},
-            {<<"status">>, {{code, <<"biologicallyderivedproductstatus">>}, optional}},
+            {<<"status">>, {{code, <<"biologicallyderivedproductstatus_list">>}, optional}},
             {<<"request">>, {{complex, <<"Reference">>}, list}},
             {<<"quantity">>, {{primitive, <<"integer">>}, optional}},
             {<<"parent">>, {{complex, <<"Reference">>}, list}},
@@ -1745,7 +1745,7 @@
             [
             {<<"description">>, {{primitive, <<"string">>}, optional}},
             {<<"temperature">>, {{primitive, <<"decimal">>}, optional}},
-            {<<"scale">>, {{code, <<"biologicallyderivedproductstoragescale">>}, optional}},
+            {<<"scale">>, {{code, <<"biologicallyderivedproductstoragescale_list">>}, optional}},
             {<<"duration">>, {{complex, <<"Period">>}, optional}}
             ],
             [],
@@ -1778,7 +1778,7 @@
     , <<"Bundle">> => {<<"Resource">>,
             [
             {<<"identifier">>, {{complex, <<"Identifier">>}, optional}},
-            {<<"type">>, {{code, <<"bundletype">>}, required}},
+            {<<"type">>, {{code, <<"bundletype_list">>}, required}},
             {<<"timestamp">>, {{primitive, <<"instant">>}, optional}},
             {<<"total">>, {{primitive, <<"unsignedInt">>}, optional}},
             {<<"link">>, {{bbelement, <<"Bundle.Link">>}, list}},
@@ -1822,7 +1822,7 @@
 %%
     , <<"Bundle.Search">> => {<<"BackboneElement">>,
             [
-            {<<"mode">>, {{code, <<"searchentrymode">>}, optional}},
+            {<<"mode">>, {{code, <<"searchentrymode_list">>}, optional}},
             {<<"score">>, {{primitive, <<"decimal">>}, optional}}
             ],
             [],
@@ -1834,7 +1834,7 @@
 %%
     , <<"Bundle.Request">> => {<<"BackboneElement">>,
             [
-            {<<"method">>, {{code, <<"httpverb">>}, required}},
+            {<<"method">>, {{code, <<"httpverb_list">>}, required}},
             {<<"url">>, {{primitive, <<"uri">>}, required}},
             {<<"ifNoneMatch">>, {{primitive, <<"string">>}, optional}},
             {<<"ifModifiedSince">>, {{primitive, <<"instant">>}, optional}},
@@ -1870,7 +1870,7 @@
             {<<"version">>, {{primitive, <<"string">>}, optional}},
             {<<"name">>, {{primitive, <<"string">>}, optional}},
             {<<"title">>, {{primitive, <<"string">>}, optional}},
-            {<<"status">>, {{code, <<"publicationstatus">>}, required}},
+            {<<"status">>, {{code, <<"publicationstatus_list">>}, required}},
             {<<"experimental">>, {{primitive, <<"boolean">>}, optional}},
             {<<"date">>, {{primitive, <<"dateTime">>}, required}},
             {<<"publisher">>, {{primitive, <<"string">>}, optional}},
@@ -1880,12 +1880,12 @@
             {<<"jurisdiction">>, {{complex, <<"CodeableConcept">>}, list}},
             {<<"purpose">>, {{primitive, <<"markdown">>}, optional}},
             {<<"copyright">>, {{primitive, <<"markdown">>}, optional}},
-            {<<"kind">>, {{code, <<"capabilitystatementkind">>}, required}},
+            {<<"kind">>, {{code, <<"capabilitystatementkind_list">>}, required}},
             {<<"instantiates">>, {{primitive, <<"canonical">>}, list}},
             {<<"imports">>, {{primitive, <<"canonical">>}, list}},
             {<<"software">>, {{bbelement, <<"CapabilityStatement.Software">>}, optional}},
             {<<"implementation">>, {{bbelement, <<"CapabilityStatement.Implementation">>}, optional}},
-            {<<"fhirVersion">>, {{code, <<"fhirversion">>}, required}},
+            {<<"fhirVersion">>, {{code, <<"fhirversion_list">>}, required}},
             {<<"format">>, {{primitive, <<"code">>}, non_empty_list}},
             {<<"patchFormat">>, {{primitive, <<"code">>}, list}},
             {<<"implementationGuide">>, {{primitive, <<"canonical">>}, list}},
@@ -1928,7 +1928,7 @@
 %%
     , <<"CapabilityStatement.Rest">> => {<<"BackboneElement">>,
             [
-            {<<"mode">>, {{code, <<"restfulcapabilitymode">>}, required}},
+            {<<"mode">>, {{code, <<"restfulcapabilitymode_list">>}, required}},
             {<<"documentation">>, {{primitive, <<"markdown">>}, optional}},
             {<<"security">>, {{bbelement, <<"CapabilityStatement.Security">>}, optional}},
             {<<"resource">>, {{bbelement, <<"CapabilityStatement.Resource">>}, list}},
@@ -1964,14 +1964,14 @@
             {<<"supportedProfile">>, {{primitive, <<"canonical">>}, list}},
             {<<"documentation">>, {{primitive, <<"markdown">>}, optional}},
             {<<"interaction">>, {{bbelement, <<"CapabilityStatement.Interaction">>}, list}},
-            {<<"versioning">>, {{code, <<"resourceversionpolicy">>}, optional}},
+            {<<"versioning">>, {{code, <<"resourceversionpolicy_list">>}, optional}},
             {<<"readHistory">>, {{primitive, <<"boolean">>}, optional}},
             {<<"updateCreate">>, {{primitive, <<"boolean">>}, optional}},
             {<<"conditionalCreate">>, {{primitive, <<"boolean">>}, optional}},
-            {<<"conditionalRead">>, {{code, <<"conditionalreadstatus">>}, optional}},
+            {<<"conditionalRead">>, {{code, <<"conditionalreadstatus_list">>}, optional}},
             {<<"conditionalUpdate">>, {{primitive, <<"boolean">>}, optional}},
-            {<<"conditionalDelete">>, {{code, <<"conditionaldeletestatus">>}, optional}},
-            {<<"referencePolicy">>, {{code, <<"referencehandlingpolicy">>}, list}},
+            {<<"conditionalDelete">>, {{code, <<"conditionaldeletestatus_list">>}, optional}},
+            {<<"referencePolicy">>, {{code, <<"referencehandlingpolicy_list">>}, list}},
             {<<"searchInclude">>, {{primitive, <<"string">>}, list}},
             {<<"searchRevInclude">>, {{primitive, <<"string">>}, list}},
             {<<"searchParam">>, {{bbelement, <<"CapabilityStatement.SearchParam">>}, list}},
@@ -1986,7 +1986,7 @@
 %%
     , <<"CapabilityStatement.Interaction">> => {<<"BackboneElement">>,
             [
-            {<<"code">>, {{code, <<"typerestfulinteraction">>}, required}},
+            {<<"code">>, {{code, <<"typerestfulinteraction_list">>}, required}},
             {<<"documentation">>, {{primitive, <<"markdown">>}, optional}}
             ],
             [],
@@ -2000,7 +2000,7 @@
             [
             {<<"name">>, {{primitive, <<"string">>}, required}},
             {<<"definition">>, {{primitive, <<"canonical">>}, optional}},
-            {<<"type">>, {{code, <<"searchparamtype">>}, required}},
+            {<<"type">>, {{code, <<"searchparamtype_list">>}, required}},
             {<<"documentation">>, {{primitive, <<"markdown">>}, optional}}
             ],
             [],
@@ -2025,7 +2025,7 @@
 %%
     , <<"CapabilityStatement.Interaction1">> => {<<"BackboneElement">>,
             [
-            {<<"code">>, {{code, <<"systemrestfulinteraction">>}, required}},
+            {<<"code">>, {{code, <<"systemrestfulinteraction_list">>}, required}},
             {<<"documentation">>, {{primitive, <<"markdown">>}, optional}}
             ],
             [],
@@ -2063,7 +2063,7 @@
 %%
     , <<"CapabilityStatement.SupportedMessage">> => {<<"BackboneElement">>,
             [
-            {<<"mode">>, {{code, <<"eventcapabilitymode">>}, required}},
+            {<<"mode">>, {{code, <<"eventcapabilitymode_list">>}, required}},
             {<<"definition">>, {{primitive, <<"canonical">>}, required}}
             ],
             [],
@@ -2075,7 +2075,7 @@
 %%
     , <<"CapabilityStatement.Document">> => {<<"BackboneElement">>,
             [
-            {<<"mode">>, {{code, <<"documentmode">>}, required}},
+            {<<"mode">>, {{code, <<"documentmode_list">>}, required}},
             {<<"documentation">>, {{primitive, <<"markdown">>}, optional}},
             {<<"profile">>, {{primitive, <<"canonical">>}, required}}
             ],
@@ -2095,8 +2095,8 @@
             {<<"basedOn">>, {{complex, <<"Reference">>}, list}},
             {<<"replaces">>, {{complex, <<"Reference">>}, list}},
             {<<"partOf">>, {{complex, <<"Reference">>}, list}},
-            {<<"status">>, {{code, <<"requeststatus">>}, required}},
-            {<<"intent">>, {{code, <<"careplanintent">>}, required}},
+            {<<"status">>, {{code, <<"requeststatus_list">>}, required}},
+            {<<"intent">>, {{code, <<"careplanintent_list">>}, required}},
             {<<"category">>, {{complex, <<"CodeableConcept">>}, list}},
             {<<"title">>, {{primitive, <<"string">>}, optional}},
             {<<"description">>, {{primitive, <<"string">>}, optional}},
@@ -2137,14 +2137,14 @@
 %%
     , <<"CarePlan.Detail">> => {<<"BackboneElement">>,
             [
-            {<<"kind">>, {{code, <<"careplanactivitykind">>}, optional}},
+            {<<"kind">>, {{code, <<"careplanactivitykind_list">>}, optional}},
             {<<"instantiatesCanonical">>, {{primitive, <<"canonical">>}, list}},
             {<<"instantiatesUri">>, {{primitive, <<"uri">>}, list}},
             {<<"code">>, {{complex, <<"CodeableConcept">>}, optional}},
             {<<"reasonCode">>, {{complex, <<"CodeableConcept">>}, list}},
             {<<"reasonReference">>, {{complex, <<"Reference">>}, list}},
             {<<"goal">>, {{complex, <<"Reference">>}, list}},
-            {<<"status">>, {{code, <<"careplanactivitystatus">>}, required}},
+            {<<"status">>, {{code, <<"careplanactivitystatus_list">>}, required}},
             {<<"statusReason">>, {{complex, <<"CodeableConcept">>}, optional}},
             {<<"doNotPerform">>, {{primitive, <<"boolean">>}, optional}},
             {<<"scheduledTiming">>, {{bbelement, <<"Timing">>}, optional}},
@@ -2172,7 +2172,7 @@
     , <<"CareTeam">> => {<<"DomainResource">>,
             [
             {<<"identifier">>, {{complex, <<"Identifier">>}, list}},
-            {<<"status">>, {{code, <<"careteamstatus">>}, optional}},
+            {<<"status">>, {{code, <<"careteamstatus_list">>}, optional}},
             {<<"category">>, {{complex, <<"CodeableConcept">>}, list}},
             {<<"name">>, {{primitive, <<"string">>}, optional}},
             {<<"subject">>, {{complex, <<"Reference">>}, optional}},
@@ -2215,7 +2215,7 @@
             {<<"referencedItem">>, {{complex, <<"Reference">>}, required}},
             {<<"additionalIdentifier">>, {{complex, <<"Identifier">>}, list}},
             {<<"classification">>, {{complex, <<"CodeableConcept">>}, list}},
-            {<<"status">>, {{code, <<"publicationstatus">>}, optional}},
+            {<<"status">>, {{code, <<"publicationstatus_list">>}, optional}},
             {<<"validityPeriod">>, {{complex, <<"Period">>}, optional}},
             {<<"validTo">>, {{primitive, <<"dateTime">>}, optional}},
             {<<"lastUpdated">>, {{primitive, <<"dateTime">>}, optional}},
@@ -2232,7 +2232,7 @@
 %%
     , <<"CatalogEntry.RelatedEntry">> => {<<"BackboneElement">>,
             [
-            {<<"relationtype">>, {{code, <<"catalogentryrelationtype">>}, required}},
+            {<<"relationtype">>, {{code, <<"catalogentryrelationtype_list">>}, required}},
             {<<"item">>, {{complex, <<"Reference">>}, required}}
             ],
             [],
@@ -2248,7 +2248,7 @@
             {<<"identifier">>, {{complex, <<"Identifier">>}, list}},
             {<<"definitionUri">>, {{primitive, <<"uri">>}, list}},
             {<<"definitionCanonical">>, {{primitive, <<"canonical">>}, list}},
-            {<<"status">>, {{code, <<"chargeitemstatus">>}, required}},
+            {<<"status">>, {{code, <<"chargeitemstatus_list">>}, required}},
             {<<"partOf">>, {{complex, <<"Reference">>}, list}},
             {<<"code">>, {{complex, <<"CodeableConcept">>}, required}},
             {<<"subject">>, {{complex, <<"Reference">>}, required}},
@@ -2307,7 +2307,7 @@
             {<<"derivedFromUri">>, {{primitive, <<"uri">>}, list}},
             {<<"partOf">>, {{primitive, <<"canonical">>}, list}},
             {<<"replaces">>, {{primitive, <<"canonical">>}, list}},
-            {<<"status">>, {{code, <<"publicationstatus">>}, required}},
+            {<<"status">>, {{code, <<"publicationstatus_list">>}, required}},
             {<<"experimental">>, {{primitive, <<"boolean">>}, optional}},
             {<<"date">>, {{primitive, <<"dateTime">>}, optional}},
             {<<"publisher">>, {{primitive, <<"string">>}, optional}},
@@ -2358,7 +2358,7 @@
 %%
     , <<"ChargeItemDefinition.PriceComponent">> => {<<"BackboneElement">>,
             [
-            {<<"type">>, {{code, <<"invoicepricecomponenttype">>}, required}},
+            {<<"type">>, {{code, <<"invoicepricecomponenttype_list">>}, required}},
             {<<"code">>, {{complex, <<"CodeableConcept">>}, optional}},
             {<<"factor">>, {{primitive, <<"decimal">>}, optional}},
             {<<"amount">>, {{complex, <<"Money">>}, optional}}
@@ -2374,10 +2374,10 @@
     , <<"Claim">> => {<<"DomainResource">>,
             [
             {<<"identifier">>, {{complex, <<"Identifier">>}, list}},
-            {<<"status">>, {{code, <<"financialresourcestatuscodes">>}, required}},
+            {<<"status">>, {{code, <<"financialresourcestatuscodes_list">>}, required}},
             {<<"type">>, {{complex, <<"CodeableConcept">>}, required}},
             {<<"subType">>, {{complex, <<"CodeableConcept">>}, optional}},
-            {<<"use">>, {{code, <<"use">>}, required}},
+            {<<"use">>, {{code, <<"use_list">>}, required}},
             {<<"patient">>, {{complex, <<"Reference">>}, required}},
             {<<"billablePeriod">>, {{complex, <<"Period">>}, optional}},
             {<<"created">>, {{primitive, <<"dateTime">>}, required}},
@@ -2625,16 +2625,16 @@
     , <<"ClaimResponse">> => {<<"DomainResource">>,
             [
             {<<"identifier">>, {{complex, <<"Identifier">>}, list}},
-            {<<"status">>, {{code, <<"financialresourcestatuscodes">>}, required}},
+            {<<"status">>, {{code, <<"financialresourcestatuscodes_list">>}, required}},
             {<<"type">>, {{complex, <<"CodeableConcept">>}, required}},
             {<<"subType">>, {{complex, <<"CodeableConcept">>}, optional}},
-            {<<"use">>, {{code, <<"use">>}, required}},
+            {<<"use">>, {{code, <<"use_list">>}, required}},
             {<<"patient">>, {{complex, <<"Reference">>}, required}},
             {<<"created">>, {{primitive, <<"dateTime">>}, required}},
             {<<"insurer">>, {{complex, <<"Reference">>}, required}},
             {<<"requestor">>, {{complex, <<"Reference">>}, optional}},
             {<<"request">>, {{complex, <<"Reference">>}, optional}},
-            {<<"outcome">>, {{code, <<"claimprocessingcodes">>}, required}},
+            {<<"outcome">>, {{code, <<"claimprocessingcodes_list">>}, required}},
             {<<"disposition">>, {{primitive, <<"string">>}, optional}},
             {<<"preAuthRef">>, {{primitive, <<"string">>}, optional}},
             {<<"preAuthPeriod">>, {{complex, <<"Period">>}, optional}},
@@ -2816,7 +2816,7 @@
     , <<"ClaimResponse.ProcessNote">> => {<<"BackboneElement">>,
             [
             {<<"number">>, {{primitive, <<"positiveInt">>}, optional}},
-            {<<"type">>, {{code, <<"notetype">>}, optional}},
+            {<<"type">>, {{code, <<"notetype_list">>}, optional}},
             {<<"text">>, {{primitive, <<"string">>}, required}},
             {<<"language">>, {{complex, <<"CodeableConcept">>}, optional}}
             ],
@@ -2860,7 +2860,7 @@
     , <<"ClinicalImpression">> => {<<"DomainResource">>,
             [
             {<<"identifier">>, {{complex, <<"Identifier">>}, list}},
-            {<<"status">>, {{code, <<"clinicalimpressionstatus">>}, required}},
+            {<<"status">>, {{code, <<"clinicalimpressionstatus_list">>}, required}},
             {<<"statusReason">>, {{complex, <<"CodeableConcept">>}, optional}},
             {<<"code">>, {{complex, <<"CodeableConcept">>}, optional}},
             {<<"description">>, {{primitive, <<"string">>}, optional}},
@@ -2923,7 +2923,7 @@
             {<<"version">>, {{primitive, <<"string">>}, optional}},
             {<<"name">>, {{primitive, <<"string">>}, optional}},
             {<<"title">>, {{primitive, <<"string">>}, optional}},
-            {<<"status">>, {{code, <<"publicationstatus">>}, required}},
+            {<<"status">>, {{code, <<"publicationstatus_list">>}, required}},
             {<<"experimental">>, {{primitive, <<"boolean">>}, optional}},
             {<<"date">>, {{primitive, <<"dateTime">>}, optional}},
             {<<"publisher">>, {{primitive, <<"string">>}, optional}},
@@ -2935,10 +2935,10 @@
             {<<"copyright">>, {{primitive, <<"markdown">>}, optional}},
             {<<"caseSensitive">>, {{primitive, <<"boolean">>}, optional}},
             {<<"valueSet">>, {{primitive, <<"canonical">>}, optional}},
-            {<<"hierarchyMeaning">>, {{code, <<"codesystemhierarchymeaning">>}, optional}},
+            {<<"hierarchyMeaning">>, {{code, <<"codesystemhierarchymeaning_list">>}, optional}},
             {<<"compositional">>, {{primitive, <<"boolean">>}, optional}},
             {<<"versionNeeded">>, {{primitive, <<"boolean">>}, optional}},
-            {<<"content">>, {{code, <<"codesystemcontentmode">>}, required}},
+            {<<"content">>, {{code, <<"codesystemcontentmode_list">>}, required}},
             {<<"supplements">>, {{primitive, <<"canonical">>}, optional}},
             {<<"count">>, {{primitive, <<"unsignedInt">>}, optional}},
             {<<"filter">>, {{bbelement, <<"CodeSystem.Filter">>}, list}},
@@ -2956,7 +2956,7 @@
             [
             {<<"code">>, {{primitive, <<"code">>}, required}},
             {<<"description">>, {{primitive, <<"string">>}, optional}},
-            {<<"operator">>, {{code, <<"filteroperator">>}, non_empty_list}},
+            {<<"operator">>, {{code, <<"filteroperator_list">>}, non_empty_list}},
             {<<"value">>, {{primitive, <<"string">>}, required}}
             ],
             [],
@@ -2971,7 +2971,7 @@
             {<<"code">>, {{primitive, <<"code">>}, required}},
             {<<"uri">>, {{primitive, <<"uri">>}, optional}},
             {<<"description">>, {{primitive, <<"string">>}, optional}},
-            {<<"type">>, {{code, <<"propertytype">>}, required}}
+            {<<"type">>, {{code, <<"propertytype_list">>}, required}}
             ],
             [],
             []
@@ -3038,10 +3038,10 @@
             {<<"basedOn">>, {{complex, <<"Reference">>}, list}},
             {<<"partOf">>, {{complex, <<"Reference">>}, list}},
             {<<"inResponseTo">>, {{complex, <<"Reference">>}, list}},
-            {<<"status">>, {{code, <<"eventstatus">>}, required}},
+            {<<"status">>, {{code, <<"eventstatus_list">>}, required}},
             {<<"statusReason">>, {{complex, <<"CodeableConcept">>}, optional}},
             {<<"category">>, {{complex, <<"CodeableConcept">>}, list}},
-            {<<"priority">>, {{code, <<"requestpriority">>}, optional}},
+            {<<"priority">>, {{code, <<"requestpriority_list">>}, optional}},
             {<<"medium">>, {{complex, <<"CodeableConcept">>}, list}},
             {<<"subject">>, {{complex, <<"Reference">>}, optional}},
             {<<"topic">>, {{complex, <<"CodeableConcept">>}, optional}},
@@ -3085,10 +3085,10 @@
             {<<"basedOn">>, {{complex, <<"Reference">>}, list}},
             {<<"replaces">>, {{complex, <<"Reference">>}, list}},
             {<<"groupIdentifier">>, {{complex, <<"Identifier">>}, optional}},
-            {<<"status">>, {{code, <<"requeststatus">>}, required}},
+            {<<"status">>, {{code, <<"requeststatus_list">>}, required}},
             {<<"statusReason">>, {{complex, <<"CodeableConcept">>}, optional}},
             {<<"category">>, {{complex, <<"CodeableConcept">>}, list}},
-            {<<"priority">>, {{code, <<"requestpriority">>}, optional}},
+            {<<"priority">>, {{code, <<"requestpriority_list">>}, optional}},
             {<<"doNotPerform">>, {{primitive, <<"boolean">>}, optional}},
             {<<"medium">>, {{complex, <<"CodeableConcept">>}, list}},
             {<<"subject">>, {{complex, <<"Reference">>}, optional}},
@@ -3135,7 +3135,7 @@
             {<<"url">>, {{primitive, <<"uri">>}, required}},
             {<<"version">>, {{primitive, <<"string">>}, optional}},
             {<<"name">>, {{primitive, <<"string">>}, required}},
-            {<<"status">>, {{code, <<"publicationstatus">>}, required}},
+            {<<"status">>, {{code, <<"publicationstatus_list">>}, required}},
             {<<"experimental">>, {{primitive, <<"boolean">>}, optional}},
             {<<"date">>, {{primitive, <<"dateTime">>}, optional}},
             {<<"publisher">>, {{primitive, <<"string">>}, optional}},
@@ -3143,7 +3143,7 @@
             {<<"description">>, {{primitive, <<"markdown">>}, optional}},
             {<<"useContext">>, {{complex, <<"UsageContext">>}, list}},
             {<<"purpose">>, {{primitive, <<"markdown">>}, optional}},
-            {<<"code">>, {{code, <<"compartmenttype">>}, required}},
+            {<<"code">>, {{code, <<"compartmenttype_list">>}, required}},
             {<<"search">>, {{primitive, <<"boolean">>}, required}},
             {<<"resource">>, {{bbelement, <<"CompartmentDefinition.Resource">>}, list}}
             ],
@@ -3171,7 +3171,7 @@
     , <<"Composition">> => {<<"DomainResource">>,
             [
             {<<"identifier">>, {{complex, <<"Identifier">>}, optional}},
-            {<<"status">>, {{code, <<"compositionstatus">>}, required}},
+            {<<"status">>, {{code, <<"compositionstatus_list">>}, required}},
             {<<"type">>, {{complex, <<"CodeableConcept">>}, required}},
             {<<"category">>, {{complex, <<"CodeableConcept">>}, list}},
             {<<"subject">>, {{complex, <<"Reference">>}, optional}},
@@ -3179,7 +3179,7 @@
             {<<"date">>, {{primitive, <<"dateTime">>}, required}},
             {<<"author">>, {{complex, <<"Reference">>}, non_empty_list}},
             {<<"title">>, {{primitive, <<"string">>}, required}},
-            {<<"confidentiality">>, {{code, <<"vconfidentialityclassification">>}, optional}},
+            {<<"confidentiality">>, {{code, <<"vconfidentialityclassification_list">>}, optional}},
             {<<"attester">>, {{bbelement, <<"Composition.Attester">>}, list}},
             {<<"custodian">>, {{complex, <<"Reference">>}, optional}},
             {<<"relatesTo">>, {{bbelement, <<"Composition.RelatesTo">>}, list}},
@@ -3195,7 +3195,7 @@
 %%
     , <<"Composition.Attester">> => {<<"BackboneElement">>,
             [
-            {<<"mode">>, {{code, <<"compositionattestationmode">>}, required}},
+            {<<"mode">>, {{code, <<"compositionattestationmode_list">>}, required}},
             {<<"time">>, {{primitive, <<"dateTime">>}, optional}},
             {<<"party">>, {{complex, <<"Reference">>}, optional}}
             ],
@@ -3208,7 +3208,7 @@
 %%
     , <<"Composition.RelatesTo">> => {<<"BackboneElement">>,
             [
-            {<<"code">>, {{code, <<"documentrelationshiptype">>}, required}},
+            {<<"code">>, {{code, <<"documentrelationshiptype_list">>}, required}},
             {<<"targetIdentifier">>, {{complex, <<"Identifier">>}, required}},
             {<<"targetReference">>, {{complex, <<"Reference">>}, required}}
             ],
@@ -3241,7 +3241,7 @@
             {<<"author">>, {{complex, <<"Reference">>}, list}},
             {<<"focus">>, {{complex, <<"Reference">>}, optional}},
             {<<"text">>, {{complex, <<"Narrative">>}, optional}},
-            {<<"mode">>, {{code, <<"listmode">>}, optional}},
+            {<<"mode">>, {{code, <<"listmode_list">>}, optional}},
             {<<"orderedBy">>, {{complex, <<"CodeableConcept">>}, optional}},
             {<<"entry">>, {{complex, <<"Reference">>}, list}},
             {<<"emptyReason">>, {{complex, <<"CodeableConcept">>}, optional}},
@@ -3262,7 +3262,7 @@
             {<<"version">>, {{primitive, <<"string">>}, optional}},
             {<<"name">>, {{primitive, <<"string">>}, optional}},
             {<<"title">>, {{primitive, <<"string">>}, optional}},
-            {<<"status">>, {{code, <<"publicationstatus">>}, required}},
+            {<<"status">>, {{code, <<"publicationstatus_list">>}, required}},
             {<<"experimental">>, {{primitive, <<"boolean">>}, optional}},
             {<<"date">>, {{primitive, <<"dateTime">>}, optional}},
             {<<"publisher">>, {{primitive, <<"string">>}, optional}},
@@ -3321,7 +3321,7 @@
             [
             {<<"code">>, {{primitive, <<"code">>}, optional}},
             {<<"display">>, {{primitive, <<"string">>}, optional}},
-            {<<"equivalence">>, {{code, <<"conceptmapequivalence">>}, required}},
+            {<<"equivalence">>, {{code, <<"conceptmapequivalence_list">>}, required}},
             {<<"comment">>, {{primitive, <<"string">>}, optional}},
             {<<"dependsOn">>, {{bbelement, <<"ConceptMap.DependsOn">>}, list}},
             {<<"product">>, {{bbelement, <<"ConceptMap.DependsOn">>}, list}}
@@ -3349,7 +3349,7 @@
 %%
     , <<"ConceptMap.Unmapped">> => {<<"BackboneElement">>,
             [
-            {<<"mode">>, {{code, <<"conceptmapgroupunmappedmode">>}, required}},
+            {<<"mode">>, {{code, <<"conceptmapgroupunmappedmode_list">>}, required}},
             {<<"code">>, {{primitive, <<"code">>}, optional}},
             {<<"display">>, {{primitive, <<"string">>}, optional}},
             {<<"url">>, {{primitive, <<"canonical">>}, optional}}
@@ -3429,7 +3429,7 @@
     , <<"Consent">> => {<<"DomainResource">>,
             [
             {<<"identifier">>, {{complex, <<"Identifier">>}, list}},
-            {<<"status">>, {{code, <<"consentstate">>}, required}},
+            {<<"status">>, {{code, <<"consentstate_list">>}, required}},
             {<<"scope">>, {{complex, <<"CodeableConcept">>}, required}},
             {<<"category">>, {{complex, <<"CodeableConcept">>}, non_empty_list}},
             {<<"patient">>, {{complex, <<"Reference">>}, optional}},
@@ -3479,7 +3479,7 @@
 %%
     , <<"Consent.Provision">> => {<<"BackboneElement">>,
             [
-            {<<"type">>, {{code, <<"consentprovisiontype">>}, optional}},
+            {<<"type">>, {{code, <<"consentprovisiontype_list">>}, optional}},
             {<<"period">>, {{complex, <<"Period">>}, optional}},
             {<<"actor">>, {{bbelement, <<"Consent.Actor">>}, list}},
             {<<"action">>, {{complex, <<"CodeableConcept">>}, list}},
@@ -3512,7 +3512,7 @@
 %%
     , <<"Consent.Data">> => {<<"BackboneElement">>,
             [
-            {<<"meaning">>, {{code, <<"consentdatameaning">>}, required}},
+            {<<"meaning">>, {{code, <<"consentdatameaning_list">>}, required}},
             {<<"reference">>, {{complex, <<"Reference">>}, required}}
             ],
             [],
@@ -3528,7 +3528,7 @@
             {<<"identifier">>, {{complex, <<"Identifier">>}, list}},
             {<<"url">>, {{primitive, <<"uri">>}, optional}},
             {<<"version">>, {{primitive, <<"string">>}, optional}},
-            {<<"status">>, {{code, <<"contractresourcestatuscodes">>}, optional}},
+            {<<"status">>, {{code, <<"contractresourcestatuscodes_list">>}, optional}},
             {<<"legalState">>, {{complex, <<"CodeableConcept">>}, optional}},
             {<<"instantiatesCanonical">>, {{complex, <<"Reference">>}, optional}},
             {<<"instantiatesUri">>, {{primitive, <<"uri">>}, optional}},
@@ -3577,7 +3577,7 @@
             {<<"subType">>, {{complex, <<"CodeableConcept">>}, optional}},
             {<<"publisher">>, {{complex, <<"Reference">>}, optional}},
             {<<"publicationDate">>, {{primitive, <<"dateTime">>}, optional}},
-            {<<"publicationStatus">>, {{code, <<"contractresourcepublicationstatuscodes">>}, required}},
+            {<<"publicationStatus">>, {{code, <<"contractresourcepublicationstatuscodes_list">>}, required}},
             {<<"copyright">>, {{primitive, <<"markdown">>}, optional}}
             ],
             [],
@@ -3853,7 +3853,7 @@
     , <<"Coverage">> => {<<"DomainResource">>,
             [
             {<<"identifier">>, {{complex, <<"Identifier">>}, list}},
-            {<<"status">>, {{code, <<"financialresourcestatuscodes">>}, required}},
+            {<<"status">>, {{code, <<"financialresourcestatuscodes_list">>}, required}},
             {<<"type">>, {{complex, <<"CodeableConcept">>}, optional}},
             {<<"policyHolder">>, {{complex, <<"Reference">>}, optional}},
             {<<"subscriber">>, {{complex, <<"Reference">>}, optional}},
@@ -3922,9 +3922,9 @@
     , <<"CoverageEligibilityRequest">> => {<<"DomainResource">>,
             [
             {<<"identifier">>, {{complex, <<"Identifier">>}, list}},
-            {<<"status">>, {{code, <<"financialresourcestatuscodes">>}, required}},
+            {<<"status">>, {{code, <<"financialresourcestatuscodes_list">>}, required}},
             {<<"priority">>, {{complex, <<"CodeableConcept">>}, optional}},
-            {<<"purpose">>, {{code, <<"eligibilityrequestpurpose">>}, non_empty_list}},
+            {<<"purpose">>, {{code, <<"eligibilityrequestpurpose_list">>}, non_empty_list}},
             {<<"patient">>, {{complex, <<"Reference">>}, required}},
             {<<"servicedDate">>, {{primitive, <<"date">>}, optional}},
             {<<"servicedPeriod">>, {{complex, <<"Period">>}, optional}},
@@ -4010,15 +4010,15 @@
     , <<"CoverageEligibilityResponse">> => {<<"DomainResource">>,
             [
             {<<"identifier">>, {{complex, <<"Identifier">>}, list}},
-            {<<"status">>, {{code, <<"financialresourcestatuscodes">>}, required}},
-            {<<"purpose">>, {{code, <<"eligibilityresponsepurpose">>}, non_empty_list}},
+            {<<"status">>, {{code, <<"financialresourcestatuscodes_list">>}, required}},
+            {<<"purpose">>, {{code, <<"eligibilityresponsepurpose_list">>}, non_empty_list}},
             {<<"patient">>, {{complex, <<"Reference">>}, required}},
             {<<"servicedDate">>, {{primitive, <<"date">>}, optional}},
             {<<"servicedPeriod">>, {{complex, <<"Period">>}, optional}},
             {<<"created">>, {{primitive, <<"dateTime">>}, required}},
             {<<"requestor">>, {{complex, <<"Reference">>}, optional}},
             {<<"request">>, {{complex, <<"Reference">>}, required}},
-            {<<"outcome">>, {{code, <<"remittanceoutcome">>}, required}},
+            {<<"outcome">>, {{code, <<"remittanceoutcome_list">>}, required}},
             {<<"disposition">>, {{primitive, <<"string">>}, optional}},
             {<<"insurer">>, {{complex, <<"Reference">>}, required}},
             {<<"insurance">>, {{bbelement, <<"CoverageEligibilityResponse.Insurance">>}, list}},
@@ -4108,9 +4108,9 @@
     , <<"DetectedIssue">> => {<<"DomainResource">>,
             [
             {<<"identifier">>, {{complex, <<"Identifier">>}, list}},
-            {<<"status">>, {{code, <<"observationstatus">>}, required}},
+            {<<"status">>, {{code, <<"observationstatus_list">>}, required}},
             {<<"code">>, {{complex, <<"CodeableConcept">>}, optional}},
-            {<<"severity">>, {{code, <<"detectedissueseverity">>}, optional}},
+            {<<"severity">>, {{code, <<"detectedissueseverity_list">>}, optional}},
             {<<"patient">>, {{complex, <<"Reference">>}, optional}},
             {<<"identifiedDateTime">>, {{primitive, <<"dateTime">>}, optional}},
             {<<"identifiedPeriod">>, {{complex, <<"Period">>}, optional}},
@@ -4161,7 +4161,7 @@
             {<<"identifier">>, {{complex, <<"Identifier">>}, list}},
             {<<"definition">>, {{complex, <<"Reference">>}, optional}},
             {<<"udiCarrier">>, {{bbelement, <<"Device.UdiCarrier">>}, list}},
-            {<<"status">>, {{code, <<"fhirdevicestatus">>}, optional}},
+            {<<"status">>, {{code, <<"fhirdevicestatus_list">>}, optional}},
             {<<"statusReason">>, {{complex, <<"CodeableConcept">>}, list}},
             {<<"distinctIdentifier">>, {{primitive, <<"string">>}, optional}},
             {<<"manufacturer">>, {{primitive, <<"string">>}, optional}},
@@ -4199,7 +4199,7 @@
             {<<"jurisdiction">>, {{primitive, <<"uri">>}, optional}},
             {<<"carrierAIDC">>, {{primitive, <<"base64Binary">>}, optional}},
             {<<"carrierHRF">>, {{primitive, <<"string">>}, optional}},
-            {<<"entryType">>, {{code, <<"udientrytype">>}, optional}}
+            {<<"entryType">>, {{code, <<"udientrytype_list">>}, optional}}
             ],
             [],
             []
@@ -4211,7 +4211,7 @@
     , <<"Device.DeviceName">> => {<<"BackboneElement">>,
             [
             {<<"name">>, {{primitive, <<"string">>}, required}},
-            {<<"type">>, {{code, <<"devicenametype">>}, required}}
+            {<<"type">>, {{code, <<"devicenametype_list">>}, required}}
             ],
             [],
             []
@@ -4310,7 +4310,7 @@
     , <<"DeviceDefinition.DeviceName">> => {<<"BackboneElement">>,
             [
             {<<"name">>, {{primitive, <<"string">>}, required}},
-            {<<"type">>, {{code, <<"devicenametype">>}, required}}
+            {<<"type">>, {{code, <<"devicenametype_list">>}, required}}
             ],
             [],
             []
@@ -4377,9 +4377,9 @@
             {<<"unit">>, {{complex, <<"CodeableConcept">>}, optional}},
             {<<"source">>, {{complex, <<"Reference">>}, optional}},
             {<<"parent">>, {{complex, <<"Reference">>}, optional}},
-            {<<"operationalStatus">>, {{code, <<"devicemetricoperationalstatus">>}, optional}},
-            {<<"color">>, {{code, <<"devicemetriccolor">>}, optional}},
-            {<<"category">>, {{code, <<"devicemetriccategory">>}, required}},
+            {<<"operationalStatus">>, {{code, <<"devicemetricoperationalstatus_list">>}, optional}},
+            {<<"color">>, {{code, <<"devicemetriccolor_list">>}, optional}},
+            {<<"category">>, {{code, <<"devicemetriccategory_list">>}, required}},
             {<<"measurementPeriod">>, {{bbelement, <<"Timing">>}, optional}},
             {<<"calibration">>, {{bbelement, <<"DeviceMetric.Calibration">>}, list}}
             ],
@@ -4392,8 +4392,8 @@
 %%
     , <<"DeviceMetric.Calibration">> => {<<"BackboneElement">>,
             [
-            {<<"type">>, {{code, <<"devicemetriccalibrationtype">>}, optional}},
-            {<<"state">>, {{code, <<"devicemetriccalibrationstate">>}, optional}},
+            {<<"type">>, {{code, <<"devicemetriccalibrationtype_list">>}, optional}},
+            {<<"state">>, {{code, <<"devicemetriccalibrationstate_list">>}, optional}},
             {<<"time">>, {{primitive, <<"instant">>}, optional}}
             ],
             [],
@@ -4412,9 +4412,9 @@
             {<<"basedOn">>, {{complex, <<"Reference">>}, list}},
             {<<"priorRequest">>, {{complex, <<"Reference">>}, list}},
             {<<"groupIdentifier">>, {{complex, <<"Identifier">>}, optional}},
-            {<<"status">>, {{code, <<"requeststatus">>}, optional}},
-            {<<"intent">>, {{code, <<"requestintent">>}, required}},
-            {<<"priority">>, {{code, <<"requestpriority">>}, optional}},
+            {<<"status">>, {{code, <<"requeststatus_list">>}, optional}},
+            {<<"intent">>, {{code, <<"requestintent_list">>}, required}},
+            {<<"priority">>, {{code, <<"requestpriority_list">>}, optional}},
             {<<"codeReference">>, {{complex, <<"Reference">>}, required}},
             {<<"codeCodeableConcept">>, {{complex, <<"CodeableConcept">>}, required}},
             {<<"parameter">>, {{bbelement, <<"DeviceRequest.Parameter">>}, list}},
@@ -4466,7 +4466,7 @@
             [
             {<<"identifier">>, {{complex, <<"Identifier">>}, list}},
             {<<"basedOn">>, {{complex, <<"Reference">>}, list}},
-            {<<"status">>, {{code, <<"deviceusestatementstatus">>}, required}},
+            {<<"status">>, {{code, <<"deviceusestatementstatus_list">>}, required}},
             {<<"subject">>, {{complex, <<"Reference">>}, required}},
             {<<"derivedFrom">>, {{complex, <<"Reference">>}, list}},
             {<<"timingTiming">>, {{bbelement, <<"Timing">>}, optional}},
@@ -4494,7 +4494,7 @@
             [
             {<<"identifier">>, {{complex, <<"Identifier">>}, list}},
             {<<"basedOn">>, {{complex, <<"Reference">>}, list}},
-            {<<"status">>, {{code, <<"diagnosticreportstatus">>}, required}},
+            {<<"status">>, {{code, <<"diagnosticreportstatus_list">>}, required}},
             {<<"category">>, {{complex, <<"CodeableConcept">>}, list}},
             {<<"code">>, {{complex, <<"CodeableConcept">>}, required}},
             {<<"subject">>, {{complex, <<"Reference">>}, optional}},
@@ -4538,7 +4538,7 @@
             [
             {<<"masterIdentifier">>, {{complex, <<"Identifier">>}, optional}},
             {<<"identifier">>, {{complex, <<"Identifier">>}, list}},
-            {<<"status">>, {{code, <<"documentreferencestatus">>}, required}},
+            {<<"status">>, {{code, <<"documentreferencestatus_list">>}, required}},
             {<<"type">>, {{complex, <<"CodeableConcept">>}, optional}},
             {<<"subject">>, {{complex, <<"Reference">>}, optional}},
             {<<"created">>, {{primitive, <<"dateTime">>}, optional}},
@@ -4573,8 +4573,8 @@
             [
             {<<"masterIdentifier">>, {{complex, <<"Identifier">>}, optional}},
             {<<"identifier">>, {{complex, <<"Identifier">>}, list}},
-            {<<"status">>, {{code, <<"documentreferencestatus">>}, required}},
-            {<<"docStatus">>, {{code, <<"compositionstatus">>}, optional}},
+            {<<"status">>, {{code, <<"documentreferencestatus_list">>}, required}},
+            {<<"docStatus">>, {{code, <<"compositionstatus_list">>}, optional}},
             {<<"type">>, {{complex, <<"CodeableConcept">>}, optional}},
             {<<"category">>, {{complex, <<"CodeableConcept">>}, list}},
             {<<"subject">>, {{complex, <<"Reference">>}, optional}},
@@ -4597,7 +4597,7 @@
 %%
     , <<"DocumentReference.RelatesTo">> => {<<"BackboneElement">>,
             [
-            {<<"code">>, {{code, <<"documentrelationshiptype">>}, required}},
+            {<<"code">>, {{code, <<"documentrelationshiptype_list">>}, required}},
             {<<"target">>, {{complex, <<"Reference">>}, required}}
             ],
             [],
@@ -4644,7 +4644,7 @@
             {<<"version">>, {{primitive, <<"string">>}, optional}},
             {<<"name">>, {{primitive, <<"string">>}, optional}},
             {<<"title">>, {{primitive, <<"string">>}, optional}},
-            {<<"status">>, {{code, <<"publicationstatus">>}, required}},
+            {<<"status">>, {{code, <<"publicationstatus_list">>}, required}},
             {<<"date">>, {{primitive, <<"dateTime">>}, optional}},
             {<<"publisher">>, {{primitive, <<"string">>}, optional}},
             {<<"contact">>, {{complex, <<"ContactDetail">>}, list}},
@@ -4696,7 +4696,7 @@
     , <<"EffectEvidenceSynthesis.ResultsByExposure">> => {<<"BackboneElement">>,
             [
             {<<"description">>, {{primitive, <<"string">>}, optional}},
-            {<<"exposureState">>, {{code, <<"exposurestate">>}, optional}},
+            {<<"exposureState">>, {{code, <<"exposurestate_list">>}, optional}},
             {<<"variantState">>, {{complex, <<"CodeableConcept">>}, optional}},
             {<<"riskEvidenceSynthesis">>, {{complex, <<"Reference">>}, required}}
             ],
@@ -4767,7 +4767,7 @@
     , <<"Encounter">> => {<<"DomainResource">>,
             [
             {<<"identifier">>, {{complex, <<"Identifier">>}, list}},
-            {<<"status">>, {{code, <<"encounterstatus">>}, required}},
+            {<<"status">>, {{code, <<"encounterstatus_list">>}, required}},
             {<<"statusHistory">>, {{bbelement, <<"Encounter.StatusHistory">>}, list}},
             {<<"class">>, {{complex, <<"Coding">>}, required}},
             {<<"classHistory">>, {{bbelement, <<"Encounter.ClassHistory">>}, list}},
@@ -4799,7 +4799,7 @@
 %%
     , <<"Encounter.StatusHistory">> => {<<"BackboneElement">>,
             [
-            {<<"status">>, {{code, <<"encounterstatus">>}, required}},
+            {<<"status">>, {{code, <<"encounterstatus_list">>}, required}},
             {<<"period">>, {{complex, <<"Period">>}, required}}
             ],
             [],
@@ -4869,7 +4869,7 @@
     , <<"Encounter.Location">> => {<<"BackboneElement">>,
             [
             {<<"location">>, {{complex, <<"Reference">>}, required}},
-            {<<"status">>, {{code, <<"encounterlocationstatus">>}, optional}},
+            {<<"status">>, {{code, <<"encounterlocationstatus_list">>}, optional}},
             {<<"physicalType">>, {{complex, <<"CodeableConcept">>}, optional}},
             {<<"period">>, {{complex, <<"Period">>}, optional}}
             ],
@@ -4884,7 +4884,7 @@
     , <<"Endpoint">> => {<<"DomainResource">>,
             [
             {<<"identifier">>, {{complex, <<"Identifier">>}, list}},
-            {<<"status">>, {{code, <<"endpointstatus">>}, required}},
+            {<<"status">>, {{code, <<"endpointstatus_list">>}, required}},
             {<<"connectionType">>, {{complex, <<"Coding">>}, required}},
             {<<"name">>, {{primitive, <<"string">>}, optional}},
             {<<"managingOrganization">>, {{complex, <<"Reference">>}, optional}},
@@ -4906,7 +4906,7 @@
     , <<"EnrollmentRequest">> => {<<"DomainResource">>,
             [
             {<<"identifier">>, {{complex, <<"Identifier">>}, list}},
-            {<<"status">>, {{code, <<"financialresourcestatuscodes">>}, optional}},
+            {<<"status">>, {{code, <<"financialresourcestatuscodes_list">>}, optional}},
             {<<"created">>, {{primitive, <<"dateTime">>}, optional}},
             {<<"insurer">>, {{complex, <<"Reference">>}, optional}},
             {<<"provider">>, {{complex, <<"Reference">>}, optional}},
@@ -4924,9 +4924,9 @@
     , <<"EnrollmentResponse">> => {<<"DomainResource">>,
             [
             {<<"identifier">>, {{complex, <<"Identifier">>}, list}},
-            {<<"status">>, {{code, <<"financialresourcestatuscodes">>}, optional}},
+            {<<"status">>, {{code, <<"financialresourcestatuscodes_list">>}, optional}},
             {<<"request">>, {{complex, <<"Reference">>}, optional}},
-            {<<"outcome">>, {{code, <<"remittanceoutcome">>}, optional}},
+            {<<"outcome">>, {{code, <<"remittanceoutcome_list">>}, optional}},
             {<<"disposition">>, {{primitive, <<"string">>}, optional}},
             {<<"created">>, {{primitive, <<"dateTime">>}, optional}},
             {<<"organization">>, {{complex, <<"Reference">>}, optional}},
@@ -4943,7 +4943,7 @@
     , <<"EpisodeOfCare">> => {<<"DomainResource">>,
             [
             {<<"identifier">>, {{complex, <<"Identifier">>}, list}},
-            {<<"status">>, {{code, <<"episodeofcarestatus">>}, required}},
+            {<<"status">>, {{code, <<"episodeofcarestatus_list">>}, required}},
             {<<"statusHistory">>, {{bbelement, <<"EpisodeOfCare.StatusHistory">>}, list}},
             {<<"type">>, {{complex, <<"CodeableConcept">>}, list}},
             {<<"diagnosis">>, {{bbelement, <<"EpisodeOfCare.Diagnosis">>}, list}},
@@ -4964,7 +4964,7 @@
 %%
     , <<"EpisodeOfCare.StatusHistory">> => {<<"BackboneElement">>,
             [
-            {<<"status">>, {{code, <<"episodeofcarestatus">>}, required}},
+            {<<"status">>, {{code, <<"episodeofcarestatus_list">>}, required}},
             {<<"period">>, {{complex, <<"Period">>}, required}}
             ],
             [],
@@ -4996,7 +4996,7 @@
             {<<"name">>, {{primitive, <<"string">>}, optional}},
             {<<"title">>, {{primitive, <<"string">>}, optional}},
             {<<"subtitle">>, {{primitive, <<"string">>}, optional}},
-            {<<"status">>, {{code, <<"publicationstatus">>}, required}},
+            {<<"status">>, {{code, <<"publicationstatus_list">>}, required}},
             {<<"experimental">>, {{primitive, <<"boolean">>}, optional}},
             {<<"subjectCodeableConcept">>, {{complex, <<"CodeableConcept">>}, optional}},
             {<<"subjectReference">>, {{complex, <<"Reference">>}, optional}},
@@ -5039,7 +5039,7 @@
             {<<"title">>, {{primitive, <<"string">>}, optional}},
             {<<"shortTitle">>, {{primitive, <<"string">>}, optional}},
             {<<"subtitle">>, {{primitive, <<"string">>}, optional}},
-            {<<"status">>, {{code, <<"publicationstatus">>}, required}},
+            {<<"status">>, {{code, <<"publicationstatus_list">>}, required}},
             {<<"date">>, {{primitive, <<"dateTime">>}, optional}},
             {<<"publisher">>, {{primitive, <<"string">>}, optional}},
             {<<"contact">>, {{complex, <<"ContactDetail">>}, list}},
@@ -5078,7 +5078,7 @@
             {<<"title">>, {{primitive, <<"string">>}, optional}},
             {<<"shortTitle">>, {{primitive, <<"string">>}, optional}},
             {<<"subtitle">>, {{primitive, <<"string">>}, optional}},
-            {<<"status">>, {{code, <<"publicationstatus">>}, required}},
+            {<<"status">>, {{code, <<"publicationstatus_list">>}, required}},
             {<<"date">>, {{primitive, <<"dateTime">>}, optional}},
             {<<"publisher">>, {{primitive, <<"string">>}, optional}},
             {<<"contact">>, {{complex, <<"ContactDetail">>}, list}},
@@ -5096,7 +5096,7 @@
             {<<"reviewer">>, {{complex, <<"ContactDetail">>}, list}},
             {<<"endorser">>, {{complex, <<"ContactDetail">>}, list}},
             {<<"relatedArtifact">>, {{complex, <<"RelatedArtifact">>}, list}},
-            {<<"type">>, {{code, <<"evidencevariabletype">>}, optional}},
+            {<<"type">>, {{code, <<"evidencevariabletype_list">>}, optional}},
             {<<"characteristic">>, {{bbelement, <<"EvidenceVariable.Characteristic">>}, non_empty_list}}
             ],
             [],
@@ -5122,7 +5122,7 @@
             {<<"participantEffectiveDuration">>, {{complex, <<"Duration">>}, optional}},
             {<<"participantEffectiveTiming">>, {{bbelement, <<"Timing">>}, optional}},
             {<<"timeFromStart">>, {{complex, <<"Duration">>}, optional}},
-            {<<"groupMeasure">>, {{code, <<"groupmeasure">>}, optional}}
+            {<<"groupMeasure">>, {{code, <<"groupmeasure_list">>}, optional}}
             ],
             [],
             [
@@ -5141,7 +5141,7 @@
             {<<"identifier">>, {{complex, <<"Identifier">>}, list}},
             {<<"version">>, {{primitive, <<"string">>}, optional}},
             {<<"name">>, {{primitive, <<"string">>}, optional}},
-            {<<"status">>, {{code, <<"publicationstatus">>}, required}},
+            {<<"status">>, {{code, <<"publicationstatus_list">>}, required}},
             {<<"experimental">>, {{primitive, <<"boolean">>}, optional}},
             {<<"date">>, {{primitive, <<"dateTime">>}, optional}},
             {<<"publisher">>, {{primitive, <<"string">>}, optional}},
@@ -5165,7 +5165,7 @@
     , <<"ExampleScenario.Actor">> => {<<"BackboneElement">>,
             [
             {<<"actorId">>, {{primitive, <<"string">>}, required}},
-            {<<"type">>, {{code, <<"examplescenarioactortype">>}, required}},
+            {<<"type">>, {{code, <<"examplescenarioactortype_list">>}, required}},
             {<<"name">>, {{primitive, <<"string">>}, optional}},
             {<<"description">>, {{primitive, <<"markdown">>}, optional}}
             ],
@@ -5179,7 +5179,7 @@
     , <<"ExampleScenario.Instance">> => {<<"BackboneElement">>,
             [
             {<<"resourceId">>, {{primitive, <<"string">>}, required}},
-            {<<"resourceType">>, {{code, <<"resourcetype">>}, required}},
+            {<<"resourceType">>, {{code, <<"resourcetype_list">>}, required}},
             {<<"name">>, {{primitive, <<"string">>}, optional}},
             {<<"description">>, {{primitive, <<"markdown">>}, optional}},
             {<<"version">>, {{bbelement, <<"ExampleScenario.Version">>}, list}},
@@ -5282,10 +5282,10 @@
     , <<"ExplanationOfBenefit">> => {<<"DomainResource">>,
             [
             {<<"identifier">>, {{complex, <<"Identifier">>}, list}},
-            {<<"status">>, {{code, <<"explanationofbenefitstatus">>}, required}},
+            {<<"status">>, {{code, <<"explanationofbenefitstatus_list">>}, required}},
             {<<"type">>, {{complex, <<"CodeableConcept">>}, required}},
             {<<"subType">>, {{complex, <<"CodeableConcept">>}, optional}},
-            {<<"use">>, {{code, <<"use">>}, required}},
+            {<<"use">>, {{code, <<"use_list">>}, required}},
             {<<"patient">>, {{complex, <<"Reference">>}, required}},
             {<<"billablePeriod">>, {{complex, <<"Period">>}, optional}},
             {<<"created">>, {{primitive, <<"dateTime">>}, required}},
@@ -5303,7 +5303,7 @@
             {<<"facility">>, {{complex, <<"Reference">>}, optional}},
             {<<"claim">>, {{complex, <<"Reference">>}, optional}},
             {<<"claimResponse">>, {{complex, <<"Reference">>}, optional}},
-            {<<"outcome">>, {{code, <<"claimprocessingcodes">>}, required}},
+            {<<"outcome">>, {{code, <<"claimprocessingcodes_list">>}, required}},
             {<<"disposition">>, {{primitive, <<"string">>}, optional}},
             {<<"preAuthRef">>, {{primitive, <<"string">>}, list}},
             {<<"preAuthRefPeriod">>, {{complex, <<"Period">>}, list}},
@@ -5663,7 +5663,7 @@
     , <<"ExplanationOfBenefit.ProcessNote">> => {<<"BackboneElement">>,
             [
             {<<"number">>, {{primitive, <<"positiveInt">>}, optional}},
-            {<<"type">>, {{code, <<"notetype">>}, optional}},
+            {<<"type">>, {{code, <<"notetype_list">>}, optional}},
             {<<"text">>, {{primitive, <<"string">>}, optional}},
             {<<"language">>, {{complex, <<"CodeableConcept">>}, optional}}
             ],
@@ -5717,7 +5717,7 @@
             {<<"identifier">>, {{complex, <<"Identifier">>}, list}},
             {<<"instantiatesCanonical">>, {{primitive, <<"canonical">>}, list}},
             {<<"instantiatesUri">>, {{primitive, <<"uri">>}, list}},
-            {<<"status">>, {{code, <<"familyhistorystatus">>}, required}},
+            {<<"status">>, {{code, <<"familyhistorystatus_list">>}, required}},
             {<<"dataAbsentReason">>, {{complex, <<"CodeableConcept">>}, optional}},
             {<<"patient">>, {{complex, <<"Reference">>}, required}},
             {<<"date">>, {{primitive, <<"dateTime">>}, optional}},
@@ -5776,7 +5776,7 @@
     , <<"Flag">> => {<<"DomainResource">>,
             [
             {<<"identifier">>, {{complex, <<"Identifier">>}, list}},
-            {<<"status">>, {{code, <<"flagstatus">>}, required}},
+            {<<"status">>, {{code, <<"flagstatus_list">>}, required}},
             {<<"category">>, {{complex, <<"CodeableConcept">>}, list}},
             {<<"code">>, {{complex, <<"CodeableConcept">>}, required}},
             {<<"subject">>, {{complex, <<"Reference">>}, required}},
@@ -5795,7 +5795,7 @@
     , <<"Goal">> => {<<"DomainResource">>,
             [
             {<<"identifier">>, {{complex, <<"Identifier">>}, list}},
-            {<<"lifecycleStatus">>, {{code, <<"goallifecyclestatus">>}, required}},
+            {<<"lifecycleStatus">>, {{code, <<"goallifecyclestatus_list">>}, required}},
             {<<"achievementStatus">>, {{complex, <<"CodeableConcept">>}, optional}},
             {<<"category">>, {{complex, <<"CodeableConcept">>}, list}},
             {<<"priority">>, {{complex, <<"CodeableConcept">>}, optional}},
@@ -5850,7 +5850,7 @@
             {<<"url">>, {{primitive, <<"uri">>}, optional}},
             {<<"version">>, {{primitive, <<"string">>}, optional}},
             {<<"name">>, {{primitive, <<"string">>}, required}},
-            {<<"status">>, {{code, <<"publicationstatus">>}, required}},
+            {<<"status">>, {{code, <<"publicationstatus_list">>}, required}},
             {<<"experimental">>, {{primitive, <<"boolean">>}, optional}},
             {<<"date">>, {{primitive, <<"dateTime">>}, optional}},
             {<<"publisher">>, {{primitive, <<"string">>}, optional}},
@@ -5903,9 +5903,9 @@
 %%
     , <<"GraphDefinition.Compartment">> => {<<"BackboneElement">>,
             [
-            {<<"use">>, {{code, <<"graphcompartmentuse">>}, required}},
-            {<<"code">>, {{code, <<"compartmenttype">>}, required}},
-            {<<"rule">>, {{code, <<"graphcompartmentrule">>}, required}},
+            {<<"use">>, {{code, <<"graphcompartmentuse_list">>}, required}},
+            {<<"code">>, {{code, <<"compartmenttype_list">>}, required}},
+            {<<"rule">>, {{code, <<"graphcompartmentrule_list">>}, required}},
             {<<"expression">>, {{primitive, <<"string">>}, optional}},
             {<<"description">>, {{primitive, <<"string">>}, optional}}
             ],
@@ -5921,7 +5921,7 @@
             [
             {<<"identifier">>, {{complex, <<"Identifier">>}, list}},
             {<<"active">>, {{primitive, <<"boolean">>}, optional}},
-            {<<"type">>, {{code, <<"grouptype">>}, required}},
+            {<<"type">>, {{code, <<"grouptype_list">>}, required}},
             {<<"actual">>, {{primitive, <<"boolean">>}, required}},
             {<<"code">>, {{complex, <<"CodeableConcept">>}, optional}},
             {<<"name">>, {{primitive, <<"string">>}, optional}},
@@ -5978,7 +5978,7 @@
             {<<"moduleUri">>, {{primitive, <<"uri">>}, required}},
             {<<"moduleCanonical">>, {{primitive, <<"canonical">>}, required}},
             {<<"moduleCodeableConcept">>, {{complex, <<"CodeableConcept">>}, required}},
-            {<<"status">>, {{code, <<"guidanceresponsestatus">>}, required}},
+            {<<"status">>, {{code, <<"guidanceresponsestatus_list">>}, required}},
             {<<"subject">>, {{complex, <<"Reference">>}, optional}},
             {<<"encounter">>, {{complex, <<"Reference">>}, optional}},
             {<<"occurrenceDateTime">>, {{primitive, <<"dateTime">>}, optional}},
@@ -6049,7 +6049,7 @@
 %%
     , <<"HealthcareService.AvailableTime">> => {<<"BackboneElement">>,
             [
-            {<<"daysOfWeek">>, {{code, <<"daysofweek">>}, list}},
+            {<<"daysOfWeek">>, {{code, <<"daysofweek_list">>}, list}},
             {<<"allDay">>, {{primitive, <<"boolean">>}, optional}},
             {<<"availableStartTime">>, {{primitive, <<"time">>}, optional}},
             {<<"availableEndTime">>, {{primitive, <<"time">>}, optional}}
@@ -6077,7 +6077,7 @@
     , <<"ImagingStudy">> => {<<"DomainResource">>,
             [
             {<<"identifier">>, {{complex, <<"Identifier">>}, list}},
-            {<<"status">>, {{code, <<"imagingstudystatus">>}, required}},
+            {<<"status">>, {{code, <<"imagingstudystatus_list">>}, required}},
             {<<"modality">>, {{complex, <<"Coding">>}, list}},
             {<<"subject">>, {{complex, <<"Reference">>}, required}},
             {<<"encounter">>, {{complex, <<"Reference">>}, optional}},
@@ -6156,7 +6156,7 @@
     , <<"Immunization">> => {<<"DomainResource">>,
             [
             {<<"identifier">>, {{complex, <<"Identifier">>}, list}},
-            {<<"status">>, {{code, <<"immunizationstatuscodes">>}, required}},
+            {<<"status">>, {{code, <<"immunizationstatuscodes_list">>}, required}},
             {<<"statusReason">>, {{complex, <<"CodeableConcept">>}, optional}},
             {<<"vaccineCode">>, {{complex, <<"CodeableConcept">>}, required}},
             {<<"patient">>, {{complex, <<"Reference">>}, required}},
@@ -6257,7 +6257,7 @@
     , <<"ImmunizationEvaluation">> => {<<"DomainResource">>,
             [
             {<<"identifier">>, {{complex, <<"Identifier">>}, list}},
-            {<<"status">>, {{code, <<"immunizationevaluationstatuscodes">>}, required}},
+            {<<"status">>, {{code, <<"immunizationevaluationstatuscodes_list">>}, required}},
             {<<"patient">>, {{complex, <<"Reference">>}, required}},
             {<<"date">>, {{primitive, <<"dateTime">>}, optional}},
             {<<"authority">>, {{complex, <<"Reference">>}, optional}},
@@ -6344,7 +6344,7 @@
             {<<"version">>, {{primitive, <<"string">>}, optional}},
             {<<"name">>, {{primitive, <<"string">>}, required}},
             {<<"title">>, {{primitive, <<"string">>}, optional}},
-            {<<"status">>, {{code, <<"publicationstatus">>}, required}},
+            {<<"status">>, {{code, <<"publicationstatus_list">>}, required}},
             {<<"experimental">>, {{primitive, <<"boolean">>}, optional}},
             {<<"date">>, {{primitive, <<"dateTime">>}, optional}},
             {<<"publisher">>, {{primitive, <<"string">>}, optional}},
@@ -6354,8 +6354,8 @@
             {<<"jurisdiction">>, {{complex, <<"CodeableConcept">>}, list}},
             {<<"copyright">>, {{primitive, <<"markdown">>}, optional}},
             {<<"packageId">>, {{primitive, <<"id">>}, required}},
-            {<<"license">>, {{code, <<"spdxlicense">>}, optional}},
-            {<<"fhirVersion">>, {{code, <<"fhirversion">>}, non_empty_list}},
+            {<<"license">>, {{code, <<"spdxlicense_list">>}, optional}},
+            {<<"fhirVersion">>, {{code, <<"fhirversion_list">>}, non_empty_list}},
             {<<"dependsOn">>, {{bbelement, <<"ImplementationGuide.DependsOn">>}, list}},
             {<<"global">>, {{bbelement, <<"ImplementationGuide.Global">>}, list}},
             {<<"definition">>, {{bbelement, <<"ImplementationGuide.Definition">>}, optional}},
@@ -6423,7 +6423,7 @@
     , <<"ImplementationGuide.Resource">> => {<<"BackboneElement">>,
             [
             {<<"reference">>, {{complex, <<"Reference">>}, required}},
-            {<<"fhirVersion">>, {{code, <<"fhirversion">>}, list}},
+            {<<"fhirVersion">>, {{code, <<"fhirversion_list">>}, list}},
             {<<"name">>, {{primitive, <<"string">>}, optional}},
             {<<"description">>, {{primitive, <<"string">>}, optional}},
             {<<"exampleBoolean">>, {{primitive, <<"boolean">>}, optional}},
@@ -6444,7 +6444,7 @@
             {<<"nameUrl">>, {{primitive, <<"url">>}, required}},
             {<<"nameReference">>, {{complex, <<"Reference">>}, required}},
             {<<"title">>, {{primitive, <<"string">>}, required}},
-            {<<"generation">>, {{code, <<"guidepagegeneration">>}, required}},
+            {<<"generation">>, {{code, <<"guidepagegeneration_list">>}, required}},
             {<<"page">>, {{bbelement, <<"ImplementationGuide.Page">>}, list}}
             ],
             [],
@@ -6458,7 +6458,7 @@
 %%
     , <<"ImplementationGuide.Parameter">> => {<<"BackboneElement">>,
             [
-            {<<"code">>, {{code, <<"guideparametercode">>}, required}},
+            {<<"code">>, {{code, <<"guideparametercode_list">>}, required}},
             {<<"value">>, {{primitive, <<"string">>}, required}}
             ],
             [],
@@ -6529,7 +6529,7 @@
     , <<"InsurancePlan">> => {<<"DomainResource">>,
             [
             {<<"identifier">>, {{complex, <<"Identifier">>}, list}},
-            {<<"status">>, {{code, <<"publicationstatus">>}, optional}},
+            {<<"status">>, {{code, <<"publicationstatus_list">>}, optional}},
             {<<"type">>, {{complex, <<"CodeableConcept">>}, list}},
             {<<"name">>, {{primitive, <<"string">>}, optional}},
             {<<"alias">>, {{primitive, <<"string">>}, list}},
@@ -6674,7 +6674,7 @@
     , <<"Invoice">> => {<<"DomainResource">>,
             [
             {<<"identifier">>, {{complex, <<"Identifier">>}, list}},
-            {<<"status">>, {{code, <<"invoicestatus">>}, required}},
+            {<<"status">>, {{code, <<"invoicestatus_list">>}, required}},
             {<<"cancelledReason">>, {{primitive, <<"string">>}, optional}},
             {<<"type">>, {{complex, <<"CodeableConcept">>}, optional}},
             {<<"subject">>, {{complex, <<"Reference">>}, optional}},
@@ -6727,7 +6727,7 @@
 %%
     , <<"Invoice.PriceComponent">> => {<<"BackboneElement">>,
             [
-            {<<"type">>, {{code, <<"invoicepricecomponenttype">>}, required}},
+            {<<"type">>, {{code, <<"invoicepricecomponenttype_list">>}, required}},
             {<<"code">>, {{complex, <<"CodeableConcept">>}, optional}},
             {<<"factor">>, {{primitive, <<"decimal">>}, optional}},
             {<<"amount">>, {{complex, <<"Money">>}, optional}}
@@ -6748,7 +6748,7 @@
             {<<"name">>, {{primitive, <<"string">>}, optional}},
             {<<"title">>, {{primitive, <<"string">>}, optional}},
             {<<"subtitle">>, {{primitive, <<"string">>}, optional}},
-            {<<"status">>, {{code, <<"publicationstatus">>}, required}},
+            {<<"status">>, {{code, <<"publicationstatus_list">>}, required}},
             {<<"experimental">>, {{primitive, <<"boolean">>}, optional}},
             {<<"type">>, {{complex, <<"CodeableConcept">>}, required}},
             {<<"subjectCodeableConcept">>, {{complex, <<"CodeableConcept">>}, optional}},
@@ -6800,7 +6800,7 @@
 %%
     , <<"Linkage.Item">> => {<<"BackboneElement">>,
             [
-            {<<"type">>, {{code, <<"linkagetype">>}, required}},
+            {<<"type">>, {{code, <<"linkagetype_list">>}, required}},
             {<<"resource">>, {{complex, <<"Reference">>}, required}}
             ],
             [],
@@ -6814,8 +6814,8 @@
     , <<"List">> => {<<"DomainResource">>,
             [
             {<<"identifier">>, {{complex, <<"Identifier">>}, list}},
-            {<<"status">>, {{code, <<"liststatus">>}, required}},
-            {<<"mode">>, {{code, <<"listmode">>}, required}},
+            {<<"status">>, {{code, <<"liststatus_list">>}, required}},
+            {<<"mode">>, {{code, <<"listmode_list">>}, required}},
             {<<"title">>, {{primitive, <<"string">>}, optional}},
             {<<"code">>, {{complex, <<"CodeableConcept">>}, optional}},
             {<<"subject">>, {{complex, <<"Reference">>}, optional}},
@@ -6852,12 +6852,12 @@
     , <<"Location">> => {<<"DomainResource">>,
             [
             {<<"identifier">>, {{complex, <<"Identifier">>}, list}},
-            {<<"status">>, {{code, <<"locationstatus">>}, optional}},
+            {<<"status">>, {{code, <<"locationstatus_list">>}, optional}},
             {<<"operationalStatus">>, {{complex, <<"Coding">>}, optional}},
             {<<"name">>, {{primitive, <<"string">>}, optional}},
             {<<"alias">>, {{primitive, <<"string">>}, list}},
             {<<"description">>, {{primitive, <<"string">>}, optional}},
-            {<<"mode">>, {{code, <<"locationmode">>}, optional}},
+            {<<"mode">>, {{code, <<"locationmode_list">>}, optional}},
             {<<"type">>, {{complex, <<"CodeableConcept">>}, list}},
             {<<"telecom">>, {{complex, <<"ContactPoint">>}, list}},
             {<<"address">>, {{complex, <<"Address">>}, optional}},
@@ -6891,7 +6891,7 @@
 %%
     , <<"Location.HoursOfOperation">> => {<<"BackboneElement">>,
             [
-            {<<"daysOfWeek">>, {{code, <<"daysofweek">>}, list}},
+            {<<"daysOfWeek">>, {{code, <<"daysofweek_list">>}, list}},
             {<<"allDay">>, {{primitive, <<"boolean">>}, optional}},
             {<<"openingTime">>, {{primitive, <<"time">>}, optional}},
             {<<"closingTime">>, {{primitive, <<"time">>}, optional}}
@@ -6912,7 +6912,7 @@
             {<<"name">>, {{primitive, <<"string">>}, optional}},
             {<<"title">>, {{primitive, <<"string">>}, optional}},
             {<<"subtitle">>, {{primitive, <<"string">>}, optional}},
-            {<<"status">>, {{code, <<"publicationstatus">>}, required}},
+            {<<"status">>, {{code, <<"publicationstatus_list">>}, required}},
             {<<"experimental">>, {{primitive, <<"boolean">>}, optional}},
             {<<"subjectCodeableConcept">>, {{complex, <<"CodeableConcept">>}, optional}},
             {<<"subjectReference">>, {{complex, <<"Reference">>}, optional}},
@@ -7030,8 +7030,8 @@
     , <<"MeasureReport">> => {<<"DomainResource">>,
             [
             {<<"identifier">>, {{complex, <<"Identifier">>}, list}},
-            {<<"status">>, {{code, <<"measurereportstatus">>}, required}},
-            {<<"type">>, {{code, <<"measurereporttype">>}, required}},
+            {<<"status">>, {{code, <<"measurereportstatus_list">>}, required}},
+            {<<"type">>, {{code, <<"measurereporttype_list">>}, required}},
             {<<"measure">>, {{primitive, <<"canonical">>}, required}},
             {<<"subject">>, {{complex, <<"Reference">>}, optional}},
             {<<"date">>, {{primitive, <<"dateTime">>}, optional}},
@@ -7132,7 +7132,7 @@
             {<<"identifier">>, {{complex, <<"Identifier">>}, list}},
             {<<"basedOn">>, {{complex, <<"Reference">>}, list}},
             {<<"partOf">>, {{complex, <<"Reference">>}, list}},
-            {<<"status">>, {{code, <<"eventstatus">>}, required}},
+            {<<"status">>, {{code, <<"eventstatus_list">>}, required}},
             {<<"type">>, {{complex, <<"CodeableConcept">>}, optional}},
             {<<"modality">>, {{complex, <<"CodeableConcept">>}, optional}},
             {<<"view">>, {{complex, <<"CodeableConcept">>}, optional}},
@@ -7167,7 +7167,7 @@
             [
             {<<"identifier">>, {{complex, <<"Identifier">>}, list}},
             {<<"code">>, {{complex, <<"CodeableConcept">>}, optional}},
-            {<<"status">>, {{code, <<"medicationstatuscodes">>}, optional}},
+            {<<"status">>, {{code, <<"medicationstatuscodes_list">>}, optional}},
             {<<"manufacturer">>, {{complex, <<"Reference">>}, optional}},
             {<<"form">>, {{complex, <<"CodeableConcept">>}, optional}},
             {<<"amount">>, {{complex, <<"Ratio">>}, optional}},
@@ -7589,11 +7589,11 @@
     , <<"MedicationRequest">> => {<<"DomainResource">>,
             [
             {<<"identifier">>, {{complex, <<"Identifier">>}, list}},
-            {<<"status">>, {{code, <<"medicationrequeststatus">>}, required}},
+            {<<"status">>, {{code, <<"medicationrequeststatus_list">>}, required}},
             {<<"statusReason">>, {{complex, <<"CodeableConcept">>}, optional}},
-            {<<"intent">>, {{code, <<"medicationrequestintent">>}, required}},
+            {<<"intent">>, {{code, <<"medicationrequestintent_list">>}, required}},
             {<<"category">>, {{complex, <<"CodeableConcept">>}, list}},
-            {<<"priority">>, {{code, <<"requestpriority">>}, optional}},
+            {<<"priority">>, {{code, <<"requestpriority_list">>}, optional}},
             {<<"doNotPerform">>, {{primitive, <<"boolean">>}, optional}},
             {<<"reportedBoolean">>, {{primitive, <<"boolean">>}, optional}},
             {<<"reportedReference">>, {{complex, <<"Reference">>}, optional}},
@@ -7686,7 +7686,7 @@
             {<<"identifier">>, {{complex, <<"Identifier">>}, list}},
             {<<"basedOn">>, {{complex, <<"Reference">>}, list}},
             {<<"partOf">>, {{complex, <<"Reference">>}, list}},
-            {<<"status">>, {{code, <<"medicationstatuscodes">>}, required}},
+            {<<"status">>, {{code, <<"medicationstatuscodes_list">>}, required}},
             {<<"statusReason">>, {{complex, <<"CodeableConcept">>}, list}},
             {<<"category">>, {{complex, <<"CodeableConcept">>}, optional}},
             {<<"medicationCodeableConcept">>, {{complex, <<"CodeableConcept">>}, required}},
@@ -8221,7 +8221,7 @@
             {<<"name">>, {{primitive, <<"string">>}, optional}},
             {<<"title">>, {{primitive, <<"string">>}, optional}},
             {<<"replaces">>, {{primitive, <<"canonical">>}, list}},
-            {<<"status">>, {{code, <<"publicationstatus">>}, required}},
+            {<<"status">>, {{code, <<"publicationstatus_list">>}, required}},
             {<<"experimental">>, {{primitive, <<"boolean">>}, optional}},
             {<<"date">>, {{primitive, <<"dateTime">>}, required}},
             {<<"publisher">>, {{primitive, <<"string">>}, optional}},
@@ -8235,9 +8235,9 @@
             {<<"parent">>, {{primitive, <<"canonical">>}, list}},
             {<<"eventCoding">>, {{complex, <<"Coding">>}, required}},
             {<<"eventUri">>, {{primitive, <<"uri">>}, required}},
-            {<<"category">>, {{code, <<"messagesignificancecategory">>}, optional}},
+            {<<"category">>, {{code, <<"messagesignificancecategory_list">>}, optional}},
             {<<"focus">>, {{bbelement, <<"MessageDefinition.Focus">>}, list}},
-            {<<"responseRequired">>, {{code, <<"messageheaderresponserequest">>}, optional}},
+            {<<"responseRequired">>, {{code, <<"messageheaderresponserequest_list">>}, optional}},
             {<<"allowedResponse">>, {{bbelement, <<"MessageDefinition.AllowedResponse">>}, list}},
             {<<"graph">>, {{primitive, <<"canonical">>}, list}}
             ],
@@ -8333,7 +8333,7 @@
     , <<"MessageHeader.Response">> => {<<"BackboneElement">>,
             [
             {<<"identifier">>, {{primitive, <<"id">>}, required}},
-            {<<"code">>, {{code, <<"responsetype">>}, required}},
+            {<<"code">>, {{code, <<"responsetype_list">>}, required}},
             {<<"details">>, {{complex, <<"Reference">>}, optional}}
             ],
             [],
@@ -8347,7 +8347,7 @@
     , <<"MolecularSequence">> => {<<"DomainResource">>,
             [
             {<<"identifier">>, {{complex, <<"Identifier">>}, list}},
-            {<<"type">>, {{code, <<"sequencetype">>}, optional}},
+            {<<"type">>, {{code, <<"sequencetype_list">>}, optional}},
             {<<"coordinateSystem">>, {{primitive, <<"integer">>}, required}},
             {<<"patient">>, {{complex, <<"Reference">>}, optional}},
             {<<"specimen">>, {{complex, <<"Reference">>}, optional}},
@@ -8374,11 +8374,11 @@
             [
             {<<"chromosome">>, {{complex, <<"CodeableConcept">>}, optional}},
             {<<"genomeBuild">>, {{primitive, <<"string">>}, optional}},
-            {<<"orientation">>, {{code, <<"orientationtype">>}, optional}},
+            {<<"orientation">>, {{code, <<"orientationtype_list">>}, optional}},
             {<<"referenceSeqId">>, {{complex, <<"CodeableConcept">>}, optional}},
             {<<"referenceSeqPointer">>, {{complex, <<"Reference">>}, optional}},
             {<<"referenceSeqString">>, {{primitive, <<"string">>}, optional}},
-            {<<"strand">>, {{code, <<"strandtype">>}, optional}},
+            {<<"strand">>, {{code, <<"strandtype_list">>}, optional}},
             {<<"windowStart">>, {{primitive, <<"integer">>}, optional}},
             {<<"windowEnd">>, {{primitive, <<"integer">>}, optional}}
             ],
@@ -8407,7 +8407,7 @@
 %%
     , <<"MolecularSequence.Quality">> => {<<"BackboneElement">>,
             [
-            {<<"type">>, {{code, <<"qualitytype">>}, required}},
+            {<<"type">>, {{code, <<"qualitytype_list">>}, required}},
             {<<"standardSequence">>, {{complex, <<"CodeableConcept">>}, optional}},
             {<<"start">>, {{primitive, <<"integer">>}, optional}},
             {<<"end">>, {{primitive, <<"integer">>}, optional}},
@@ -8449,7 +8449,7 @@
 %%
     , <<"MolecularSequence.Repository">> => {<<"BackboneElement">>,
             [
-            {<<"type">>, {{code, <<"repositorytype">>}, required}},
+            {<<"type">>, {{code, <<"repositorytype_list">>}, required}},
             {<<"url">>, {{primitive, <<"uri">>}, optional}},
             {<<"name">>, {{primitive, <<"string">>}, optional}},
             {<<"datasetId">>, {{primitive, <<"string">>}, optional}},
@@ -8506,8 +8506,8 @@
     , <<"NamingSystem">> => {<<"DomainResource">>,
             [
             {<<"name">>, {{primitive, <<"string">>}, required}},
-            {<<"status">>, {{code, <<"publicationstatus">>}, required}},
-            {<<"kind">>, {{code, <<"namingsystemtype">>}, required}},
+            {<<"status">>, {{code, <<"publicationstatus_list">>}, required}},
+            {<<"kind">>, {{code, <<"namingsystemtype_list">>}, required}},
             {<<"date">>, {{primitive, <<"dateTime">>}, required}},
             {<<"publisher">>, {{primitive, <<"string">>}, optional}},
             {<<"contact">>, {{complex, <<"ContactDetail">>}, list}},
@@ -8528,7 +8528,7 @@
 %%
     , <<"NamingSystem.UniqueId">> => {<<"BackboneElement">>,
             [
-            {<<"type">>, {{code, <<"namingsystemidentifiertype">>}, required}},
+            {<<"type">>, {{code, <<"namingsystemidentifiertype_list">>}, required}},
             {<<"value">>, {{primitive, <<"string">>}, required}},
             {<<"preferred">>, {{primitive, <<"boolean">>}, optional}},
             {<<"comment">>, {{primitive, <<"string">>}, optional}},
@@ -8548,8 +8548,8 @@
             {<<"instantiatesCanonical">>, {{primitive, <<"canonical">>}, list}},
             {<<"instantiatesUri">>, {{primitive, <<"uri">>}, list}},
             {<<"instantiates">>, {{primitive, <<"uri">>}, list}},
-            {<<"status">>, {{code, <<"requeststatus">>}, required}},
-            {<<"intent">>, {{code, <<"requestintent">>}, required}},
+            {<<"status">>, {{code, <<"requeststatus_list">>}, required}},
+            {<<"intent">>, {{code, <<"requestintent_list">>}, required}},
             {<<"patient">>, {{complex, <<"Reference">>}, required}},
             {<<"encounter">>, {{complex, <<"Reference">>}, optional}},
             {<<"dateTime">>, {{primitive, <<"dateTime">>}, required}},
@@ -8665,7 +8665,7 @@
             {<<"identifier">>, {{complex, <<"Identifier">>}, list}},
             {<<"basedOn">>, {{complex, <<"Reference">>}, list}},
             {<<"partOf">>, {{complex, <<"Reference">>}, list}},
-            {<<"status">>, {{code, <<"observationstatus">>}, required}},
+            {<<"status">>, {{code, <<"observationstatus_list">>}, required}},
             {<<"category">>, {{complex, <<"CodeableConcept">>}, list}},
             {<<"code">>, {{complex, <<"CodeableConcept">>}, required}},
             {<<"subject">>, {{complex, <<"Reference">>}, optional}},
@@ -8759,7 +8759,7 @@
             {<<"category">>, {{complex, <<"CodeableConcept">>}, list}},
             {<<"code">>, {{complex, <<"CodeableConcept">>}, required}},
             {<<"identifier">>, {{complex, <<"Identifier">>}, list}},
-            {<<"permittedDataType">>, {{code, <<"observationdatatype">>}, list}},
+            {<<"permittedDataType">>, {{code, <<"observationdatatype_list">>}, list}},
             {<<"multipleResultsAllowed">>, {{primitive, <<"boolean">>}, optional}},
             {<<"method">>, {{complex, <<"CodeableConcept">>}, optional}},
             {<<"preferredReportName">>, {{primitive, <<"string">>}, optional}},
@@ -8793,11 +8793,11 @@
 %%
     , <<"ObservationDefinition.QualifiedInterval">> => {<<"BackboneElement">>,
             [
-            {<<"category">>, {{code, <<"observationrangecategory">>}, optional}},
+            {<<"category">>, {{code, <<"observationrangecategory_list">>}, optional}},
             {<<"range">>, {{complex, <<"Range">>}, optional}},
             {<<"context">>, {{complex, <<"CodeableConcept">>}, optional}},
             {<<"appliesTo">>, {{complex, <<"CodeableConcept">>}, list}},
-            {<<"gender">>, {{code, <<"administrativegender">>}, optional}},
+            {<<"gender">>, {{code, <<"administrativegender_list">>}, optional}},
             {<<"age">>, {{complex, <<"Range">>}, optional}},
             {<<"gestationalAge">>, {{complex, <<"Range">>}, optional}},
             {<<"condition">>, {{primitive, <<"string">>}, optional}}
@@ -8816,8 +8816,8 @@
             {<<"version">>, {{primitive, <<"string">>}, optional}},
             {<<"name">>, {{primitive, <<"string">>}, required}},
             {<<"title">>, {{primitive, <<"string">>}, optional}},
-            {<<"status">>, {{code, <<"publicationstatus">>}, required}},
-            {<<"kind">>, {{code, <<"operationkind">>}, required}},
+            {<<"status">>, {{code, <<"publicationstatus_list">>}, required}},
+            {<<"kind">>, {{code, <<"operationkind_list">>}, required}},
             {<<"experimental">>, {{primitive, <<"boolean">>}, optional}},
             {<<"date">>, {{primitive, <<"dateTime">>}, optional}},
             {<<"publisher">>, {{primitive, <<"string">>}, optional}},
@@ -8849,13 +8849,13 @@
     , <<"OperationDefinition.Parameter">> => {<<"BackboneElement">>,
             [
             {<<"name">>, {{primitive, <<"code">>}, required}},
-            {<<"use">>, {{code, <<"operationparameteruse">>}, required}},
+            {<<"use">>, {{code, <<"operationparameteruse_list">>}, required}},
             {<<"min">>, {{primitive, <<"integer">>}, required}},
             {<<"max">>, {{primitive, <<"string">>}, required}},
             {<<"documentation">>, {{primitive, <<"string">>}, optional}},
             {<<"type">>, {{primitive, <<"code">>}, optional}},
             {<<"targetProfile">>, {{primitive, <<"canonical">>}, list}},
-            {<<"searchType">>, {{code, <<"searchparamtype">>}, optional}},
+            {<<"searchType">>, {{code, <<"searchparamtype_list">>}, optional}},
             {<<"binding">>, {{bbelement, <<"OperationDefinition.Binding">>}, optional}},
             {<<"referencedFrom">>, {{bbelement, <<"OperationDefinition.ReferencedFrom">>}, list}},
             {<<"part">>, {{bbelement, <<"OperationDefinition.Parameter">>}, list}}
@@ -8869,7 +8869,7 @@
 %%
     , <<"OperationDefinition.Binding">> => {<<"BackboneElement">>,
             [
-            {<<"strength">>, {{code, <<"bindingstrength">>}, required}},
+            {<<"strength">>, {{code, <<"bindingstrength_list">>}, required}},
             {<<"valueSet">>, {{primitive, <<"canonical">>}, required}}
             ],
             [],
@@ -8917,8 +8917,8 @@
 %%
     , <<"OperationOutcome.Issue">> => {<<"BackboneElement">>,
             [
-            {<<"severity">>, {{code, <<"issueseverity">>}, required}},
-            {<<"code">>, {{code, <<"issuetype">>}, required}},
+            {<<"severity">>, {{code, <<"issueseverity_list">>}, required}},
+            {<<"code">>, {{code, <<"issuetype_list">>}, required}},
             {<<"details">>, {{complex, <<"CodeableConcept">>}, optional}},
             {<<"diagnostics">>, {{primitive, <<"string">>}, optional}},
             {<<"location">>, {{primitive, <<"string">>}, list}},
@@ -9072,7 +9072,7 @@
             {<<"active">>, {{primitive, <<"boolean">>}, optional}},
             {<<"name">>, {{complex, <<"HumanName">>}, list}},
             {<<"telecom">>, {{complex, <<"ContactPoint">>}, list}},
-            {<<"gender">>, {{code, <<"administrativegender">>}, optional}},
+            {<<"gender">>, {{code, <<"administrativegender_list">>}, optional}},
             {<<"birthDate">>, {{primitive, <<"date">>}, optional}},
             {<<"deceasedBoolean">>, {{primitive, <<"boolean">>}, optional}},
             {<<"deceasedDateTime">>, {{primitive, <<"dateTime">>}, optional}},
@@ -9103,7 +9103,7 @@
             {<<"name">>, {{complex, <<"HumanName">>}, optional}},
             {<<"telecom">>, {{complex, <<"ContactPoint">>}, list}},
             {<<"address">>, {{complex, <<"Address">>}, optional}},
-            {<<"gender">>, {{code, <<"administrativegender">>}, optional}},
+            {<<"gender">>, {{code, <<"administrativegender_list">>}, optional}},
             {<<"organization">>, {{complex, <<"Reference">>}, optional}},
             {<<"period">>, {{complex, <<"Period">>}, optional}}
             ],
@@ -9129,7 +9129,7 @@
     , <<"Patient.Link">> => {<<"BackboneElement">>,
             [
             {<<"other">>, {{complex, <<"Reference">>}, required}},
-            {<<"type">>, {{code, <<"linktype">>}, required}}
+            {<<"type">>, {{code, <<"linktype_list">>}, required}}
             ],
             [],
             []
@@ -9142,7 +9142,7 @@
     , <<"PaymentNotice">> => {<<"DomainResource">>,
             [
             {<<"identifier">>, {{complex, <<"Identifier">>}, list}},
-            {<<"status">>, {{code, <<"financialresourcestatuscodes">>}, required}},
+            {<<"status">>, {{code, <<"financialresourcestatuscodes_list">>}, required}},
             {<<"request">>, {{complex, <<"Reference">>}, optional}},
             {<<"response">>, {{complex, <<"Reference">>}, optional}},
             {<<"created">>, {{primitive, <<"dateTime">>}, required}},
@@ -9165,13 +9165,13 @@
     , <<"PaymentReconciliation">> => {<<"DomainResource">>,
             [
             {<<"identifier">>, {{complex, <<"Identifier">>}, list}},
-            {<<"status">>, {{code, <<"financialresourcestatuscodes">>}, required}},
+            {<<"status">>, {{code, <<"financialresourcestatuscodes_list">>}, required}},
             {<<"period">>, {{complex, <<"Period">>}, optional}},
             {<<"created">>, {{primitive, <<"dateTime">>}, required}},
             {<<"paymentIssuer">>, {{complex, <<"Reference">>}, optional}},
             {<<"request">>, {{complex, <<"Reference">>}, optional}},
             {<<"requestor">>, {{complex, <<"Reference">>}, optional}},
-            {<<"outcome">>, {{code, <<"remittanceoutcome">>}, optional}},
+            {<<"outcome">>, {{code, <<"remittanceoutcome_list">>}, optional}},
             {<<"disposition">>, {{primitive, <<"string">>}, optional}},
             {<<"paymentDate">>, {{primitive, <<"date">>}, required}},
             {<<"paymentAmount">>, {{complex, <<"Money">>}, required}},
@@ -9209,7 +9209,7 @@
 %%
     , <<"PaymentReconciliation.ProcessNote">> => {<<"BackboneElement">>,
             [
-            {<<"type">>, {{code, <<"notetype">>}, optional}},
+            {<<"type">>, {{code, <<"notetype_list">>}, optional}},
             {<<"text">>, {{primitive, <<"string">>}, optional}}
             ],
             [],
@@ -9225,7 +9225,7 @@
             {<<"identifier">>, {{complex, <<"Identifier">>}, list}},
             {<<"name">>, {{complex, <<"HumanName">>}, list}},
             {<<"telecom">>, {{complex, <<"ContactPoint">>}, list}},
-            {<<"gender">>, {{code, <<"administrativegender">>}, optional}},
+            {<<"gender">>, {{code, <<"administrativegender_list">>}, optional}},
             {<<"birthDate">>, {{primitive, <<"date">>}, optional}},
             {<<"address">>, {{complex, <<"Address">>}, list}},
             {<<"photo">>, {{complex, <<"Attachment">>}, optional}},
@@ -9243,7 +9243,7 @@
     , <<"Person.Link">> => {<<"BackboneElement">>,
             [
             {<<"target">>, {{complex, <<"Reference">>}, required}},
-            {<<"assurance">>, {{code, <<"identityassurancelevel">>}, optional}}
+            {<<"assurance">>, {{code, <<"identityassurancelevel_list">>}, optional}}
             ],
             [],
             []
@@ -9262,7 +9262,7 @@
             {<<"title">>, {{primitive, <<"string">>}, optional}},
             {<<"subtitle">>, {{primitive, <<"string">>}, optional}},
             {<<"type">>, {{complex, <<"CodeableConcept">>}, optional}},
-            {<<"status">>, {{code, <<"publicationstatus">>}, required}},
+            {<<"status">>, {{code, <<"publicationstatus_list">>}, required}},
             {<<"experimental">>, {{primitive, <<"boolean">>}, optional}},
             {<<"subjectCodeableConcept">>, {{complex, <<"CodeableConcept">>}, optional}},
             {<<"subjectReference">>, {{complex, <<"Reference">>}, optional}},
@@ -9337,7 +9337,7 @@
             {<<"title">>, {{primitive, <<"string">>}, optional}},
             {<<"description">>, {{primitive, <<"string">>}, optional}},
             {<<"textEquivalent">>, {{primitive, <<"string">>}, optional}},
-            {<<"priority">>, {{code, <<"requestpriority">>}, optional}},
+            {<<"priority">>, {{code, <<"requestpriority_list">>}, optional}},
             {<<"code">>, {{complex, <<"CodeableConcept">>}, list}},
             {<<"reason">>, {{complex, <<"CodeableConcept">>}, list}},
             {<<"documentation">>, {{complex, <<"RelatedArtifact">>}, list}},
@@ -9357,11 +9357,11 @@
             {<<"timingTiming">>, {{bbelement, <<"Timing">>}, optional}},
             {<<"participant">>, {{bbelement, <<"PlanDefinition.Participant">>}, list}},
             {<<"type">>, {{complex, <<"CodeableConcept">>}, optional}},
-            {<<"groupingBehavior">>, {{code, <<"actiongroupingbehavior">>}, optional}},
-            {<<"selectionBehavior">>, {{code, <<"actionselectionbehavior">>}, optional}},
-            {<<"requiredBehavior">>, {{code, <<"actionrequiredbehavior">>}, optional}},
-            {<<"precheckBehavior">>, {{code, <<"actionprecheckbehavior">>}, optional}},
-            {<<"cardinalityBehavior">>, {{code, <<"actioncardinalitybehavior">>}, optional}},
+            {<<"groupingBehavior">>, {{code, <<"actiongroupingbehavior_list">>}, optional}},
+            {<<"selectionBehavior">>, {{code, <<"actionselectionbehavior_list">>}, optional}},
+            {<<"requiredBehavior">>, {{code, <<"actionrequiredbehavior_list">>}, optional}},
+            {<<"precheckBehavior">>, {{code, <<"actionprecheckbehavior_list">>}, optional}},
+            {<<"cardinalityBehavior">>, {{code, <<"actioncardinalitybehavior_list">>}, optional}},
             {<<"definitionCanonical">>, {{primitive, <<"canonical">>}, optional}},
             {<<"definitionUri">>, {{primitive, <<"uri">>}, optional}},
             {<<"transform">>, {{primitive, <<"canonical">>}, optional}},
@@ -9381,7 +9381,7 @@
 %%
     , <<"PlanDefinition.Condition">> => {<<"BackboneElement">>,
             [
-            {<<"kind">>, {{code, <<"actionconditionkind">>}, required}},
+            {<<"kind">>, {{code, <<"actionconditionkind_list">>}, required}},
             {<<"expression">>, {{complex, <<"Expression">>}, optional}}
             ],
             [],
@@ -9394,7 +9394,7 @@
     , <<"PlanDefinition.RelatedAction">> => {<<"BackboneElement">>,
             [
             {<<"actionId">>, {{primitive, <<"id">>}, required}},
-            {<<"relationship">>, {{code, <<"actionrelationshiptype">>}, required}},
+            {<<"relationship">>, {{code, <<"actionrelationshiptype_list">>}, required}},
             {<<"offsetDuration">>, {{complex, <<"Duration">>}, optional}},
             {<<"offsetRange">>, {{complex, <<"Range">>}, optional}}
             ],
@@ -9409,7 +9409,7 @@
 %%
     , <<"PlanDefinition.Participant">> => {<<"BackboneElement">>,
             [
-            {<<"type">>, {{code, <<"actionparticipanttype">>}, required}},
+            {<<"type">>, {{code, <<"actionparticipanttype_list">>}, required}},
             {<<"role">>, {{complex, <<"CodeableConcept">>}, optional}}
             ],
             [],
@@ -9439,7 +9439,7 @@
             {<<"name">>, {{complex, <<"HumanName">>}, list}},
             {<<"telecom">>, {{complex, <<"ContactPoint">>}, list}},
             {<<"address">>, {{complex, <<"Address">>}, list}},
-            {<<"gender">>, {{code, <<"administrativegender">>}, optional}},
+            {<<"gender">>, {{code, <<"administrativegender_list">>}, optional}},
             {<<"birthDate">>, {{primitive, <<"date">>}, optional}},
             {<<"photo">>, {{complex, <<"Attachment">>}, list}},
             {<<"qualification">>, {{bbelement, <<"Practitioner.Qualification">>}, list}},
@@ -9493,7 +9493,7 @@
 %%
     , <<"PractitionerRole.AvailableTime">> => {<<"BackboneElement">>,
             [
-            {<<"daysOfWeek">>, {{code, <<"daysofweek">>}, list}},
+            {<<"daysOfWeek">>, {{code, <<"daysofweek_list">>}, list}},
             {<<"allDay">>, {{primitive, <<"boolean">>}, optional}},
             {<<"availableStartTime">>, {{primitive, <<"time">>}, optional}},
             {<<"availableEndTime">>, {{primitive, <<"time">>}, optional}}
@@ -9525,7 +9525,7 @@
             {<<"instantiatesUri">>, {{primitive, <<"uri">>}, list}},
             {<<"basedOn">>, {{complex, <<"Reference">>}, list}},
             {<<"partOf">>, {{complex, <<"Reference">>}, list}},
-            {<<"status">>, {{code, <<"eventstatus">>}, required}},
+            {<<"status">>, {{code, <<"eventstatus_list">>}, required}},
             {<<"statusReason">>, {{complex, <<"CodeableConcept">>}, optional}},
             {<<"category">>, {{complex, <<"CodeableConcept">>}, optional}},
             {<<"code">>, {{complex, <<"CodeableConcept">>}, optional}},
@@ -9627,7 +9627,7 @@
 %%
     , <<"Provenance.Entity">> => {<<"BackboneElement">>,
             [
-            {<<"role">>, {{code, <<"provenanceentityrole">>}, required}},
+            {<<"role">>, {{code, <<"provenanceentityrole_list">>}, required}},
             {<<"what">>, {{complex, <<"Reference">>}, required}},
             {<<"agent">>, {{bbelement, <<"Provenance.Agent">>}, list}}
             ],
@@ -9647,7 +9647,7 @@
             {<<"name">>, {{primitive, <<"string">>}, optional}},
             {<<"title">>, {{primitive, <<"string">>}, optional}},
             {<<"derivedFrom">>, {{primitive, <<"canonical">>}, list}},
-            {<<"status">>, {{code, <<"publicationstatus">>}, required}},
+            {<<"status">>, {{code, <<"publicationstatus_list">>}, required}},
             {<<"experimental">>, {{primitive, <<"boolean">>}, optional}},
             {<<"subjectType">>, {{primitive, <<"code">>}, list}},
             {<<"date">>, {{primitive, <<"dateTime">>}, optional}},
@@ -9678,9 +9678,9 @@
             {<<"code">>, {{complex, <<"Coding">>}, list}},
             {<<"prefix">>, {{primitive, <<"string">>}, optional}},
             {<<"text">>, {{primitive, <<"string">>}, optional}},
-            {<<"type">>, {{code, <<"questionnaireitemtype">>}, required}},
+            {<<"type">>, {{code, <<"questionnaireitemtype_list">>}, required}},
             {<<"enableWhen">>, {{bbelement, <<"Questionnaire.EnableWhen">>}, list}},
-            {<<"enableBehavior">>, {{code, <<"enablewhenbehavior">>}, optional}},
+            {<<"enableBehavior">>, {{code, <<"enablewhenbehavior_list">>}, optional}},
             {<<"required">>, {{primitive, <<"boolean">>}, optional}},
             {<<"repeats">>, {{primitive, <<"boolean">>}, optional}},
             {<<"readOnly">>, {{primitive, <<"boolean">>}, optional}},
@@ -9700,7 +9700,7 @@
     , <<"Questionnaire.EnableWhen">> => {<<"BackboneElement">>,
             [
             {<<"question">>, {{primitive, <<"string">>}, required}},
-            {<<"operator">>, {{code, <<"questionnaireitemoperator">>}, required}},
+            {<<"operator">>, {{code, <<"questionnaireitemoperator_list">>}, required}},
             {<<"answerBoolean">>, {{primitive, <<"boolean">>}, required}},
             {<<"answerDecimal">>, {{primitive, <<"decimal">>}, required}},
             {<<"answerInteger">>, {{primitive, <<"integer">>}, required}},
@@ -9771,7 +9771,7 @@
             {<<"basedOn">>, {{complex, <<"Reference">>}, list}},
             {<<"partOf">>, {{complex, <<"Reference">>}, list}},
             {<<"questionnaire">>, {{primitive, <<"canonical">>}, optional}},
-            {<<"status">>, {{code, <<"questionnaireresponsestatus">>}, required}},
+            {<<"status">>, {{code, <<"questionnaireresponsestatus_list">>}, required}},
             {<<"subject">>, {{complex, <<"Reference">>}, optional}},
             {<<"encounter">>, {{complex, <<"Reference">>}, optional}},
             {<<"authored">>, {{primitive, <<"dateTime">>}, optional}},
@@ -9835,7 +9835,7 @@
             {<<"relationship">>, {{complex, <<"CodeableConcept">>}, list}},
             {<<"name">>, {{complex, <<"HumanName">>}, list}},
             {<<"telecom">>, {{complex, <<"ContactPoint">>}, list}},
-            {<<"gender">>, {{code, <<"administrativegender">>}, optional}},
+            {<<"gender">>, {{code, <<"administrativegender_list">>}, optional}},
             {<<"birthDate">>, {{primitive, <<"date">>}, optional}},
             {<<"address">>, {{complex, <<"Address">>}, list}},
             {<<"photo">>, {{complex, <<"Attachment">>}, list}},
@@ -9870,9 +9870,9 @@
             {<<"basedOn">>, {{complex, <<"Reference">>}, list}},
             {<<"replaces">>, {{complex, <<"Reference">>}, list}},
             {<<"groupIdentifier">>, {{complex, <<"Identifier">>}, optional}},
-            {<<"status">>, {{code, <<"requeststatus">>}, required}},
-            {<<"intent">>, {{code, <<"requestintent">>}, required}},
-            {<<"priority">>, {{code, <<"requestpriority">>}, optional}},
+            {<<"status">>, {{code, <<"requeststatus_list">>}, required}},
+            {<<"intent">>, {{code, <<"requestintent_list">>}, required}},
+            {<<"priority">>, {{code, <<"requestpriority_list">>}, optional}},
             {<<"code">>, {{complex, <<"CodeableConcept">>}, optional}},
             {<<"subject">>, {{complex, <<"Reference">>}, optional}},
             {<<"encounter">>, {{complex, <<"Reference">>}, optional}},
@@ -9896,7 +9896,7 @@
             {<<"title">>, {{primitive, <<"string">>}, optional}},
             {<<"description">>, {{primitive, <<"string">>}, optional}},
             {<<"textEquivalent">>, {{primitive, <<"string">>}, optional}},
-            {<<"priority">>, {{code, <<"requestpriority">>}, optional}},
+            {<<"priority">>, {{code, <<"requestpriority_list">>}, optional}},
             {<<"code">>, {{complex, <<"CodeableConcept">>}, list}},
             {<<"documentation">>, {{complex, <<"RelatedArtifact">>}, list}},
             {<<"condition">>, {{bbelement, <<"RequestGroup.Condition">>}, list}},
@@ -9909,11 +9909,11 @@
             {<<"timingTiming">>, {{bbelement, <<"Timing">>}, optional}},
             {<<"participant">>, {{complex, <<"Reference">>}, list}},
             {<<"type">>, {{complex, <<"CodeableConcept">>}, optional}},
-            {<<"groupingBehavior">>, {{code, <<"actiongroupingbehavior">>}, optional}},
-            {<<"selectionBehavior">>, {{code, <<"actionselectionbehavior">>}, optional}},
-            {<<"requiredBehavior">>, {{code, <<"actionrequiredbehavior">>}, optional}},
-            {<<"precheckBehavior">>, {{code, <<"actionprecheckbehavior">>}, optional}},
-            {<<"cardinalityBehavior">>, {{code, <<"actioncardinalitybehavior">>}, optional}},
+            {<<"groupingBehavior">>, {{code, <<"actiongroupingbehavior_list">>}, optional}},
+            {<<"selectionBehavior">>, {{code, <<"actionselectionbehavior_list">>}, optional}},
+            {<<"requiredBehavior">>, {{code, <<"actionrequiredbehavior_list">>}, optional}},
+            {<<"precheckBehavior">>, {{code, <<"actionprecheckbehavior_list">>}, optional}},
+            {<<"cardinalityBehavior">>, {{code, <<"actioncardinalitybehavior_list">>}, optional}},
             {<<"resource">>, {{complex, <<"Reference">>}, optional}},
             {<<"action">>, {{bbelement, <<"RequestGroup.Action">>}, list}}
             ],
@@ -9928,7 +9928,7 @@
 %%
     , <<"RequestGroup.Condition">> => {<<"BackboneElement">>,
             [
-            {<<"kind">>, {{code, <<"actionconditionkind">>}, required}},
+            {<<"kind">>, {{code, <<"actionconditionkind_list">>}, required}},
             {<<"expression">>, {{complex, <<"Expression">>}, optional}}
             ],
             [],
@@ -9941,7 +9941,7 @@
     , <<"RequestGroup.RelatedAction">> => {<<"BackboneElement">>,
             [
             {<<"actionId">>, {{primitive, <<"id">>}, required}},
-            {<<"relationship">>, {{code, <<"actionrelationshiptype">>}, required}},
+            {<<"relationship">>, {{code, <<"actionrelationshiptype_list">>}, required}},
             {<<"offsetDuration">>, {{complex, <<"Duration">>}, optional}},
             {<<"offsetRange">>, {{complex, <<"Range">>}, optional}}
             ],
@@ -9964,7 +9964,7 @@
             {<<"title">>, {{primitive, <<"string">>}, optional}},
             {<<"shortTitle">>, {{primitive, <<"string">>}, optional}},
             {<<"subtitle">>, {{primitive, <<"string">>}, optional}},
-            {<<"status">>, {{code, <<"publicationstatus">>}, required}},
+            {<<"status">>, {{code, <<"publicationstatus_list">>}, required}},
             {<<"experimental">>, {{primitive, <<"boolean">>}, optional}},
             {<<"subjectCodeableConcept">>, {{complex, <<"CodeableConcept">>}, optional}},
             {<<"subjectReference">>, {{complex, <<"Reference">>}, optional}},
@@ -10012,7 +10012,7 @@
             {<<"title">>, {{primitive, <<"string">>}, optional}},
             {<<"shortTitle">>, {{primitive, <<"string">>}, optional}},
             {<<"subtitle">>, {{primitive, <<"string">>}, optional}},
-            {<<"status">>, {{code, <<"publicationstatus">>}, required}},
+            {<<"status">>, {{code, <<"publicationstatus_list">>}, required}},
             {<<"experimental">>, {{primitive, <<"boolean">>}, optional}},
             {<<"subjectCodeableConcept">>, {{complex, <<"CodeableConcept">>}, optional}},
             {<<"subjectReference">>, {{complex, <<"Reference">>}, optional}},
@@ -10036,8 +10036,8 @@
             {<<"endorser">>, {{complex, <<"ContactDetail">>}, list}},
             {<<"relatedArtifact">>, {{complex, <<"RelatedArtifact">>}, list}},
             {<<"library">>, {{primitive, <<"canonical">>}, list}},
-            {<<"type">>, {{code, <<"researchelementtype">>}, required}},
-            {<<"variableType">>, {{code, <<"variabletype">>}, optional}},
+            {<<"type">>, {{code, <<"researchelementtype_list">>}, required}},
+            {<<"variableType">>, {{code, <<"variabletype_list">>}, optional}},
             {<<"characteristic">>, {{bbelement, <<"ResearchElementDefinition.Characteristic">>}, non_empty_list}}
             ],
             [],
@@ -10064,14 +10064,14 @@
             {<<"studyEffectiveDuration">>, {{complex, <<"Duration">>}, optional}},
             {<<"studyEffectiveTiming">>, {{bbelement, <<"Timing">>}, optional}},
             {<<"studyEffectiveTimeFromStart">>, {{complex, <<"Duration">>}, optional}},
-            {<<"studyEffectiveGroupMeasure">>, {{code, <<"groupmeasure">>}, optional}},
+            {<<"studyEffectiveGroupMeasure">>, {{code, <<"groupmeasure_list">>}, optional}},
             {<<"participantEffectiveDescription">>, {{primitive, <<"string">>}, optional}},
             {<<"participantEffectiveDateTime">>, {{primitive, <<"dateTime">>}, optional}},
             {<<"participantEffectivePeriod">>, {{complex, <<"Period">>}, optional}},
             {<<"participantEffectiveDuration">>, {{complex, <<"Duration">>}, optional}},
             {<<"participantEffectiveTiming">>, {{bbelement, <<"Timing">>}, optional}},
             {<<"participantEffectiveTimeFromStart">>, {{complex, <<"Duration">>}, optional}},
-            {<<"participantEffectiveGroupMeasure">>, {{code, <<"groupmeasure">>}, optional}}
+            {<<"participantEffectiveGroupMeasure">>, {{code, <<"groupmeasure_list">>}, optional}}
             ],
             [],
             [
@@ -10091,7 +10091,7 @@
             {<<"title">>, {{primitive, <<"string">>}, optional}},
             {<<"protocol">>, {{complex, <<"Reference">>}, list}},
             {<<"partOf">>, {{complex, <<"Reference">>}, list}},
-            {<<"status">>, {{code, <<"researchstudystatus">>}, required}},
+            {<<"status">>, {{code, <<"researchstudystatus_list">>}, required}},
             {<<"primaryPurposeType">>, {{complex, <<"CodeableConcept">>}, optional}},
             {<<"phase">>, {{complex, <<"CodeableConcept">>}, optional}},
             {<<"category">>, {{complex, <<"CodeableConcept">>}, list}},
@@ -10148,7 +10148,7 @@
     , <<"ResearchSubject">> => {<<"DomainResource">>,
             [
             {<<"identifier">>, {{complex, <<"Identifier">>}, list}},
-            {<<"status">>, {{code, <<"researchsubjectstatus">>}, required}},
+            {<<"status">>, {{code, <<"researchsubjectstatus_list">>}, required}},
             {<<"period">>, {{complex, <<"Period">>}, optional}},
             {<<"study">>, {{complex, <<"Reference">>}, required}},
             {<<"individual">>, {{complex, <<"Reference">>}, required}},
@@ -10169,7 +10169,7 @@
             {<<"identifier">>, {{complex, <<"Identifier">>}, list}},
             {<<"basedOn">>, {{complex, <<"Reference">>}, optional}},
             {<<"parent">>, {{complex, <<"Reference">>}, optional}},
-            {<<"status">>, {{code, <<"observationstatus">>}, required}},
+            {<<"status">>, {{code, <<"observationstatus_list">>}, required}},
             {<<"method">>, {{complex, <<"CodeableConcept">>}, optional}},
             {<<"code">>, {{complex, <<"CodeableConcept">>}, optional}},
             {<<"subject">>, {{complex, <<"Reference">>}, required}},
@@ -10223,7 +10223,7 @@
             {<<"version">>, {{primitive, <<"string">>}, optional}},
             {<<"name">>, {{primitive, <<"string">>}, optional}},
             {<<"title">>, {{primitive, <<"string">>}, optional}},
-            {<<"status">>, {{code, <<"publicationstatus">>}, required}},
+            {<<"status">>, {{code, <<"publicationstatus_list">>}, required}},
             {<<"date">>, {{primitive, <<"dateTime">>}, optional}},
             {<<"publisher">>, {{primitive, <<"string">>}, optional}},
             {<<"contact">>, {{complex, <<"ContactDetail">>}, list}},
@@ -10353,7 +10353,7 @@
             {<<"version">>, {{primitive, <<"string">>}, optional}},
             {<<"name">>, {{primitive, <<"string">>}, required}},
             {<<"derivedFrom">>, {{primitive, <<"canonical">>}, optional}},
-            {<<"status">>, {{code, <<"publicationstatus">>}, required}},
+            {<<"status">>, {{code, <<"publicationstatus_list">>}, required}},
             {<<"experimental">>, {{primitive, <<"boolean">>}, optional}},
             {<<"date">>, {{primitive, <<"dateTime">>}, optional}},
             {<<"publisher">>, {{primitive, <<"string">>}, optional}},
@@ -10364,15 +10364,15 @@
             {<<"purpose">>, {{primitive, <<"markdown">>}, optional}},
             {<<"code">>, {{primitive, <<"code">>}, required}},
             {<<"base">>, {{primitive, <<"code">>}, non_empty_list}},
-            {<<"type">>, {{code, <<"searchparamtype">>}, required}},
+            {<<"type">>, {{code, <<"searchparamtype_list">>}, required}},
             {<<"expression">>, {{primitive, <<"string">>}, optional}},
             {<<"xpath">>, {{primitive, <<"string">>}, optional}},
-            {<<"xpathUsage">>, {{code, <<"xpathusagetype">>}, optional}},
+            {<<"xpathUsage">>, {{code, <<"xpathusagetype_list">>}, optional}},
             {<<"target">>, {{primitive, <<"code">>}, list}},
             {<<"multipleOr">>, {{primitive, <<"boolean">>}, optional}},
             {<<"multipleAnd">>, {{primitive, <<"boolean">>}, optional}},
-            {<<"comparator">>, {{code, <<"searchcomparator">>}, list}},
-            {<<"modifier">>, {{code, <<"searchmodifiercode">>}, list}},
+            {<<"comparator">>, {{code, <<"searchcomparator_list">>}, list}},
+            {<<"modifier">>, {{code, <<"searchmodifiercode_list">>}, list}},
             {<<"chain">>, {{primitive, <<"string">>}, list}},
             {<<"component">>, {{bbelement, <<"SearchParameter.Component">>}, list}}
             ],
@@ -10404,10 +10404,10 @@
             {<<"basedOn">>, {{complex, <<"Reference">>}, list}},
             {<<"replaces">>, {{complex, <<"Reference">>}, list}},
             {<<"requisition">>, {{complex, <<"Identifier">>}, optional}},
-            {<<"status">>, {{code, <<"requeststatus">>}, required}},
-            {<<"intent">>, {{code, <<"requestintent">>}, required}},
+            {<<"status">>, {{code, <<"requeststatus_list">>}, required}},
+            {<<"intent">>, {{code, <<"requestintent_list">>}, required}},
             {<<"category">>, {{complex, <<"CodeableConcept">>}, list}},
-            {<<"priority">>, {{code, <<"requestpriority">>}, optional}},
+            {<<"priority">>, {{code, <<"requestpriority_list">>}, optional}},
             {<<"doNotPerform">>, {{primitive, <<"boolean">>}, optional}},
             {<<"code">>, {{complex, <<"CodeableConcept">>}, optional}},
             {<<"orderDetail">>, {{complex, <<"CodeableConcept">>}, list}},
@@ -10457,7 +10457,7 @@
             {<<"specialty">>, {{complex, <<"CodeableConcept">>}, list}},
             {<<"appointmentType">>, {{complex, <<"CodeableConcept">>}, optional}},
             {<<"schedule">>, {{complex, <<"Reference">>}, required}},
-            {<<"status">>, {{code, <<"slotstatus">>}, required}},
+            {<<"status">>, {{code, <<"slotstatus_list">>}, required}},
             {<<"start">>, {{primitive, <<"instant">>}, required}},
             {<<"end">>, {{primitive, <<"instant">>}, required}},
             {<<"overbooked">>, {{primitive, <<"boolean">>}, optional}},
@@ -10475,7 +10475,7 @@
             [
             {<<"identifier">>, {{complex, <<"Identifier">>}, list}},
             {<<"accessionIdentifier">>, {{complex, <<"Identifier">>}, optional}},
-            {<<"status">>, {{code, <<"specimenstatus">>}, optional}},
+            {<<"status">>, {{code, <<"specimenstatus_list">>}, optional}},
             {<<"type">>, {{complex, <<"CodeableConcept">>}, optional}},
             {<<"subject">>, {{complex, <<"Reference">>}, optional}},
             {<<"receivedTime">>, {{primitive, <<"dateTime">>}, optional}},
@@ -10573,7 +10573,7 @@
             [
             {<<"isDerived">>, {{primitive, <<"boolean">>}, optional}},
             {<<"type">>, {{complex, <<"CodeableConcept">>}, optional}},
-            {<<"preference">>, {{code, <<"specimencontainedpreference">>}, required}},
+            {<<"preference">>, {{code, <<"specimencontainedpreference_list">>}, required}},
             {<<"container">>, {{bbelement, <<"SpecimenDefinition.Container">>}, optional}},
             {<<"requirement">>, {{primitive, <<"string">>}, optional}},
             {<<"retentionTime">>, {{complex, <<"Duration">>}, optional}},
@@ -10644,7 +10644,7 @@
             {<<"version">>, {{primitive, <<"string">>}, optional}},
             {<<"name">>, {{primitive, <<"string">>}, required}},
             {<<"title">>, {{primitive, <<"string">>}, optional}},
-            {<<"status">>, {{code, <<"publicationstatus">>}, required}},
+            {<<"status">>, {{code, <<"publicationstatus_list">>}, required}},
             {<<"experimental">>, {{primitive, <<"boolean">>}, optional}},
             {<<"date">>, {{primitive, <<"dateTime">>}, optional}},
             {<<"publisher">>, {{primitive, <<"string">>}, optional}},
@@ -10655,15 +10655,15 @@
             {<<"purpose">>, {{primitive, <<"markdown">>}, optional}},
             {<<"copyright">>, {{primitive, <<"markdown">>}, optional}},
             {<<"keyword">>, {{complex, <<"Coding">>}, list}},
-            {<<"fhirVersion">>, {{code, <<"fhirversion">>}, optional}},
+            {<<"fhirVersion">>, {{code, <<"fhirversion_list">>}, optional}},
             {<<"mapping">>, {{bbelement, <<"StructureDefinition.Mapping">>}, list}},
-            {<<"kind">>, {{code, <<"structuredefinitionkind">>}, required}},
+            {<<"kind">>, {{code, <<"structuredefinitionkind_list">>}, required}},
             {<<"abstract">>, {{primitive, <<"boolean">>}, required}},
             {<<"context">>, {{bbelement, <<"StructureDefinition.Context">>}, list}},
             {<<"contextInvariant">>, {{primitive, <<"string">>}, list}},
             {<<"type">>, {{primitive, <<"uri">>}, required}},
             {<<"baseDefinition">>, {{primitive, <<"canonical">>}, optional}},
-            {<<"derivation">>, {{code, <<"typederivationrule">>}, optional}},
+            {<<"derivation">>, {{code, <<"typederivationrule_list">>}, optional}},
             {<<"snapshot">>, {{bbelement, <<"StructureDefinition.Snapshot">>}, optional}},
             {<<"differential">>, {{bbelement, <<"StructureDefinition.Differential">>}, optional}}
             ],
@@ -10690,7 +10690,7 @@
 %%
     , <<"StructureDefinition.Context">> => {<<"BackboneElement">>,
             [
-            {<<"type">>, {{code, <<"extensioncontexttype">>}, required}},
+            {<<"type">>, {{code, <<"extensioncontexttype_list">>}, required}},
             {<<"expression">>, {{primitive, <<"string">>}, required}}
             ],
             [],
@@ -10730,7 +10730,7 @@
             {<<"version">>, {{primitive, <<"string">>}, optional}},
             {<<"name">>, {{primitive, <<"string">>}, required}},
             {<<"title">>, {{primitive, <<"string">>}, optional}},
-            {<<"status">>, {{code, <<"publicationstatus">>}, required}},
+            {<<"status">>, {{code, <<"publicationstatus_list">>}, required}},
             {<<"experimental">>, {{primitive, <<"boolean">>}, optional}},
             {<<"date">>, {{primitive, <<"dateTime">>}, optional}},
             {<<"publisher">>, {{primitive, <<"string">>}, optional}},
@@ -10754,7 +10754,7 @@
     , <<"StructureMap.Structure">> => {<<"BackboneElement">>,
             [
             {<<"url">>, {{primitive, <<"canonical">>}, required}},
-            {<<"mode">>, {{code, <<"structuremapmodelmode">>}, required}},
+            {<<"mode">>, {{code, <<"structuremapmodelmode_list">>}, required}},
             {<<"alias">>, {{primitive, <<"string">>}, optional}},
             {<<"documentation">>, {{primitive, <<"string">>}, optional}}
             ],
@@ -10769,7 +10769,7 @@
             [
             {<<"name">>, {{primitive, <<"id">>}, required}},
             {<<"extends">>, {{primitive, <<"id">>}, optional}},
-            {<<"typeMode">>, {{code, <<"structuremapgrouptypemode">>}, required}},
+            {<<"typeMode">>, {{code, <<"structuremapgrouptypemode_list">>}, required}},
             {<<"documentation">>, {{primitive, <<"string">>}, optional}},
             {<<"input">>, {{bbelement, <<"StructureMap.Input">>}, non_empty_list}},
             {<<"rule">>, {{bbelement, <<"StructureMap.Rule">>}, non_empty_list}}
@@ -10785,7 +10785,7 @@
             [
             {<<"name">>, {{primitive, <<"id">>}, required}},
             {<<"type">>, {{primitive, <<"string">>}, optional}},
-            {<<"mode">>, {{code, <<"structuremapinputmode">>}, required}},
+            {<<"mode">>, {{code, <<"structuremapinputmode_list">>}, required}},
             {<<"documentation">>, {{primitive, <<"string">>}, optional}}
             ],
             [],
@@ -10867,7 +10867,7 @@
             {<<"defaultValueUsageContext">>, {{complex, <<"UsageContext">>}, optional}},
             {<<"defaultValueDosage">>, {{bbelement, <<"Dosage">>}, optional}},
             {<<"element">>, {{primitive, <<"string">>}, optional}},
-            {<<"listMode">>, {{code, <<"structuremapsourcelistmode">>}, optional}},
+            {<<"listMode">>, {{code, <<"structuremapsourcelistmode_list">>}, optional}},
             {<<"variable">>, {{primitive, <<"id">>}, optional}},
             {<<"condition">>, {{primitive, <<"string">>}, optional}},
             {<<"check">>, {{primitive, <<"string">>}, optional}},
@@ -10885,12 +10885,12 @@
     , <<"StructureMap.Target">> => {<<"BackboneElement">>,
             [
             {<<"context">>, {{primitive, <<"id">>}, optional}},
-            {<<"contextType">>, {{code, <<"structuremapcontexttype">>}, optional}},
+            {<<"contextType">>, {{code, <<"structuremapcontexttype_list">>}, optional}},
             {<<"element">>, {{primitive, <<"string">>}, optional}},
             {<<"variable">>, {{primitive, <<"id">>}, optional}},
-            {<<"listMode">>, {{code, <<"structuremaptargetlistmode">>}, list}},
+            {<<"listMode">>, {{code, <<"structuremaptargetlistmode_list">>}, list}},
             {<<"listRuleId">>, {{primitive, <<"id">>}, optional}},
-            {<<"transform">>, {{code, <<"structuremaptransform">>}, optional}},
+            {<<"transform">>, {{code, <<"structuremaptransform_list">>}, optional}},
             {<<"parameter">>, {{bbelement, <<"StructureMap.Parameter">>}, list}}
             ],
             [],
@@ -10932,7 +10932,7 @@
 %%
     , <<"Subscription">> => {<<"DomainResource">>,
             [
-            {<<"status">>, {{code, <<"subscriptionstatus">>}, required}},
+            {<<"status">>, {{code, <<"subscriptionstatus_list">>}, required}},
             {<<"contact">>, {{complex, <<"ContactPoint">>}, list}},
             {<<"end">>, {{primitive, <<"instant">>}, optional}},
             {<<"reason">>, {{primitive, <<"string">>}, required}},
@@ -10949,7 +10949,7 @@
 %%
     , <<"Subscription.Channel">> => {<<"BackboneElement">>,
             [
-            {<<"type">>, {{code, <<"subscriptionchanneltype">>}, required}},
+            {<<"type">>, {{code, <<"subscriptionchanneltype_list">>}, required}},
             {<<"endpoint">>, {{primitive, <<"url">>}, optional}},
             {<<"payload">>, {{primitive, <<"code">>}, optional}},
             {<<"header">>, {{primitive, <<"string">>}, list}}
@@ -10965,7 +10965,7 @@
     , <<"Substance">> => {<<"DomainResource">>,
             [
             {<<"identifier">>, {{complex, <<"Identifier">>}, list}},
-            {<<"status">>, {{code, <<"fhirsubstancestatus">>}, optional}},
+            {<<"status">>, {{code, <<"fhirsubstancestatus_list">>}, optional}},
             {<<"category">>, {{complex, <<"CodeableConcept">>}, list}},
             {<<"code">>, {{complex, <<"CodeableConcept">>}, required}},
             {<<"description">>, {{primitive, <<"string">>}, optional}},
@@ -11591,7 +11591,7 @@
             {<<"identifier">>, {{complex, <<"Identifier">>}, list}},
             {<<"basedOn">>, {{complex, <<"Reference">>}, list}},
             {<<"partOf">>, {{complex, <<"Reference">>}, list}},
-            {<<"status">>, {{code, <<"supplydeliverystatus">>}, optional}},
+            {<<"status">>, {{code, <<"supplydeliverystatus_list">>}, optional}},
             {<<"patient">>, {{complex, <<"Reference">>}, optional}},
             {<<"type">>, {{complex, <<"CodeableConcept">>}, optional}},
             {<<"suppliedItem">>, {{bbelement, <<"SupplyDelivery.SuppliedItem">>}, optional}},
@@ -11630,9 +11630,9 @@
     , <<"SupplyRequest">> => {<<"DomainResource">>,
             [
             {<<"identifier">>, {{complex, <<"Identifier">>}, list}},
-            {<<"status">>, {{code, <<"supplyrequeststatus">>}, optional}},
+            {<<"status">>, {{code, <<"supplyrequeststatus_list">>}, optional}},
             {<<"category">>, {{complex, <<"CodeableConcept">>}, optional}},
-            {<<"priority">>, {{code, <<"requestpriority">>}, optional}},
+            {<<"priority">>, {{code, <<"requestpriority_list">>}, optional}},
             {<<"itemCodeableConcept">>, {{complex, <<"CodeableConcept">>}, required}},
             {<<"itemReference">>, {{complex, <<"Reference">>}, required}},
             {<<"quantity">>, {{complex, <<"Quantity">>}, required}},
@@ -11684,11 +11684,11 @@
             {<<"basedOn">>, {{complex, <<"Reference">>}, list}},
             {<<"groupIdentifier">>, {{complex, <<"Identifier">>}, optional}},
             {<<"partOf">>, {{complex, <<"Reference">>}, list}},
-            {<<"status">>, {{code, <<"taskstatus">>}, required}},
+            {<<"status">>, {{code, <<"taskstatus_list">>}, required}},
             {<<"statusReason">>, {{complex, <<"CodeableConcept">>}, optional}},
             {<<"businessStatus">>, {{complex, <<"CodeableConcept">>}, optional}},
-            {<<"intent">>, {{code, <<"taskintent">>}, required}},
-            {<<"priority">>, {{code, <<"requestpriority">>}, optional}},
+            {<<"intent">>, {{code, <<"taskintent_list">>}, required}},
+            {<<"priority">>, {{code, <<"requestpriority_list">>}, optional}},
             {<<"code">>, {{complex, <<"CodeableConcept">>}, optional}},
             {<<"description">>, {{primitive, <<"string">>}, optional}},
             {<<"focus">>, {{complex, <<"Reference">>}, optional}},
@@ -11861,7 +11861,7 @@
             {<<"version">>, {{primitive, <<"string">>}, optional}},
             {<<"name">>, {{primitive, <<"string">>}, optional}},
             {<<"title">>, {{primitive, <<"string">>}, optional}},
-            {<<"status">>, {{code, <<"publicationstatus">>}, required}},
+            {<<"status">>, {{code, <<"publicationstatus_list">>}, required}},
             {<<"experimental">>, {{primitive, <<"boolean">>}, optional}},
             {<<"date">>, {{primitive, <<"dateTime">>}, required}},
             {<<"publisher">>, {{primitive, <<"string">>}, optional}},
@@ -11871,13 +11871,13 @@
             {<<"jurisdiction">>, {{complex, <<"CodeableConcept">>}, list}},
             {<<"purpose">>, {{primitive, <<"markdown">>}, optional}},
             {<<"copyright">>, {{primitive, <<"markdown">>}, optional}},
-            {<<"kind">>, {{code, <<"capabilitystatementkind">>}, required}},
+            {<<"kind">>, {{code, <<"capabilitystatementkind_list">>}, required}},
             {<<"software">>, {{bbelement, <<"TerminologyCapabilities.Software">>}, optional}},
             {<<"implementation">>, {{bbelement, <<"TerminologyCapabilities.Implementation">>}, optional}},
             {<<"lockedDate">>, {{primitive, <<"boolean">>}, optional}},
             {<<"codeSystem">>, {{bbelement, <<"TerminologyCapabilities.CodeSystem">>}, list}},
             {<<"expansion">>, {{bbelement, <<"TerminologyCapabilities.Expansion">>}, optional}},
-            {<<"codeSearch">>, {{code, <<"codesearchsupport">>}, optional}},
+            {<<"codeSearch">>, {{code, <<"codesearchsupport_list">>}, optional}},
             {<<"validateCode">>, {{bbelement, <<"TerminologyCapabilities.ValidateCode">>}, optional}},
             {<<"translation">>, {{bbelement, <<"TerminologyCapabilities.Translation">>}, optional}},
             {<<"closure">>, {{bbelement, <<"TerminologyCapabilities.Closure">>}, optional}}
@@ -12019,9 +12019,9 @@
             [
             {<<"identifier">>, {{complex, <<"Identifier">>}, optional}},
             {<<"name">>, {{primitive, <<"string">>}, optional}},
-            {<<"status">>, {{code, <<"testreportstatus">>}, required}},
+            {<<"status">>, {{code, <<"testreportstatus_list">>}, required}},
             {<<"testScript">>, {{complex, <<"Reference">>}, required}},
-            {<<"result">>, {{code, <<"testreportresult">>}, required}},
+            {<<"result">>, {{code, <<"testreportresult_list">>}, required}},
             {<<"score">>, {{primitive, <<"decimal">>}, optional}},
             {<<"tester">>, {{primitive, <<"string">>}, optional}},
             {<<"issued">>, {{primitive, <<"dateTime">>}, optional}},
@@ -12039,7 +12039,7 @@
 %%
     , <<"TestReport.Participant">> => {<<"BackboneElement">>,
             [
-            {<<"type">>, {{code, <<"testreportparticipanttype">>}, required}},
+            {<<"type">>, {{code, <<"testreportparticipanttype_list">>}, required}},
             {<<"uri">>, {{primitive, <<"uri">>}, required}},
             {<<"display">>, {{primitive, <<"string">>}, optional}}
             ],
@@ -12075,7 +12075,7 @@
 %%
     , <<"TestReport.Operation">> => {<<"BackboneElement">>,
             [
-            {<<"result">>, {{code, <<"testreportactionresult">>}, required}},
+            {<<"result">>, {{code, <<"testreportactionresult_list">>}, required}},
             {<<"message">>, {{primitive, <<"markdown">>}, optional}},
             {<<"detail">>, {{primitive, <<"uri">>}, optional}}
             ],
@@ -12088,7 +12088,7 @@
 %%
     , <<"TestReport.Assert">> => {<<"BackboneElement">>,
             [
-            {<<"result">>, {{code, <<"testreportactionresult">>}, required}},
+            {<<"result">>, {{code, <<"testreportactionresult_list">>}, required}},
             {<<"message">>, {{primitive, <<"markdown">>}, optional}},
             {<<"detail">>, {{primitive, <<"string">>}, optional}}
             ],
@@ -12154,7 +12154,7 @@
             {<<"version">>, {{primitive, <<"string">>}, optional}},
             {<<"name">>, {{primitive, <<"string">>}, required}},
             {<<"title">>, {{primitive, <<"string">>}, optional}},
-            {<<"status">>, {{code, <<"publicationstatus">>}, required}},
+            {<<"status">>, {{code, <<"publicationstatus_list">>}, required}},
             {<<"experimental">>, {{primitive, <<"boolean">>}, optional}},
             {<<"date">>, {{primitive, <<"dateTime">>}, optional}},
             {<<"publisher">>, {{primitive, <<"string">>}, optional}},
@@ -12310,7 +12310,7 @@
             {<<"contentType">>, {{primitive, <<"code">>}, optional}},
             {<<"destination">>, {{primitive, <<"integer">>}, optional}},
             {<<"encodeRequestUrl">>, {{primitive, <<"boolean">>}, required}},
-            {<<"method">>, {{code, <<"testscriptrequestmethodcode">>}, optional}},
+            {<<"method">>, {{code, <<"testscriptrequestmethodcode_list">>}, optional}},
             {<<"origin">>, {{primitive, <<"integer">>}, optional}},
             {<<"params">>, {{primitive, <<"string">>}, optional}},
             {<<"requestHeader">>, {{bbelement, <<"TestScript.RequestHeader">>}, list}},
@@ -12343,7 +12343,7 @@
             [
             {<<"label">>, {{primitive, <<"string">>}, optional}},
             {<<"description">>, {{primitive, <<"string">>}, optional}},
-            {<<"direction">>, {{code, <<"assertiondirectiontype">>}, optional}},
+            {<<"direction">>, {{code, <<"assertiondirectiontype_list">>}, optional}},
             {<<"compareToSourceId">>, {{primitive, <<"string">>}, optional}},
             {<<"compareToSourceExpression">>, {{primitive, <<"string">>}, optional}},
             {<<"compareToSourcePath">>, {{primitive, <<"string">>}, optional}},
@@ -12352,12 +12352,12 @@
             {<<"headerField">>, {{primitive, <<"string">>}, optional}},
             {<<"minimumId">>, {{primitive, <<"string">>}, optional}},
             {<<"navigationLinks">>, {{primitive, <<"boolean">>}, optional}},
-            {<<"operator">>, {{code, <<"assertionoperatortype">>}, optional}},
+            {<<"operator">>, {{code, <<"assertionoperatortype_list">>}, optional}},
             {<<"path">>, {{primitive, <<"string">>}, optional}},
-            {<<"requestMethod">>, {{code, <<"testscriptrequestmethodcode">>}, optional}},
+            {<<"requestMethod">>, {{code, <<"testscriptrequestmethodcode_list">>}, optional}},
             {<<"requestURL">>, {{primitive, <<"string">>}, optional}},
             {<<"resource">>, {{primitive, <<"code">>}, optional}},
-            {<<"response">>, {{code, <<"assertionresponsetypes">>}, optional}},
+            {<<"response">>, {{code, <<"assertionresponsetypes_list">>}, optional}},
             {<<"responseCode">>, {{primitive, <<"string">>}, optional}},
             {<<"sourceId">>, {{primitive, <<"id">>}, optional}},
             {<<"validateProfileId">>, {{primitive, <<"id">>}, optional}},
@@ -12426,7 +12426,7 @@
             {<<"version">>, {{primitive, <<"string">>}, optional}},
             {<<"name">>, {{primitive, <<"string">>}, optional}},
             {<<"title">>, {{primitive, <<"string">>}, optional}},
-            {<<"status">>, {{code, <<"publicationstatus">>}, required}},
+            {<<"status">>, {{code, <<"publicationstatus_list">>}, required}},
             {<<"experimental">>, {{primitive, <<"boolean">>}, optional}},
             {<<"date">>, {{primitive, <<"dateTime">>}, optional}},
             {<<"publisher">>, {{primitive, <<"string">>}, optional}},
@@ -12505,7 +12505,7 @@
     , <<"ValueSet.Filter">> => {<<"BackboneElement">>,
             [
             {<<"property">>, {{primitive, <<"code">>}, required}},
-            {<<"op">>, {{code, <<"filteroperator">>}, required}},
+            {<<"op">>, {{code, <<"filteroperator_list">>}, required}},
             {<<"value">>, {{primitive, <<"string">>}, required}}
             ],
             [],
@@ -12575,7 +12575,7 @@
             {<<"target">>, {{complex, <<"Reference">>}, list}},
             {<<"targetLocation">>, {{primitive, <<"string">>}, list}},
             {<<"need">>, {{complex, <<"CodeableConcept">>}, optional}},
-            {<<"status">>, {{code, <<"status">>}, required}},
+            {<<"status">>, {{code, <<"status_list">>}, required}},
             {<<"statusDate">>, {{primitive, <<"dateTime">>}, optional}},
             {<<"validationType">>, {{complex, <<"CodeableConcept">>}, optional}},
             {<<"validationProcess">>, {{complex, <<"CodeableConcept">>}, list}},
@@ -12646,7 +12646,7 @@
     , <<"VisionPrescription">> => {<<"DomainResource">>,
             [
             {<<"identifier">>, {{complex, <<"Identifier">>}, list}},
-            {<<"status">>, {{code, <<"financialresourcestatuscodes">>}, required}},
+            {<<"status">>, {{code, <<"financialresourcestatuscodes_list">>}, required}},
             {<<"created">>, {{primitive, <<"dateTime">>}, required}},
             {<<"patient">>, {{complex, <<"Reference">>}, required}},
             {<<"encounter">>, {{complex, <<"Reference">>}, optional}},
@@ -12664,7 +12664,7 @@
     , <<"VisionPrescription.LensSpecification">> => {<<"BackboneElement">>,
             [
             {<<"product">>, {{complex, <<"CodeableConcept">>}, required}},
-            {<<"eye">>, {{code, <<"visioneyes">>}, required}},
+            {<<"eye">>, {{code, <<"visioneyes_list">>}, required}},
             {<<"sphere">>, {{primitive, <<"decimal">>}, optional}},
             {<<"cylinder">>, {{primitive, <<"decimal">>}, optional}},
             {<<"axis">>, {{primitive, <<"integer">>}, optional}},
@@ -12688,7 +12688,7 @@
     , <<"VisionPrescription.Prism">> => {<<"BackboneElement">>,
             [
             {<<"amount">>, {{primitive, <<"decimal">>}, required}},
-            {<<"base">>, {{code, <<"visionbase">>}, required}}
+            {<<"base">>, {{code, <<"visionbase_list">>}, required}}
             ],
             [],
             []
