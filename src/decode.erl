@@ -43,13 +43,14 @@ to_time(Bin) -> Bin.
 
 
 value(Key, Props, {Base,FI,Attrs,Restriction}=DT) ->
-    io:format("get_value: ~s~n",[Key]),
+%    io:format("get_value0: ~s~n",[Key]),
     BFI = resolve_base(Base,FI),
 %    io:format("get_value: ~p~n",[BFI]),
     {Type,Occurs} = proplists:get_value(Key, BFI),
-    io:format("get_value: ~s: ~p~n",[Key, {Type,Occurs}]),
+    io:format("get_value1: ~s: ~p~n",[Key, {Type,Occurs}]),
+%   io:format("get_value2: ~s: ~p~n",[Key, Props]),
     Value = proplists:get_value(erlang_to_fhir(Key), Props),
-    io:format("get_value: ~p~n",[Value]),
+    io:format("get_value3: ~p~n",[Value]),
     case {Value,Occurs} of
         {undefined, optional}       -> undefined;
         {undefined, required}       -> error;
@@ -85,7 +86,8 @@ validate({primitive, <<"uri">>},   Value) -> Value;
 validate({code, Type},   Value) -> 
     List = maps:get(Type,?fhir_codes),
     io:format("code: ~s in ~p~n",[Value,List]),
-    Value.
+    Value;
+validate({complex, Type},   Value) -> Value.
 
 
 get_fun({primitive, <<"binary">>})     -> fun to_binary/1; % not used?!
@@ -95,7 +97,9 @@ get_fun({primitive, <<"dateTime">>})   -> fun to_dateTime/1;
 get_fun({primitive, <<"string">>})     -> fun to_string/1;
 get_fun({primitive, <<"time">>})       -> fun to_time/1;
 get_fun({complex,   <<"Coding">>})     -> fun complex:to_coding/1;
-get_fun({complex,   <<"Extension">>})  -> fun extensions:to_extension/1.
+get_fun({complex,   <<"Extension">>})  -> fun extensions:to_extension/1;
+get_fun({bbelement, <<"Bundle.Entry">>})   -> fun bundle:to_bundle_entry/1;
+get_fun({bbelement, <<"Bundle.Link">>})    -> fun bundle:to_bundle_link/1.
 
 erlang_to_fhir(<<"reference_">>) -> <<"reference">>;
 erlang_to_fhir(<<"when_">>) -> <<"when">>;

@@ -37,7 +37,7 @@
 
 -record(bundleentry, {
            link :: [bundlelink()]
-         , full_uri :: uri()
+         , fullUrl :: uri()
          , resource :: resource:resourceContainer()
          , search   :: bundlesearch()
          , request  :: bundlerequest()
@@ -54,10 +54,10 @@
 -record(bundlerequest, {
            method :: binary()                      % code()
          , uri    :: uri()
-         , if_none_match :: binary()
-         , if_modified_since :: instant()
-         , if_match :: binary()
-         , if_none_exist :: binary()
+         , ifNoneMatch :: binary()
+         , ifModifiedSince :: instant()
+         , ifMatch :: binary()
+         , ifNoneExist :: binary()
          }).
 -type bundlerequest() :: #bundlerequest{}.
 
@@ -65,7 +65,7 @@
            status :: binary()
          , location :: uri()
          , etag :: binary()
-         , last_modified :: instant()
+         , lastModified :: instant()
          , outcome :: resource:resourceContainer()
          }).
 -type bundleresponse() :: #bundleresponse{}.
@@ -97,29 +97,29 @@ to_bundle(Props) ->
     , signature   = decode:value(<<"signature">>, Props, DT)
     }.
 
-%%====================================================================
-%% Internal functions
-%%====================================================================
-to_link({Props}) -> to_link(Props);
-to_link(Props) ->
+to_bundle_link({Props}) -> to_bundle_link(Props);
+to_bundle_link(Props) ->
   DT = decode:xsd_info(<<"Bundle.Link">>),
   #bundlelink{
       relation = decode:value(<<"relationship">>, Props, DT)
     , uri  = decode:value(<<"uri">>, Props, DT)
     }.
 
-to_entry({Props}) -> to_entry(Props);
-to_entry(Props) ->
+to_bundle_entry({Props}) -> to_bundle_entry(Props);
+to_bundle_entry(Props) ->
   DT = decode:xsd_info(<<"Bundle.Entry">>),
   #bundleentry{
       link      = decode:value(<<"link">>,Props, DT)
-    , full_uri  = decode:value(<<"fullUri">>, Props, DT)
+    , fullUrl   = decode:value(<<"fullUrl">>, Props, DT)
     , resource  = decode:value(<<"resource">>,Props, DT)
     , search    = decode:value(<<"search">>,Props, DT)
     , request   = decode:value(<<"request">>, Props, DT)
     , reponse   = decode:value(<<"response">>, Props, DT)
     }.
 
+%%====================================================================
+%% Internal functions
+%%====================================================================
 to_search({Props}) -> to_search(Props);
 to_search(Props) ->
     DT = decode:xsd_info(<<"Bundle.Search">>),
@@ -134,10 +134,10 @@ to_request(Props) ->
     #bundlerequest{
            method        = decode:value(<<"mode">>, Props, DT)
          , uri           = decode:value(<<"uri">>, Props, DT)
-         , if_none_match = decode:value(<<"ifNoneMatch">>, Props, DT)
-         , if_modified_since = decode:value(<<"ifModifiedSince">>, Props, DT)
-         , if_match      = decode:value(<<"ifMatch">>, Props, DT)
-         , if_none_exist = decode:value(<<"ifNoneExist">>, Props, DT)
+         , ifNoneMatch = decode:value(<<"ifNoneMatch">>, Props, DT)
+         , ifModifiedSince = decode:value(<<"ifModifiedSince">>, Props, DT)
+         , ifMatch       = decode:value(<<"ifMatch">>, Props, DT)
+         , ifNoneExist   = decode:value(<<"ifNoneExist">>, Props, DT)
 		}.
 
 to_response({Props}) -> to_response(Props);
@@ -147,7 +147,7 @@ to_response(Props) ->
            status        = decode:value(<<"status">>, Props, DT)
          , location      = decode:value(<<"location">>, Props, DT)
          , etag          = decode:value(<<"etag">>, Props, DT)
-         , last_modified = decode:value(<<"lastModified">>, Props, DT)
+         , lastModified  = decode:value(<<"lastModified">>, Props, DT)
          , outcome       = decode:value(<<"outcome">>, Props, DT)
 	}.
 %%
@@ -163,10 +163,23 @@ to_response(Props) ->
 -define(asrtjson(A, B), ?assertEqual(B, jiffy:encode({encode:rec_to_proplist(A)}))).
 
 bundle_to_test() ->
-    ?asrtto([{<<"id">>, <<"p-21666">>},{<<"type">>,<<"searchset">>}],
+    ?asrtto([{<<"id">>, <<"p-21666">>},{<<"type">>,<<"searchset">>},
+             {<<"entry">>, [{[{<<"fullUrl">>,<<"http://eNahar.org/nabu/patient-test">>},
+                              {<<"resource">>,{[
+                                 {<<"resourceType">>, <<"Patient">>},
+                                 {<<"id">>, <<"p-21666">>}
+                                             ]}}]
+                           }]}
+            ],
          {bundle,<<"p-21666">>,undefined,undefined, undefined, 
                   undefined,<<"searchset">>, undefined, undefined,
-                          [],[],undefined}).
+                          [],
+                          [{bundleentry,[],
+                                        <<"http://eNahar.org/nabu/patient-test">>,
+                                        {[{<<"resourceType">>,<<"Patient">>},
+                                          {<<"id">>,<<"p-21666">>}]},
+                                        undefined,undefined,undefined}],
+                          undefined}).
 bundle_toprop_test() ->
     ?asrtp(
          {bundle,<<"p-21666">>,undefined,undefined, undefined, 
