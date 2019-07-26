@@ -410,6 +410,12 @@ to_reference(Props) ->
       , display    = decode:value(<<"display">>, Props, DT)
       }.
 
+%%
+%% Access functions
+%%
+narrative(undefined) -> <<"no text">>;
+narrative(#narrative{div_=Text}) -> Text.
+
 %%%
 %%% EUnit
 %%%

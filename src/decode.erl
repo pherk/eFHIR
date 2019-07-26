@@ -45,10 +45,10 @@ to_time(Bin) -> Bin.
 value(Key, Props, {Base,FI,Attrs,Restriction}=DT) ->
 %    io:format("get_value0: ~s~n",[Key]),
     BFI = resolve_base(Base,FI),
-%    io:format("get_value: ~p~n",[BFI]),
+    io:format("get_value: ~p~n",[BFI]),
     {Type,Occurs} = proplists:get_value(Key, BFI),
     io:format("get_value1: ~s: ~p~n",[Key, {Type,Occurs}]),
-%   io:format("get_value2: ~s: ~p~n",[Key, Props]),
+    io:format("get_value2: ~s: ~p~n",[Key, Props]),
     Value = proplists:get_value(erlang_to_fhir(Key), Props),
     io:format("get_value3: ~p~n",[Value]),
     case {Value,Occurs} of
@@ -61,6 +61,11 @@ value(Key, Props, {Base,FI,Attrs,Restriction}=DT) ->
         {Value,     list}           -> Fun = get_fun(Type), lists:map(Fun, Value);
         {Value,     non_empty_list} -> Fun = get_fun(Type), lists:map(Fun, Value)
     end.
+
+resourceType({EJson}) -> resourceType(EJson);
+resourceType(EJson) ->
+     proplists:get_value(<<"resourceType">>,EJson).
+
 
 %%====================================================================
 %% Internal functions
@@ -81,13 +86,19 @@ validate({primitive, <<"dateTime">>},   Value) -> Value;
 validate({primitive, <<"id">>},   Value) -> Value;
 validate({primitive, <<"instant">>},   Value) -> Value;
 validate({primitive, <<"period">>},   Value) -> Value;
+validate({primitive, <<"positiveInt">>},   Value) -> Value;
 validate({primitive, <<"string">>},   Value) -> Value;
+validate({primitive, <<"unsignedInt">>},   Value) -> Value;
 validate({primitive, <<"uri">>},   Value) -> Value;
 validate({code, Type},   Value) -> 
     List = maps:get(Type,?fhir_codes),
     io:format("code: ~s in ~p~n",[Value,List]),
     Value;
-validate({complex, Type},   Value) -> Value.
+validate({complex, <<"Meta">>},   Value) -> complex:to_meta(Value);
+validate({complex, <<"ResourceContainer">>},   Value) -> patient:to_patient(Value); % TODO fhir/resource.erl
+validate({complex, Type},   Value) -> Value;
+validate({bbelement, Resource},   Value) -> Value;
+validate({bbelement, Type},   Value) -> Value.
 
 
 get_fun({primitive, <<"binary">>})     -> fun to_binary/1; % not used?!

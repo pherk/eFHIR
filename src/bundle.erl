@@ -8,7 +8,9 @@
 %% Rule: entry.search only when a search
 %% Rule: entry.request mandatory for batch/transaction/history, otherwise prohibited
 %% Rule: entry.response mandatory for batch-response/transaction-response/history, otherwise prohibited
-%% Rule: FullUrl must be unique in a bundle, or else entries with the same fullUrl must have different meta.versionId (except in history bundles)
+%% Rule: entry mandatory unless there is a request or response
+%% Rule: fullUrl must be unique in a bundle, or else entries with the same fullUrl must have different meta.versionId (except in history bundles)
+%% Rule: entry fullUrl cannot be a version specific reference
 %% Rule: A document must have an identifier with a system and a value
 %% Rule: A document must have a date
 %% Rule: A document must have a Composition as the first resource
@@ -31,7 +33,7 @@
 
 -record(bundlelink, {
            relation :: binary()
-         , uri :: uri()
+         , url :: uri()
          }).
 -type bundlelink() :: #bundlelink{}.
 
@@ -81,6 +83,7 @@
 %%====================================================================
 
 
+to_bundle({Props}) -> to_bundle(Props);
 to_bundle(Props) ->
   DT = decode:xsd_info(<<"Bundle">>),
   #bundle{
@@ -101,8 +104,8 @@ to_bundle_link({Props}) -> to_bundle_link(Props);
 to_bundle_link(Props) ->
   DT = decode:xsd_info(<<"Bundle.Link">>),
   #bundlelink{
-      relation = decode:value(<<"relationship">>, Props, DT)
-    , uri  = decode:value(<<"uri">>, Props, DT)
+      relation = decode:value(<<"relation">>, Props, DT)
+    , url  = decode:value(<<"url">>, Props, DT)
     }.
 
 to_bundle_entry({Props}) -> to_bundle_entry(Props);
@@ -151,6 +154,31 @@ to_response(Props) ->
          , outcome       = decode:value(<<"outcome">>, Props, DT)
 	}.
 %%
+%%
+%-spec unmarshal({xml, Doc, Description} | {json, Doc, Description} | {postgres, ...}) -> {ok, bundle()} | {error, Reason}.
+%-spec marshal(Bundle, xml | json | transit) -> Data.
+% repr(Bundle, {msgpack, View}) -> msgpack:encode(repr(Bundle, View));
+repr(Bundle, {json, View}) -> jiffy:encode(repr(Bundle, View));
+repr(#bundle{ type = T, timestamp = TS, total = Total }, summary) ->
+    { TS, T, Total };
+repr(Bundle, {summary, R}) ->
+    repr_summary(Bundle, R).
+
+repr_summary(#bundle{ entry = Es } = Bundle, R) ->
+    io:format("~p~n",[Bundle]),
+    lists:filtermap(fun text/1, Es).
+
+text(#bundleentry{resource=R}) ->
+    io:format("~p~n",[R]),
+    {true, resource:text(R)}.
+
+% Now, suppose you have a list of resources in the Bundle:
+%
+% Rel = [repr(B, {relation, genre}) || B <- Bs],
+% R = sofs:relation(Rel),
+% F = sofs:relation_to_family(R),
+% sofs:to_external(F).
+
 %%
 %% EUnit Tests
 %%

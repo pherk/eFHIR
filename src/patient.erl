@@ -131,6 +131,9 @@ to_patient_link(Props) ->
     , type  = decode:value(<<"type">>, Props, DT)
     }.
 
+text(#patient{text=N}) -> 
+    complex:narrative(N).
+
 %%
 %% EUnit Tests
 %%
