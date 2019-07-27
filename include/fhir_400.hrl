@@ -1210,7 +1210,7 @@
     , <<"Resource">> => {<<"">>,
             [
             {<<"id">>, {{primitive, <<"id">>}, optional}},
-            {<<"meta">>, {{soecial, <<"Meta">>}, optional}},
+            {<<"meta">>, {{special, <<"Meta">>}, optional}},
             {<<"implicitRules">>, {{primitive, <<"uri">>}, optional}},
             {<<"language">>, {{primitive, <<"code">>}, optional}}
             ],

@@ -54,8 +54,8 @@
 -type bundlesearch() :: #bundlesearch{}.
 
 -record(bundlerequest, {
-           method :: binary()                      % code()
-         , uri    :: uri()
+           method :: code() 
+         , url    :: uri()
          , ifNoneMatch :: binary()
          , ifModifiedSince :: instant()
          , ifMatch :: binary()
@@ -123,28 +123,28 @@ to_bundle_entry(Props) ->
 %%====================================================================
 %% Internal functions
 %%====================================================================
-to_search({Props}) -> to_search(Props);
-to_search(Props) ->
+to_bundle_search({Props}) -> to_bundle_search(Props);
+to_bundle_search(Props) ->
     DT = decode:xsd_info(<<"Bundle.Search">>),
 	#bundlesearch{
        mode = decode:value(<<"mode">>, Props, DT)
      , score = decode:value(<<"score">>, Props, DT)
 	 }.
 
-to_request({Props}) -> to_request(Props);
-to_request(Props) ->
+to_bundle_request({Props}) -> to_bundle_request(Props);
+to_bundle_request(Props) ->
     DT = decode:xsd_info(<<"Bundle.Request">>),
     #bundlerequest{
-           method        = decode:value(<<"mode">>, Props, DT)
-         , uri           = decode:value(<<"uri">>, Props, DT)
-         , ifNoneMatch = decode:value(<<"ifNoneMatch">>, Props, DT)
+           method        = decode:value(<<"method">>, Props, DT)
+         , url           = decode:value(<<"url">>, Props, DT)
+         , ifNoneMatch   = decode:value(<<"ifNoneMatch">>, Props, DT)
          , ifModifiedSince = decode:value(<<"ifModifiedSince">>, Props, DT)
          , ifMatch       = decode:value(<<"ifMatch">>, Props, DT)
          , ifNoneExist   = decode:value(<<"ifNoneExist">>, Props, DT)
 		}.
 
-to_response({Props}) -> to_response(Props);
-to_response(Props) ->
+to_bundle_response({Props}) -> to_bundle_response(Props);
+to_bundle_response(Props) ->
     DT = decode:xsd_info(<<"Bundle.Response">>),
     #bundleresponse{
            status        = decode:value(<<"status">>, Props, DT)

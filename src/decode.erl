@@ -43,7 +43,7 @@ to_time(Bin) -> Bin.
 
 
 value(Key, Props, {Base,FI,Attrs,Restriction}=DT) ->
-%    io:format("get_value0: ~s~n",[Key]),
+    io:format("get_value0: ~s~n",[Key]),
     BFI = resolve_base(Base,FI),
     io:format("get_value: ~p~n",[BFI]),
     {Type,Occurs} = proplists:get_value(Key, BFI),
@@ -126,14 +126,18 @@ validate({complex, <<"ResourceContainer">>}, Value) -> patient:to_patient(Value)
 validate({complex, <<"Signature">>},      Value) -> complex:to_signature(Value);
 validate({complex, <<"SimpleQuantity">>}, Value) -> complex:to_simpleQuantity(Value);
 validate({complex, <<"Timing">>}, Value)         -> complex:to_timing(Value);
-validate({metadata, <<"RelatedArtifakt">>}, Value) -> complex:to_relatedArtifakt(Value);
+validate({metadata, <<"RelatedArtifakt">>}, Value) -> metadata:to_relatedArtifakt(Value);
 validate({special, <<"xhtml">>},          Value) -> Value;
 validate({special, <<"Extension">>},      Value) -> extensions:to_extension(Value);
-validate({special, <<"Meta">>},           Value) -> complex:to_meta(Value);
-validate({special, <<"Narrative">>},      Value) -> complex:to_narrative(Value);
-validate({special, <<"Reference">>},      Value) -> complex:to_referencee(Value);
-validate({bbelement, Resource},   Value) -> Value;
-validate({bbelement, Type},   Value) -> Value.
+validate({special, <<"Meta">>},           Value) -> special:to_meta(Value);
+validate({special, <<"Narrative">>},      Value) -> special:to_narrative(Value);
+validate({special, <<"Reference">>},      Value) -> special:to_reference(Value);
+validate({bbelement, Resource},   Value) ->
+    R = string:lowercase(Resource),
+    Mod = hd(binary:split(R, <<".">>)),
+    Fun = list_to_binary([<<"to_">>,binary:replace(R,<<".">>,<<"_">>)]),
+    io:format("validate: apply: ~s:~s(~p)~n",[Mod,Fun,Value]),
+    apply(binary_to_atom(Mod,utf8),binary_to_atom(Fun,utf8),[Value]).
 
 
 get_fun({primitive, <<"binary">>})     -> fun to_binary/1; % not used?!
@@ -144,8 +148,8 @@ get_fun({primitive, <<"string">>})     -> fun to_string/1;
 get_fun({primitive, <<"time">>})       -> fun to_time/1;
 get_fun({complex,   <<"Coding">>})     -> fun complex:to_coding/1;
 get_fun({special,   <<"Extension">>})  -> fun extensions:to_extension/1;
-get_fun({bbelement, <<"Bundle.Entry">>})   -> fun bundle:to_bundle_entry/1;
-get_fun({bbelement, <<"Bundle.Link">>})    -> fun bundle:to_bundle_link/1.
+get_fun({bbelement, <<"Bundle.Entry">>}) -> fun bundle:to_bundle_entry/1;
+get_fun({bbelement, <<"Bundle.Link">>})  -> fun bundle:to_bundle_link/1.
 
 erlang_to_fhir(<<"reference_">>) -> <<"reference">>;
 erlang_to_fhir(<<"when_">>) -> <<"when">>;
