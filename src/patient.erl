@@ -6,11 +6,11 @@
 
 -record(patient, {
       id          :: binary()
-    , meta        :: complex:meta()
+    , meta        :: special:meta()
     , implicitRules :: uri()
     , language    :: code()
-    , text        :: complex:narrative()
-    , contained   :: [complex:resource()]
+    , text        :: special:narrative()
+    , contained   :: [resource:resource()]
     , extension   :: [extensions:extension()]
     , modifierExtension   :: [extensions:extension()]
     , identifier_ :: complex:identifier()
@@ -28,8 +28,8 @@
     , photo                :: [complex:attachment()]
     , contact              :: [patient_contact()]	
     , communication        :: [patient_communication()]
-    , generalPractitioner  :: [complex:reference_()]
-    , managingOrganization :: complex:reference_()
+    , generalPractitioner  :: [special:reference_()]
+    , managingOrganization :: special:reference_()
     , link                 :: [patient_link()]
     }).
 -opaque patient() :: #patient{}.
@@ -40,7 +40,7 @@
     , telecom      :: [complex:contactPoint()]
     , address      :: complex:address()
     , gender       :: complex:code()
-    , organization :: complex:reference_()
+    , organization :: special:reference_()
     , period       :: complex:period()
     }).
 -opaque patient_contact() :: #patient_contact{}.
@@ -52,7 +52,7 @@
 -opaque patient_communication() :: #patient_communication{}.
 
 -record(patient_link, {
-          other :: complex:reference_()
+          other :: special:reference_()
         , type  :: complex:code()
     }). 
 -opaque patient_link() :: #patient_link{}.
@@ -132,7 +132,7 @@ to_patient_link(Props) ->
     }.
 
 text(#patient{text=N}) -> 
-    complex:narrative(N).
+    special:narrative(N).
 
 %%
 %% EUnit Tests

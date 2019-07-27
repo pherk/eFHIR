@@ -61,7 +61,7 @@
             {<<"valueQuantity">>, {{complex, <<"Quantity">>}, optional}},
             {<<"valueRange">>, {{complex, <<"Range">>}, optional}},
             {<<"valueRatio">>, {{complex, <<"Ratio">>}, optional}},
-            {<<"valueReference">>, {{complex, <<"Reference">>}, optional}},
+            {<<"valueReference">>, {{special, <<"Reference">>}, optional}},
             {<<"valueSampledData">>, {{complex, <<"SampledData">>}, optional}},
             {<<"valueSignature">>, {{complex, <<"Signature">>}, optional}},
             {<<"valueTiming">>, {{bbelement, <<"Timing">>}, optional}},
@@ -70,7 +70,7 @@
             {<<"valueDataRequirement">>, {{complex, <<"DataRequirement">>}, optional}},
             {<<"valueExpression">>, {{complex, <<"Expression">>}, optional}},
             {<<"valueParameterDefinition">>, {{complex, <<"ParameterDefinition">>}, optional}},
-            {<<"valueRelatedArtifact">>, {{complex, <<"RelatedArtifact">>}, optional}},
+            {<<"valueRelatedArtifact">>, {{metadata, <<"RelatedArtifact">>}, optional}},
             {<<"valueTriggerDefinition">>, {{complex, <<"TriggerDefinition">>}, optional}},
             {<<"valueUsageContext">>, {{complex, <<"UsageContext">>}, optional}},
             {<<"valueDosage">>, {{bbelement, <<"Dosage">>}, optional}}
@@ -87,7 +87,7 @@
 %%
     , <<"BackboneElement">> => {<<"Element">>,
             [
-            {<<"modifierExtension">>, {{complex, <<"Extension">>}, list}}
+            {<<"modifierExtension">>, {{special, <<"Extension">>}, list}}
             ],
             [],
             []
@@ -100,7 +100,7 @@
     , <<"Narrative">> => {<<"Element">>,
             [
             {<<"status">>, {{code, <<"narrativestatus">>}, required}},
-            {<<"">>, {{complex, <<"">>}, required}}
+            {<<"div">>, {{special, <<"xhtml">>}, required}}
             ],
             [],
             []
@@ -112,7 +112,7 @@
 %%
     , <<"Element">> => {<<"">>,
             [
-            {<<"extension">>, {{complex, <<"Extension">>}, list}}
+            {<<"extension">>, {{special, <<"Extension">>}, list}}
             ],
             [{<<"id">>, <<"string">>}],
             []
@@ -208,7 +208,7 @@
             {<<"type">>, {{primitive, <<"code">>}, required}},
             {<<"profile">>, {{primitive, <<"canonical">>}, list}},
             {<<"subjectCodeableConcept">>, {{complex, <<"CodeableConcept">>}, optional}},
-            {<<"subjectReference">>, {{complex, <<"Reference">>}, optional}},
+            {<<"subjectReference">>, {{special, <<"Reference">>}, optional}},
             {<<"mustSupport">>, {{primitive, <<"string">>}, list}},
             {<<"codeFilter">>, {{complex, <<"DataRequirement.CodeFilter">>}, list}},
             {<<"dateFilter">>, {{complex, <<"DataRequirement.DateFilter">>}, list}},
@@ -388,7 +388,7 @@
             {<<"system">>, {{primitive, <<"uri">>}, optional}},
             {<<"value">>, {{primitive, <<"string">>}, optional}},
             {<<"period">>, {{complex, <<"Period">>}, optional}},
-            {<<"assigner">>, {{complex, <<"Reference">>}, optional}}
+            {<<"assigner">>, {{special, <<"Reference">>}, optional}}
             ],
             [],
             []
@@ -535,7 +535,7 @@
             {<<"type">>, {{code, <<"triggertype">>}, required}},
             {<<"name">>, {{primitive, <<"string">>}, optional}},
             {<<"timingTiming">>, {{bbelement, <<"Timing">>}, optional}},
-            {<<"timingReference">>, {{complex, <<"Reference">>}, optional}},
+            {<<"timingReference">>, {{special, <<"Reference">>}, optional}},
             {<<"timingDate">>, {{primitive, <<"date">>}, optional}},
             {<<"timingDateTime">>, {{primitive, <<"dateTime">>}, optional}},
             {<<"data">>, {{complex, <<"DataRequirement">>}, list}},
@@ -623,7 +623,7 @@
 %%
     , <<"Annotation">> => {<<"Element">>,
             [
-            {<<"authorReference">>, {{complex, <<"Reference">>}, optional}},
+            {<<"authorReference">>, {{special, <<"Reference">>}, optional}},
             {<<"authorString">>, {{primitive, <<"string">>}, optional}},
             {<<"time">>, {{primitive, <<"dateTime">>}, optional}},
             {<<"text">>, {{primitive, <<"markdown">>}, required}}
@@ -672,7 +672,7 @@
             {<<"valueCodeableConcept">>, {{complex, <<"CodeableConcept">>}, required}},
             {<<"valueQuantity">>, {{complex, <<"Quantity">>}, required}},
             {<<"valueRange">>, {{complex, <<"Range">>}, required}},
-            {<<"valueReference">>, {{complex, <<"Reference">>}, required}}
+            {<<"valueReference">>, {{special, <<"Reference">>}, required}}
             ],
             [],
             [
@@ -704,8 +704,8 @@
             [
             {<<"type">>, {{complex, <<"Coding">>}, non_empty_list}},
             {<<"when">>, {{primitive, <<"instant">>}, required}},
-            {<<"who">>, {{complex, <<"Reference">>}, required}},
-            {<<"onBehalfOf">>, {{complex, <<"Reference">>}, optional}},
+            {<<"who">>, {{special, <<"Reference">>}, required}},
+            {<<"onBehalfOf">>, {{special, <<"Reference">>}, optional}},
             {<<"targetFormat">>, {{primitive, <<"code">>}, optional}},
             {<<"sigFormat">>, {{primitive, <<"code">>}, optional}},
             {<<"data">>, {{primitive, <<"base64Binary">>}, optional}}
@@ -870,7 +870,7 @@
             {<<"defaultValueQuantity">>, {{complex, <<"Quantity">>}, optional}},
             {<<"defaultValueRange">>, {{complex, <<"Range">>}, optional}},
             {<<"defaultValueRatio">>, {{complex, <<"Ratio">>}, optional}},
-            {<<"defaultValueReference">>, {{complex, <<"Reference">>}, optional}},
+            {<<"defaultValueReference">>, {{special, <<"Reference">>}, optional}},
             {<<"defaultValueSampledData">>, {{complex, <<"SampledData">>}, optional}},
             {<<"defaultValueSignature">>, {{complex, <<"Signature">>}, optional}},
             {<<"defaultValueTiming">>, {{bbelement, <<"Timing">>}, optional}},
@@ -879,7 +879,7 @@
             {<<"defaultValueDataRequirement">>, {{complex, <<"DataRequirement">>}, optional}},
             {<<"defaultValueExpression">>, {{complex, <<"Expression">>}, optional}},
             {<<"defaultValueParameterDefinition">>, {{complex, <<"ParameterDefinition">>}, optional}},
-            {<<"defaultValueRelatedArtifact">>, {{complex, <<"RelatedArtifact">>}, optional}},
+            {<<"defaultValueRelatedArtifact">>, {{metadata, <<"RelatedArtifact">>}, optional}},
             {<<"defaultValueTriggerDefinition">>, {{complex, <<"TriggerDefinition">>}, optional}},
             {<<"defaultValueUsageContext">>, {{complex, <<"UsageContext">>}, optional}},
             {<<"defaultValueDosage">>, {{bbelement, <<"Dosage">>}, optional}},
@@ -921,7 +921,7 @@
             {<<"fixedQuantity">>, {{complex, <<"Quantity">>}, optional}},
             {<<"fixedRange">>, {{complex, <<"Range">>}, optional}},
             {<<"fixedRatio">>, {{complex, <<"Ratio">>}, optional}},
-            {<<"fixedReference">>, {{complex, <<"Reference">>}, optional}},
+            {<<"fixedReference">>, {{special, <<"Reference">>}, optional}},
             {<<"fixedSampledData">>, {{complex, <<"SampledData">>}, optional}},
             {<<"fixedSignature">>, {{complex, <<"Signature">>}, optional}},
             {<<"fixedTiming">>, {{bbelement, <<"Timing">>}, optional}},
@@ -930,7 +930,7 @@
             {<<"fixedDataRequirement">>, {{complex, <<"DataRequirement">>}, optional}},
             {<<"fixedExpression">>, {{complex, <<"Expression">>}, optional}},
             {<<"fixedParameterDefinition">>, {{complex, <<"ParameterDefinition">>}, optional}},
-            {<<"fixedRelatedArtifact">>, {{complex, <<"RelatedArtifact">>}, optional}},
+            {<<"fixedRelatedArtifact">>, {{metadata, <<"RelatedArtifact">>}, optional}},
             {<<"fixedTriggerDefinition">>, {{complex, <<"TriggerDefinition">>}, optional}},
             {<<"fixedUsageContext">>, {{complex, <<"UsageContext">>}, optional}},
             {<<"fixedDosage">>, {{bbelement, <<"Dosage">>}, optional}},
@@ -970,7 +970,7 @@
             {<<"patternQuantity">>, {{complex, <<"Quantity">>}, optional}},
             {<<"patternRange">>, {{complex, <<"Range">>}, optional}},
             {<<"patternRatio">>, {{complex, <<"Ratio">>}, optional}},
-            {<<"patternReference">>, {{complex, <<"Reference">>}, optional}},
+            {<<"patternReference">>, {{special, <<"Reference">>}, optional}},
             {<<"patternSampledData">>, {{complex, <<"SampledData">>}, optional}},
             {<<"patternSignature">>, {{complex, <<"Signature">>}, optional}},
             {<<"patternTiming">>, {{bbelement, <<"Timing">>}, optional}},
@@ -979,7 +979,7 @@
             {<<"patternDataRequirement">>, {{complex, <<"DataRequirement">>}, optional}},
             {<<"patternExpression">>, {{complex, <<"Expression">>}, optional}},
             {<<"patternParameterDefinition">>, {{complex, <<"ParameterDefinition">>}, optional}},
-            {<<"patternRelatedArtifact">>, {{complex, <<"RelatedArtifact">>}, optional}},
+            {<<"patternRelatedArtifact">>, {{metadata, <<"RelatedArtifact">>}, optional}},
             {<<"patternTriggerDefinition">>, {{complex, <<"TriggerDefinition">>}, optional}},
             {<<"patternUsageContext">>, {{complex, <<"UsageContext">>}, optional}},
             {<<"patternDosage">>, {{bbelement, <<"Dosage">>}, optional}},
@@ -1128,7 +1128,7 @@
             {<<"valueQuantity">>, {{complex, <<"Quantity">>}, required}},
             {<<"valueRange">>, {{complex, <<"Range">>}, required}},
             {<<"valueRatio">>, {{complex, <<"Ratio">>}, required}},
-            {<<"valueReference">>, {{complex, <<"Reference">>}, required}},
+            {<<"valueReference">>, {{special, <<"Reference">>}, required}},
             {<<"valueSampledData">>, {{complex, <<"SampledData">>}, required}},
             {<<"valueSignature">>, {{complex, <<"Signature">>}, required}},
             {<<"valueTiming">>, {{bbelement, <<"Timing">>}, required}},
@@ -1137,7 +1137,7 @@
             {<<"valueDataRequirement">>, {{complex, <<"DataRequirement">>}, required}},
             {<<"valueExpression">>, {{complex, <<"Expression">>}, required}},
             {<<"valueParameterDefinition">>, {{complex, <<"ParameterDefinition">>}, required}},
-            {<<"valueRelatedArtifact">>, {{complex, <<"RelatedArtifact">>}, required}},
+            {<<"valueRelatedArtifact">>, {{metadata, <<"RelatedArtifact">>}, required}},
             {<<"valueTriggerDefinition">>, {{complex, <<"TriggerDefinition">>}, required}},
             {<<"valueUsageContext">>, {{complex, <<"UsageContext">>}, required}},
             {<<"valueDosage">>, {{bbelement, <<"Dosage">>}, required}}
@@ -1195,10 +1195,10 @@
 %%
     , <<"DomainResource">> => {<<"Resource">>,
             [
-            {<<"text">>, {{complex, <<"Narrative">>}, optional}},
-            {<<"contained">>, {{complex, <<"ResourceContainer">>}, list}},
-            {<<"extension">>, {{complex, <<"Extension">>}, list}},
-            {<<"modifierExtension">>, {{complex, <<"Extension">>}, list}}
+            {<<"text">>, {{special, <<"Narrative">>}, optional}},
+            {<<"contained">>, {{special, <<"ResourceContainer">>}, list}},
+            {<<"extension">>, {{special, <<"Extension">>}, list}},
+            {<<"modifierExtension">>, {{special, <<"Extension">>}, list}}
             ],
             [],
             []
@@ -1210,7 +1210,7 @@
     , <<"Resource">> => {<<"">>,
             [
             {<<"id">>, {{primitive, <<"id">>}, optional}},
-            {<<"meta">>, {{complex, <<"Meta">>}, optional}},
+            {<<"meta">>, {{soecial, <<"Meta">>}, optional}},
             {<<"implicitRules">>, {{primitive, <<"uri">>}, optional}},
             {<<"language">>, {{primitive, <<"code">>}, optional}}
             ],
@@ -1228,13 +1228,13 @@
             {<<"status">>, {{code, <<"accountstatus">>}, required}},
             {<<"type">>, {{complex, <<"CodeableConcept">>}, optional}},
             {<<"name">>, {{primitive, <<"string">>}, optional}},
-            {<<"subject">>, {{complex, <<"Reference">>}, list}},
+            {<<"subject">>, {{special, <<"Reference">>}, list}},
             {<<"servicePeriod">>, {{complex, <<"Period">>}, optional}},
             {<<"coverage">>, {{bbelement, <<"Account.Coverage">>}, list}},
-            {<<"owner">>, {{complex, <<"Reference">>}, optional}},
+            {<<"owner">>, {{special, <<"Reference">>}, optional}},
             {<<"description">>, {{primitive, <<"string">>}, optional}},
             {<<"guarantor">>, {{bbelement, <<"Account.Guarantor">>}, list}},
-            {<<"partOf">>, {{complex, <<"Reference">>}, optional}}
+            {<<"partOf">>, {{special, <<"Reference">>}, optional}}
             ],
             [],
             []
@@ -1245,7 +1245,7 @@
 %%
     , <<"Account.Coverage">> => {<<"BackboneElement">>,
             [
-            {<<"coverage">>, {{complex, <<"Reference">>}, required}},
+            {<<"coverage">>, {{special, <<"Reference">>}, required}},
             {<<"priority">>, {{primitive, <<"positiveInt">>}, optional}}
             ],
             [],
@@ -1257,7 +1257,7 @@
 %%
     , <<"Account.Guarantor">> => {<<"BackboneElement">>,
             [
-            {<<"party">>, {{complex, <<"Reference">>}, required}},
+            {<<"party">>, {{special, <<"Reference">>}, required}},
             {<<"onHold">>, {{primitive, <<"boolean">>}, optional}},
             {<<"period">>, {{complex, <<"Period">>}, optional}}
             ],
@@ -1280,7 +1280,7 @@
             {<<"status">>, {{code, <<"publicationstatus">>}, required}},
             {<<"experimental">>, {{primitive, <<"boolean">>}, optional}},
             {<<"subjectCodeableConcept">>, {{complex, <<"CodeableConcept">>}, optional}},
-            {<<"subjectReference">>, {{complex, <<"Reference">>}, optional}},
+            {<<"subjectReference">>, {{special, <<"Reference">>}, optional}},
             {<<"date">>, {{primitive, <<"dateTime">>}, optional}},
             {<<"publisher">>, {{primitive, <<"string">>}, optional}},
             {<<"contact">>, {{complex, <<"ContactDetail">>}, list}},
@@ -1312,16 +1312,16 @@
             {<<"timingPeriod">>, {{complex, <<"Period">>}, optional}},
             {<<"timingRange">>, {{complex, <<"Range">>}, optional}},
             {<<"timingDuration">>, {{complex, <<"Duration">>}, optional}},
-            {<<"location">>, {{complex, <<"Reference">>}, optional}},
+            {<<"location">>, {{special, <<"Reference">>}, optional}},
             {<<"participant">>, {{bbelement, <<"ActivityDefinition.Participant">>}, list}},
-            {<<"productReference">>, {{complex, <<"Reference">>}, optional}},
+            {<<"productReference">>, {{special, <<"Reference">>}, optional}},
             {<<"productCodeableConcept">>, {{complex, <<"CodeableConcept">>}, optional}},
             {<<"quantity">>, {{complex, <<"Quantity">>}, optional}},
             {<<"dosage">>, {{bbelement, <<"Dosage">>}, list}},
             {<<"bodySite">>, {{complex, <<"CodeableConcept">>}, list}},
-            {<<"specimenRequirement">>, {{complex, <<"Reference">>}, list}},
-            {<<"observationRequirement">>, {{complex, <<"Reference">>}, list}},
-            {<<"observationResultRequirement">>, {{complex, <<"Reference">>}, list}},
+            {<<"specimenRequirement">>, {{special, <<"Reference">>}, list}},
+            {<<"observationRequirement">>, {{special, <<"Reference">>}, list}},
+            {<<"observationResultRequirement">>, {{special, <<"Reference">>}, list}},
             {<<"transform">>, {{primitive, <<"canonical">>}, optional}},
             {<<"dynamicValue">>, {{bbelement, <<"ActivityDefinition.DynamicValue">>}, list}}
             ],
@@ -1367,22 +1367,22 @@
             {<<"actuality">>, {{code, <<"adverseeventactuality">>}, required}},
             {<<"category">>, {{complex, <<"CodeableConcept">>}, list}},
             {<<"event">>, {{complex, <<"CodeableConcept">>}, optional}},
-            {<<"subject">>, {{complex, <<"Reference">>}, required}},
-            {<<"encounter">>, {{complex, <<"Reference">>}, optional}},
+            {<<"subject">>, {{special, <<"Reference">>}, required}},
+            {<<"encounter">>, {{special, <<"Reference">>}, optional}},
             {<<"date">>, {{primitive, <<"dateTime">>}, optional}},
             {<<"detected">>, {{primitive, <<"dateTime">>}, optional}},
             {<<"recordedDate">>, {{primitive, <<"dateTime">>}, optional}},
-            {<<"resultingCondition">>, {{complex, <<"Reference">>}, list}},
-            {<<"location">>, {{complex, <<"Reference">>}, optional}},
+            {<<"resultingCondition">>, {{special, <<"Reference">>}, list}},
+            {<<"location">>, {{special, <<"Reference">>}, optional}},
             {<<"seriousness">>, {{complex, <<"CodeableConcept">>}, optional}},
             {<<"severity">>, {{complex, <<"CodeableConcept">>}, optional}},
             {<<"outcome">>, {{complex, <<"CodeableConcept">>}, optional}},
-            {<<"recorder">>, {{complex, <<"Reference">>}, optional}},
-            {<<"contributor">>, {{complex, <<"Reference">>}, list}},
+            {<<"recorder">>, {{special, <<"Reference">>}, optional}},
+            {<<"contributor">>, {{special, <<"Reference">>}, list}},
             {<<"suspectEntity">>, {{bbelement, <<"AdverseEvent.SuspectEntity">>}, list}},
-            {<<"subjectMedicalHistory">>, {{complex, <<"Reference">>}, list}},
-            {<<"referenceDocument">>, {{complex, <<"Reference">>}, list}},
-            {<<"study">>, {{complex, <<"Reference">>}, list}}
+            {<<"subjectMedicalHistory">>, {{special, <<"Reference">>}, list}},
+            {<<"referenceDocument">>, {{special, <<"Reference">>}, list}},
+            {<<"study">>, {{special, <<"Reference">>}, list}}
             ],
             [],
             []
@@ -1393,7 +1393,7 @@
 %%
     , <<"AdverseEvent.SuspectEntity">> => {<<"BackboneElement">>,
             [
-            {<<"instance">>, {{complex, <<"Reference">>}, required}},
+            {<<"instance">>, {{special, <<"Reference">>}, required}},
             {<<"causality">>, {{bbelement, <<"AdverseEvent.Causality">>}, list}}
             ],
             [],
@@ -1407,7 +1407,7 @@
             [
             {<<"assessment">>, {{complex, <<"CodeableConcept">>}, optional}},
             {<<"productRelatedness">>, {{primitive, <<"string">>}, optional}},
-            {<<"author">>, {{complex, <<"Reference">>}, optional}},
+            {<<"author">>, {{special, <<"Reference">>}, optional}},
             {<<"method">>, {{complex, <<"CodeableConcept">>}, optional}}
             ],
             [],
@@ -1427,16 +1427,16 @@
             {<<"category">>, {{code, <<"allergyintolerancecategory">>}, list}},
             {<<"criticality">>, {{code, <<"allergyintolerancecriticality">>}, optional}},
             {<<"code">>, {{complex, <<"CodeableConcept">>}, optional}},
-            {<<"patient">>, {{complex, <<"Reference">>}, required}},
-            {<<"encounter">>, {{complex, <<"Reference">>}, optional}},
+            {<<"patient">>, {{special, <<"Reference">>}, required}},
+            {<<"encounter">>, {{special, <<"Reference">>}, optional}},
             {<<"onsetDateTime">>, {{primitive, <<"dateTime">>}, optional}},
             {<<"onsetAge">>, {{complex, <<"Age">>}, optional}},
             {<<"onsetPeriod">>, {{complex, <<"Period">>}, optional}},
             {<<"onsetRange">>, {{complex, <<"Range">>}, optional}},
             {<<"onsetString">>, {{primitive, <<"string">>}, optional}},
             {<<"recordedDate">>, {{primitive, <<"dateTime">>}, optional}},
-            {<<"recorder">>, {{complex, <<"Reference">>}, optional}},
-            {<<"asserter">>, {{complex, <<"Reference">>}, optional}},
+            {<<"recorder">>, {{special, <<"Reference">>}, optional}},
+            {<<"asserter">>, {{special, <<"Reference">>}, optional}},
             {<<"lastOccurrence">>, {{primitive, <<"dateTime">>}, optional}},
             {<<"note">>, {{complex, <<"Annotation">>}, list}},
             {<<"reaction">>, {{bbelement, <<"AllergyIntolerance.Reaction">>}, list}}
@@ -1478,18 +1478,18 @@
             {<<"specialty">>, {{complex, <<"CodeableConcept">>}, list}},
             {<<"appointmentType">>, {{complex, <<"CodeableConcept">>}, optional}},
             {<<"reasonCode">>, {{complex, <<"CodeableConcept">>}, list}},
-            {<<"reasonReference">>, {{complex, <<"Reference">>}, list}},
+            {<<"reasonReference">>, {{special, <<"Reference">>}, list}},
             {<<"priority">>, {{primitive, <<"unsignedInt">>}, optional}},
             {<<"description">>, {{primitive, <<"string">>}, optional}},
-            {<<"supportingInformation">>, {{complex, <<"Reference">>}, list}},
+            {<<"supportingInformation">>, {{special, <<"Reference">>}, list}},
             {<<"start">>, {{primitive, <<"instant">>}, optional}},
             {<<"end">>, {{primitive, <<"instant">>}, optional}},
             {<<"minutesDuration">>, {{primitive, <<"positiveInt">>}, optional}},
-            {<<"slot">>, {{complex, <<"Reference">>}, list}},
+            {<<"slot">>, {{special, <<"Reference">>}, list}},
             {<<"created">>, {{primitive, <<"dateTime">>}, optional}},
             {<<"comment">>, {{primitive, <<"string">>}, optional}},
             {<<"patientInstruction">>, {{primitive, <<"string">>}, optional}},
-            {<<"basedOn">>, {{complex, <<"Reference">>}, list}},
+            {<<"basedOn">>, {{special, <<"Reference">>}, list}},
             {<<"participant">>, {{bbelement, <<"Appointment.Participant">>}, non_empty_list}},
             {<<"requestedPeriod">>, {{complex, <<"Period">>}, list}}
             ],
@@ -1503,7 +1503,7 @@
     , <<"Appointment.Participant">> => {<<"BackboneElement">>,
             [
             {<<"type">>, {{complex, <<"CodeableConcept">>}, list}},
-            {<<"actor">>, {{complex, <<"Reference">>}, optional}},
+            {<<"actor">>, {{special, <<"Reference">>}, optional}},
             {<<"required">>, {{code, <<"participantrequired">>}, optional}},
             {<<"status">>, {{code, <<"participationstatus">>}, required}},
             {<<"period">>, {{complex, <<"Period">>}, optional}}
@@ -1519,11 +1519,11 @@
     , <<"AppointmentResponse">> => {<<"DomainResource">>,
             [
             {<<"identifier">>, {{complex, <<"Identifier">>}, list}},
-            {<<"appointment">>, {{complex, <<"Reference">>}, required}},
+            {<<"appointment">>, {{special, <<"Reference">>}, required}},
             {<<"start">>, {{primitive, <<"instant">>}, optional}},
             {<<"end">>, {{primitive, <<"instant">>}, optional}},
             {<<"participantType">>, {{complex, <<"CodeableConcept">>}, list}},
-            {<<"actor">>, {{complex, <<"Reference">>}, optional}},
+            {<<"actor">>, {{special, <<"Reference">>}, optional}},
             {<<"participantStatus">>, {{code, <<"participationstatus">>}, required}},
             {<<"comment">>, {{primitive, <<"string">>}, optional}}
             ],
@@ -1560,11 +1560,11 @@
             [
             {<<"type">>, {{complex, <<"CodeableConcept">>}, optional}},
             {<<"role">>, {{complex, <<"CodeableConcept">>}, list}},
-            {<<"who">>, {{complex, <<"Reference">>}, optional}},
+            {<<"who">>, {{special, <<"Reference">>}, optional}},
             {<<"altId">>, {{primitive, <<"string">>}, optional}},
             {<<"name">>, {{primitive, <<"string">>}, optional}},
             {<<"requestor">>, {{primitive, <<"boolean">>}, required}},
-            {<<"location">>, {{complex, <<"Reference">>}, optional}},
+            {<<"location">>, {{special, <<"Reference">>}, optional}},
             {<<"policy">>, {{primitive, <<"uri">>}, list}},
             {<<"media">>, {{complex, <<"Coding">>}, optional}},
             {<<"network">>, {{bbelement, <<"AuditEvent.Network">>}, optional}},
@@ -1592,7 +1592,7 @@
     , <<"AuditEvent.Source">> => {<<"BackboneElement">>,
             [
             {<<"site">>, {{primitive, <<"string">>}, optional}},
-            {<<"observer">>, {{complex, <<"Reference">>}, required}},
+            {<<"observer">>, {{special, <<"Reference">>}, required}},
             {<<"type">>, {{complex, <<"Coding">>}, list}}
             ],
             [],
@@ -1604,7 +1604,7 @@
 %%
     , <<"AuditEvent.Entity">> => {<<"BackboneElement">>,
             [
-            {<<"what">>, {{complex, <<"Reference">>}, optional}},
+            {<<"what">>, {{special, <<"Reference">>}, optional}},
             {<<"type">>, {{complex, <<"Coding">>}, optional}},
             {<<"role">>, {{complex, <<"Coding">>}, optional}},
             {<<"lifecycle">>, {{complex, <<"Coding">>}, optional}},
@@ -1641,9 +1641,9 @@
             [
             {<<"identifier">>, {{complex, <<"Identifier">>}, list}},
             {<<"code">>, {{complex, <<"CodeableConcept">>}, required}},
-            {<<"subject">>, {{complex, <<"Reference">>}, optional}},
+            {<<"subject">>, {{special, <<"Reference">>}, optional}},
             {<<"created">>, {{primitive, <<"date">>}, optional}},
-            {<<"author">>, {{complex, <<"Reference">>}, optional}}
+            {<<"author">>, {{special, <<"Reference">>}, optional}}
             ],
             [],
             []
@@ -1656,7 +1656,7 @@
     , <<"Binary">> => {<<"Resource">>,
             [
             {<<"contentType">>, {{primitive, <<"code">>}, required}},
-            {<<"securityContext">>, {{complex, <<"Reference">>}, optional}},
+            {<<"securityContext">>, {{special, <<"Reference">>}, optional}},
             {<<"data">>, {{primitive, <<"base64Binary">>}, optional}}
             ],
             [],
@@ -1674,9 +1674,9 @@
             {<<"productCategory">>, {{code, <<"biologicallyderivedproductcategory">>}, optional}},
             {<<"productCode">>, {{complex, <<"CodeableConcept">>}, optional}},
             {<<"status">>, {{code, <<"biologicallyderivedproductstatus">>}, optional}},
-            {<<"request">>, {{complex, <<"Reference">>}, list}},
+            {<<"request">>, {{special, <<"Reference">>}, list}},
             {<<"quantity">>, {{primitive, <<"integer">>}, optional}},
-            {<<"parent">>, {{complex, <<"Reference">>}, list}},
+            {<<"parent">>, {{special, <<"Reference">>}, list}},
             {<<"collection">>, {{bbelement, <<"BiologicallyDerivedProduct.Collection">>}, optional}},
             {<<"processing">>, {{bbelement, <<"BiologicallyDerivedProduct.Processing">>}, list}},
             {<<"manipulation">>, {{bbelement, <<"BiologicallyDerivedProduct.Manipulation">>}, optional}},
@@ -1692,8 +1692,8 @@
 %%
     , <<"BiologicallyDerivedProduct.Collection">> => {<<"BackboneElement">>,
             [
-            {<<"collector">>, {{complex, <<"Reference">>}, optional}},
-            {<<"source">>, {{complex, <<"Reference">>}, optional}},
+            {<<"collector">>, {{special, <<"Reference">>}, optional}},
+            {<<"source">>, {{special, <<"Reference">>}, optional}},
             {<<"collectedDateTime">>, {{primitive, <<"dateTime">>}, optional}},
             {<<"collectedPeriod">>, {{complex, <<"Period">>}, optional}}
             ],
@@ -1711,7 +1711,7 @@
             [
             {<<"description">>, {{primitive, <<"string">>}, optional}},
             {<<"procedure">>, {{complex, <<"CodeableConcept">>}, optional}},
-            {<<"additive">>, {{complex, <<"Reference">>}, optional}},
+            {<<"additive">>, {{special, <<"Reference">>}, optional}},
             {<<"timeDateTime">>, {{primitive, <<"dateTime">>}, optional}},
             {<<"timePeriod">>, {{complex, <<"Period">>}, optional}}
             ],
@@ -1765,7 +1765,7 @@
             {<<"locationQualifier">>, {{complex, <<"CodeableConcept">>}, list}},
             {<<"description">>, {{primitive, <<"string">>}, optional}},
             {<<"image">>, {{complex, <<"Attachment">>}, list}},
-            {<<"patient">>, {{complex, <<"Reference">>}, required}}
+            {<<"patient">>, {{special, <<"Reference">>}, required}}
             ],
             [],
             []
@@ -1917,7 +1917,7 @@
             [
             {<<"description">>, {{primitive, <<"string">>}, required}},
             {<<"url">>, {{primitive, <<"url">>}, optional}},
-            {<<"custodian">>, {{complex, <<"Reference">>}, optional}}
+            {<<"custodian">>, {{special, <<"Reference">>}, optional}}
             ],
             [],
             []
@@ -2092,24 +2092,24 @@
             {<<"identifier">>, {{complex, <<"Identifier">>}, list}},
             {<<"instantiatesCanonical">>, {{primitive, <<"canonical">>}, list}},
             {<<"instantiatesUri">>, {{primitive, <<"uri">>}, list}},
-            {<<"basedOn">>, {{complex, <<"Reference">>}, list}},
-            {<<"replaces">>, {{complex, <<"Reference">>}, list}},
-            {<<"partOf">>, {{complex, <<"Reference">>}, list}},
+            {<<"basedOn">>, {{special, <<"Reference">>}, list}},
+            {<<"replaces">>, {{special, <<"Reference">>}, list}},
+            {<<"partOf">>, {{special, <<"Reference">>}, list}},
             {<<"status">>, {{code, <<"requeststatus">>}, required}},
             {<<"intent">>, {{code, <<"careplanintent">>}, required}},
             {<<"category">>, {{complex, <<"CodeableConcept">>}, list}},
             {<<"title">>, {{primitive, <<"string">>}, optional}},
             {<<"description">>, {{primitive, <<"string">>}, optional}},
-            {<<"subject">>, {{complex, <<"Reference">>}, required}},
-            {<<"encounter">>, {{complex, <<"Reference">>}, optional}},
+            {<<"subject">>, {{special, <<"Reference">>}, required}},
+            {<<"encounter">>, {{special, <<"Reference">>}, optional}},
             {<<"period">>, {{complex, <<"Period">>}, optional}},
             {<<"created">>, {{primitive, <<"dateTime">>}, optional}},
-            {<<"author">>, {{complex, <<"Reference">>}, optional}},
-            {<<"contributor">>, {{complex, <<"Reference">>}, list}},
-            {<<"careTeam">>, {{complex, <<"Reference">>}, list}},
-            {<<"addresses">>, {{complex, <<"Reference">>}, list}},
-            {<<"supportingInfo">>, {{complex, <<"Reference">>}, list}},
-            {<<"goal">>, {{complex, <<"Reference">>}, list}},
+            {<<"author">>, {{special, <<"Reference">>}, optional}},
+            {<<"contributor">>, {{special, <<"Reference">>}, list}},
+            {<<"careTeam">>, {{special, <<"Reference">>}, list}},
+            {<<"addresses">>, {{special, <<"Reference">>}, list}},
+            {<<"supportingInfo">>, {{special, <<"Reference">>}, list}},
+            {<<"goal">>, {{special, <<"Reference">>}, list}},
             {<<"activity">>, {{bbelement, <<"CarePlan.Activity">>}, list}},
             {<<"note">>, {{complex, <<"Annotation">>}, list}}
             ],
@@ -2123,9 +2123,9 @@
     , <<"CarePlan.Activity">> => {<<"BackboneElement">>,
             [
             {<<"outcomeCodeableConcept">>, {{complex, <<"CodeableConcept">>}, list}},
-            {<<"outcomeReference">>, {{complex, <<"Reference">>}, list}},
+            {<<"outcomeReference">>, {{special, <<"Reference">>}, list}},
             {<<"progress">>, {{complex, <<"Annotation">>}, list}},
-            {<<"reference">>, {{complex, <<"Reference">>}, optional}},
+            {<<"reference">>, {{special, <<"Reference">>}, optional}},
             {<<"detail">>, {{bbelement, <<"CarePlan.Detail">>}, optional}}
             ],
             [],
@@ -2142,18 +2142,18 @@
             {<<"instantiatesUri">>, {{primitive, <<"uri">>}, list}},
             {<<"code">>, {{complex, <<"CodeableConcept">>}, optional}},
             {<<"reasonCode">>, {{complex, <<"CodeableConcept">>}, list}},
-            {<<"reasonReference">>, {{complex, <<"Reference">>}, list}},
-            {<<"goal">>, {{complex, <<"Reference">>}, list}},
+            {<<"reasonReference">>, {{special, <<"Reference">>}, list}},
+            {<<"goal">>, {{special, <<"Reference">>}, list}},
             {<<"status">>, {{code, <<"careplanactivitystatus">>}, required}},
             {<<"statusReason">>, {{complex, <<"CodeableConcept">>}, optional}},
             {<<"doNotPerform">>, {{primitive, <<"boolean">>}, optional}},
             {<<"scheduledTiming">>, {{bbelement, <<"Timing">>}, optional}},
             {<<"scheduledPeriod">>, {{complex, <<"Period">>}, optional}},
             {<<"scheduledString">>, {{primitive, <<"string">>}, optional}},
-            {<<"location">>, {{complex, <<"Reference">>}, optional}},
-            {<<"performer">>, {{complex, <<"Reference">>}, list}},
+            {<<"location">>, {{special, <<"Reference">>}, optional}},
+            {<<"performer">>, {{special, <<"Reference">>}, list}},
             {<<"productCodeableConcept">>, {{complex, <<"CodeableConcept">>}, optional}},
-            {<<"productReference">>, {{complex, <<"Reference">>}, optional}},
+            {<<"productReference">>, {{special, <<"Reference">>}, optional}},
             {<<"dailyAmount">>, {{complex, <<"Quantity">>}, optional}},
             {<<"quantity">>, {{complex, <<"Quantity">>}, optional}},
             {<<"description">>, {{primitive, <<"string">>}, optional}}
@@ -2175,13 +2175,13 @@
             {<<"status">>, {{code, <<"careteamstatus">>}, optional}},
             {<<"category">>, {{complex, <<"CodeableConcept">>}, list}},
             {<<"name">>, {{primitive, <<"string">>}, optional}},
-            {<<"subject">>, {{complex, <<"Reference">>}, optional}},
-            {<<"encounter">>, {{complex, <<"Reference">>}, optional}},
+            {<<"subject">>, {{special, <<"Reference">>}, optional}},
+            {<<"encounter">>, {{special, <<"Reference">>}, optional}},
             {<<"period">>, {{complex, <<"Period">>}, optional}},
             {<<"participant">>, {{bbelement, <<"CareTeam.Participant">>}, list}},
             {<<"reasonCode">>, {{complex, <<"CodeableConcept">>}, list}},
-            {<<"reasonReference">>, {{complex, <<"Reference">>}, list}},
-            {<<"managingOrganization">>, {{complex, <<"Reference">>}, list}},
+            {<<"reasonReference">>, {{special, <<"Reference">>}, list}},
+            {<<"managingOrganization">>, {{special, <<"Reference">>}, list}},
             {<<"telecom">>, {{complex, <<"ContactPoint">>}, list}},
             {<<"note">>, {{complex, <<"Annotation">>}, list}}
             ],
@@ -2195,8 +2195,8 @@
     , <<"CareTeam.Participant">> => {<<"BackboneElement">>,
             [
             {<<"role">>, {{complex, <<"CodeableConcept">>}, list}},
-            {<<"member">>, {{complex, <<"Reference">>}, optional}},
-            {<<"onBehalfOf">>, {{complex, <<"Reference">>}, optional}},
+            {<<"member">>, {{special, <<"Reference">>}, optional}},
+            {<<"onBehalfOf">>, {{special, <<"Reference">>}, optional}},
             {<<"period">>, {{complex, <<"Period">>}, optional}}
             ],
             [],
@@ -2212,7 +2212,7 @@
             {<<"identifier">>, {{complex, <<"Identifier">>}, list}},
             {<<"type">>, {{complex, <<"CodeableConcept">>}, optional}},
             {<<"orderable">>, {{primitive, <<"boolean">>}, required}},
-            {<<"referencedItem">>, {{complex, <<"Reference">>}, required}},
+            {<<"referencedItem">>, {{special, <<"Reference">>}, required}},
             {<<"additionalIdentifier">>, {{complex, <<"Identifier">>}, list}},
             {<<"classification">>, {{complex, <<"CodeableConcept">>}, list}},
             {<<"status">>, {{code, <<"publicationstatus">>}, optional}},
@@ -2233,7 +2233,7 @@
     , <<"CatalogEntry.RelatedEntry">> => {<<"BackboneElement">>,
             [
             {<<"relationtype">>, {{code, <<"catalogentryrelationtype">>}, required}},
-            {<<"item">>, {{complex, <<"Reference">>}, required}}
+            {<<"item">>, {{special, <<"Reference">>}, required}}
             ],
             [],
             []
@@ -2249,31 +2249,31 @@
             {<<"definitionUri">>, {{primitive, <<"uri">>}, list}},
             {<<"definitionCanonical">>, {{primitive, <<"canonical">>}, list}},
             {<<"status">>, {{code, <<"chargeitemstatus">>}, required}},
-            {<<"partOf">>, {{complex, <<"Reference">>}, list}},
+            {<<"partOf">>, {{special, <<"Reference">>}, list}},
             {<<"code">>, {{complex, <<"CodeableConcept">>}, required}},
-            {<<"subject">>, {{complex, <<"Reference">>}, required}},
-            {<<"context">>, {{complex, <<"Reference">>}, optional}},
+            {<<"subject">>, {{special, <<"Reference">>}, required}},
+            {<<"context">>, {{special, <<"Reference">>}, optional}},
             {<<"occurrenceDateTime">>, {{primitive, <<"dateTime">>}, optional}},
             {<<"occurrencePeriod">>, {{complex, <<"Period">>}, optional}},
             {<<"occurrenceTiming">>, {{bbelement, <<"Timing">>}, optional}},
             {<<"performer">>, {{bbelement, <<"ChargeItem.Performer">>}, list}},
-            {<<"performingOrganization">>, {{complex, <<"Reference">>}, optional}},
-            {<<"requestingOrganization">>, {{complex, <<"Reference">>}, optional}},
-            {<<"costCenter">>, {{complex, <<"Reference">>}, optional}},
+            {<<"performingOrganization">>, {{special, <<"Reference">>}, optional}},
+            {<<"requestingOrganization">>, {{special, <<"Reference">>}, optional}},
+            {<<"costCenter">>, {{special, <<"Reference">>}, optional}},
             {<<"quantity">>, {{complex, <<"Quantity">>}, optional}},
             {<<"bodysite">>, {{complex, <<"CodeableConcept">>}, list}},
             {<<"factorOverride">>, {{primitive, <<"decimal">>}, optional}},
             {<<"priceOverride">>, {{complex, <<"Money">>}, optional}},
             {<<"overrideReason">>, {{primitive, <<"string">>}, optional}},
-            {<<"enterer">>, {{complex, <<"Reference">>}, optional}},
+            {<<"enterer">>, {{special, <<"Reference">>}, optional}},
             {<<"enteredDate">>, {{primitive, <<"dateTime">>}, optional}},
             {<<"reason">>, {{complex, <<"CodeableConcept">>}, list}},
-            {<<"service">>, {{complex, <<"Reference">>}, list}},
-            {<<"productReference">>, {{complex, <<"Reference">>}, optional}},
+            {<<"service">>, {{special, <<"Reference">>}, list}},
+            {<<"productReference">>, {{special, <<"Reference">>}, optional}},
             {<<"productCodeableConcept">>, {{complex, <<"CodeableConcept">>}, optional}},
-            {<<"account">>, {{complex, <<"Reference">>}, list}},
+            {<<"account">>, {{special, <<"Reference">>}, list}},
             {<<"note">>, {{complex, <<"Annotation">>}, list}},
-            {<<"supportingInformation">>, {{complex, <<"Reference">>}, list}}
+            {<<"supportingInformation">>, {{special, <<"Reference">>}, list}}
             ],
             [],
             [
@@ -2288,7 +2288,7 @@
     , <<"ChargeItem.Performer">> => {<<"BackboneElement">>,
             [
             {<<"function">>, {{complex, <<"CodeableConcept">>}, optional}},
-            {<<"actor">>, {{complex, <<"Reference">>}, required}}
+            {<<"actor">>, {{special, <<"Reference">>}, required}}
             ],
             [],
             []
@@ -2320,7 +2320,7 @@
             {<<"lastReviewDate">>, {{primitive, <<"date">>}, optional}},
             {<<"effectivePeriod">>, {{complex, <<"Period">>}, optional}},
             {<<"code">>, {{complex, <<"CodeableConcept">>}, optional}},
-            {<<"instance">>, {{complex, <<"Reference">>}, list}},
+            {<<"instance">>, {{special, <<"Reference">>}, list}},
             {<<"applicability">>, {{bbelement, <<"ChargeItemDefinition.Applicability">>}, list}},
             {<<"propertyGroup">>, {{bbelement, <<"ChargeItemDefinition.PropertyGroup">>}, list}}
             ],
@@ -2378,20 +2378,20 @@
             {<<"type">>, {{complex, <<"CodeableConcept">>}, required}},
             {<<"subType">>, {{complex, <<"CodeableConcept">>}, optional}},
             {<<"use">>, {{code, <<"use">>}, required}},
-            {<<"patient">>, {{complex, <<"Reference">>}, required}},
+            {<<"patient">>, {{special, <<"Reference">>}, required}},
             {<<"billablePeriod">>, {{complex, <<"Period">>}, optional}},
             {<<"created">>, {{primitive, <<"dateTime">>}, required}},
-            {<<"enterer">>, {{complex, <<"Reference">>}, optional}},
-            {<<"insurer">>, {{complex, <<"Reference">>}, optional}},
-            {<<"provider">>, {{complex, <<"Reference">>}, required}},
+            {<<"enterer">>, {{special, <<"Reference">>}, optional}},
+            {<<"insurer">>, {{special, <<"Reference">>}, optional}},
+            {<<"provider">>, {{special, <<"Reference">>}, required}},
             {<<"priority">>, {{complex, <<"CodeableConcept">>}, required}},
             {<<"fundsReserve">>, {{complex, <<"CodeableConcept">>}, optional}},
             {<<"related">>, {{bbelement, <<"Claim.Related">>}, list}},
-            {<<"prescription">>, {{complex, <<"Reference">>}, optional}},
-            {<<"originalPrescription">>, {{complex, <<"Reference">>}, optional}},
+            {<<"prescription">>, {{special, <<"Reference">>}, optional}},
+            {<<"originalPrescription">>, {{special, <<"Reference">>}, optional}},
             {<<"payee">>, {{bbelement, <<"Claim.Payee">>}, optional}},
-            {<<"referral">>, {{complex, <<"Reference">>}, optional}},
-            {<<"facility">>, {{complex, <<"Reference">>}, optional}},
+            {<<"referral">>, {{special, <<"Reference">>}, optional}},
+            {<<"facility">>, {{special, <<"Reference">>}, optional}},
             {<<"careTeam">>, {{bbelement, <<"Claim.CareTeam">>}, list}},
             {<<"supportingInfo">>, {{bbelement, <<"Claim.SupportingInfo">>}, list}},
             {<<"diagnosis">>, {{bbelement, <<"Claim.Diagnosis">>}, list}},
@@ -2410,7 +2410,7 @@
 %%
     , <<"Claim.Related">> => {<<"BackboneElement">>,
             [
-            {<<"claim">>, {{complex, <<"Reference">>}, optional}},
+            {<<"claim">>, {{special, <<"Reference">>}, optional}},
             {<<"relationship">>, {{complex, <<"CodeableConcept">>}, optional}},
             {<<"reference">>, {{complex, <<"Identifier">>}, optional}}
             ],
@@ -2424,7 +2424,7 @@
     , <<"Claim.Payee">> => {<<"BackboneElement">>,
             [
             {<<"type">>, {{complex, <<"CodeableConcept">>}, required}},
-            {<<"party">>, {{complex, <<"Reference">>}, optional}}
+            {<<"party">>, {{special, <<"Reference">>}, optional}}
             ],
             [],
             []
@@ -2436,7 +2436,7 @@
     , <<"Claim.CareTeam">> => {<<"BackboneElement">>,
             [
             {<<"sequence">>, {{primitive, <<"positiveInt">>}, required}},
-            {<<"provider">>, {{complex, <<"Reference">>}, required}},
+            {<<"provider">>, {{special, <<"Reference">>}, required}},
             {<<"responsible">>, {{primitive, <<"boolean">>}, optional}},
             {<<"role">>, {{complex, <<"CodeableConcept">>}, optional}},
             {<<"qualification">>, {{complex, <<"CodeableConcept">>}, optional}}
@@ -2459,7 +2459,7 @@
             {<<"valueString">>, {{primitive, <<"string">>}, optional}},
             {<<"valueQuantity">>, {{complex, <<"Quantity">>}, optional}},
             {<<"valueAttachment">>, {{complex, <<"Attachment">>}, optional}},
-            {<<"valueReference">>, {{complex, <<"Reference">>}, optional}},
+            {<<"valueReference">>, {{special, <<"Reference">>}, optional}},
             {<<"reason">>, {{complex, <<"CodeableConcept">>}, optional}}
             ],
             [],
@@ -2476,7 +2476,7 @@
             [
             {<<"sequence">>, {{primitive, <<"positiveInt">>}, required}},
             {<<"diagnosisCodeableConcept">>, {{complex, <<"CodeableConcept">>}, required}},
-            {<<"diagnosisReference">>, {{complex, <<"Reference">>}, required}},
+            {<<"diagnosisReference">>, {{special, <<"Reference">>}, required}},
             {<<"type">>, {{complex, <<"CodeableConcept">>}, list}},
             {<<"onAdmission">>, {{complex, <<"CodeableConcept">>}, optional}},
             {<<"packageCode">>, {{complex, <<"CodeableConcept">>}, optional}}
@@ -2496,8 +2496,8 @@
             {<<"type">>, {{complex, <<"CodeableConcept">>}, list}},
             {<<"date">>, {{primitive, <<"dateTime">>}, optional}},
             {<<"procedureCodeableConcept">>, {{complex, <<"CodeableConcept">>}, required}},
-            {<<"procedureReference">>, {{complex, <<"Reference">>}, required}},
-            {<<"udi">>, {{complex, <<"Reference">>}, list}}
+            {<<"procedureReference">>, {{special, <<"Reference">>}, required}},
+            {<<"udi">>, {{special, <<"Reference">>}, list}}
             ],
             [],
             [
@@ -2513,10 +2513,10 @@
             {<<"sequence">>, {{primitive, <<"positiveInt">>}, required}},
             {<<"focal">>, {{primitive, <<"boolean">>}, required}},
             {<<"identifier">>, {{complex, <<"Identifier">>}, optional}},
-            {<<"coverage">>, {{complex, <<"Reference">>}, required}},
+            {<<"coverage">>, {{special, <<"Reference">>}, required}},
             {<<"businessArrangement">>, {{primitive, <<"string">>}, optional}},
             {<<"preAuthRef">>, {{primitive, <<"string">>}, list}},
-            {<<"claimResponse">>, {{complex, <<"Reference">>}, optional}}
+            {<<"claimResponse">>, {{special, <<"Reference">>}, optional}}
             ],
             [],
             []
@@ -2530,7 +2530,7 @@
             {<<"date">>, {{primitive, <<"date">>}, required}},
             {<<"type">>, {{complex, <<"CodeableConcept">>}, optional}},
             {<<"locationAddress">>, {{complex, <<"Address">>}, optional}},
-            {<<"locationReference">>, {{complex, <<"Reference">>}, optional}}
+            {<<"locationReference">>, {{special, <<"Reference">>}, optional}}
             ],
             [],
             [
@@ -2557,15 +2557,15 @@
             {<<"servicedPeriod">>, {{complex, <<"Period">>}, optional}},
             {<<"locationCodeableConcept">>, {{complex, <<"CodeableConcept">>}, optional}},
             {<<"locationAddress">>, {{complex, <<"Address">>}, optional}},
-            {<<"locationReference">>, {{complex, <<"Reference">>}, optional}},
+            {<<"locationReference">>, {{special, <<"Reference">>}, optional}},
             {<<"quantity">>, {{complex, <<"Quantity">>}, optional}},
             {<<"unitPrice">>, {{complex, <<"Money">>}, optional}},
             {<<"factor">>, {{primitive, <<"decimal">>}, optional}},
             {<<"net">>, {{complex, <<"Money">>}, optional}},
-            {<<"udi">>, {{complex, <<"Reference">>}, list}},
+            {<<"udi">>, {{special, <<"Reference">>}, list}},
             {<<"bodySite">>, {{complex, <<"CodeableConcept">>}, optional}},
             {<<"subSite">>, {{complex, <<"CodeableConcept">>}, list}},
-            {<<"encounter">>, {{complex, <<"Reference">>}, list}},
+            {<<"encounter">>, {{special, <<"Reference">>}, list}},
             {<<"detail">>, {{bbelement, <<"Claim.Detail">>}, list}}
             ],
             [],
@@ -2590,7 +2590,7 @@
             {<<"unitPrice">>, {{complex, <<"Money">>}, optional}},
             {<<"factor">>, {{primitive, <<"decimal">>}, optional}},
             {<<"net">>, {{complex, <<"Money">>}, optional}},
-            {<<"udi">>, {{complex, <<"Reference">>}, list}},
+            {<<"udi">>, {{special, <<"Reference">>}, list}},
             {<<"subDetail">>, {{bbelement, <<"Claim.SubDetail">>}, list}}
             ],
             [],
@@ -2612,7 +2612,7 @@
             {<<"unitPrice">>, {{complex, <<"Money">>}, optional}},
             {<<"factor">>, {{primitive, <<"decimal">>}, optional}},
             {<<"net">>, {{complex, <<"Money">>}, optional}},
-            {<<"udi">>, {{complex, <<"Reference">>}, list}}
+            {<<"udi">>, {{special, <<"Reference">>}, list}}
             ],
             [],
             []
@@ -2629,11 +2629,11 @@
             {<<"type">>, {{complex, <<"CodeableConcept">>}, required}},
             {<<"subType">>, {{complex, <<"CodeableConcept">>}, optional}},
             {<<"use">>, {{code, <<"use">>}, required}},
-            {<<"patient">>, {{complex, <<"Reference">>}, required}},
+            {<<"patient">>, {{special, <<"Reference">>}, required}},
             {<<"created">>, {{primitive, <<"dateTime">>}, required}},
-            {<<"insurer">>, {{complex, <<"Reference">>}, required}},
-            {<<"requestor">>, {{complex, <<"Reference">>}, optional}},
-            {<<"request">>, {{complex, <<"Reference">>}, optional}},
+            {<<"insurer">>, {{special, <<"Reference">>}, required}},
+            {<<"requestor">>, {{special, <<"Reference">>}, optional}},
+            {<<"request">>, {{special, <<"Reference">>}, optional}},
             {<<"outcome">>, {{code, <<"claimprocessingcodes">>}, required}},
             {<<"disposition">>, {{primitive, <<"string">>}, optional}},
             {<<"preAuthRef">>, {{primitive, <<"string">>}, optional}},
@@ -2648,7 +2648,7 @@
             {<<"formCode">>, {{complex, <<"CodeableConcept">>}, optional}},
             {<<"form">>, {{complex, <<"Attachment">>}, optional}},
             {<<"processNote">>, {{bbelement, <<"ClaimResponse.ProcessNote">>}, list}},
-            {<<"communicationRequest">>, {{complex, <<"Reference">>}, list}},
+            {<<"communicationRequest">>, {{special, <<"Reference">>}, list}},
             {<<"insurance">>, {{bbelement, <<"ClaimResponse.Insurance">>}, list}},
             {<<"error">>, {{bbelement, <<"ClaimResponse.Error">>}, list}}
             ],
@@ -2719,7 +2719,7 @@
             {<<"itemSequence">>, {{primitive, <<"positiveInt">>}, list}},
             {<<"detailSequence">>, {{primitive, <<"positiveInt">>}, list}},
             {<<"subdetailSequence">>, {{primitive, <<"positiveInt">>}, list}},
-            {<<"provider">>, {{complex, <<"Reference">>}, list}},
+            {<<"provider">>, {{special, <<"Reference">>}, list}},
             {<<"productOrService">>, {{complex, <<"CodeableConcept">>}, required}},
             {<<"modifier">>, {{complex, <<"CodeableConcept">>}, list}},
             {<<"programCode">>, {{complex, <<"CodeableConcept">>}, list}},
@@ -2727,7 +2727,7 @@
             {<<"servicedPeriod">>, {{complex, <<"Period">>}, optional}},
             {<<"locationCodeableConcept">>, {{complex, <<"CodeableConcept">>}, optional}},
             {<<"locationAddress">>, {{complex, <<"Address">>}, optional}},
-            {<<"locationReference">>, {{complex, <<"Reference">>}, optional}},
+            {<<"locationReference">>, {{special, <<"Reference">>}, optional}},
             {<<"quantity">>, {{complex, <<"Quantity">>}, optional}},
             {<<"unitPrice">>, {{complex, <<"Money">>}, optional}},
             {<<"factor">>, {{primitive, <<"decimal">>}, optional}},
@@ -2831,9 +2831,9 @@
             [
             {<<"sequence">>, {{primitive, <<"positiveInt">>}, required}},
             {<<"focal">>, {{primitive, <<"boolean">>}, required}},
-            {<<"coverage">>, {{complex, <<"Reference">>}, required}},
+            {<<"coverage">>, {{special, <<"Reference">>}, required}},
             {<<"businessArrangement">>, {{primitive, <<"string">>}, optional}},
-            {<<"claimResponse">>, {{complex, <<"Reference">>}, optional}}
+            {<<"claimResponse">>, {{special, <<"Reference">>}, optional}}
             ],
             [],
             []
@@ -2864,21 +2864,21 @@
             {<<"statusReason">>, {{complex, <<"CodeableConcept">>}, optional}},
             {<<"code">>, {{complex, <<"CodeableConcept">>}, optional}},
             {<<"description">>, {{primitive, <<"string">>}, optional}},
-            {<<"subject">>, {{complex, <<"Reference">>}, required}},
-            {<<"encounter">>, {{complex, <<"Reference">>}, optional}},
+            {<<"subject">>, {{special, <<"Reference">>}, required}},
+            {<<"encounter">>, {{special, <<"Reference">>}, optional}},
             {<<"effectiveDateTime">>, {{primitive, <<"dateTime">>}, optional}},
             {<<"effectivePeriod">>, {{complex, <<"Period">>}, optional}},
             {<<"date">>, {{primitive, <<"dateTime">>}, optional}},
-            {<<"assessor">>, {{complex, <<"Reference">>}, optional}},
-            {<<"previous">>, {{complex, <<"Reference">>}, optional}},
-            {<<"problem">>, {{complex, <<"Reference">>}, list}},
+            {<<"assessor">>, {{special, <<"Reference">>}, optional}},
+            {<<"previous">>, {{special, <<"Reference">>}, optional}},
+            {<<"problem">>, {{special, <<"Reference">>}, list}},
             {<<"investigation">>, {{bbelement, <<"ClinicalImpression.Investigation">>}, list}},
             {<<"protocol">>, {{primitive, <<"uri">>}, list}},
             {<<"summary">>, {{primitive, <<"string">>}, optional}},
             {<<"finding">>, {{bbelement, <<"ClinicalImpression.Finding">>}, list}},
             {<<"prognosisCodeableConcept">>, {{complex, <<"CodeableConcept">>}, list}},
-            {<<"prognosisReference">>, {{complex, <<"Reference">>}, list}},
-            {<<"supportingInfo">>, {{complex, <<"Reference">>}, list}},
+            {<<"prognosisReference">>, {{special, <<"Reference">>}, list}},
+            {<<"supportingInfo">>, {{special, <<"Reference">>}, list}},
             {<<"note">>, {{complex, <<"Annotation">>}, list}}
             ],
             [],
@@ -2893,7 +2893,7 @@
     , <<"ClinicalImpression.Investigation">> => {<<"BackboneElement">>,
             [
             {<<"code">>, {{complex, <<"CodeableConcept">>}, required}},
-            {<<"item">>, {{complex, <<"Reference">>}, list}}
+            {<<"item">>, {{special, <<"Reference">>}, list}}
             ],
             [],
             []
@@ -2905,7 +2905,7 @@
     , <<"ClinicalImpression.Finding">> => {<<"BackboneElement">>,
             [
             {<<"itemCodeableConcept">>, {{complex, <<"CodeableConcept">>}, optional}},
-            {<<"itemReference">>, {{complex, <<"Reference">>}, optional}},
+            {<<"itemReference">>, {{special, <<"Reference">>}, optional}},
             {<<"basis">>, {{primitive, <<"string">>}, optional}}
             ],
             [],
@@ -3035,24 +3035,24 @@
             {<<"identifier">>, {{complex, <<"Identifier">>}, list}},
             {<<"instantiatesCanonical">>, {{primitive, <<"canonical">>}, list}},
             {<<"instantiatesUri">>, {{primitive, <<"uri">>}, list}},
-            {<<"basedOn">>, {{complex, <<"Reference">>}, list}},
-            {<<"partOf">>, {{complex, <<"Reference">>}, list}},
-            {<<"inResponseTo">>, {{complex, <<"Reference">>}, list}},
+            {<<"basedOn">>, {{special, <<"Reference">>}, list}},
+            {<<"partOf">>, {{special, <<"Reference">>}, list}},
+            {<<"inResponseTo">>, {{special, <<"Reference">>}, list}},
             {<<"status">>, {{code, <<"eventstatus">>}, required}},
             {<<"statusReason">>, {{complex, <<"CodeableConcept">>}, optional}},
             {<<"category">>, {{complex, <<"CodeableConcept">>}, list}},
             {<<"priority">>, {{code, <<"requestpriority">>}, optional}},
             {<<"medium">>, {{complex, <<"CodeableConcept">>}, list}},
-            {<<"subject">>, {{complex, <<"Reference">>}, optional}},
+            {<<"subject">>, {{special, <<"Reference">>}, optional}},
             {<<"topic">>, {{complex, <<"CodeableConcept">>}, optional}},
-            {<<"about">>, {{complex, <<"Reference">>}, list}},
-            {<<"encounter">>, {{complex, <<"Reference">>}, optional}},
+            {<<"about">>, {{special, <<"Reference">>}, list}},
+            {<<"encounter">>, {{special, <<"Reference">>}, optional}},
             {<<"sent">>, {{primitive, <<"dateTime">>}, optional}},
             {<<"received">>, {{primitive, <<"dateTime">>}, optional}},
-            {<<"recipient">>, {{complex, <<"Reference">>}, list}},
-            {<<"sender">>, {{complex, <<"Reference">>}, optional}},
+            {<<"recipient">>, {{special, <<"Reference">>}, list}},
+            {<<"sender">>, {{special, <<"Reference">>}, optional}},
             {<<"reasonCode">>, {{complex, <<"CodeableConcept">>}, list}},
-            {<<"reasonReference">>, {{complex, <<"Reference">>}, list}},
+            {<<"reasonReference">>, {{special, <<"Reference">>}, list}},
             {<<"payload">>, {{bbelement, <<"Communication.Payload">>}, list}},
             {<<"note">>, {{complex, <<"Annotation">>}, list}}
             ],
@@ -3067,7 +3067,7 @@
             [
             {<<"contentString">>, {{primitive, <<"string">>}, required}},
             {<<"contentAttachment">>, {{complex, <<"Attachment">>}, required}},
-            {<<"contentReference">>, {{complex, <<"Reference">>}, required}}
+            {<<"contentReference">>, {{special, <<"Reference">>}, required}}
             ],
             [],
             [
@@ -3082,8 +3082,8 @@
     , <<"CommunicationRequest">> => {<<"DomainResource">>,
             [
             {<<"identifier">>, {{complex, <<"Identifier">>}, list}},
-            {<<"basedOn">>, {{complex, <<"Reference">>}, list}},
-            {<<"replaces">>, {{complex, <<"Reference">>}, list}},
+            {<<"basedOn">>, {{special, <<"Reference">>}, list}},
+            {<<"replaces">>, {{special, <<"Reference">>}, list}},
             {<<"groupIdentifier">>, {{complex, <<"Identifier">>}, optional}},
             {<<"status">>, {{code, <<"requeststatus">>}, required}},
             {<<"statusReason">>, {{complex, <<"CodeableConcept">>}, optional}},
@@ -3091,18 +3091,18 @@
             {<<"priority">>, {{code, <<"requestpriority">>}, optional}},
             {<<"doNotPerform">>, {{primitive, <<"boolean">>}, optional}},
             {<<"medium">>, {{complex, <<"CodeableConcept">>}, list}},
-            {<<"subject">>, {{complex, <<"Reference">>}, optional}},
-            {<<"about">>, {{complex, <<"Reference">>}, list}},
-            {<<"encounter">>, {{complex, <<"Reference">>}, optional}},
+            {<<"subject">>, {{special, <<"Reference">>}, optional}},
+            {<<"about">>, {{special, <<"Reference">>}, list}},
+            {<<"encounter">>, {{special, <<"Reference">>}, optional}},
             {<<"payload">>, {{bbelement, <<"CommunicationRequest.Payload">>}, list}},
             {<<"occurrenceDateTime">>, {{primitive, <<"dateTime">>}, optional}},
             {<<"occurrencePeriod">>, {{complex, <<"Period">>}, optional}},
             {<<"authoredOn">>, {{primitive, <<"dateTime">>}, optional}},
-            {<<"requester">>, {{complex, <<"Reference">>}, optional}},
-            {<<"recipient">>, {{complex, <<"Reference">>}, list}},
-            {<<"sender">>, {{complex, <<"Reference">>}, optional}},
+            {<<"requester">>, {{special, <<"Reference">>}, optional}},
+            {<<"recipient">>, {{special, <<"Reference">>}, list}},
+            {<<"sender">>, {{special, <<"Reference">>}, optional}},
             {<<"reasonCode">>, {{complex, <<"CodeableConcept">>}, list}},
-            {<<"reasonReference">>, {{complex, <<"Reference">>}, list}},
+            {<<"reasonReference">>, {{special, <<"Reference">>}, list}},
             {<<"note">>, {{complex, <<"Annotation">>}, list}}
             ],
             [],
@@ -3118,7 +3118,7 @@
             [
             {<<"contentString">>, {{primitive, <<"string">>}, required}},
             {<<"contentAttachment">>, {{complex, <<"Attachment">>}, required}},
-            {<<"contentReference">>, {{complex, <<"Reference">>}, required}}
+            {<<"contentReference">>, {{special, <<"Reference">>}, required}}
             ],
             [],
             [
@@ -3174,14 +3174,14 @@
             {<<"status">>, {{code, <<"compositionstatus">>}, required}},
             {<<"type">>, {{complex, <<"CodeableConcept">>}, required}},
             {<<"category">>, {{complex, <<"CodeableConcept">>}, list}},
-            {<<"subject">>, {{complex, <<"Reference">>}, optional}},
-            {<<"encounter">>, {{complex, <<"Reference">>}, optional}},
+            {<<"subject">>, {{special, <<"Reference">>}, optional}},
+            {<<"encounter">>, {{special, <<"Reference">>}, optional}},
             {<<"date">>, {{primitive, <<"dateTime">>}, required}},
-            {<<"author">>, {{complex, <<"Reference">>}, non_empty_list}},
+            {<<"author">>, {{special, <<"Reference">>}, non_empty_list}},
             {<<"title">>, {{primitive, <<"string">>}, required}},
             {<<"confidentiality">>, {{code, <<"vconfidentialityclassification">>}, optional}},
             {<<"attester">>, {{bbelement, <<"Composition.Attester">>}, list}},
-            {<<"custodian">>, {{complex, <<"Reference">>}, optional}},
+            {<<"custodian">>, {{special, <<"Reference">>}, optional}},
             {<<"relatesTo">>, {{bbelement, <<"Composition.RelatesTo">>}, list}},
             {<<"event">>, {{bbelement, <<"Composition.Event">>}, list}},
             {<<"section">>, {{bbelement, <<"Composition.Section">>}, list}}
@@ -3197,7 +3197,7 @@
             [
             {<<"mode">>, {{code, <<"compositionattestationmode">>}, required}},
             {<<"time">>, {{primitive, <<"dateTime">>}, optional}},
-            {<<"party">>, {{complex, <<"Reference">>}, optional}}
+            {<<"party">>, {{special, <<"Reference">>}, optional}}
             ],
             [],
             []
@@ -3210,7 +3210,7 @@
             [
             {<<"code">>, {{code, <<"documentrelationshiptype">>}, required}},
             {<<"targetIdentifier">>, {{complex, <<"Identifier">>}, required}},
-            {<<"targetReference">>, {{complex, <<"Reference">>}, required}}
+            {<<"targetReference">>, {{special, <<"Reference">>}, required}}
             ],
             [],
             [
@@ -3225,7 +3225,7 @@
             [
             {<<"code">>, {{complex, <<"CodeableConcept">>}, list}},
             {<<"period">>, {{complex, <<"Period">>}, optional}},
-            {<<"detail">>, {{complex, <<"Reference">>}, list}}
+            {<<"detail">>, {{special, <<"Reference">>}, list}}
             ],
             [],
             []
@@ -3238,12 +3238,12 @@
             [
             {<<"title">>, {{primitive, <<"string">>}, optional}},
             {<<"code">>, {{complex, <<"CodeableConcept">>}, optional}},
-            {<<"author">>, {{complex, <<"Reference">>}, list}},
-            {<<"focus">>, {{complex, <<"Reference">>}, optional}},
+            {<<"author">>, {{special, <<"Reference">>}, list}},
+            {<<"focus">>, {{special, <<"Reference">>}, optional}},
             {<<"text">>, {{complex, <<"Narrative">>}, optional}},
             {<<"mode">>, {{code, <<"listmode">>}, optional}},
             {<<"orderedBy">>, {{complex, <<"CodeableConcept">>}, optional}},
-            {<<"entry">>, {{complex, <<"Reference">>}, list}},
+            {<<"entry">>, {{special, <<"Reference">>}, list}},
             {<<"emptyReason">>, {{complex, <<"CodeableConcept">>}, optional}},
             {<<"section">>, {{bbelement, <<"Composition.Section">>}, list}}
             ],
@@ -3371,8 +3371,8 @@
             {<<"severity">>, {{complex, <<"CodeableConcept">>}, optional}},
             {<<"code">>, {{complex, <<"CodeableConcept">>}, optional}},
             {<<"bodySite">>, {{complex, <<"CodeableConcept">>}, list}},
-            {<<"subject">>, {{complex, <<"Reference">>}, required}},
-            {<<"encounter">>, {{complex, <<"Reference">>}, optional}},
+            {<<"subject">>, {{special, <<"Reference">>}, required}},
+            {<<"encounter">>, {{special, <<"Reference">>}, optional}},
             {<<"onsetDateTime">>, {{primitive, <<"dateTime">>}, optional}},
             {<<"onsetAge">>, {{complex, <<"Age">>}, optional}},
             {<<"onsetPeriod">>, {{complex, <<"Period">>}, optional}},
@@ -3384,8 +3384,8 @@
             {<<"abatementRange">>, {{complex, <<"Range">>}, optional}},
             {<<"abatementString">>, {{primitive, <<"string">>}, optional}},
             {<<"recordedDate">>, {{primitive, <<"dateTime">>}, optional}},
-            {<<"recorder">>, {{complex, <<"Reference">>}, optional}},
-            {<<"asserter">>, {{complex, <<"Reference">>}, optional}},
+            {<<"recorder">>, {{special, <<"Reference">>}, optional}},
+            {<<"asserter">>, {{special, <<"Reference">>}, optional}},
             {<<"stage">>, {{bbelement, <<"Condition.Stage">>}, list}},
             {<<"evidence">>, {{bbelement, <<"Condition.Evidence">>}, list}},
             {<<"note">>, {{complex, <<"Annotation">>}, list}}
@@ -3403,7 +3403,7 @@
     , <<"Condition.Stage">> => {<<"BackboneElement">>,
             [
             {<<"summary">>, {{complex, <<"CodeableConcept">>}, optional}},
-            {<<"assessment">>, {{complex, <<"Reference">>}, list}},
+            {<<"assessment">>, {{special, <<"Reference">>}, list}},
             {<<"type">>, {{complex, <<"CodeableConcept">>}, optional}}
             ],
             [],
@@ -3416,7 +3416,7 @@
     , <<"Condition.Evidence">> => {<<"BackboneElement">>,
             [
             {<<"code">>, {{complex, <<"CodeableConcept">>}, list}},
-            {<<"detail">>, {{complex, <<"Reference">>}, list}}
+            {<<"detail">>, {{special, <<"Reference">>}, list}}
             ],
             [],
             []
@@ -3432,12 +3432,12 @@
             {<<"status">>, {{code, <<"consentstate">>}, required}},
             {<<"scope">>, {{complex, <<"CodeableConcept">>}, required}},
             {<<"category">>, {{complex, <<"CodeableConcept">>}, non_empty_list}},
-            {<<"patient">>, {{complex, <<"Reference">>}, optional}},
+            {<<"patient">>, {{special, <<"Reference">>}, optional}},
             {<<"dateTime">>, {{primitive, <<"dateTime">>}, optional}},
-            {<<"performer">>, {{complex, <<"Reference">>}, list}},
-            {<<"organization">>, {{complex, <<"Reference">>}, list}},
+            {<<"performer">>, {{special, <<"Reference">>}, list}},
+            {<<"organization">>, {{special, <<"Reference">>}, list}},
             {<<"sourceAttachment">>, {{complex, <<"Attachment">>}, optional}},
-            {<<"sourceReference">>, {{complex, <<"Reference">>}, optional}},
+            {<<"sourceReference">>, {{special, <<"Reference">>}, optional}},
             {<<"policy">>, {{bbelement, <<"Consent.Policy">>}, list}},
             {<<"policyRule">>, {{complex, <<"CodeableConcept">>}, optional}},
             {<<"verification">>, {{bbelement, <<"Consent.Verification">>}, list}},
@@ -3467,7 +3467,7 @@
     , <<"Consent.Verification">> => {<<"BackboneElement">>,
             [
             {<<"verified">>, {{primitive, <<"boolean">>}, required}},
-            {<<"verifiedWith">>, {{complex, <<"Reference">>}, optional}},
+            {<<"verifiedWith">>, {{special, <<"Reference">>}, optional}},
             {<<"verificationDate">>, {{primitive, <<"dateTime">>}, optional}}
             ],
             [],
@@ -3501,7 +3501,7 @@
     , <<"Consent.Actor">> => {<<"BackboneElement">>,
             [
             {<<"role">>, {{complex, <<"CodeableConcept">>}, required}},
-            {<<"reference">>, {{complex, <<"Reference">>}, required}}
+            {<<"reference">>, {{special, <<"Reference">>}, required}}
             ],
             [],
             []
@@ -3513,7 +3513,7 @@
     , <<"Consent.Data">> => {<<"BackboneElement">>,
             [
             {<<"meaning">>, {{code, <<"consentdatameaning">>}, required}},
-            {<<"reference">>, {{complex, <<"Reference">>}, required}}
+            {<<"reference">>, {{special, <<"Reference">>}, required}}
             ],
             [],
             []
@@ -3530,36 +3530,36 @@
             {<<"version">>, {{primitive, <<"string">>}, optional}},
             {<<"status">>, {{code, <<"contractresourcestatuscodes">>}, optional}},
             {<<"legalState">>, {{complex, <<"CodeableConcept">>}, optional}},
-            {<<"instantiatesCanonical">>, {{complex, <<"Reference">>}, optional}},
+            {<<"instantiatesCanonical">>, {{special, <<"Reference">>}, optional}},
             {<<"instantiatesUri">>, {{primitive, <<"uri">>}, optional}},
             {<<"contentDerivative">>, {{complex, <<"CodeableConcept">>}, optional}},
             {<<"issued">>, {{primitive, <<"dateTime">>}, optional}},
             {<<"applies">>, {{complex, <<"Period">>}, optional}},
             {<<"expirationType">>, {{complex, <<"CodeableConcept">>}, optional}},
-            {<<"subject">>, {{complex, <<"Reference">>}, list}},
-            {<<"authority">>, {{complex, <<"Reference">>}, list}},
-            {<<"domain">>, {{complex, <<"Reference">>}, list}},
-            {<<"site">>, {{complex, <<"Reference">>}, list}},
+            {<<"subject">>, {{special, <<"Reference">>}, list}},
+            {<<"authority">>, {{special, <<"Reference">>}, list}},
+            {<<"domain">>, {{special, <<"Reference">>}, list}},
+            {<<"site">>, {{special, <<"Reference">>}, list}},
             {<<"name">>, {{primitive, <<"string">>}, optional}},
             {<<"title">>, {{primitive, <<"string">>}, optional}},
             {<<"subtitle">>, {{primitive, <<"string">>}, optional}},
             {<<"alias">>, {{primitive, <<"string">>}, list}},
-            {<<"author">>, {{complex, <<"Reference">>}, optional}},
+            {<<"author">>, {{special, <<"Reference">>}, optional}},
             {<<"scope">>, {{complex, <<"CodeableConcept">>}, optional}},
             {<<"topicCodeableConcept">>, {{complex, <<"CodeableConcept">>}, optional}},
-            {<<"topicReference">>, {{complex, <<"Reference">>}, optional}},
+            {<<"topicReference">>, {{special, <<"Reference">>}, optional}},
             {<<"type">>, {{complex, <<"CodeableConcept">>}, optional}},
             {<<"subType">>, {{complex, <<"CodeableConcept">>}, list}},
             {<<"contentDefinition">>, {{bbelement, <<"Contract.ContentDefinition">>}, optional}},
             {<<"term">>, {{bbelement, <<"Contract.Term">>}, list}},
-            {<<"supportingInfo">>, {{complex, <<"Reference">>}, list}},
-            {<<"relevantHistory">>, {{complex, <<"Reference">>}, list}},
+            {<<"supportingInfo">>, {{special, <<"Reference">>}, list}},
+            {<<"relevantHistory">>, {{special, <<"Reference">>}, list}},
             {<<"signer">>, {{bbelement, <<"Contract.Signer">>}, list}},
             {<<"friendly">>, {{bbelement, <<"Contract.Friendly">>}, list}},
             {<<"legal">>, {{bbelement, <<"Contract.Legal">>}, list}},
             {<<"rule">>, {{bbelement, <<"Contract.Rule">>}, list}},
             {<<"legallyBindingAttachment">>, {{complex, <<"Attachment">>}, optional}},
-            {<<"legallyBindingReference">>, {{complex, <<"Reference">>}, optional}}
+            {<<"legallyBindingReference">>, {{special, <<"Reference">>}, optional}}
             ],
             [],
             [
@@ -3575,7 +3575,7 @@
             [
             {<<"type">>, {{complex, <<"CodeableConcept">>}, required}},
             {<<"subType">>, {{complex, <<"CodeableConcept">>}, optional}},
-            {<<"publisher">>, {{complex, <<"Reference">>}, optional}},
+            {<<"publisher">>, {{special, <<"Reference">>}, optional}},
             {<<"publicationDate">>, {{primitive, <<"dateTime">>}, optional}},
             {<<"publicationStatus">>, {{code, <<"contractresourcepublicationstatuscodes">>}, required}},
             {<<"copyright">>, {{primitive, <<"markdown">>}, optional}}
@@ -3593,7 +3593,7 @@
             {<<"issued">>, {{primitive, <<"dateTime">>}, optional}},
             {<<"applies">>, {{complex, <<"Period">>}, optional}},
             {<<"topicCodeableConcept">>, {{complex, <<"CodeableConcept">>}, optional}},
-            {<<"topicReference">>, {{complex, <<"Reference">>}, optional}},
+            {<<"topicReference">>, {{special, <<"Reference">>}, optional}},
             {<<"type">>, {{complex, <<"CodeableConcept">>}, optional}},
             {<<"subType">>, {{complex, <<"CodeableConcept">>}, optional}},
             {<<"text">>, {{primitive, <<"string">>}, optional}},
@@ -3630,7 +3630,7 @@
             [
             {<<"identifier">>, {{complex, <<"Identifier">>}, list}},
             {<<"party">>, {{bbelement, <<"Contract.Party">>}, list}},
-            {<<"topic">>, {{complex, <<"Reference">>}, optional}},
+            {<<"topic">>, {{special, <<"Reference">>}, optional}},
             {<<"type">>, {{complex, <<"CodeableConcept">>}, optional}},
             {<<"decision">>, {{complex, <<"CodeableConcept">>}, optional}},
             {<<"decisionMode">>, {{complex, <<"CodeableConcept">>}, list}},
@@ -3648,7 +3648,7 @@
 %%
     , <<"Contract.Party">> => {<<"BackboneElement">>,
             [
-            {<<"reference">>, {{complex, <<"Reference">>}, non_empty_list}},
+            {<<"reference">>, {{special, <<"Reference">>}, non_empty_list}},
             {<<"role">>, {{complex, <<"CodeableConcept">>}, required}}
             ],
             [],
@@ -3671,7 +3671,7 @@
             {<<"valueAttachment">>, {{complex, <<"Attachment">>}, required}},
             {<<"valueCoding">>, {{complex, <<"Coding">>}, required}},
             {<<"valueQuantity">>, {{complex, <<"Quantity">>}, required}},
-            {<<"valueReference">>, {{complex, <<"Reference">>}, required}}
+            {<<"valueReference">>, {{special, <<"Reference">>}, required}}
             ],
             [],
             [
@@ -3686,7 +3686,7 @@
             [
             {<<"scope">>, {{complex, <<"CodeableConcept">>}, optional}},
             {<<"type">>, {{complex, <<"CodeableConcept">>}, list}},
-            {<<"typeReference">>, {{complex, <<"Reference">>}, list}},
+            {<<"typeReference">>, {{special, <<"Reference">>}, list}},
             {<<"subtype">>, {{complex, <<"CodeableConcept">>}, list}},
             {<<"relationship">>, {{complex, <<"Coding">>}, optional}},
             {<<"context">>, {{bbelement, <<"Contract.Context">>}, list}},
@@ -3709,7 +3709,7 @@
 %%
     , <<"Contract.Context">> => {<<"BackboneElement">>,
             [
-            {<<"reference">>, {{complex, <<"Reference">>}, optional}},
+            {<<"reference">>, {{special, <<"Reference">>}, optional}},
             {<<"code">>, {{complex, <<"CodeableConcept">>}, list}},
             {<<"text">>, {{primitive, <<"string">>}, optional}}
             ],
@@ -3723,7 +3723,7 @@
     , <<"Contract.ValuedItem">> => {<<"BackboneElement">>,
             [
             {<<"entityCodeableConcept">>, {{complex, <<"CodeableConcept">>}, optional}},
-            {<<"entityReference">>, {{complex, <<"Reference">>}, optional}},
+            {<<"entityReference">>, {{special, <<"Reference">>}, optional}},
             {<<"identifier">>, {{complex, <<"Identifier">>}, optional}},
             {<<"effectiveTime">>, {{primitive, <<"dateTime">>}, optional}},
             {<<"quantity">>, {{complex, <<"Quantity">>}, optional}},
@@ -3733,8 +3733,8 @@
             {<<"net">>, {{complex, <<"Money">>}, optional}},
             {<<"payment">>, {{primitive, <<"string">>}, optional}},
             {<<"paymentDate">>, {{primitive, <<"dateTime">>}, optional}},
-            {<<"responsible">>, {{complex, <<"Reference">>}, optional}},
-            {<<"recipient">>, {{complex, <<"Reference">>}, optional}},
+            {<<"responsible">>, {{special, <<"Reference">>}, optional}},
+            {<<"recipient">>, {{special, <<"Reference">>}, optional}},
             {<<"linkId">>, {{primitive, <<"string">>}, list}},
             {<<"securityLabelNumber">>, {{primitive, <<"unsignedInt">>}, list}}
             ],
@@ -3755,19 +3755,19 @@
             {<<"intent">>, {{complex, <<"CodeableConcept">>}, required}},
             {<<"linkId">>, {{primitive, <<"string">>}, list}},
             {<<"status">>, {{complex, <<"CodeableConcept">>}, required}},
-            {<<"context">>, {{complex, <<"Reference">>}, optional}},
+            {<<"context">>, {{special, <<"Reference">>}, optional}},
             {<<"contextLinkId">>, {{primitive, <<"string">>}, list}},
             {<<"occurrenceDateTime">>, {{primitive, <<"dateTime">>}, optional}},
             {<<"occurrencePeriod">>, {{complex, <<"Period">>}, optional}},
             {<<"occurrenceTiming">>, {{bbelement, <<"Timing">>}, optional}},
-            {<<"requester">>, {{complex, <<"Reference">>}, list}},
+            {<<"requester">>, {{special, <<"Reference">>}, list}},
             {<<"requesterLinkId">>, {{primitive, <<"string">>}, list}},
             {<<"performerType">>, {{complex, <<"CodeableConcept">>}, list}},
             {<<"performerRole">>, {{complex, <<"CodeableConcept">>}, optional}},
-            {<<"performer">>, {{complex, <<"Reference">>}, optional}},
+            {<<"performer">>, {{special, <<"Reference">>}, optional}},
             {<<"performerLinkId">>, {{primitive, <<"string">>}, list}},
             {<<"reasonCode">>, {{complex, <<"CodeableConcept">>}, list}},
-            {<<"reasonReference">>, {{complex, <<"Reference">>}, list}},
+            {<<"reasonReference">>, {{special, <<"Reference">>}, list}},
             {<<"reason">>, {{primitive, <<"string">>}, list}},
             {<<"reasonLinkId">>, {{primitive, <<"string">>}, list}},
             {<<"note">>, {{complex, <<"Annotation">>}, list}},
@@ -3784,7 +3784,7 @@
 %%
     , <<"Contract.Subject">> => {<<"BackboneElement">>,
             [
-            {<<"reference">>, {{complex, <<"Reference">>}, non_empty_list}},
+            {<<"reference">>, {{special, <<"Reference">>}, non_empty_list}},
             {<<"role">>, {{complex, <<"CodeableConcept">>}, optional}}
             ],
             [],
@@ -3797,7 +3797,7 @@
     , <<"Contract.Signer">> => {<<"BackboneElement">>,
             [
             {<<"type">>, {{complex, <<"Coding">>}, required}},
-            {<<"party">>, {{complex, <<"Reference">>}, required}},
+            {<<"party">>, {{special, <<"Reference">>}, required}},
             {<<"signature">>, {{complex, <<"Signature">>}, non_empty_list}}
             ],
             [],
@@ -3810,7 +3810,7 @@
     , <<"Contract.Friendly">> => {<<"BackboneElement">>,
             [
             {<<"contentAttachment">>, {{complex, <<"Attachment">>}, required}},
-            {<<"contentReference">>, {{complex, <<"Reference">>}, required}}
+            {<<"contentReference">>, {{special, <<"Reference">>}, required}}
             ],
             [],
             [
@@ -3824,7 +3824,7 @@
     , <<"Contract.Legal">> => {<<"BackboneElement">>,
             [
             {<<"contentAttachment">>, {{complex, <<"Attachment">>}, required}},
-            {<<"contentReference">>, {{complex, <<"Reference">>}, required}}
+            {<<"contentReference">>, {{special, <<"Reference">>}, required}}
             ],
             [],
             [
@@ -3838,7 +3838,7 @@
     , <<"Contract.Rule">> => {<<"BackboneElement">>,
             [
             {<<"contentAttachment">>, {{complex, <<"Attachment">>}, required}},
-            {<<"contentReference">>, {{complex, <<"Reference">>}, required}}
+            {<<"contentReference">>, {{special, <<"Reference">>}, required}}
             ],
             [],
             [
@@ -3855,20 +3855,20 @@
             {<<"identifier">>, {{complex, <<"Identifier">>}, list}},
             {<<"status">>, {{code, <<"financialresourcestatuscodes">>}, required}},
             {<<"type">>, {{complex, <<"CodeableConcept">>}, optional}},
-            {<<"policyHolder">>, {{complex, <<"Reference">>}, optional}},
-            {<<"subscriber">>, {{complex, <<"Reference">>}, optional}},
+            {<<"policyHolder">>, {{special, <<"Reference">>}, optional}},
+            {<<"subscriber">>, {{special, <<"Reference">>}, optional}},
             {<<"subscriberId">>, {{primitive, <<"string">>}, optional}},
-            {<<"beneficiary">>, {{complex, <<"Reference">>}, required}},
+            {<<"beneficiary">>, {{special, <<"Reference">>}, required}},
             {<<"dependent">>, {{primitive, <<"string">>}, optional}},
             {<<"relationship">>, {{complex, <<"CodeableConcept">>}, optional}},
             {<<"period">>, {{complex, <<"Period">>}, optional}},
-            {<<"payor">>, {{complex, <<"Reference">>}, non_empty_list}},
+            {<<"payor">>, {{special, <<"Reference">>}, non_empty_list}},
             {<<"class">>, {{bbelement, <<"Coverage.Class">>}, list}},
             {<<"order">>, {{primitive, <<"positiveInt">>}, optional}},
             {<<"network">>, {{primitive, <<"string">>}, optional}},
             {<<"costToBeneficiary">>, {{bbelement, <<"Coverage.CostToBeneficiary">>}, list}},
             {<<"subrogation">>, {{primitive, <<"boolean">>}, optional}},
-            {<<"contract">>, {{complex, <<"Reference">>}, list}}
+            {<<"contract">>, {{special, <<"Reference">>}, list}}
             ],
             [],
             []
@@ -3925,14 +3925,14 @@
             {<<"status">>, {{code, <<"financialresourcestatuscodes">>}, required}},
             {<<"priority">>, {{complex, <<"CodeableConcept">>}, optional}},
             {<<"purpose">>, {{code, <<"eligibilityrequestpurpose">>}, non_empty_list}},
-            {<<"patient">>, {{complex, <<"Reference">>}, required}},
+            {<<"patient">>, {{special, <<"Reference">>}, required}},
             {<<"servicedDate">>, {{primitive, <<"date">>}, optional}},
             {<<"servicedPeriod">>, {{complex, <<"Period">>}, optional}},
             {<<"created">>, {{primitive, <<"dateTime">>}, required}},
-            {<<"enterer">>, {{complex, <<"Reference">>}, optional}},
-            {<<"provider">>, {{complex, <<"Reference">>}, optional}},
-            {<<"insurer">>, {{complex, <<"Reference">>}, required}},
-            {<<"facility">>, {{complex, <<"Reference">>}, optional}},
+            {<<"enterer">>, {{special, <<"Reference">>}, optional}},
+            {<<"provider">>, {{special, <<"Reference">>}, optional}},
+            {<<"insurer">>, {{special, <<"Reference">>}, required}},
+            {<<"facility">>, {{special, <<"Reference">>}, optional}},
             {<<"supportingInfo">>, {{bbelement, <<"CoverageEligibilityRequest.SupportingInfo">>}, list}},
             {<<"insurance">>, {{bbelement, <<"CoverageEligibilityRequest.Insurance">>}, list}},
             {<<"item">>, {{bbelement, <<"CoverageEligibilityRequest.Item">>}, list}}
@@ -3949,7 +3949,7 @@
     , <<"CoverageEligibilityRequest.SupportingInfo">> => {<<"BackboneElement">>,
             [
             {<<"sequence">>, {{primitive, <<"positiveInt">>}, required}},
-            {<<"information">>, {{complex, <<"Reference">>}, required}},
+            {<<"information">>, {{special, <<"Reference">>}, required}},
             {<<"appliesToAll">>, {{primitive, <<"boolean">>}, optional}}
             ],
             [],
@@ -3962,7 +3962,7 @@
     , <<"CoverageEligibilityRequest.Insurance">> => {<<"BackboneElement">>,
             [
             {<<"focal">>, {{primitive, <<"boolean">>}, optional}},
-            {<<"coverage">>, {{complex, <<"Reference">>}, required}},
+            {<<"coverage">>, {{special, <<"Reference">>}, required}},
             {<<"businessArrangement">>, {{primitive, <<"string">>}, optional}}
             ],
             [],
@@ -3978,12 +3978,12 @@
             {<<"category">>, {{complex, <<"CodeableConcept">>}, optional}},
             {<<"productOrService">>, {{complex, <<"CodeableConcept">>}, optional}},
             {<<"modifier">>, {{complex, <<"CodeableConcept">>}, list}},
-            {<<"provider">>, {{complex, <<"Reference">>}, optional}},
+            {<<"provider">>, {{special, <<"Reference">>}, optional}},
             {<<"quantity">>, {{complex, <<"Quantity">>}, optional}},
             {<<"unitPrice">>, {{complex, <<"Money">>}, optional}},
-            {<<"facility">>, {{complex, <<"Reference">>}, optional}},
+            {<<"facility">>, {{special, <<"Reference">>}, optional}},
             {<<"diagnosis">>, {{bbelement, <<"CoverageEligibilityRequest.Diagnosis">>}, list}},
-            {<<"detail">>, {{complex, <<"Reference">>}, list}}
+            {<<"detail">>, {{special, <<"Reference">>}, list}}
             ],
             [],
             []
@@ -3995,7 +3995,7 @@
     , <<"CoverageEligibilityRequest.Diagnosis">> => {<<"BackboneElement">>,
             [
             {<<"diagnosisCodeableConcept">>, {{complex, <<"CodeableConcept">>}, optional}},
-            {<<"diagnosisReference">>, {{complex, <<"Reference">>}, optional}}
+            {<<"diagnosisReference">>, {{special, <<"Reference">>}, optional}}
             ],
             [],
             [
@@ -4012,15 +4012,15 @@
             {<<"identifier">>, {{complex, <<"Identifier">>}, list}},
             {<<"status">>, {{code, <<"financialresourcestatuscodes">>}, required}},
             {<<"purpose">>, {{code, <<"eligibilityresponsepurpose">>}, non_empty_list}},
-            {<<"patient">>, {{complex, <<"Reference">>}, required}},
+            {<<"patient">>, {{special, <<"Reference">>}, required}},
             {<<"servicedDate">>, {{primitive, <<"date">>}, optional}},
             {<<"servicedPeriod">>, {{complex, <<"Period">>}, optional}},
             {<<"created">>, {{primitive, <<"dateTime">>}, required}},
-            {<<"requestor">>, {{complex, <<"Reference">>}, optional}},
-            {<<"request">>, {{complex, <<"Reference">>}, required}},
+            {<<"requestor">>, {{special, <<"Reference">>}, optional}},
+            {<<"request">>, {{special, <<"Reference">>}, required}},
             {<<"outcome">>, {{code, <<"remittanceoutcome">>}, required}},
             {<<"disposition">>, {{primitive, <<"string">>}, optional}},
-            {<<"insurer">>, {{complex, <<"Reference">>}, required}},
+            {<<"insurer">>, {{special, <<"Reference">>}, required}},
             {<<"insurance">>, {{bbelement, <<"CoverageEligibilityResponse.Insurance">>}, list}},
             {<<"preAuthRef">>, {{primitive, <<"string">>}, optional}},
             {<<"form">>, {{complex, <<"CodeableConcept">>}, optional}},
@@ -4037,7 +4037,7 @@
 %%
     , <<"CoverageEligibilityResponse.Insurance">> => {<<"BackboneElement">>,
             [
-            {<<"coverage">>, {{complex, <<"Reference">>}, required}},
+            {<<"coverage">>, {{special, <<"Reference">>}, required}},
             {<<"inforce">>, {{primitive, <<"boolean">>}, optional}},
             {<<"benefitPeriod">>, {{complex, <<"Period">>}, optional}},
             {<<"item">>, {{bbelement, <<"CoverageEligibilityResponse.Item">>}, list}}
@@ -4054,7 +4054,7 @@
             {<<"category">>, {{complex, <<"CodeableConcept">>}, optional}},
             {<<"productOrService">>, {{complex, <<"CodeableConcept">>}, optional}},
             {<<"modifier">>, {{complex, <<"CodeableConcept">>}, list}},
-            {<<"provider">>, {{complex, <<"Reference">>}, optional}},
+            {<<"provider">>, {{special, <<"Reference">>}, optional}},
             {<<"excluded">>, {{primitive, <<"boolean">>}, optional}},
             {<<"name">>, {{primitive, <<"string">>}, optional}},
             {<<"description">>, {{primitive, <<"string">>}, optional}},
@@ -4111,11 +4111,11 @@
             {<<"status">>, {{code, <<"observationstatus">>}, required}},
             {<<"code">>, {{complex, <<"CodeableConcept">>}, optional}},
             {<<"severity">>, {{code, <<"detectedissueseverity">>}, optional}},
-            {<<"patient">>, {{complex, <<"Reference">>}, optional}},
+            {<<"patient">>, {{special, <<"Reference">>}, optional}},
             {<<"identifiedDateTime">>, {{primitive, <<"dateTime">>}, optional}},
             {<<"identifiedPeriod">>, {{complex, <<"Period">>}, optional}},
-            {<<"author">>, {{complex, <<"Reference">>}, optional}},
-            {<<"implicated">>, {{complex, <<"Reference">>}, list}},
+            {<<"author">>, {{special, <<"Reference">>}, optional}},
+            {<<"implicated">>, {{special, <<"Reference">>}, list}},
             {<<"evidence">>, {{bbelement, <<"DetectedIssue.Evidence">>}, list}},
             {<<"detail">>, {{primitive, <<"string">>}, optional}},
             {<<"reference">>, {{primitive, <<"uri">>}, optional}},
@@ -4133,7 +4133,7 @@
     , <<"DetectedIssue.Evidence">> => {<<"BackboneElement">>,
             [
             {<<"code">>, {{complex, <<"CodeableConcept">>}, list}},
-            {<<"detail">>, {{complex, <<"Reference">>}, list}}
+            {<<"detail">>, {{special, <<"Reference">>}, list}}
             ],
             [],
             []
@@ -4146,7 +4146,7 @@
             [
             {<<"action">>, {{complex, <<"CodeableConcept">>}, required}},
             {<<"date">>, {{primitive, <<"dateTime">>}, optional}},
-            {<<"author">>, {{complex, <<"Reference">>}, optional}}
+            {<<"author">>, {{special, <<"Reference">>}, optional}}
             ],
             [],
             []
@@ -4159,7 +4159,7 @@
     , <<"Device">> => {<<"DomainResource">>,
             [
             {<<"identifier">>, {{complex, <<"Identifier">>}, list}},
-            {<<"definition">>, {{complex, <<"Reference">>}, optional}},
+            {<<"definition">>, {{special, <<"Reference">>}, optional}},
             {<<"udiCarrier">>, {{bbelement, <<"Device.UdiCarrier">>}, list}},
             {<<"status">>, {{code, <<"fhirdevicestatus">>}, optional}},
             {<<"statusReason">>, {{complex, <<"CodeableConcept">>}, list}},
@@ -4176,14 +4176,14 @@
             {<<"specialization">>, {{bbelement, <<"Device.Specialization">>}, list}},
             {<<"version">>, {{bbelement, <<"Device.Version">>}, list}},
             {<<"property">>, {{bbelement, <<"Device.Property">>}, list}},
-            {<<"patient">>, {{complex, <<"Reference">>}, optional}},
-            {<<"owner">>, {{complex, <<"Reference">>}, optional}},
+            {<<"patient">>, {{special, <<"Reference">>}, optional}},
+            {<<"owner">>, {{special, <<"Reference">>}, optional}},
             {<<"contact">>, {{complex, <<"ContactPoint">>}, list}},
-            {<<"location">>, {{complex, <<"Reference">>}, optional}},
+            {<<"location">>, {{special, <<"Reference">>}, optional}},
             {<<"url">>, {{primitive, <<"uri">>}, optional}},
             {<<"note">>, {{complex, <<"Annotation">>}, list}},
             {<<"safety">>, {{complex, <<"CodeableConcept">>}, list}},
-            {<<"parent">>, {{complex, <<"Reference">>}, optional}}
+            {<<"parent">>, {{special, <<"Reference">>}, optional}}
             ],
             [],
             []
@@ -4264,7 +4264,7 @@
             {<<"identifier">>, {{complex, <<"Identifier">>}, list}},
             {<<"udiDeviceIdentifier">>, {{bbelement, <<"DeviceDefinition.UdiDeviceIdentifier">>}, list}},
             {<<"manufacturerString">>, {{primitive, <<"string">>}, optional}},
-            {<<"manufacturerReference">>, {{complex, <<"Reference">>}, optional}},
+            {<<"manufacturerReference">>, {{special, <<"Reference">>}, optional}},
             {<<"deviceName">>, {{bbelement, <<"DeviceDefinition.DeviceName">>}, list}},
             {<<"modelNumber">>, {{primitive, <<"string">>}, optional}},
             {<<"type">>, {{complex, <<"CodeableConcept">>}, optional}},
@@ -4276,13 +4276,13 @@
             {<<"languageCode">>, {{complex, <<"CodeableConcept">>}, list}},
             {<<"capability">>, {{bbelement, <<"DeviceDefinition.Capability">>}, list}},
             {<<"property">>, {{bbelement, <<"DeviceDefinition.Property">>}, list}},
-            {<<"owner">>, {{complex, <<"Reference">>}, optional}},
+            {<<"owner">>, {{special, <<"Reference">>}, optional}},
             {<<"contact">>, {{complex, <<"ContactPoint">>}, list}},
             {<<"url">>, {{primitive, <<"uri">>}, optional}},
             {<<"onlineInformation">>, {{primitive, <<"uri">>}, optional}},
             {<<"note">>, {{complex, <<"Annotation">>}, list}},
             {<<"quantity">>, {{complex, <<"Quantity">>}, optional}},
-            {<<"parentDevice">>, {{complex, <<"Reference">>}, optional}},
+            {<<"parentDevice">>, {{special, <<"Reference">>}, optional}},
             {<<"material">>, {{bbelement, <<"DeviceDefinition.Material">>}, list}}
             ],
             [],
@@ -4375,8 +4375,8 @@
             {<<"identifier">>, {{complex, <<"Identifier">>}, list}},
             {<<"type">>, {{complex, <<"CodeableConcept">>}, required}},
             {<<"unit">>, {{complex, <<"CodeableConcept">>}, optional}},
-            {<<"source">>, {{complex, <<"Reference">>}, optional}},
-            {<<"parent">>, {{complex, <<"Reference">>}, optional}},
+            {<<"source">>, {{special, <<"Reference">>}, optional}},
+            {<<"parent">>, {{special, <<"Reference">>}, optional}},
             {<<"operationalStatus">>, {{code, <<"devicemetricoperationalstatus">>}, optional}},
             {<<"color">>, {{code, <<"devicemetriccolor">>}, optional}},
             {<<"category">>, {{code, <<"devicemetriccategory">>}, required}},
@@ -4409,30 +4409,30 @@
             {<<"identifier">>, {{complex, <<"Identifier">>}, list}},
             {<<"instantiatesCanonical">>, {{primitive, <<"canonical">>}, list}},
             {<<"instantiatesUri">>, {{primitive, <<"uri">>}, list}},
-            {<<"basedOn">>, {{complex, <<"Reference">>}, list}},
-            {<<"priorRequest">>, {{complex, <<"Reference">>}, list}},
+            {<<"basedOn">>, {{special, <<"Reference">>}, list}},
+            {<<"priorRequest">>, {{special, <<"Reference">>}, list}},
             {<<"groupIdentifier">>, {{complex, <<"Identifier">>}, optional}},
             {<<"status">>, {{code, <<"requeststatus">>}, optional}},
             {<<"intent">>, {{code, <<"requestintent">>}, required}},
             {<<"priority">>, {{code, <<"requestpriority">>}, optional}},
-            {<<"codeReference">>, {{complex, <<"Reference">>}, required}},
+            {<<"codeReference">>, {{special, <<"Reference">>}, required}},
             {<<"codeCodeableConcept">>, {{complex, <<"CodeableConcept">>}, required}},
             {<<"parameter">>, {{bbelement, <<"DeviceRequest.Parameter">>}, list}},
-            {<<"subject">>, {{complex, <<"Reference">>}, required}},
-            {<<"encounter">>, {{complex, <<"Reference">>}, optional}},
+            {<<"subject">>, {{special, <<"Reference">>}, required}},
+            {<<"encounter">>, {{special, <<"Reference">>}, optional}},
             {<<"occurrenceDateTime">>, {{primitive, <<"dateTime">>}, optional}},
             {<<"occurrencePeriod">>, {{complex, <<"Period">>}, optional}},
             {<<"occurrenceTiming">>, {{bbelement, <<"Timing">>}, optional}},
             {<<"authoredOn">>, {{primitive, <<"dateTime">>}, optional}},
-            {<<"requester">>, {{complex, <<"Reference">>}, optional}},
+            {<<"requester">>, {{special, <<"Reference">>}, optional}},
             {<<"performerType">>, {{complex, <<"CodeableConcept">>}, optional}},
-            {<<"performer">>, {{complex, <<"Reference">>}, optional}},
+            {<<"performer">>, {{special, <<"Reference">>}, optional}},
             {<<"reasonCode">>, {{complex, <<"CodeableConcept">>}, list}},
-            {<<"reasonReference">>, {{complex, <<"Reference">>}, list}},
-            {<<"insurance">>, {{complex, <<"Reference">>}, list}},
-            {<<"supportingInfo">>, {{complex, <<"Reference">>}, list}},
+            {<<"reasonReference">>, {{special, <<"Reference">>}, list}},
+            {<<"insurance">>, {{special, <<"Reference">>}, list}},
+            {<<"supportingInfo">>, {{special, <<"Reference">>}, list}},
             {<<"note">>, {{complex, <<"Annotation">>}, list}},
-            {<<"relevantHistory">>, {{complex, <<"Reference">>}, list}}
+            {<<"relevantHistory">>, {{special, <<"Reference">>}, list}}
             ],
             [],
             [
@@ -4465,18 +4465,18 @@
     , <<"DeviceUseStatement">> => {<<"DomainResource">>,
             [
             {<<"identifier">>, {{complex, <<"Identifier">>}, list}},
-            {<<"basedOn">>, {{complex, <<"Reference">>}, list}},
+            {<<"basedOn">>, {{special, <<"Reference">>}, list}},
             {<<"status">>, {{code, <<"deviceusestatementstatus">>}, required}},
-            {<<"subject">>, {{complex, <<"Reference">>}, required}},
-            {<<"derivedFrom">>, {{complex, <<"Reference">>}, list}},
+            {<<"subject">>, {{special, <<"Reference">>}, required}},
+            {<<"derivedFrom">>, {{special, <<"Reference">>}, list}},
             {<<"timingTiming">>, {{bbelement, <<"Timing">>}, optional}},
             {<<"timingPeriod">>, {{complex, <<"Period">>}, optional}},
             {<<"timingDateTime">>, {{primitive, <<"dateTime">>}, optional}},
             {<<"recordedOn">>, {{primitive, <<"dateTime">>}, optional}},
-            {<<"source">>, {{complex, <<"Reference">>}, optional}},
-            {<<"device">>, {{complex, <<"Reference">>}, required}},
+            {<<"source">>, {{special, <<"Reference">>}, optional}},
+            {<<"device">>, {{special, <<"Reference">>}, required}},
             {<<"reasonCode">>, {{complex, <<"CodeableConcept">>}, list}},
-            {<<"reasonReference">>, {{complex, <<"Reference">>}, list}},
+            {<<"reasonReference">>, {{special, <<"Reference">>}, list}},
             {<<"bodySite">>, {{complex, <<"CodeableConcept">>}, optional}},
             {<<"note">>, {{complex, <<"Annotation">>}, list}}
             ],
@@ -4493,20 +4493,20 @@
     , <<"DiagnosticReport">> => {<<"DomainResource">>,
             [
             {<<"identifier">>, {{complex, <<"Identifier">>}, list}},
-            {<<"basedOn">>, {{complex, <<"Reference">>}, list}},
+            {<<"basedOn">>, {{special, <<"Reference">>}, list}},
             {<<"status">>, {{code, <<"diagnosticreportstatus">>}, required}},
             {<<"category">>, {{complex, <<"CodeableConcept">>}, list}},
             {<<"code">>, {{complex, <<"CodeableConcept">>}, required}},
-            {<<"subject">>, {{complex, <<"Reference">>}, optional}},
-            {<<"encounter">>, {{complex, <<"Reference">>}, optional}},
+            {<<"subject">>, {{special, <<"Reference">>}, optional}},
+            {<<"encounter">>, {{special, <<"Reference">>}, optional}},
             {<<"effectiveDateTime">>, {{primitive, <<"dateTime">>}, optional}},
             {<<"effectivePeriod">>, {{complex, <<"Period">>}, optional}},
             {<<"issued">>, {{primitive, <<"instant">>}, optional}},
-            {<<"performer">>, {{complex, <<"Reference">>}, list}},
-            {<<"resultsInterpreter">>, {{complex, <<"Reference">>}, list}},
-            {<<"specimen">>, {{complex, <<"Reference">>}, list}},
-            {<<"result">>, {{complex, <<"Reference">>}, list}},
-            {<<"imagingStudy">>, {{complex, <<"Reference">>}, list}},
+            {<<"performer">>, {{special, <<"Reference">>}, list}},
+            {<<"resultsInterpreter">>, {{special, <<"Reference">>}, list}},
+            {<<"specimen">>, {{special, <<"Reference">>}, list}},
+            {<<"result">>, {{special, <<"Reference">>}, list}},
+            {<<"imagingStudy">>, {{special, <<"Reference">>}, list}},
             {<<"media">>, {{bbelement, <<"DiagnosticReport.Media">>}, list}},
             {<<"conclusion">>, {{primitive, <<"string">>}, optional}},
             {<<"conclusionCode">>, {{complex, <<"CodeableConcept">>}, list}},
@@ -4524,7 +4524,7 @@
     , <<"DiagnosticReport.Media">> => {<<"BackboneElement">>,
             [
             {<<"comment">>, {{primitive, <<"string">>}, optional}},
-            {<<"link">>, {{complex, <<"Reference">>}, required}}
+            {<<"link">>, {{special, <<"Reference">>}, required}}
             ],
             [],
             []
@@ -4540,13 +4540,13 @@
             {<<"identifier">>, {{complex, <<"Identifier">>}, list}},
             {<<"status">>, {{code, <<"documentreferencestatus">>}, required}},
             {<<"type">>, {{complex, <<"CodeableConcept">>}, optional}},
-            {<<"subject">>, {{complex, <<"Reference">>}, optional}},
+            {<<"subject">>, {{special, <<"Reference">>}, optional}},
             {<<"created">>, {{primitive, <<"dateTime">>}, optional}},
-            {<<"author">>, {{complex, <<"Reference">>}, list}},
-            {<<"recipient">>, {{complex, <<"Reference">>}, list}},
+            {<<"author">>, {{special, <<"Reference">>}, list}},
+            {<<"recipient">>, {{special, <<"Reference">>}, list}},
             {<<"source">>, {{primitive, <<"uri">>}, optional}},
             {<<"description">>, {{primitive, <<"string">>}, optional}},
-            {<<"content">>, {{complex, <<"Reference">>}, non_empty_list}},
+            {<<"content">>, {{special, <<"Reference">>}, non_empty_list}},
             {<<"related">>, {{bbelement, <<"DocumentManifest.Related">>}, list}}
             ],
             [],
@@ -4559,7 +4559,7 @@
     , <<"DocumentManifest.Related">> => {<<"BackboneElement">>,
             [
             {<<"identifier">>, {{complex, <<"Identifier">>}, optional}},
-            {<<"ref">>, {{complex, <<"Reference">>}, optional}}
+            {<<"ref">>, {{special, <<"Reference">>}, optional}}
             ],
             [],
             []
@@ -4577,11 +4577,11 @@
             {<<"docStatus">>, {{code, <<"compositionstatus">>}, optional}},
             {<<"type">>, {{complex, <<"CodeableConcept">>}, optional}},
             {<<"category">>, {{complex, <<"CodeableConcept">>}, list}},
-            {<<"subject">>, {{complex, <<"Reference">>}, optional}},
+            {<<"subject">>, {{special, <<"Reference">>}, optional}},
             {<<"date">>, {{primitive, <<"instant">>}, optional}},
-            {<<"author">>, {{complex, <<"Reference">>}, list}},
-            {<<"authenticator">>, {{complex, <<"Reference">>}, optional}},
-            {<<"custodian">>, {{complex, <<"Reference">>}, optional}},
+            {<<"author">>, {{special, <<"Reference">>}, list}},
+            {<<"authenticator">>, {{special, <<"Reference">>}, optional}},
+            {<<"custodian">>, {{special, <<"Reference">>}, optional}},
             {<<"relatesTo">>, {{bbelement, <<"DocumentReference.RelatesTo">>}, list}},
             {<<"description">>, {{primitive, <<"string">>}, optional}},
             {<<"securityLabel">>, {{complex, <<"CodeableConcept">>}, list}},
@@ -4598,7 +4598,7 @@
     , <<"DocumentReference.RelatesTo">> => {<<"BackboneElement">>,
             [
             {<<"code">>, {{code, <<"documentrelationshiptype">>}, required}},
-            {<<"target">>, {{complex, <<"Reference">>}, required}}
+            {<<"target">>, {{special, <<"Reference">>}, required}}
             ],
             [],
             []
@@ -4621,13 +4621,13 @@
 %%
     , <<"DocumentReference.Context">> => {<<"BackboneElement">>,
             [
-            {<<"encounter">>, {{complex, <<"Reference">>}, list}},
+            {<<"encounter">>, {{special, <<"Reference">>}, list}},
             {<<"event">>, {{complex, <<"CodeableConcept">>}, list}},
             {<<"period">>, {{complex, <<"Period">>}, optional}},
             {<<"facilityType">>, {{complex, <<"CodeableConcept">>}, optional}},
             {<<"practiceSetting">>, {{complex, <<"CodeableConcept">>}, optional}},
-            {<<"sourcePatientInfo">>, {{complex, <<"Reference">>}, optional}},
-            {<<"related">>, {{complex, <<"Reference">>}, list}}
+            {<<"sourcePatientInfo">>, {{special, <<"Reference">>}, optional}},
+            {<<"related">>, {{special, <<"Reference">>}, list}}
             ],
             [],
             []
@@ -4664,10 +4664,10 @@
             {<<"relatedArtifact">>, {{complex, <<"RelatedArtifact">>}, list}},
             {<<"synthesisType">>, {{complex, <<"CodeableConcept">>}, optional}},
             {<<"studyType">>, {{complex, <<"CodeableConcept">>}, optional}},
-            {<<"population">>, {{complex, <<"Reference">>}, required}},
-            {<<"exposure">>, {{complex, <<"Reference">>}, required}},
-            {<<"exposureAlternative">>, {{complex, <<"Reference">>}, required}},
-            {<<"outcome">>, {{complex, <<"Reference">>}, required}},
+            {<<"population">>, {{special, <<"Reference">>}, required}},
+            {<<"exposure">>, {{special, <<"Reference">>}, required}},
+            {<<"exposureAlternative">>, {{special, <<"Reference">>}, required}},
+            {<<"outcome">>, {{special, <<"Reference">>}, required}},
             {<<"sampleSize">>, {{bbelement, <<"EffectEvidenceSynthesis.SampleSize">>}, optional}},
             {<<"resultsByExposure">>, {{bbelement, <<"EffectEvidenceSynthesis.ResultsByExposure">>}, list}},
             {<<"effectEstimate">>, {{bbelement, <<"EffectEvidenceSynthesis.EffectEstimate">>}, list}},
@@ -4698,7 +4698,7 @@
             {<<"description">>, {{primitive, <<"string">>}, optional}},
             {<<"exposureState">>, {{code, <<"exposurestate">>}, optional}},
             {<<"variantState">>, {{complex, <<"CodeableConcept">>}, optional}},
-            {<<"riskEvidenceSynthesis">>, {{complex, <<"Reference">>}, required}}
+            {<<"riskEvidenceSynthesis">>, {{special, <<"Reference">>}, required}}
             ],
             [],
             []
@@ -4774,21 +4774,21 @@
             {<<"type">>, {{complex, <<"CodeableConcept">>}, list}},
             {<<"serviceType">>, {{complex, <<"CodeableConcept">>}, optional}},
             {<<"priority">>, {{complex, <<"CodeableConcept">>}, optional}},
-            {<<"subject">>, {{complex, <<"Reference">>}, optional}},
-            {<<"episodeOfCare">>, {{complex, <<"Reference">>}, list}},
-            {<<"basedOn">>, {{complex, <<"Reference">>}, list}},
+            {<<"subject">>, {{special, <<"Reference">>}, optional}},
+            {<<"episodeOfCare">>, {{special, <<"Reference">>}, list}},
+            {<<"basedOn">>, {{special, <<"Reference">>}, list}},
             {<<"participant">>, {{bbelement, <<"Encounter.Participant">>}, list}},
-            {<<"appointment">>, {{complex, <<"Reference">>}, list}},
+            {<<"appointment">>, {{special, <<"Reference">>}, list}},
             {<<"period">>, {{complex, <<"Period">>}, optional}},
             {<<"length">>, {{complex, <<"Duration">>}, optional}},
             {<<"reasonCode">>, {{complex, <<"CodeableConcept">>}, list}},
-            {<<"reasonReference">>, {{complex, <<"Reference">>}, list}},
+            {<<"reasonReference">>, {{special, <<"Reference">>}, list}},
             {<<"diagnosis">>, {{bbelement, <<"Encounter.Diagnosis">>}, list}},
-            {<<"account">>, {{complex, <<"Reference">>}, list}},
+            {<<"account">>, {{special, <<"Reference">>}, list}},
             {<<"hospitalization">>, {{bbelement, <<"Encounter.Hospitalization">>}, optional}},
             {<<"location">>, {{bbelement, <<"Encounter.Location">>}, list}},
-            {<<"serviceProvider">>, {{complex, <<"Reference">>}, optional}},
-            {<<"partOf">>, {{complex, <<"Reference">>}, optional}}
+            {<<"serviceProvider">>, {{special, <<"Reference">>}, optional}},
+            {<<"partOf">>, {{special, <<"Reference">>}, optional}}
             ],
             [],
             []
@@ -4825,7 +4825,7 @@
             [
             {<<"type">>, {{complex, <<"CodeableConcept">>}, list}},
             {<<"period">>, {{complex, <<"Period">>}, optional}},
-            {<<"individual">>, {{complex, <<"Reference">>}, optional}}
+            {<<"individual">>, {{special, <<"Reference">>}, optional}}
             ],
             [],
             []
@@ -4836,7 +4836,7 @@
 %%
     , <<"Encounter.Diagnosis">> => {<<"BackboneElement">>,
             [
-            {<<"condition">>, {{complex, <<"Reference">>}, required}},
+            {<<"condition">>, {{special, <<"Reference">>}, required}},
             {<<"use">>, {{complex, <<"CodeableConcept">>}, optional}},
             {<<"rank">>, {{primitive, <<"positiveInt">>}, optional}}
             ],
@@ -4850,13 +4850,13 @@
     , <<"Encounter.Hospitalization">> => {<<"BackboneElement">>,
             [
             {<<"preAdmissionIdentifier">>, {{complex, <<"Identifier">>}, optional}},
-            {<<"origin">>, {{complex, <<"Reference">>}, optional}},
+            {<<"origin">>, {{special, <<"Reference">>}, optional}},
             {<<"admitSource">>, {{complex, <<"CodeableConcept">>}, optional}},
             {<<"reAdmission">>, {{complex, <<"CodeableConcept">>}, optional}},
             {<<"dietPreference">>, {{complex, <<"CodeableConcept">>}, list}},
             {<<"specialCourtesy">>, {{complex, <<"CodeableConcept">>}, list}},
             {<<"specialArrangement">>, {{complex, <<"CodeableConcept">>}, list}},
-            {<<"destination">>, {{complex, <<"Reference">>}, optional}},
+            {<<"destination">>, {{special, <<"Reference">>}, optional}},
             {<<"dischargeDisposition">>, {{complex, <<"CodeableConcept">>}, optional}}
             ],
             [],
@@ -4868,7 +4868,7 @@
 %%
     , <<"Encounter.Location">> => {<<"BackboneElement">>,
             [
-            {<<"location">>, {{complex, <<"Reference">>}, required}},
+            {<<"location">>, {{special, <<"Reference">>}, required}},
             {<<"status">>, {{code, <<"encounterlocationstatus">>}, optional}},
             {<<"physicalType">>, {{complex, <<"CodeableConcept">>}, optional}},
             {<<"period">>, {{complex, <<"Period">>}, optional}}
@@ -4887,7 +4887,7 @@
             {<<"status">>, {{code, <<"endpointstatus">>}, required}},
             {<<"connectionType">>, {{complex, <<"Coding">>}, required}},
             {<<"name">>, {{primitive, <<"string">>}, optional}},
-            {<<"managingOrganization">>, {{complex, <<"Reference">>}, optional}},
+            {<<"managingOrganization">>, {{special, <<"Reference">>}, optional}},
             {<<"contact">>, {{complex, <<"ContactPoint">>}, list}},
             {<<"period">>, {{complex, <<"Period">>}, optional}},
             {<<"payloadType">>, {{complex, <<"CodeableConcept">>}, non_empty_list}},
@@ -4908,10 +4908,10 @@
             {<<"identifier">>, {{complex, <<"Identifier">>}, list}},
             {<<"status">>, {{code, <<"financialresourcestatuscodes">>}, optional}},
             {<<"created">>, {{primitive, <<"dateTime">>}, optional}},
-            {<<"insurer">>, {{complex, <<"Reference">>}, optional}},
-            {<<"provider">>, {{complex, <<"Reference">>}, optional}},
-            {<<"candidate">>, {{complex, <<"Reference">>}, optional}},
-            {<<"coverage">>, {{complex, <<"Reference">>}, optional}}
+            {<<"insurer">>, {{special, <<"Reference">>}, optional}},
+            {<<"provider">>, {{special, <<"Reference">>}, optional}},
+            {<<"candidate">>, {{special, <<"Reference">>}, optional}},
+            {<<"coverage">>, {{special, <<"Reference">>}, optional}}
             ],
             [],
             []
@@ -4925,12 +4925,12 @@
             [
             {<<"identifier">>, {{complex, <<"Identifier">>}, list}},
             {<<"status">>, {{code, <<"financialresourcestatuscodes">>}, optional}},
-            {<<"request">>, {{complex, <<"Reference">>}, optional}},
+            {<<"request">>, {{special, <<"Reference">>}, optional}},
             {<<"outcome">>, {{code, <<"remittanceoutcome">>}, optional}},
             {<<"disposition">>, {{primitive, <<"string">>}, optional}},
             {<<"created">>, {{primitive, <<"dateTime">>}, optional}},
-            {<<"organization">>, {{complex, <<"Reference">>}, optional}},
-            {<<"requestProvider">>, {{complex, <<"Reference">>}, optional}}
+            {<<"organization">>, {{special, <<"Reference">>}, optional}},
+            {<<"requestProvider">>, {{special, <<"Reference">>}, optional}}
             ],
             [],
             []
@@ -4947,13 +4947,13 @@
             {<<"statusHistory">>, {{bbelement, <<"EpisodeOfCare.StatusHistory">>}, list}},
             {<<"type">>, {{complex, <<"CodeableConcept">>}, list}},
             {<<"diagnosis">>, {{bbelement, <<"EpisodeOfCare.Diagnosis">>}, list}},
-            {<<"patient">>, {{complex, <<"Reference">>}, required}},
-            {<<"managingOrganization">>, {{complex, <<"Reference">>}, optional}},
+            {<<"patient">>, {{special, <<"Reference">>}, required}},
+            {<<"managingOrganization">>, {{special, <<"Reference">>}, optional}},
             {<<"period">>, {{complex, <<"Period">>}, optional}},
-            {<<"referralRequest">>, {{complex, <<"Reference">>}, list}},
-            {<<"careManager">>, {{complex, <<"Reference">>}, optional}},
-            {<<"team">>, {{complex, <<"Reference">>}, list}},
-            {<<"account">>, {{complex, <<"Reference">>}, list}}
+            {<<"referralRequest">>, {{special, <<"Reference">>}, list}},
+            {<<"careManager">>, {{special, <<"Reference">>}, optional}},
+            {<<"team">>, {{special, <<"Reference">>}, list}},
+            {<<"account">>, {{special, <<"Reference">>}, list}}
             ],
             [],
             []
@@ -4976,7 +4976,7 @@
 %%
     , <<"EpisodeOfCare.Diagnosis">> => {<<"BackboneElement">>,
             [
-            {<<"condition">>, {{complex, <<"Reference">>}, required}},
+            {<<"condition">>, {{special, <<"Reference">>}, required}},
             {<<"role">>, {{complex, <<"CodeableConcept">>}, optional}},
             {<<"rank">>, {{primitive, <<"positiveInt">>}, optional}}
             ],
@@ -4999,7 +4999,7 @@
             {<<"status">>, {{code, <<"publicationstatus">>}, required}},
             {<<"experimental">>, {{primitive, <<"boolean">>}, optional}},
             {<<"subjectCodeableConcept">>, {{complex, <<"CodeableConcept">>}, optional}},
-            {<<"subjectReference">>, {{complex, <<"Reference">>}, optional}},
+            {<<"subjectReference">>, {{special, <<"Reference">>}, optional}},
             {<<"date">>, {{primitive, <<"dateTime">>}, optional}},
             {<<"publisher">>, {{primitive, <<"string">>}, optional}},
             {<<"contact">>, {{complex, <<"ContactDetail">>}, list}},
@@ -5057,9 +5057,9 @@
             {<<"reviewer">>, {{complex, <<"ContactDetail">>}, list}},
             {<<"endorser">>, {{complex, <<"ContactDetail">>}, list}},
             {<<"relatedArtifact">>, {{complex, <<"RelatedArtifact">>}, list}},
-            {<<"exposureBackground">>, {{complex, <<"Reference">>}, required}},
-            {<<"exposureVariant">>, {{complex, <<"Reference">>}, list}},
-            {<<"outcome">>, {{complex, <<"Reference">>}, list}}
+            {<<"exposureBackground">>, {{special, <<"Reference">>}, required}},
+            {<<"exposureVariant">>, {{special, <<"Reference">>}, list}},
+            {<<"outcome">>, {{special, <<"Reference">>}, list}}
             ],
             [],
             []
@@ -5109,7 +5109,7 @@
     , <<"EvidenceVariable.Characteristic">> => {<<"BackboneElement">>,
             [
             {<<"description">>, {{primitive, <<"string">>}, optional}},
-            {<<"definitionReference">>, {{complex, <<"Reference">>}, required}},
+            {<<"definitionReference">>, {{special, <<"Reference">>}, required}},
             {<<"definitionCanonical">>, {{primitive, <<"canonical">>}, required}},
             {<<"definitionCodeableConcept">>, {{complex, <<"CodeableConcept">>}, required}},
             {<<"definitionExpression">>, {{complex, <<"Expression">>}, required}},
@@ -5286,23 +5286,23 @@
             {<<"type">>, {{complex, <<"CodeableConcept">>}, required}},
             {<<"subType">>, {{complex, <<"CodeableConcept">>}, optional}},
             {<<"use">>, {{code, <<"use">>}, required}},
-            {<<"patient">>, {{complex, <<"Reference">>}, required}},
+            {<<"patient">>, {{special, <<"Reference">>}, required}},
             {<<"billablePeriod">>, {{complex, <<"Period">>}, optional}},
             {<<"created">>, {{primitive, <<"dateTime">>}, required}},
-            {<<"enterer">>, {{complex, <<"Reference">>}, optional}},
-            {<<"insurer">>, {{complex, <<"Reference">>}, required}},
-            {<<"provider">>, {{complex, <<"Reference">>}, required}},
+            {<<"enterer">>, {{special, <<"Reference">>}, optional}},
+            {<<"insurer">>, {{special, <<"Reference">>}, required}},
+            {<<"provider">>, {{special, <<"Reference">>}, required}},
             {<<"priority">>, {{complex, <<"CodeableConcept">>}, optional}},
             {<<"fundsReserveRequested">>, {{complex, <<"CodeableConcept">>}, optional}},
             {<<"fundsReserve">>, {{complex, <<"CodeableConcept">>}, optional}},
             {<<"related">>, {{bbelement, <<"ExplanationOfBenefit.Related">>}, list}},
-            {<<"prescription">>, {{complex, <<"Reference">>}, optional}},
-            {<<"originalPrescription">>, {{complex, <<"Reference">>}, optional}},
+            {<<"prescription">>, {{special, <<"Reference">>}, optional}},
+            {<<"originalPrescription">>, {{special, <<"Reference">>}, optional}},
             {<<"payee">>, {{bbelement, <<"ExplanationOfBenefit.Payee">>}, optional}},
-            {<<"referral">>, {{complex, <<"Reference">>}, optional}},
-            {<<"facility">>, {{complex, <<"Reference">>}, optional}},
-            {<<"claim">>, {{complex, <<"Reference">>}, optional}},
-            {<<"claimResponse">>, {{complex, <<"Reference">>}, optional}},
+            {<<"referral">>, {{special, <<"Reference">>}, optional}},
+            {<<"facility">>, {{special, <<"Reference">>}, optional}},
+            {<<"claim">>, {{special, <<"Reference">>}, optional}},
+            {<<"claimResponse">>, {{special, <<"Reference">>}, optional}},
             {<<"outcome">>, {{code, <<"claimprocessingcodes">>}, required}},
             {<<"disposition">>, {{primitive, <<"string">>}, optional}},
             {<<"preAuthRef">>, {{primitive, <<"string">>}, list}},
@@ -5334,7 +5334,7 @@
 %%
     , <<"ExplanationOfBenefit.Related">> => {<<"BackboneElement">>,
             [
-            {<<"claim">>, {{complex, <<"Reference">>}, optional}},
+            {<<"claim">>, {{special, <<"Reference">>}, optional}},
             {<<"relationship">>, {{complex, <<"CodeableConcept">>}, optional}},
             {<<"reference">>, {{complex, <<"Identifier">>}, optional}}
             ],
@@ -5348,7 +5348,7 @@
     , <<"ExplanationOfBenefit.Payee">> => {<<"BackboneElement">>,
             [
             {<<"type">>, {{complex, <<"CodeableConcept">>}, optional}},
-            {<<"party">>, {{complex, <<"Reference">>}, optional}}
+            {<<"party">>, {{special, <<"Reference">>}, optional}}
             ],
             [],
             []
@@ -5360,7 +5360,7 @@
     , <<"ExplanationOfBenefit.CareTeam">> => {<<"BackboneElement">>,
             [
             {<<"sequence">>, {{primitive, <<"positiveInt">>}, required}},
-            {<<"provider">>, {{complex, <<"Reference">>}, required}},
+            {<<"provider">>, {{special, <<"Reference">>}, required}},
             {<<"responsible">>, {{primitive, <<"boolean">>}, optional}},
             {<<"role">>, {{complex, <<"CodeableConcept">>}, optional}},
             {<<"qualification">>, {{complex, <<"CodeableConcept">>}, optional}}
@@ -5383,7 +5383,7 @@
             {<<"valueString">>, {{primitive, <<"string">>}, optional}},
             {<<"valueQuantity">>, {{complex, <<"Quantity">>}, optional}},
             {<<"valueAttachment">>, {{complex, <<"Attachment">>}, optional}},
-            {<<"valueReference">>, {{complex, <<"Reference">>}, optional}},
+            {<<"valueReference">>, {{special, <<"Reference">>}, optional}},
             {<<"reason">>, {{complex, <<"Coding">>}, optional}}
             ],
             [],
@@ -5400,7 +5400,7 @@
             [
             {<<"sequence">>, {{primitive, <<"positiveInt">>}, required}},
             {<<"diagnosisCodeableConcept">>, {{complex, <<"CodeableConcept">>}, required}},
-            {<<"diagnosisReference">>, {{complex, <<"Reference">>}, required}},
+            {<<"diagnosisReference">>, {{special, <<"Reference">>}, required}},
             {<<"type">>, {{complex, <<"CodeableConcept">>}, list}},
             {<<"onAdmission">>, {{complex, <<"CodeableConcept">>}, optional}},
             {<<"packageCode">>, {{complex, <<"CodeableConcept">>}, optional}}
@@ -5420,8 +5420,8 @@
             {<<"type">>, {{complex, <<"CodeableConcept">>}, list}},
             {<<"date">>, {{primitive, <<"dateTime">>}, optional}},
             {<<"procedureCodeableConcept">>, {{complex, <<"CodeableConcept">>}, required}},
-            {<<"procedureReference">>, {{complex, <<"Reference">>}, required}},
-            {<<"udi">>, {{complex, <<"Reference">>}, list}}
+            {<<"procedureReference">>, {{special, <<"Reference">>}, required}},
+            {<<"udi">>, {{special, <<"Reference">>}, list}}
             ],
             [],
             [
@@ -5435,7 +5435,7 @@
     , <<"ExplanationOfBenefit.Insurance">> => {<<"BackboneElement">>,
             [
             {<<"focal">>, {{primitive, <<"boolean">>}, required}},
-            {<<"coverage">>, {{complex, <<"Reference">>}, required}},
+            {<<"coverage">>, {{special, <<"Reference">>}, required}},
             {<<"preAuthRef">>, {{primitive, <<"string">>}, list}}
             ],
             [],
@@ -5450,7 +5450,7 @@
             {<<"date">>, {{primitive, <<"date">>}, optional}},
             {<<"type">>, {{complex, <<"CodeableConcept">>}, optional}},
             {<<"locationAddress">>, {{complex, <<"Address">>}, optional}},
-            {<<"locationReference">>, {{complex, <<"Reference">>}, optional}}
+            {<<"locationReference">>, {{special, <<"Reference">>}, optional}}
             ],
             [],
             [
@@ -5477,15 +5477,15 @@
             {<<"servicedPeriod">>, {{complex, <<"Period">>}, optional}},
             {<<"locationCodeableConcept">>, {{complex, <<"CodeableConcept">>}, optional}},
             {<<"locationAddress">>, {{complex, <<"Address">>}, optional}},
-            {<<"locationReference">>, {{complex, <<"Reference">>}, optional}},
+            {<<"locationReference">>, {{special, <<"Reference">>}, optional}},
             {<<"quantity">>, {{complex, <<"Quantity">>}, optional}},
             {<<"unitPrice">>, {{complex, <<"Money">>}, optional}},
             {<<"factor">>, {{primitive, <<"decimal">>}, optional}},
             {<<"net">>, {{complex, <<"Money">>}, optional}},
-            {<<"udi">>, {{complex, <<"Reference">>}, list}},
+            {<<"udi">>, {{special, <<"Reference">>}, list}},
             {<<"bodySite">>, {{complex, <<"CodeableConcept">>}, optional}},
             {<<"subSite">>, {{complex, <<"CodeableConcept">>}, list}},
-            {<<"encounter">>, {{complex, <<"Reference">>}, list}},
+            {<<"encounter">>, {{special, <<"Reference">>}, list}},
             {<<"noteNumber">>, {{primitive, <<"positiveInt">>}, list}},
             {<<"adjudication">>, {{bbelement, <<"ExplanationOfBenefit.Adjudication">>}, list}},
             {<<"detail">>, {{bbelement, <<"ExplanationOfBenefit.Detail">>}, list}}
@@ -5526,7 +5526,7 @@
             {<<"unitPrice">>, {{complex, <<"Money">>}, optional}},
             {<<"factor">>, {{primitive, <<"decimal">>}, optional}},
             {<<"net">>, {{complex, <<"Money">>}, optional}},
-            {<<"udi">>, {{complex, <<"Reference">>}, list}},
+            {<<"udi">>, {{special, <<"Reference">>}, list}},
             {<<"noteNumber">>, {{primitive, <<"positiveInt">>}, list}},
             {<<"adjudication">>, {{bbelement, <<"ExplanationOfBenefit.Adjudication">>}, list}},
             {<<"subDetail">>, {{bbelement, <<"ExplanationOfBenefit.SubDetail">>}, list}}
@@ -5550,7 +5550,7 @@
             {<<"unitPrice">>, {{complex, <<"Money">>}, optional}},
             {<<"factor">>, {{primitive, <<"decimal">>}, optional}},
             {<<"net">>, {{complex, <<"Money">>}, optional}},
-            {<<"udi">>, {{complex, <<"Reference">>}, list}},
+            {<<"udi">>, {{special, <<"Reference">>}, list}},
             {<<"noteNumber">>, {{primitive, <<"positiveInt">>}, list}},
             {<<"adjudication">>, {{bbelement, <<"ExplanationOfBenefit.Adjudication">>}, list}}
             ],
@@ -5566,7 +5566,7 @@
             {<<"itemSequence">>, {{primitive, <<"positiveInt">>}, list}},
             {<<"detailSequence">>, {{primitive, <<"positiveInt">>}, list}},
             {<<"subDetailSequence">>, {{primitive, <<"positiveInt">>}, list}},
-            {<<"provider">>, {{complex, <<"Reference">>}, list}},
+            {<<"provider">>, {{special, <<"Reference">>}, list}},
             {<<"productOrService">>, {{complex, <<"CodeableConcept">>}, required}},
             {<<"modifier">>, {{complex, <<"CodeableConcept">>}, list}},
             {<<"programCode">>, {{complex, <<"CodeableConcept">>}, list}},
@@ -5574,7 +5574,7 @@
             {<<"servicedPeriod">>, {{complex, <<"Period">>}, optional}},
             {<<"locationCodeableConcept">>, {{complex, <<"CodeableConcept">>}, optional}},
             {<<"locationAddress">>, {{complex, <<"Address">>}, optional}},
-            {<<"locationReference">>, {{complex, <<"Reference">>}, optional}},
+            {<<"locationReference">>, {{special, <<"Reference">>}, optional}},
             {<<"quantity">>, {{complex, <<"Quantity">>}, optional}},
             {<<"unitPrice">>, {{complex, <<"Money">>}, optional}},
             {<<"factor">>, {{primitive, <<"decimal">>}, optional}},
@@ -5719,7 +5719,7 @@
             {<<"instantiatesUri">>, {{primitive, <<"uri">>}, list}},
             {<<"status">>, {{code, <<"familyhistorystatus">>}, required}},
             {<<"dataAbsentReason">>, {{complex, <<"CodeableConcept">>}, optional}},
-            {<<"patient">>, {{complex, <<"Reference">>}, required}},
+            {<<"patient">>, {{special, <<"Reference">>}, required}},
             {<<"date">>, {{primitive, <<"dateTime">>}, optional}},
             {<<"name">>, {{primitive, <<"string">>}, optional}},
             {<<"relationship">>, {{complex, <<"CodeableConcept">>}, required}},
@@ -5737,7 +5737,7 @@
             {<<"deceasedDate">>, {{primitive, <<"date">>}, optional}},
             {<<"deceasedString">>, {{primitive, <<"string">>}, optional}},
             {<<"reasonCode">>, {{complex, <<"CodeableConcept">>}, list}},
-            {<<"reasonReference">>, {{complex, <<"Reference">>}, list}},
+            {<<"reasonReference">>, {{special, <<"Reference">>}, list}},
             {<<"note">>, {{complex, <<"Annotation">>}, list}},
             {<<"condition">>, {{bbelement, <<"FamilyMemberHistory.Condition">>}, list}}
             ],
@@ -5779,10 +5779,10 @@
             {<<"status">>, {{code, <<"flagstatus">>}, required}},
             {<<"category">>, {{complex, <<"CodeableConcept">>}, list}},
             {<<"code">>, {{complex, <<"CodeableConcept">>}, required}},
-            {<<"subject">>, {{complex, <<"Reference">>}, required}},
+            {<<"subject">>, {{special, <<"Reference">>}, required}},
             {<<"period">>, {{complex, <<"Period">>}, optional}},
-            {<<"encounter">>, {{complex, <<"Reference">>}, optional}},
-            {<<"author">>, {{complex, <<"Reference">>}, optional}}
+            {<<"encounter">>, {{special, <<"Reference">>}, optional}},
+            {<<"author">>, {{special, <<"Reference">>}, optional}}
             ],
             [],
             []
@@ -5800,17 +5800,17 @@
             {<<"category">>, {{complex, <<"CodeableConcept">>}, list}},
             {<<"priority">>, {{complex, <<"CodeableConcept">>}, optional}},
             {<<"description">>, {{complex, <<"CodeableConcept">>}, required}},
-            {<<"subject">>, {{complex, <<"Reference">>}, required}},
+            {<<"subject">>, {{special, <<"Reference">>}, required}},
             {<<"startDate">>, {{primitive, <<"date">>}, optional}},
             {<<"startCodeableConcept">>, {{complex, <<"CodeableConcept">>}, optional}},
             {<<"target">>, {{bbelement, <<"Goal.Target">>}, list}},
             {<<"statusDate">>, {{primitive, <<"date">>}, optional}},
             {<<"statusReason">>, {{primitive, <<"string">>}, optional}},
-            {<<"expressedBy">>, {{complex, <<"Reference">>}, optional}},
-            {<<"addresses">>, {{complex, <<"Reference">>}, list}},
+            {<<"expressedBy">>, {{special, <<"Reference">>}, optional}},
+            {<<"addresses">>, {{special, <<"Reference">>}, list}},
             {<<"note">>, {{complex, <<"Annotation">>}, list}},
             {<<"outcomeCode">>, {{complex, <<"CodeableConcept">>}, list}},
-            {<<"outcomeReference">>, {{complex, <<"Reference">>}, list}}
+            {<<"outcomeReference">>, {{special, <<"Reference">>}, list}}
             ],
             [],
             [
@@ -5926,7 +5926,7 @@
             {<<"code">>, {{complex, <<"CodeableConcept">>}, optional}},
             {<<"name">>, {{primitive, <<"string">>}, optional}},
             {<<"quantity">>, {{primitive, <<"unsignedInt">>}, optional}},
-            {<<"managingEntity">>, {{complex, <<"Reference">>}, optional}},
+            {<<"managingEntity">>, {{special, <<"Reference">>}, optional}},
             {<<"characteristic">>, {{bbelement, <<"Group.Characteristic">>}, list}},
             {<<"member">>, {{bbelement, <<"Group.Member">>}, list}}
             ],
@@ -5944,7 +5944,7 @@
             {<<"valueBoolean">>, {{primitive, <<"boolean">>}, required}},
             {<<"valueQuantity">>, {{complex, <<"Quantity">>}, required}},
             {<<"valueRange">>, {{complex, <<"Range">>}, required}},
-            {<<"valueReference">>, {{complex, <<"Reference">>}, required}},
+            {<<"valueReference">>, {{special, <<"Reference">>}, required}},
             {<<"exclude">>, {{primitive, <<"boolean">>}, required}},
             {<<"period">>, {{complex, <<"Period">>}, optional}}
             ],
@@ -5959,7 +5959,7 @@
 %%
     , <<"Group.Member">> => {<<"BackboneElement">>,
             [
-            {<<"entity">>, {{complex, <<"Reference">>}, required}},
+            {<<"entity">>, {{special, <<"Reference">>}, required}},
             {<<"period">>, {{complex, <<"Period">>}, optional}},
             {<<"inactive">>, {{primitive, <<"boolean">>}, optional}}
             ],
@@ -5979,16 +5979,16 @@
             {<<"moduleCanonical">>, {{primitive, <<"canonical">>}, required}},
             {<<"moduleCodeableConcept">>, {{complex, <<"CodeableConcept">>}, required}},
             {<<"status">>, {{code, <<"guidanceresponsestatus">>}, required}},
-            {<<"subject">>, {{complex, <<"Reference">>}, optional}},
-            {<<"encounter">>, {{complex, <<"Reference">>}, optional}},
+            {<<"subject">>, {{special, <<"Reference">>}, optional}},
+            {<<"encounter">>, {{special, <<"Reference">>}, optional}},
             {<<"occurrenceDateTime">>, {{primitive, <<"dateTime">>}, optional}},
-            {<<"performer">>, {{complex, <<"Reference">>}, optional}},
+            {<<"performer">>, {{special, <<"Reference">>}, optional}},
             {<<"reasonCode">>, {{complex, <<"CodeableConcept">>}, list}},
-            {<<"reasonReference">>, {{complex, <<"Reference">>}, list}},
+            {<<"reasonReference">>, {{special, <<"Reference">>}, list}},
             {<<"note">>, {{complex, <<"Annotation">>}, list}},
-            {<<"evaluationMessage">>, {{complex, <<"Reference">>}, list}},
-            {<<"outputParameters">>, {{complex, <<"Reference">>}, optional}},
-            {<<"result">>, {{complex, <<"Reference">>}, optional}},
+            {<<"evaluationMessage">>, {{special, <<"Reference">>}, list}},
+            {<<"outputParameters">>, {{special, <<"Reference">>}, optional}},
+            {<<"result">>, {{special, <<"Reference">>}, optional}},
             {<<"dataRequirement">>, {{complex, <<"DataRequirement">>}, list}}
             ],
             [],
@@ -6005,17 +6005,17 @@
             [
             {<<"identifier">>, {{complex, <<"Identifier">>}, list}},
             {<<"active">>, {{primitive, <<"boolean">>}, optional}},
-            {<<"providedBy">>, {{complex, <<"Reference">>}, optional}},
+            {<<"providedBy">>, {{special, <<"Reference">>}, optional}},
             {<<"category">>, {{complex, <<"CodeableConcept">>}, list}},
             {<<"type">>, {{complex, <<"CodeableConcept">>}, list}},
             {<<"specialty">>, {{complex, <<"CodeableConcept">>}, list}},
-            {<<"location">>, {{complex, <<"Reference">>}, list}},
+            {<<"location">>, {{special, <<"Reference">>}, list}},
             {<<"name">>, {{primitive, <<"string">>}, optional}},
             {<<"comment">>, {{primitive, <<"string">>}, optional}},
             {<<"extraDetails">>, {{primitive, <<"markdown">>}, optional}},
             {<<"photo">>, {{complex, <<"Attachment">>}, optional}},
             {<<"telecom">>, {{complex, <<"ContactPoint">>}, list}},
-            {<<"coverageArea">>, {{complex, <<"Reference">>}, list}},
+            {<<"coverageArea">>, {{special, <<"Reference">>}, list}},
             {<<"serviceProvisionCode">>, {{complex, <<"CodeableConcept">>}, list}},
             {<<"eligibility">>, {{bbelement, <<"HealthcareService.Eligibility">>}, list}},
             {<<"program">>, {{complex, <<"CodeableConcept">>}, list}},
@@ -6026,7 +6026,7 @@
             {<<"availableTime">>, {{bbelement, <<"HealthcareService.AvailableTime">>}, list}},
             {<<"notAvailable">>, {{bbelement, <<"HealthcareService.NotAvailable">>}, list}},
             {<<"availabilityExceptions">>, {{primitive, <<"string">>}, optional}},
-            {<<"endpoint">>, {{complex, <<"Reference">>}, list}}
+            {<<"endpoint">>, {{special, <<"Reference">>}, list}}
             ],
             [],
             []
@@ -6079,20 +6079,20 @@
             {<<"identifier">>, {{complex, <<"Identifier">>}, list}},
             {<<"status">>, {{code, <<"imagingstudystatus">>}, required}},
             {<<"modality">>, {{complex, <<"Coding">>}, list}},
-            {<<"subject">>, {{complex, <<"Reference">>}, required}},
-            {<<"encounter">>, {{complex, <<"Reference">>}, optional}},
+            {<<"subject">>, {{special, <<"Reference">>}, required}},
+            {<<"encounter">>, {{special, <<"Reference">>}, optional}},
             {<<"started">>, {{primitive, <<"dateTime">>}, optional}},
-            {<<"basedOn">>, {{complex, <<"Reference">>}, list}},
-            {<<"referrer">>, {{complex, <<"Reference">>}, optional}},
-            {<<"interpreter">>, {{complex, <<"Reference">>}, list}},
-            {<<"endpoint">>, {{complex, <<"Reference">>}, list}},
+            {<<"basedOn">>, {{special, <<"Reference">>}, list}},
+            {<<"referrer">>, {{special, <<"Reference">>}, optional}},
+            {<<"interpreter">>, {{special, <<"Reference">>}, list}},
+            {<<"endpoint">>, {{special, <<"Reference">>}, list}},
             {<<"numberOfSeries">>, {{primitive, <<"unsignedInt">>}, optional}},
             {<<"numberOfInstances">>, {{primitive, <<"unsignedInt">>}, optional}},
-            {<<"procedureReference">>, {{complex, <<"Reference">>}, optional}},
+            {<<"procedureReference">>, {{special, <<"Reference">>}, optional}},
             {<<"procedureCode">>, {{complex, <<"CodeableConcept">>}, list}},
-            {<<"location">>, {{complex, <<"Reference">>}, optional}},
+            {<<"location">>, {{special, <<"Reference">>}, optional}},
             {<<"reasonCode">>, {{complex, <<"CodeableConcept">>}, list}},
-            {<<"reasonReference">>, {{complex, <<"Reference">>}, list}},
+            {<<"reasonReference">>, {{special, <<"Reference">>}, list}},
             {<<"note">>, {{complex, <<"Annotation">>}, list}},
             {<<"description">>, {{primitive, <<"string">>}, optional}},
             {<<"series">>, {{bbelement, <<"ImagingStudy.Series">>}, list}}
@@ -6111,10 +6111,10 @@
             {<<"modality">>, {{complex, <<"Coding">>}, required}},
             {<<"description">>, {{primitive, <<"string">>}, optional}},
             {<<"numberOfInstances">>, {{primitive, <<"unsignedInt">>}, optional}},
-            {<<"endpoint">>, {{complex, <<"Reference">>}, list}},
+            {<<"endpoint">>, {{special, <<"Reference">>}, list}},
             {<<"bodySite">>, {{complex, <<"Coding">>}, optional}},
             {<<"laterality">>, {{complex, <<"Coding">>}, optional}},
-            {<<"specimen">>, {{complex, <<"Reference">>}, list}},
+            {<<"specimen">>, {{special, <<"Reference">>}, list}},
             {<<"started">>, {{primitive, <<"dateTime">>}, optional}},
             {<<"performer">>, {{bbelement, <<"ImagingStudy.Performer">>}, list}},
             {<<"instance">>, {{bbelement, <<"ImagingStudy.Instance">>}, list}}
@@ -6129,7 +6129,7 @@
     , <<"ImagingStudy.Performer">> => {<<"BackboneElement">>,
             [
             {<<"function">>, {{complex, <<"CodeableConcept">>}, optional}},
-            {<<"actor">>, {{complex, <<"Reference">>}, required}}
+            {<<"actor">>, {{special, <<"Reference">>}, required}}
             ],
             [],
             []
@@ -6159,15 +6159,15 @@
             {<<"status">>, {{code, <<"immunizationstatuscodes">>}, required}},
             {<<"statusReason">>, {{complex, <<"CodeableConcept">>}, optional}},
             {<<"vaccineCode">>, {{complex, <<"CodeableConcept">>}, required}},
-            {<<"patient">>, {{complex, <<"Reference">>}, required}},
-            {<<"encounter">>, {{complex, <<"Reference">>}, optional}},
+            {<<"patient">>, {{special, <<"Reference">>}, required}},
+            {<<"encounter">>, {{special, <<"Reference">>}, optional}},
             {<<"occurrenceDateTime">>, {{primitive, <<"dateTime">>}, required}},
             {<<"occurrenceString">>, {{primitive, <<"string">>}, required}},
             {<<"recorded">>, {{primitive, <<"dateTime">>}, optional}},
             {<<"primarySource">>, {{primitive, <<"boolean">>}, optional}},
             {<<"reportOrigin">>, {{complex, <<"CodeableConcept">>}, optional}},
-            {<<"location">>, {{complex, <<"Reference">>}, optional}},
-            {<<"manufacturer">>, {{complex, <<"Reference">>}, optional}},
+            {<<"location">>, {{special, <<"Reference">>}, optional}},
+            {<<"manufacturer">>, {{special, <<"Reference">>}, optional}},
             {<<"lotNumber">>, {{primitive, <<"string">>}, optional}},
             {<<"expirationDate">>, {{primitive, <<"date">>}, optional}},
             {<<"site">>, {{complex, <<"CodeableConcept">>}, optional}},
@@ -6176,7 +6176,7 @@
             {<<"performer">>, {{bbelement, <<"Immunization.Performer">>}, list}},
             {<<"note">>, {{complex, <<"Annotation">>}, list}},
             {<<"reasonCode">>, {{complex, <<"CodeableConcept">>}, list}},
-            {<<"reasonReference">>, {{complex, <<"Reference">>}, list}},
+            {<<"reasonReference">>, {{special, <<"Reference">>}, list}},
             {<<"isSubpotent">>, {{primitive, <<"boolean">>}, optional}},
             {<<"subpotentReason">>, {{complex, <<"CodeableConcept">>}, list}},
             {<<"education">>, {{bbelement, <<"Immunization.Education">>}, list}},
@@ -6197,7 +6197,7 @@
     , <<"Immunization.Performer">> => {<<"BackboneElement">>,
             [
             {<<"function">>, {{complex, <<"CodeableConcept">>}, optional}},
-            {<<"actor">>, {{complex, <<"Reference">>}, required}}
+            {<<"actor">>, {{special, <<"Reference">>}, required}}
             ],
             [],
             []
@@ -6223,7 +6223,7 @@
     , <<"Immunization.Reaction">> => {<<"BackboneElement">>,
             [
             {<<"date">>, {{primitive, <<"dateTime">>}, optional}},
-            {<<"detail">>, {{complex, <<"Reference">>}, optional}},
+            {<<"detail">>, {{special, <<"Reference">>}, optional}},
             {<<"reported">>, {{primitive, <<"boolean">>}, optional}}
             ],
             [],
@@ -6236,7 +6236,7 @@
     , <<"Immunization.ProtocolApplied">> => {<<"BackboneElement">>,
             [
             {<<"series">>, {{primitive, <<"string">>}, optional}},
-            {<<"authority">>, {{complex, <<"Reference">>}, optional}},
+            {<<"authority">>, {{special, <<"Reference">>}, optional}},
             {<<"targetDisease">>, {{complex, <<"CodeableConcept">>}, list}},
             {<<"doseNumberPositiveInt">>, {{primitive, <<"positiveInt">>}, required}},
             {<<"doseNumberString">>, {{primitive, <<"string">>}, required}},
@@ -6258,11 +6258,11 @@
             [
             {<<"identifier">>, {{complex, <<"Identifier">>}, list}},
             {<<"status">>, {{code, <<"immunizationevaluationstatuscodes">>}, required}},
-            {<<"patient">>, {{complex, <<"Reference">>}, required}},
+            {<<"patient">>, {{special, <<"Reference">>}, required}},
             {<<"date">>, {{primitive, <<"dateTime">>}, optional}},
-            {<<"authority">>, {{complex, <<"Reference">>}, optional}},
+            {<<"authority">>, {{special, <<"Reference">>}, optional}},
             {<<"targetDisease">>, {{complex, <<"CodeableConcept">>}, required}},
-            {<<"immunizationEvent">>, {{complex, <<"Reference">>}, required}},
+            {<<"immunizationEvent">>, {{special, <<"Reference">>}, required}},
             {<<"doseStatus">>, {{complex, <<"CodeableConcept">>}, required}},
             {<<"doseStatusReason">>, {{complex, <<"CodeableConcept">>}, list}},
             {<<"description">>, {{primitive, <<"string">>}, optional}},
@@ -6286,9 +6286,9 @@
     , <<"ImmunizationRecommendation">> => {<<"DomainResource">>,
             [
             {<<"identifier">>, {{complex, <<"Identifier">>}, list}},
-            {<<"patient">>, {{complex, <<"Reference">>}, required}},
+            {<<"patient">>, {{special, <<"Reference">>}, required}},
             {<<"date">>, {{primitive, <<"dateTime">>}, required}},
-            {<<"authority">>, {{complex, <<"Reference">>}, optional}},
+            {<<"authority">>, {{special, <<"Reference">>}, optional}},
             {<<"recommendation">>, {{bbelement, <<"ImmunizationRecommendation.Recommendation">>}, non_empty_list}}
             ],
             [],
@@ -6312,8 +6312,8 @@
             {<<"doseNumberString">>, {{primitive, <<"string">>}, optional}},
             {<<"seriesDosesPositiveInt">>, {{primitive, <<"positiveInt">>}, optional}},
             {<<"seriesDosesString">>, {{primitive, <<"string">>}, optional}},
-            {<<"supportingImmunization">>, {{complex, <<"Reference">>}, list}},
-            {<<"supportingPatientInformation">>, {{complex, <<"Reference">>}, list}}
+            {<<"supportingImmunization">>, {{special, <<"Reference">>}, list}},
+            {<<"supportingPatientInformation">>, {{special, <<"Reference">>}, list}}
             ],
             [],
             [
@@ -6422,7 +6422,7 @@
 %%
     , <<"ImplementationGuide.Resource">> => {<<"BackboneElement">>,
             [
-            {<<"reference">>, {{complex, <<"Reference">>}, required}},
+            {<<"reference">>, {{special, <<"Reference">>}, required}},
             {<<"fhirVersion">>, {{code, <<"fhirversion">>}, list}},
             {<<"name">>, {{primitive, <<"string">>}, optional}},
             {<<"description">>, {{primitive, <<"string">>}, optional}},
@@ -6442,7 +6442,7 @@
     , <<"ImplementationGuide.Page">> => {<<"BackboneElement">>,
             [
             {<<"nameUrl">>, {{primitive, <<"url">>}, required}},
-            {<<"nameReference">>, {{complex, <<"Reference">>}, required}},
+            {<<"nameReference">>, {{special, <<"Reference">>}, required}},
             {<<"title">>, {{primitive, <<"string">>}, required}},
             {<<"generation">>, {{code, <<"guidepagegeneration">>}, required}},
             {<<"page">>, {{bbelement, <<"ImplementationGuide.Page">>}, list}}
@@ -6498,7 +6498,7 @@
 %%
     , <<"ImplementationGuide.Resource1">> => {<<"BackboneElement">>,
             [
-            {<<"reference">>, {{complex, <<"Reference">>}, required}},
+            {<<"reference">>, {{special, <<"Reference">>}, required}},
             {<<"exampleBoolean">>, {{primitive, <<"boolean">>}, optional}},
             {<<"exampleCanonical">>, {{primitive, <<"canonical">>}, optional}},
             {<<"relativePath">>, {{primitive, <<"url">>}, optional}}
@@ -6534,12 +6534,12 @@
             {<<"name">>, {{primitive, <<"string">>}, optional}},
             {<<"alias">>, {{primitive, <<"string">>}, list}},
             {<<"period">>, {{complex, <<"Period">>}, optional}},
-            {<<"ownedBy">>, {{complex, <<"Reference">>}, optional}},
-            {<<"administeredBy">>, {{complex, <<"Reference">>}, optional}},
-            {<<"coverageArea">>, {{complex, <<"Reference">>}, list}},
+            {<<"ownedBy">>, {{special, <<"Reference">>}, optional}},
+            {<<"administeredBy">>, {{special, <<"Reference">>}, optional}},
+            {<<"coverageArea">>, {{special, <<"Reference">>}, list}},
             {<<"contact">>, {{bbelement, <<"InsurancePlan.Contact">>}, list}},
-            {<<"endpoint">>, {{complex, <<"Reference">>}, list}},
-            {<<"network">>, {{complex, <<"Reference">>}, list}},
+            {<<"endpoint">>, {{special, <<"Reference">>}, list}},
+            {<<"network">>, {{special, <<"Reference">>}, list}},
             {<<"coverage">>, {{bbelement, <<"InsurancePlan.Coverage">>}, list}},
             {<<"plan">>, {{bbelement, <<"InsurancePlan.Plan">>}, list}}
             ],
@@ -6567,7 +6567,7 @@
     , <<"InsurancePlan.Coverage">> => {<<"BackboneElement">>,
             [
             {<<"type">>, {{complex, <<"CodeableConcept">>}, required}},
-            {<<"network">>, {{complex, <<"Reference">>}, list}},
+            {<<"network">>, {{special, <<"Reference">>}, list}},
             {<<"benefit">>, {{bbelement, <<"InsurancePlan.Benefit">>}, non_empty_list}}
             ],
             [],
@@ -6606,8 +6606,8 @@
             [
             {<<"identifier">>, {{complex, <<"Identifier">>}, list}},
             {<<"type">>, {{complex, <<"CodeableConcept">>}, optional}},
-            {<<"coverageArea">>, {{complex, <<"Reference">>}, list}},
-            {<<"network">>, {{complex, <<"Reference">>}, list}},
+            {<<"coverageArea">>, {{special, <<"Reference">>}, list}},
+            {<<"network">>, {{special, <<"Reference">>}, list}},
             {<<"generalCost">>, {{bbelement, <<"InsurancePlan.GeneralCost">>}, list}},
             {<<"specificCost">>, {{bbelement, <<"InsurancePlan.SpecificCost">>}, list}}
             ],
@@ -6677,12 +6677,12 @@
             {<<"status">>, {{code, <<"invoicestatus">>}, required}},
             {<<"cancelledReason">>, {{primitive, <<"string">>}, optional}},
             {<<"type">>, {{complex, <<"CodeableConcept">>}, optional}},
-            {<<"subject">>, {{complex, <<"Reference">>}, optional}},
-            {<<"recipient">>, {{complex, <<"Reference">>}, optional}},
+            {<<"subject">>, {{special, <<"Reference">>}, optional}},
+            {<<"recipient">>, {{special, <<"Reference">>}, optional}},
             {<<"date">>, {{primitive, <<"dateTime">>}, optional}},
             {<<"participant">>, {{bbelement, <<"Invoice.Participant">>}, list}},
-            {<<"issuer">>, {{complex, <<"Reference">>}, optional}},
-            {<<"account">>, {{complex, <<"Reference">>}, optional}},
+            {<<"issuer">>, {{special, <<"Reference">>}, optional}},
+            {<<"account">>, {{special, <<"Reference">>}, optional}},
             {<<"lineItem">>, {{bbelement, <<"Invoice.LineItem">>}, list}},
             {<<"totalPriceComponent">>, {{bbelement, <<"Invoice.PriceComponent">>}, list}},
             {<<"totalNet">>, {{complex, <<"Money">>}, optional}},
@@ -6700,7 +6700,7 @@
     , <<"Invoice.Participant">> => {<<"BackboneElement">>,
             [
             {<<"role">>, {{complex, <<"CodeableConcept">>}, optional}},
-            {<<"actor">>, {{complex, <<"Reference">>}, required}}
+            {<<"actor">>, {{special, <<"Reference">>}, required}}
             ],
             [],
             []
@@ -6712,7 +6712,7 @@
     , <<"Invoice.LineItem">> => {<<"BackboneElement">>,
             [
             {<<"sequence">>, {{primitive, <<"positiveInt">>}, optional}},
-            {<<"chargeItemReference">>, {{complex, <<"Reference">>}, required}},
+            {<<"chargeItemReference">>, {{special, <<"Reference">>}, required}},
             {<<"chargeItemCodeableConcept">>, {{complex, <<"CodeableConcept">>}, required}},
             {<<"priceComponent">>, {{bbelement, <<"Invoice.PriceComponent">>}, list}}
             ],
@@ -6752,7 +6752,7 @@
             {<<"experimental">>, {{primitive, <<"boolean">>}, optional}},
             {<<"type">>, {{complex, <<"CodeableConcept">>}, required}},
             {<<"subjectCodeableConcept">>, {{complex, <<"CodeableConcept">>}, optional}},
-            {<<"subjectReference">>, {{complex, <<"Reference">>}, optional}},
+            {<<"subjectReference">>, {{special, <<"Reference">>}, optional}},
             {<<"date">>, {{primitive, <<"dateTime">>}, optional}},
             {<<"publisher">>, {{primitive, <<"string">>}, optional}},
             {<<"contact">>, {{complex, <<"ContactDetail">>}, list}},
@@ -6788,7 +6788,7 @@
     , <<"Linkage">> => {<<"DomainResource">>,
             [
             {<<"active">>, {{primitive, <<"boolean">>}, optional}},
-            {<<"author">>, {{complex, <<"Reference">>}, optional}},
+            {<<"author">>, {{special, <<"Reference">>}, optional}},
             {<<"item">>, {{bbelement, <<"Linkage.Item">>}, non_empty_list}}
             ],
             [],
@@ -6801,7 +6801,7 @@
     , <<"Linkage.Item">> => {<<"BackboneElement">>,
             [
             {<<"type">>, {{code, <<"linkagetype">>}, required}},
-            {<<"resource">>, {{complex, <<"Reference">>}, required}}
+            {<<"resource">>, {{special, <<"Reference">>}, required}}
             ],
             [],
             []
@@ -6818,10 +6818,10 @@
             {<<"mode">>, {{code, <<"listmode">>}, required}},
             {<<"title">>, {{primitive, <<"string">>}, optional}},
             {<<"code">>, {{complex, <<"CodeableConcept">>}, optional}},
-            {<<"subject">>, {{complex, <<"Reference">>}, optional}},
-            {<<"encounter">>, {{complex, <<"Reference">>}, optional}},
+            {<<"subject">>, {{special, <<"Reference">>}, optional}},
+            {<<"encounter">>, {{special, <<"Reference">>}, optional}},
             {<<"date">>, {{primitive, <<"dateTime">>}, optional}},
-            {<<"source">>, {{complex, <<"Reference">>}, optional}},
+            {<<"source">>, {{special, <<"Reference">>}, optional}},
             {<<"orderedBy">>, {{complex, <<"CodeableConcept">>}, optional}},
             {<<"note">>, {{complex, <<"Annotation">>}, list}},
             {<<"entry">>, {{bbelement, <<"List.Entry">>}, list}},
@@ -6839,7 +6839,7 @@
             {<<"flag">>, {{complex, <<"CodeableConcept">>}, optional}},
             {<<"deleted">>, {{primitive, <<"boolean">>}, optional}},
             {<<"date">>, {{primitive, <<"dateTime">>}, optional}},
-            {<<"item">>, {{complex, <<"Reference">>}, required}}
+            {<<"item">>, {{special, <<"Reference">>}, required}}
             ],
             [],
             []
@@ -6863,11 +6863,11 @@
             {<<"address">>, {{complex, <<"Address">>}, optional}},
             {<<"physicalType">>, {{complex, <<"CodeableConcept">>}, optional}},
             {<<"position">>, {{bbelement, <<"Location.Position">>}, optional}},
-            {<<"managingOrganization">>, {{complex, <<"Reference">>}, optional}},
-            {<<"partOf">>, {{complex, <<"Reference">>}, optional}},
+            {<<"managingOrganization">>, {{special, <<"Reference">>}, optional}},
+            {<<"partOf">>, {{special, <<"Reference">>}, optional}},
             {<<"hoursOfOperation">>, {{bbelement, <<"Location.HoursOfOperation">>}, list}},
             {<<"availabilityExceptions">>, {{primitive, <<"string">>}, optional}},
-            {<<"endpoint">>, {{complex, <<"Reference">>}, list}}
+            {<<"endpoint">>, {{special, <<"Reference">>}, list}}
             ],
             [],
             []
@@ -6915,7 +6915,7 @@
             {<<"status">>, {{code, <<"publicationstatus">>}, required}},
             {<<"experimental">>, {{primitive, <<"boolean">>}, optional}},
             {<<"subjectCodeableConcept">>, {{complex, <<"CodeableConcept">>}, optional}},
-            {<<"subjectReference">>, {{complex, <<"Reference">>}, optional}},
+            {<<"subjectReference">>, {{special, <<"Reference">>}, optional}},
             {<<"date">>, {{primitive, <<"dateTime">>}, optional}},
             {<<"publisher">>, {{primitive, <<"string">>}, optional}},
             {<<"contact">>, {{complex, <<"ContactDetail">>}, list}},
@@ -7033,13 +7033,13 @@
             {<<"status">>, {{code, <<"measurereportstatus">>}, required}},
             {<<"type">>, {{code, <<"measurereporttype">>}, required}},
             {<<"measure">>, {{primitive, <<"canonical">>}, required}},
-            {<<"subject">>, {{complex, <<"Reference">>}, optional}},
+            {<<"subject">>, {{special, <<"Reference">>}, optional}},
             {<<"date">>, {{primitive, <<"dateTime">>}, optional}},
-            {<<"reporter">>, {{complex, <<"Reference">>}, optional}},
+            {<<"reporter">>, {{special, <<"Reference">>}, optional}},
             {<<"period">>, {{complex, <<"Period">>}, required}},
             {<<"improvementNotation">>, {{complex, <<"CodeableConcept">>}, optional}},
             {<<"group">>, {{bbelement, <<"MeasureReport.Group">>}, list}},
-            {<<"evaluatedResource">>, {{complex, <<"Reference">>}, list}}
+            {<<"evaluatedResource">>, {{special, <<"Reference">>}, list}}
             ],
             [],
             []
@@ -7066,7 +7066,7 @@
             [
             {<<"code">>, {{complex, <<"CodeableConcept">>}, optional}},
             {<<"count">>, {{primitive, <<"integer">>}, optional}},
-            {<<"subjectResults">>, {{complex, <<"Reference">>}, optional}}
+            {<<"subjectResults">>, {{special, <<"Reference">>}, optional}}
             ],
             [],
             []
@@ -7117,7 +7117,7 @@
             [
             {<<"code">>, {{complex, <<"CodeableConcept">>}, optional}},
             {<<"count">>, {{primitive, <<"integer">>}, optional}},
-            {<<"subjectResults">>, {{complex, <<"Reference">>}, optional}}
+            {<<"subjectResults">>, {{special, <<"Reference">>}, optional}}
             ],
             [],
             []
@@ -7130,22 +7130,22 @@
     , <<"Media">> => {<<"DomainResource">>,
             [
             {<<"identifier">>, {{complex, <<"Identifier">>}, list}},
-            {<<"basedOn">>, {{complex, <<"Reference">>}, list}},
-            {<<"partOf">>, {{complex, <<"Reference">>}, list}},
+            {<<"basedOn">>, {{special, <<"Reference">>}, list}},
+            {<<"partOf">>, {{special, <<"Reference">>}, list}},
             {<<"status">>, {{code, <<"eventstatus">>}, required}},
             {<<"type">>, {{complex, <<"CodeableConcept">>}, optional}},
             {<<"modality">>, {{complex, <<"CodeableConcept">>}, optional}},
             {<<"view">>, {{complex, <<"CodeableConcept">>}, optional}},
-            {<<"subject">>, {{complex, <<"Reference">>}, optional}},
-            {<<"encounter">>, {{complex, <<"Reference">>}, optional}},
+            {<<"subject">>, {{special, <<"Reference">>}, optional}},
+            {<<"encounter">>, {{special, <<"Reference">>}, optional}},
             {<<"createdDateTime">>, {{primitive, <<"dateTime">>}, optional}},
             {<<"createdPeriod">>, {{complex, <<"Period">>}, optional}},
             {<<"issued">>, {{primitive, <<"instant">>}, optional}},
-            {<<"operator">>, {{complex, <<"Reference">>}, optional}},
+            {<<"operator">>, {{special, <<"Reference">>}, optional}},
             {<<"reasonCode">>, {{complex, <<"CodeableConcept">>}, list}},
             {<<"bodySite">>, {{complex, <<"CodeableConcept">>}, optional}},
             {<<"deviceName">>, {{primitive, <<"string">>}, optional}},
-            {<<"device">>, {{complex, <<"Reference">>}, optional}},
+            {<<"device">>, {{special, <<"Reference">>}, optional}},
             {<<"height">>, {{primitive, <<"positiveInt">>}, optional}},
             {<<"width">>, {{primitive, <<"positiveInt">>}, optional}},
             {<<"frames">>, {{primitive, <<"positiveInt">>}, optional}},
@@ -7168,7 +7168,7 @@
             {<<"identifier">>, {{complex, <<"Identifier">>}, list}},
             {<<"code">>, {{complex, <<"CodeableConcept">>}, optional}},
             {<<"status">>, {{code, <<"medicationstatuscodes">>}, optional}},
-            {<<"manufacturer">>, {{complex, <<"Reference">>}, optional}},
+            {<<"manufacturer">>, {{special, <<"Reference">>}, optional}},
             {<<"form">>, {{complex, <<"CodeableConcept">>}, optional}},
             {<<"amount">>, {{complex, <<"Ratio">>}, optional}},
             {<<"ingredient">>, {{bbelement, <<"Medication.Ingredient">>}, list}},
@@ -7184,7 +7184,7 @@
     , <<"Medication.Ingredient">> => {<<"BackboneElement">>,
             [
             {<<"itemCodeableConcept">>, {{complex, <<"CodeableConcept">>}, required}},
-            {<<"itemReference">>, {{complex, <<"Reference">>}, required}},
+            {<<"itemReference">>, {{special, <<"Reference">>}, required}},
             {<<"isActive">>, {{primitive, <<"boolean">>}, optional}},
             {<<"strength">>, {{complex, <<"Ratio">>}, optional}}
             ],
@@ -7214,25 +7214,25 @@
             [
             {<<"identifier">>, {{complex, <<"Identifier">>}, list}},
             {<<"instantiates">>, {{primitive, <<"uri">>}, list}},
-            {<<"partOf">>, {{complex, <<"Reference">>}, list}},
+            {<<"partOf">>, {{special, <<"Reference">>}, list}},
             {<<"status">>, {{primitive, <<"code">>}, required}},
             {<<"statusReason">>, {{complex, <<"CodeableConcept">>}, list}},
             {<<"category">>, {{complex, <<"CodeableConcept">>}, optional}},
             {<<"medicationCodeableConcept">>, {{complex, <<"CodeableConcept">>}, required}},
-            {<<"medicationReference">>, {{complex, <<"Reference">>}, required}},
-            {<<"subject">>, {{complex, <<"Reference">>}, required}},
-            {<<"context">>, {{complex, <<"Reference">>}, optional}},
-            {<<"supportingInformation">>, {{complex, <<"Reference">>}, list}},
+            {<<"medicationReference">>, {{special, <<"Reference">>}, required}},
+            {<<"subject">>, {{special, <<"Reference">>}, required}},
+            {<<"context">>, {{special, <<"Reference">>}, optional}},
+            {<<"supportingInformation">>, {{special, <<"Reference">>}, list}},
             {<<"effectiveDateTime">>, {{primitive, <<"dateTime">>}, required}},
             {<<"effectivePeriod">>, {{complex, <<"Period">>}, required}},
             {<<"performer">>, {{bbelement, <<"MedicationAdministration.Performer">>}, list}},
             {<<"reasonCode">>, {{complex, <<"CodeableConcept">>}, list}},
-            {<<"reasonReference">>, {{complex, <<"Reference">>}, list}},
-            {<<"request">>, {{complex, <<"Reference">>}, optional}},
-            {<<"device">>, {{complex, <<"Reference">>}, list}},
+            {<<"reasonReference">>, {{special, <<"Reference">>}, list}},
+            {<<"request">>, {{special, <<"Reference">>}, optional}},
+            {<<"device">>, {{special, <<"Reference">>}, list}},
             {<<"note">>, {{complex, <<"Annotation">>}, list}},
             {<<"dosage">>, {{bbelement, <<"MedicationAdministration.Dosage">>}, optional}},
-            {<<"eventHistory">>, {{complex, <<"Reference">>}, list}}
+            {<<"eventHistory">>, {{special, <<"Reference">>}, list}}
             ],
             [],
             [
@@ -7247,7 +7247,7 @@
     , <<"MedicationAdministration.Performer">> => {<<"BackboneElement">>,
             [
             {<<"function">>, {{complex, <<"CodeableConcept">>}, optional}},
-            {<<"actor">>, {{complex, <<"Reference">>}, required}}
+            {<<"actor">>, {{special, <<"Reference">>}, required}}
             ],
             [],
             []
@@ -7279,31 +7279,31 @@
     , <<"MedicationDispense">> => {<<"DomainResource">>,
             [
             {<<"identifier">>, {{complex, <<"Identifier">>}, list}},
-            {<<"partOf">>, {{complex, <<"Reference">>}, list}},
+            {<<"partOf">>, {{special, <<"Reference">>}, list}},
             {<<"status">>, {{primitive, <<"code">>}, required}},
             {<<"statusReasonCodeableConcept">>, {{complex, <<"CodeableConcept">>}, optional}},
-            {<<"statusReasonReference">>, {{complex, <<"Reference">>}, optional}},
+            {<<"statusReasonReference">>, {{special, <<"Reference">>}, optional}},
             {<<"category">>, {{complex, <<"CodeableConcept">>}, optional}},
             {<<"medicationCodeableConcept">>, {{complex, <<"CodeableConcept">>}, required}},
-            {<<"medicationReference">>, {{complex, <<"Reference">>}, required}},
-            {<<"subject">>, {{complex, <<"Reference">>}, optional}},
-            {<<"context">>, {{complex, <<"Reference">>}, optional}},
-            {<<"supportingInformation">>, {{complex, <<"Reference">>}, list}},
+            {<<"medicationReference">>, {{special, <<"Reference">>}, required}},
+            {<<"subject">>, {{special, <<"Reference">>}, optional}},
+            {<<"context">>, {{special, <<"Reference">>}, optional}},
+            {<<"supportingInformation">>, {{special, <<"Reference">>}, list}},
             {<<"performer">>, {{bbelement, <<"MedicationDispense.Performer">>}, list}},
-            {<<"location">>, {{complex, <<"Reference">>}, optional}},
-            {<<"authorizingPrescription">>, {{complex, <<"Reference">>}, list}},
+            {<<"location">>, {{special, <<"Reference">>}, optional}},
+            {<<"authorizingPrescription">>, {{special, <<"Reference">>}, list}},
             {<<"type">>, {{complex, <<"CodeableConcept">>}, optional}},
             {<<"quantity">>, {{complex, <<"Quantity">>}, optional}},
             {<<"daysSupply">>, {{complex, <<"Quantity">>}, optional}},
             {<<"whenPrepared">>, {{primitive, <<"dateTime">>}, optional}},
             {<<"whenHandedOver">>, {{primitive, <<"dateTime">>}, optional}},
-            {<<"destination">>, {{complex, <<"Reference">>}, optional}},
-            {<<"receiver">>, {{complex, <<"Reference">>}, list}},
+            {<<"destination">>, {{special, <<"Reference">>}, optional}},
+            {<<"receiver">>, {{special, <<"Reference">>}, list}},
             {<<"note">>, {{complex, <<"Annotation">>}, list}},
             {<<"dosageInstruction">>, {{bbelement, <<"Dosage">>}, list}},
             {<<"substitution">>, {{bbelement, <<"MedicationDispense.Substitution">>}, optional}},
-            {<<"detectedIssue">>, {{complex, <<"Reference">>}, list}},
-            {<<"eventHistory">>, {{complex, <<"Reference">>}, list}}
+            {<<"detectedIssue">>, {{special, <<"Reference">>}, list}},
+            {<<"eventHistory">>, {{special, <<"Reference">>}, list}}
             ],
             [],
             [
@@ -7318,7 +7318,7 @@
     , <<"MedicationDispense.Performer">> => {<<"BackboneElement">>,
             [
             {<<"function">>, {{complex, <<"CodeableConcept">>}, optional}},
-            {<<"actor">>, {{complex, <<"Reference">>}, required}}
+            {<<"actor">>, {{special, <<"Reference">>}, required}}
             ],
             [],
             []
@@ -7332,7 +7332,7 @@
             {<<"wasSubstituted">>, {{primitive, <<"boolean">>}, required}},
             {<<"type">>, {{complex, <<"CodeableConcept">>}, optional}},
             {<<"reason">>, {{complex, <<"CodeableConcept">>}, list}},
-            {<<"responsibleParty">>, {{complex, <<"Reference">>}, list}}
+            {<<"responsibleParty">>, {{special, <<"Reference">>}, list}}
             ],
             [],
             []
@@ -7346,12 +7346,12 @@
             [
             {<<"code">>, {{complex, <<"CodeableConcept">>}, optional}},
             {<<"status">>, {{primitive, <<"code">>}, optional}},
-            {<<"manufacturer">>, {{complex, <<"Reference">>}, optional}},
+            {<<"manufacturer">>, {{special, <<"Reference">>}, optional}},
             {<<"doseForm">>, {{complex, <<"CodeableConcept">>}, optional}},
             {<<"amount">>, {{complex, <<"Quantity">>}, optional}},
             {<<"synonym">>, {{primitive, <<"string">>}, list}},
             {<<"relatedMedicationKnowledge">>, {{bbelement, <<"MedicationKnowledge.RelatedMedicationKnowledge">>}, list}},
-            {<<"associatedMedication">>, {{complex, <<"Reference">>}, list}},
+            {<<"associatedMedication">>, {{special, <<"Reference">>}, list}},
             {<<"productType">>, {{complex, <<"CodeableConcept">>}, list}},
             {<<"monograph">>, {{bbelement, <<"MedicationKnowledge.Monograph">>}, list}},
             {<<"ingredient">>, {{bbelement, <<"MedicationKnowledge.Ingredient">>}, list}},
@@ -7363,7 +7363,7 @@
             {<<"medicineClassification">>, {{bbelement, <<"MedicationKnowledge.MedicineClassification">>}, list}},
             {<<"packaging">>, {{bbelement, <<"MedicationKnowledge.Packaging">>}, optional}},
             {<<"drugCharacteristic">>, {{bbelement, <<"MedicationKnowledge.DrugCharacteristic">>}, list}},
-            {<<"contraindication">>, {{complex, <<"Reference">>}, list}},
+            {<<"contraindication">>, {{special, <<"Reference">>}, list}},
             {<<"regulatory">>, {{bbelement, <<"MedicationKnowledge.Regulatory">>}, list}},
             {<<"kinetics">>, {{bbelement, <<"MedicationKnowledge.Kinetics">>}, list}}
             ],
@@ -7377,7 +7377,7 @@
     , <<"MedicationKnowledge.RelatedMedicationKnowledge">> => {<<"BackboneElement">>,
             [
             {<<"type">>, {{complex, <<"CodeableConcept">>}, required}},
-            {<<"reference">>, {{complex, <<"Reference">>}, non_empty_list}}
+            {<<"reference">>, {{special, <<"Reference">>}, non_empty_list}}
             ],
             [],
             []
@@ -7389,7 +7389,7 @@
     , <<"MedicationKnowledge.Monograph">> => {<<"BackboneElement">>,
             [
             {<<"type">>, {{complex, <<"CodeableConcept">>}, optional}},
-            {<<"source">>, {{complex, <<"Reference">>}, optional}}
+            {<<"source">>, {{special, <<"Reference">>}, optional}}
             ],
             [],
             []
@@ -7401,7 +7401,7 @@
     , <<"MedicationKnowledge.Ingredient">> => {<<"BackboneElement">>,
             [
             {<<"itemCodeableConcept">>, {{complex, <<"CodeableConcept">>}, required}},
-            {<<"itemReference">>, {{complex, <<"Reference">>}, required}},
+            {<<"itemReference">>, {{special, <<"Reference">>}, required}},
             {<<"isActive">>, {{primitive, <<"boolean">>}, optional}},
             {<<"strength">>, {{complex, <<"Ratio">>}, optional}}
             ],
@@ -7443,7 +7443,7 @@
             [
             {<<"dosage">>, {{bbelement, <<"MedicationKnowledge.Dosage">>}, list}},
             {<<"indicationCodeableConcept">>, {{complex, <<"CodeableConcept">>}, optional}},
-            {<<"indicationReference">>, {{complex, <<"Reference">>}, optional}},
+            {<<"indicationReference">>, {{special, <<"Reference">>}, optional}},
             {<<"patientCharacteristics">>, {{bbelement, <<"MedicationKnowledge.PatientCharacteristics">>}, list}}
             ],
             [],
@@ -7525,7 +7525,7 @@
 %%
     , <<"MedicationKnowledge.Regulatory">> => {<<"BackboneElement">>,
             [
-            {<<"regulatoryAuthority">>, {{complex, <<"Reference">>}, required}},
+            {<<"regulatoryAuthority">>, {{special, <<"Reference">>}, required}},
             {<<"substitution">>, {{bbelement, <<"MedicationKnowledge.Substitution">>}, list}},
             {<<"schedule">>, {{bbelement, <<"MedicationKnowledge.Schedule">>}, list}},
             {<<"maxDispense">>, {{bbelement, <<"MedicationKnowledge.MaxDispense">>}, optional}}
@@ -7596,32 +7596,32 @@
             {<<"priority">>, {{code, <<"requestpriority">>}, optional}},
             {<<"doNotPerform">>, {{primitive, <<"boolean">>}, optional}},
             {<<"reportedBoolean">>, {{primitive, <<"boolean">>}, optional}},
-            {<<"reportedReference">>, {{complex, <<"Reference">>}, optional}},
+            {<<"reportedReference">>, {{special, <<"Reference">>}, optional}},
             {<<"medicationCodeableConcept">>, {{complex, <<"CodeableConcept">>}, required}},
-            {<<"medicationReference">>, {{complex, <<"Reference">>}, required}},
-            {<<"subject">>, {{complex, <<"Reference">>}, required}},
-            {<<"encounter">>, {{complex, <<"Reference">>}, optional}},
-            {<<"supportingInformation">>, {{complex, <<"Reference">>}, list}},
+            {<<"medicationReference">>, {{special, <<"Reference">>}, required}},
+            {<<"subject">>, {{special, <<"Reference">>}, required}},
+            {<<"encounter">>, {{special, <<"Reference">>}, optional}},
+            {<<"supportingInformation">>, {{special, <<"Reference">>}, list}},
             {<<"authoredOn">>, {{primitive, <<"dateTime">>}, optional}},
-            {<<"requester">>, {{complex, <<"Reference">>}, optional}},
-            {<<"performer">>, {{complex, <<"Reference">>}, optional}},
+            {<<"requester">>, {{special, <<"Reference">>}, optional}},
+            {<<"performer">>, {{special, <<"Reference">>}, optional}},
             {<<"performerType">>, {{complex, <<"CodeableConcept">>}, optional}},
-            {<<"recorder">>, {{complex, <<"Reference">>}, optional}},
+            {<<"recorder">>, {{special, <<"Reference">>}, optional}},
             {<<"reasonCode">>, {{complex, <<"CodeableConcept">>}, list}},
-            {<<"reasonReference">>, {{complex, <<"Reference">>}, list}},
+            {<<"reasonReference">>, {{special, <<"Reference">>}, list}},
             {<<"instantiatesCanonical">>, {{primitive, <<"canonical">>}, list}},
             {<<"instantiatesUri">>, {{primitive, <<"uri">>}, list}},
-            {<<"basedOn">>, {{complex, <<"Reference">>}, list}},
+            {<<"basedOn">>, {{special, <<"Reference">>}, list}},
             {<<"groupIdentifier">>, {{complex, <<"Identifier">>}, optional}},
             {<<"courseOfTherapyType">>, {{complex, <<"CodeableConcept">>}, optional}},
-            {<<"insurance">>, {{complex, <<"Reference">>}, list}},
+            {<<"insurance">>, {{special, <<"Reference">>}, list}},
             {<<"note">>, {{complex, <<"Annotation">>}, list}},
             {<<"dosageInstruction">>, {{bbelement, <<"Dosage">>}, list}},
             {<<"dispenseRequest">>, {{bbelement, <<"MedicationRequest.DispenseRequest">>}, optional}},
             {<<"substitution">>, {{bbelement, <<"MedicationRequest.Substitution">>}, optional}},
-            {<<"priorPrescription">>, {{complex, <<"Reference">>}, optional}},
-            {<<"detectedIssue">>, {{complex, <<"Reference">>}, list}},
-            {<<"eventHistory">>, {{complex, <<"Reference">>}, list}}
+            {<<"priorPrescription">>, {{special, <<"Reference">>}, optional}},
+            {<<"detectedIssue">>, {{special, <<"Reference">>}, list}},
+            {<<"eventHistory">>, {{special, <<"Reference">>}, list}}
             ],
             [],
             [
@@ -7641,7 +7641,7 @@
             {<<"numberOfRepeatsAllowed">>, {{primitive, <<"unsignedInt">>}, optional}},
             {<<"quantity">>, {{complex, <<"Quantity">>}, optional}},
             {<<"expectedSupplyDuration">>, {{complex, <<"Duration">>}, optional}},
-            {<<"performer">>, {{complex, <<"Reference">>}, optional}}
+            {<<"performer">>, {{special, <<"Reference">>}, optional}}
             ],
             [],
             []
@@ -7684,22 +7684,22 @@
     , <<"MedicationStatement">> => {<<"DomainResource">>,
             [
             {<<"identifier">>, {{complex, <<"Identifier">>}, list}},
-            {<<"basedOn">>, {{complex, <<"Reference">>}, list}},
-            {<<"partOf">>, {{complex, <<"Reference">>}, list}},
+            {<<"basedOn">>, {{special, <<"Reference">>}, list}},
+            {<<"partOf">>, {{special, <<"Reference">>}, list}},
             {<<"status">>, {{code, <<"medicationstatuscodes">>}, required}},
             {<<"statusReason">>, {{complex, <<"CodeableConcept">>}, list}},
             {<<"category">>, {{complex, <<"CodeableConcept">>}, optional}},
             {<<"medicationCodeableConcept">>, {{complex, <<"CodeableConcept">>}, required}},
-            {<<"medicationReference">>, {{complex, <<"Reference">>}, required}},
-            {<<"subject">>, {{complex, <<"Reference">>}, required}},
-            {<<"context">>, {{complex, <<"Reference">>}, optional}},
+            {<<"medicationReference">>, {{special, <<"Reference">>}, required}},
+            {<<"subject">>, {{special, <<"Reference">>}, required}},
+            {<<"context">>, {{special, <<"Reference">>}, optional}},
             {<<"effectiveDateTime">>, {{primitive, <<"dateTime">>}, optional}},
             {<<"effectivePeriod">>, {{complex, <<"Period">>}, optional}},
             {<<"dateAsserted">>, {{primitive, <<"dateTime">>}, optional}},
-            {<<"informationSource">>, {{complex, <<"Reference">>}, optional}},
-            {<<"derivedFrom">>, {{complex, <<"Reference">>}, list}},
+            {<<"informationSource">>, {{special, <<"Reference">>}, optional}},
+            {<<"derivedFrom">>, {{special, <<"Reference">>}, list}},
             {<<"reasonCode">>, {{complex, <<"CodeableConcept">>}, list}},
-            {<<"reasonReference">>, {{complex, <<"Reference">>}, list}},
+            {<<"reasonReference">>, {{special, <<"Reference">>}, list}},
             {<<"note">>, {{complex, <<"Annotation">>}, list}},
             {<<"dosage">>, {{bbelement, <<"Dosage">>}, list}}
             ],
@@ -7726,12 +7726,12 @@
             {<<"paediatricUseIndicator">>, {{complex, <<"CodeableConcept">>}, optional}},
             {<<"productClassification">>, {{complex, <<"CodeableConcept">>}, list}},
             {<<"marketingStatus">>, {{bbelement, <<"MarketingStatus">>}, list}},
-            {<<"pharmaceuticalProduct">>, {{complex, <<"Reference">>}, list}},
-            {<<"packagedMedicinalProduct">>, {{complex, <<"Reference">>}, list}},
-            {<<"attachedDocument">>, {{complex, <<"Reference">>}, list}},
-            {<<"masterFile">>, {{complex, <<"Reference">>}, list}},
-            {<<"contact">>, {{complex, <<"Reference">>}, list}},
-            {<<"clinicalTrial">>, {{complex, <<"Reference">>}, list}},
+            {<<"pharmaceuticalProduct">>, {{special, <<"Reference">>}, list}},
+            {<<"packagedMedicinalProduct">>, {{special, <<"Reference">>}, list}},
+            {<<"attachedDocument">>, {{special, <<"Reference">>}, list}},
+            {<<"masterFile">>, {{special, <<"Reference">>}, list}},
+            {<<"contact">>, {{special, <<"Reference">>}, list}},
+            {<<"clinicalTrial">>, {{special, <<"Reference">>}, list}},
             {<<"name">>, {{bbelement, <<"MedicinalProduct.Name">>}, non_empty_list}},
             {<<"crossReference">>, {{complex, <<"Identifier">>}, list}},
             {<<"manufacturingBusinessOperation">>, {{bbelement, <<"MedicinalProduct.ManufacturingBusinessOperation">>}, list}},
@@ -7788,8 +7788,8 @@
             {<<"authorisationReferenceNumber">>, {{complex, <<"Identifier">>}, optional}},
             {<<"effectiveDate">>, {{primitive, <<"dateTime">>}, optional}},
             {<<"confidentialityIndicator">>, {{complex, <<"CodeableConcept">>}, optional}},
-            {<<"manufacturer">>, {{complex, <<"Reference">>}, list}},
-            {<<"regulator">>, {{complex, <<"Reference">>}, optional}}
+            {<<"manufacturer">>, {{special, <<"Reference">>}, list}},
+            {<<"regulator">>, {{special, <<"Reference">>}, optional}}
             ],
             [],
             []
@@ -7804,7 +7804,7 @@
             {<<"type">>, {{complex, <<"CodeableConcept">>}, optional}},
             {<<"intendedUse">>, {{complex, <<"CodeableConcept">>}, optional}},
             {<<"indicationCodeableConcept">>, {{complex, <<"CodeableConcept">>}, optional}},
-            {<<"indicationReference">>, {{complex, <<"Reference">>}, optional}},
+            {<<"indicationReference">>, {{special, <<"Reference">>}, optional}},
             {<<"status">>, {{complex, <<"CodeableConcept">>}, optional}},
             {<<"date">>, {{primitive, <<"dateTime">>}, optional}},
             {<<"species">>, {{complex, <<"CodeableConcept">>}, optional}}
@@ -7822,7 +7822,7 @@
     , <<"MedicinalProductAuthorization">> => {<<"DomainResource">>,
             [
             {<<"identifier">>, {{complex, <<"Identifier">>}, list}},
-            {<<"subject">>, {{complex, <<"Reference">>}, optional}},
+            {<<"subject">>, {{special, <<"Reference">>}, optional}},
             {<<"country">>, {{complex, <<"CodeableConcept">>}, list}},
             {<<"jurisdiction">>, {{complex, <<"CodeableConcept">>}, list}},
             {<<"status">>, {{complex, <<"CodeableConcept">>}, optional}},
@@ -7834,8 +7834,8 @@
             {<<"internationalBirthDate">>, {{primitive, <<"dateTime">>}, optional}},
             {<<"legalBasis">>, {{complex, <<"CodeableConcept">>}, optional}},
             {<<"jurisdictionalAuthorization">>, {{bbelement, <<"MedicinalProductAuthorization.JurisdictionalAuthorization">>}, list}},
-            {<<"holder">>, {{complex, <<"Reference">>}, optional}},
-            {<<"regulator">>, {{complex, <<"Reference">>}, optional}},
+            {<<"holder">>, {{special, <<"Reference">>}, optional}},
+            {<<"regulator">>, {{special, <<"Reference">>}, optional}},
             {<<"procedure">>, {{bbelement, <<"MedicinalProductAuthorization.Procedure">>}, optional}}
             ],
             [],
@@ -7880,11 +7880,11 @@
 %%
     , <<"MedicinalProductContraindication">> => {<<"DomainResource">>,
             [
-            {<<"subject">>, {{complex, <<"Reference">>}, list}},
+            {<<"subject">>, {{special, <<"Reference">>}, list}},
             {<<"disease">>, {{complex, <<"CodeableConcept">>}, optional}},
             {<<"diseaseStatus">>, {{complex, <<"CodeableConcept">>}, optional}},
             {<<"comorbidity">>, {{complex, <<"CodeableConcept">>}, list}},
-            {<<"therapeuticIndication">>, {{complex, <<"Reference">>}, list}},
+            {<<"therapeuticIndication">>, {{special, <<"Reference">>}, list}},
             {<<"otherTherapy">>, {{bbelement, <<"MedicinalProductContraindication.OtherTherapy">>}, list}},
             {<<"population">>, {{bbelement, <<"Population">>}, list}}
             ],
@@ -7899,7 +7899,7 @@
             [
             {<<"therapyRelationshipType">>, {{complex, <<"CodeableConcept">>}, required}},
             {<<"medicationCodeableConcept">>, {{complex, <<"CodeableConcept">>}, required}},
-            {<<"medicationReference">>, {{complex, <<"Reference">>}, required}}
+            {<<"medicationReference">>, {{special, <<"Reference">>}, required}}
             ],
             [],
             [
@@ -7913,14 +7913,14 @@
 %%
     , <<"MedicinalProductIndication">> => {<<"DomainResource">>,
             [
-            {<<"subject">>, {{complex, <<"Reference">>}, list}},
+            {<<"subject">>, {{special, <<"Reference">>}, list}},
             {<<"diseaseSymptomProcedure">>, {{complex, <<"CodeableConcept">>}, optional}},
             {<<"diseaseStatus">>, {{complex, <<"CodeableConcept">>}, optional}},
             {<<"comorbidity">>, {{complex, <<"CodeableConcept">>}, list}},
             {<<"intendedEffect">>, {{complex, <<"CodeableConcept">>}, optional}},
             {<<"duration">>, {{complex, <<"Quantity">>}, optional}},
             {<<"otherTherapy">>, {{bbelement, <<"MedicinalProductIndication.OtherTherapy">>}, list}},
-            {<<"undesirableEffect">>, {{complex, <<"Reference">>}, list}},
+            {<<"undesirableEffect">>, {{special, <<"Reference">>}, list}},
             {<<"population">>, {{bbelement, <<"Population">>}, list}}
             ],
             [],
@@ -7934,7 +7934,7 @@
             [
             {<<"therapyRelationshipType">>, {{complex, <<"CodeableConcept">>}, required}},
             {<<"medicationCodeableConcept">>, {{complex, <<"CodeableConcept">>}, required}},
-            {<<"medicationReference">>, {{complex, <<"Reference">>}, required}}
+            {<<"medicationReference">>, {{special, <<"Reference">>}, required}}
             ],
             [],
             [
@@ -7951,7 +7951,7 @@
             {<<"identifier">>, {{complex, <<"Identifier">>}, optional}},
             {<<"role">>, {{complex, <<"CodeableConcept">>}, required}},
             {<<"allergenicIndicator">>, {{primitive, <<"boolean">>}, optional}},
-            {<<"manufacturer">>, {{complex, <<"Reference">>}, list}},
+            {<<"manufacturer">>, {{special, <<"Reference">>}, list}},
             {<<"specifiedSubstance">>, {{bbelement, <<"MedicinalProductIngredient.SpecifiedSubstance">>}, list}},
             {<<"substance">>, {{bbelement, <<"MedicinalProductIngredient.Substance">>}, optional}}
             ],
@@ -8023,7 +8023,7 @@
 %%
     , <<"MedicinalProductInteraction">> => {<<"DomainResource">>,
             [
-            {<<"subject">>, {{complex, <<"Reference">>}, list}},
+            {<<"subject">>, {{special, <<"Reference">>}, list}},
             {<<"description">>, {{primitive, <<"string">>}, optional}},
             {<<"interactant">>, {{bbelement, <<"MedicinalProductInteraction.Interactant">>}, list}},
             {<<"type">>, {{complex, <<"CodeableConcept">>}, optional}},
@@ -8040,7 +8040,7 @@
 %%
     , <<"MedicinalProductInteraction.Interactant">> => {<<"BackboneElement">>,
             [
-            {<<"itemReference">>, {{complex, <<"Reference">>}, required}},
+            {<<"itemReference">>, {{special, <<"Reference">>}, required}},
             {<<"itemCodeableConcept">>, {{complex, <<"CodeableConcept">>}, required}}
             ],
             [],
@@ -8058,8 +8058,8 @@
             {<<"manufacturedDoseForm">>, {{complex, <<"CodeableConcept">>}, required}},
             {<<"unitOfPresentation">>, {{complex, <<"CodeableConcept">>}, optional}},
             {<<"quantity">>, {{complex, <<"Quantity">>}, required}},
-            {<<"manufacturer">>, {{complex, <<"Reference">>}, list}},
-            {<<"ingredient">>, {{complex, <<"Reference">>}, list}},
+            {<<"manufacturer">>, {{special, <<"Reference">>}, list}},
+            {<<"ingredient">>, {{special, <<"Reference">>}, list}},
             {<<"physicalCharacteristics">>, {{bbelement, <<"ProdCharacteristic">>}, optional}},
             {<<"otherCharacteristics">>, {{complex, <<"CodeableConcept">>}, list}}
             ],
@@ -8074,12 +8074,12 @@
     , <<"MedicinalProductPackaged">> => {<<"DomainResource">>,
             [
             {<<"identifier">>, {{complex, <<"Identifier">>}, list}},
-            {<<"subject">>, {{complex, <<"Reference">>}, list}},
+            {<<"subject">>, {{special, <<"Reference">>}, list}},
             {<<"description">>, {{primitive, <<"string">>}, optional}},
             {<<"legalStatusOfSupply">>, {{complex, <<"CodeableConcept">>}, optional}},
             {<<"marketingStatus">>, {{bbelement, <<"MarketingStatus">>}, list}},
-            {<<"marketingAuthorization">>, {{complex, <<"Reference">>}, optional}},
-            {<<"manufacturer">>, {{complex, <<"Reference">>}, list}},
+            {<<"marketingAuthorization">>, {{special, <<"Reference">>}, optional}},
+            {<<"manufacturer">>, {{special, <<"Reference">>}, list}},
             {<<"batchIdentifier">>, {{bbelement, <<"MedicinalProductPackaged.BatchIdentifier">>}, list}},
             {<<"packageItem">>, {{bbelement, <<"MedicinalProductPackaged.PackageItem">>}, non_empty_list}}
             ],
@@ -8109,13 +8109,13 @@
             {<<"quantity">>, {{complex, <<"Quantity">>}, required}},
             {<<"material">>, {{complex, <<"CodeableConcept">>}, list}},
             {<<"alternateMaterial">>, {{complex, <<"CodeableConcept">>}, list}},
-            {<<"device">>, {{complex, <<"Reference">>}, list}},
-            {<<"manufacturedItem">>, {{complex, <<"Reference">>}, list}},
+            {<<"device">>, {{special, <<"Reference">>}, list}},
+            {<<"manufacturedItem">>, {{special, <<"Reference">>}, list}},
             {<<"packageItem">>, {{bbelement, <<"MedicinalProductPackaged.PackageItem">>}, list}},
             {<<"physicalCharacteristics">>, {{bbelement, <<"ProdCharacteristic">>}, optional}},
             {<<"otherCharacteristics">>, {{complex, <<"CodeableConcept">>}, list}},
             {<<"shelfLifeStorage">>, {{bbelement, <<"ProductShelfLife">>}, list}},
-            {<<"manufacturer">>, {{complex, <<"Reference">>}, list}}
+            {<<"manufacturer">>, {{special, <<"Reference">>}, list}}
             ],
             [],
             []
@@ -8130,8 +8130,8 @@
             {<<"identifier">>, {{complex, <<"Identifier">>}, list}},
             {<<"administrableDoseForm">>, {{complex, <<"CodeableConcept">>}, required}},
             {<<"unitOfPresentation">>, {{complex, <<"CodeableConcept">>}, optional}},
-            {<<"ingredient">>, {{complex, <<"Reference">>}, list}},
-            {<<"device">>, {{complex, <<"Reference">>}, list}},
+            {<<"ingredient">>, {{special, <<"Reference">>}, list}},
+            {<<"device">>, {{special, <<"Reference">>}, list}},
             {<<"characteristics">>, {{bbelement, <<"MedicinalProductPharmaceutical.Characteristics">>}, list}},
             {<<"routeOfAdministration">>, {{bbelement, <<"MedicinalProductPharmaceutical.RouteOfAdministration">>}, non_empty_list}}
             ],
@@ -8199,7 +8199,7 @@
 %%
     , <<"MedicinalProductUndesirableEffect">> => {<<"DomainResource">>,
             [
-            {<<"subject">>, {{complex, <<"Reference">>}, list}},
+            {<<"subject">>, {{special, <<"Reference">>}, list}},
             {<<"symptomConditionEffect">>, {{complex, <<"CodeableConcept">>}, optional}},
             {<<"classification">>, {{complex, <<"CodeableConcept">>}, optional}},
             {<<"frequencyOfOccurrence">>, {{complex, <<"CodeableConcept">>}, optional}},
@@ -8282,14 +8282,14 @@
             {<<"eventCoding">>, {{complex, <<"Coding">>}, required}},
             {<<"eventUri">>, {{primitive, <<"uri">>}, required}},
             {<<"destination">>, {{bbelement, <<"MessageHeader.Destination">>}, list}},
-            {<<"sender">>, {{complex, <<"Reference">>}, optional}},
-            {<<"enterer">>, {{complex, <<"Reference">>}, optional}},
-            {<<"author">>, {{complex, <<"Reference">>}, optional}},
+            {<<"sender">>, {{special, <<"Reference">>}, optional}},
+            {<<"enterer">>, {{special, <<"Reference">>}, optional}},
+            {<<"author">>, {{special, <<"Reference">>}, optional}},
             {<<"source">>, {{bbelement, <<"MessageHeader.Source">>}, required}},
-            {<<"responsible">>, {{complex, <<"Reference">>}, optional}},
+            {<<"responsible">>, {{special, <<"Reference">>}, optional}},
             {<<"reason">>, {{complex, <<"CodeableConcept">>}, optional}},
             {<<"response">>, {{bbelement, <<"MessageHeader.Response">>}, optional}},
-            {<<"focus">>, {{complex, <<"Reference">>}, list}},
+            {<<"focus">>, {{special, <<"Reference">>}, list}},
             {<<"definition">>, {{primitive, <<"canonical">>}, optional}}
             ],
             [],
@@ -8304,9 +8304,9 @@
     , <<"MessageHeader.Destination">> => {<<"BackboneElement">>,
             [
             {<<"name">>, {{primitive, <<"string">>}, optional}},
-            {<<"target">>, {{complex, <<"Reference">>}, optional}},
+            {<<"target">>, {{special, <<"Reference">>}, optional}},
             {<<"endpoint">>, {{primitive, <<"url">>}, required}},
-            {<<"receiver">>, {{complex, <<"Reference">>}, optional}}
+            {<<"receiver">>, {{special, <<"Reference">>}, optional}}
             ],
             [],
             []
@@ -8334,7 +8334,7 @@
             [
             {<<"identifier">>, {{primitive, <<"id">>}, required}},
             {<<"code">>, {{code, <<"responsetype">>}, required}},
-            {<<"details">>, {{complex, <<"Reference">>}, optional}}
+            {<<"details">>, {{special, <<"Reference">>}, optional}}
             ],
             [],
             []
@@ -8349,10 +8349,10 @@
             {<<"identifier">>, {{complex, <<"Identifier">>}, list}},
             {<<"type">>, {{code, <<"sequencetype">>}, optional}},
             {<<"coordinateSystem">>, {{primitive, <<"integer">>}, required}},
-            {<<"patient">>, {{complex, <<"Reference">>}, optional}},
-            {<<"specimen">>, {{complex, <<"Reference">>}, optional}},
-            {<<"device">>, {{complex, <<"Reference">>}, optional}},
-            {<<"performer">>, {{complex, <<"Reference">>}, optional}},
+            {<<"patient">>, {{special, <<"Reference">>}, optional}},
+            {<<"specimen">>, {{special, <<"Reference">>}, optional}},
+            {<<"device">>, {{special, <<"Reference">>}, optional}},
+            {<<"performer">>, {{special, <<"Reference">>}, optional}},
             {<<"quantity">>, {{complex, <<"Quantity">>}, optional}},
             {<<"referenceSeq">>, {{bbelement, <<"MolecularSequence.ReferenceSeq">>}, optional}},
             {<<"variant">>, {{bbelement, <<"MolecularSequence.Variant">>}, list}},
@@ -8360,7 +8360,7 @@
             {<<"quality">>, {{bbelement, <<"MolecularSequence.Quality">>}, list}},
             {<<"readCoverage">>, {{primitive, <<"integer">>}, optional}},
             {<<"repository">>, {{bbelement, <<"MolecularSequence.Repository">>}, list}},
-            {<<"pointer">>, {{complex, <<"Reference">>}, list}},
+            {<<"pointer">>, {{special, <<"Reference">>}, list}},
             {<<"structureVariant">>, {{bbelement, <<"MolecularSequence.StructureVariant">>}, list}}
             ],
             [],
@@ -8376,7 +8376,7 @@
             {<<"genomeBuild">>, {{primitive, <<"string">>}, optional}},
             {<<"orientation">>, {{code, <<"orientationtype">>}, optional}},
             {<<"referenceSeqId">>, {{complex, <<"CodeableConcept">>}, optional}},
-            {<<"referenceSeqPointer">>, {{complex, <<"Reference">>}, optional}},
+            {<<"referenceSeqPointer">>, {{special, <<"Reference">>}, optional}},
             {<<"referenceSeqString">>, {{primitive, <<"string">>}, optional}},
             {<<"strand">>, {{code, <<"strandtype">>}, optional}},
             {<<"windowStart">>, {{primitive, <<"integer">>}, optional}},
@@ -8396,7 +8396,7 @@
             {<<"observedAllele">>, {{primitive, <<"string">>}, optional}},
             {<<"referenceAllele">>, {{primitive, <<"string">>}, optional}},
             {<<"cigar">>, {{primitive, <<"string">>}, optional}},
-            {<<"variantPointer">>, {{complex, <<"Reference">>}, optional}}
+            {<<"variantPointer">>, {{special, <<"Reference">>}, optional}}
             ],
             [],
             []
@@ -8550,11 +8550,11 @@
             {<<"instantiates">>, {{primitive, <<"uri">>}, list}},
             {<<"status">>, {{code, <<"requeststatus">>}, required}},
             {<<"intent">>, {{code, <<"requestintent">>}, required}},
-            {<<"patient">>, {{complex, <<"Reference">>}, required}},
-            {<<"encounter">>, {{complex, <<"Reference">>}, optional}},
+            {<<"patient">>, {{special, <<"Reference">>}, required}},
+            {<<"encounter">>, {{special, <<"Reference">>}, optional}},
             {<<"dateTime">>, {{primitive, <<"dateTime">>}, required}},
-            {<<"orderer">>, {{complex, <<"Reference">>}, optional}},
-            {<<"allergyIntolerance">>, {{complex, <<"Reference">>}, list}},
+            {<<"orderer">>, {{special, <<"Reference">>}, optional}},
+            {<<"allergyIntolerance">>, {{special, <<"Reference">>}, list}},
             {<<"foodPreferenceModifier">>, {{complex, <<"CodeableConcept">>}, list}},
             {<<"excludeFoodModifier">>, {{complex, <<"CodeableConcept">>}, list}},
             {<<"oralDiet">>, {{bbelement, <<"NutritionOrder.OralDiet">>}, optional}},
@@ -8663,20 +8663,20 @@
     , <<"Observation">> => {<<"DomainResource">>,
             [
             {<<"identifier">>, {{complex, <<"Identifier">>}, list}},
-            {<<"basedOn">>, {{complex, <<"Reference">>}, list}},
-            {<<"partOf">>, {{complex, <<"Reference">>}, list}},
+            {<<"basedOn">>, {{special, <<"Reference">>}, list}},
+            {<<"partOf">>, {{special, <<"Reference">>}, list}},
             {<<"status">>, {{code, <<"observationstatus">>}, required}},
             {<<"category">>, {{complex, <<"CodeableConcept">>}, list}},
             {<<"code">>, {{complex, <<"CodeableConcept">>}, required}},
-            {<<"subject">>, {{complex, <<"Reference">>}, optional}},
-            {<<"focus">>, {{complex, <<"Reference">>}, list}},
-            {<<"encounter">>, {{complex, <<"Reference">>}, optional}},
+            {<<"subject">>, {{special, <<"Reference">>}, optional}},
+            {<<"focus">>, {{special, <<"Reference">>}, list}},
+            {<<"encounter">>, {{special, <<"Reference">>}, optional}},
             {<<"effectiveDateTime">>, {{primitive, <<"dateTime">>}, optional}},
             {<<"effectivePeriod">>, {{complex, <<"Period">>}, optional}},
             {<<"effectiveTiming">>, {{bbelement, <<"Timing">>}, optional}},
             {<<"effectiveInstant">>, {{primitive, <<"instant">>}, optional}},
             {<<"issued">>, {{primitive, <<"instant">>}, optional}},
-            {<<"performer">>, {{complex, <<"Reference">>}, list}},
+            {<<"performer">>, {{special, <<"Reference">>}, list}},
             {<<"valueQuantity">>, {{complex, <<"Quantity">>}, optional}},
             {<<"valueCodeableConcept">>, {{complex, <<"CodeableConcept">>}, optional}},
             {<<"valueString">>, {{primitive, <<"string">>}, optional}},
@@ -8693,11 +8693,11 @@
             {<<"note">>, {{complex, <<"Annotation">>}, list}},
             {<<"bodySite">>, {{complex, <<"CodeableConcept">>}, optional}},
             {<<"method">>, {{complex, <<"CodeableConcept">>}, optional}},
-            {<<"specimen">>, {{complex, <<"Reference">>}, optional}},
-            {<<"device">>, {{complex, <<"Reference">>}, optional}},
+            {<<"specimen">>, {{special, <<"Reference">>}, optional}},
+            {<<"device">>, {{special, <<"Reference">>}, optional}},
             {<<"referenceRange">>, {{bbelement, <<"Observation.ReferenceRange">>}, list}},
-            {<<"hasMember">>, {{complex, <<"Reference">>}, list}},
-            {<<"derivedFrom">>, {{complex, <<"Reference">>}, list}},
+            {<<"hasMember">>, {{special, <<"Reference">>}, list}},
+            {<<"derivedFrom">>, {{special, <<"Reference">>}, list}},
             {<<"component">>, {{bbelement, <<"Observation.Component">>}, list}}
             ],
             [],
@@ -8765,10 +8765,10 @@
             {<<"preferredReportName">>, {{primitive, <<"string">>}, optional}},
             {<<"quantitativeDetails">>, {{bbelement, <<"ObservationDefinition.QuantitativeDetails">>}, optional}},
             {<<"qualifiedInterval">>, {{bbelement, <<"ObservationDefinition.QualifiedInterval">>}, list}},
-            {<<"validCodedValueSet">>, {{complex, <<"Reference">>}, optional}},
-            {<<"normalCodedValueSet">>, {{complex, <<"Reference">>}, optional}},
-            {<<"abnormalCodedValueSet">>, {{complex, <<"Reference">>}, optional}},
-            {<<"criticalCodedValueSet">>, {{complex, <<"Reference">>}, optional}}
+            {<<"validCodedValueSet">>, {{special, <<"Reference">>}, optional}},
+            {<<"normalCodedValueSet">>, {{special, <<"Reference">>}, optional}},
+            {<<"abnormalCodedValueSet">>, {{special, <<"Reference">>}, optional}},
+            {<<"criticalCodedValueSet">>, {{special, <<"Reference">>}, optional}}
             ],
             [],
             []
@@ -8941,9 +8941,9 @@
             {<<"alias">>, {{primitive, <<"string">>}, list}},
             {<<"telecom">>, {{complex, <<"ContactPoint">>}, list}},
             {<<"address">>, {{complex, <<"Address">>}, list}},
-            {<<"partOf">>, {{complex, <<"Reference">>}, optional}},
+            {<<"partOf">>, {{special, <<"Reference">>}, optional}},
             {<<"contact">>, {{bbelement, <<"Organization.Contact">>}, list}},
-            {<<"endpoint">>, {{complex, <<"Reference">>}, list}}
+            {<<"endpoint">>, {{special, <<"Reference">>}, list}}
             ],
             [],
             []
@@ -8972,15 +8972,15 @@
             {<<"identifier">>, {{complex, <<"Identifier">>}, list}},
             {<<"active">>, {{primitive, <<"boolean">>}, optional}},
             {<<"period">>, {{complex, <<"Period">>}, optional}},
-            {<<"organization">>, {{complex, <<"Reference">>}, optional}},
-            {<<"participatingOrganization">>, {{complex, <<"Reference">>}, optional}},
-            {<<"network">>, {{complex, <<"Reference">>}, list}},
+            {<<"organization">>, {{special, <<"Reference">>}, optional}},
+            {<<"participatingOrganization">>, {{special, <<"Reference">>}, optional}},
+            {<<"network">>, {{special, <<"Reference">>}, list}},
             {<<"code">>, {{complex, <<"CodeableConcept">>}, list}},
             {<<"specialty">>, {{complex, <<"CodeableConcept">>}, list}},
-            {<<"location">>, {{complex, <<"Reference">>}, list}},
-            {<<"healthcareService">>, {{complex, <<"Reference">>}, list}},
+            {<<"location">>, {{special, <<"Reference">>}, list}},
+            {<<"healthcareService">>, {{special, <<"Reference">>}, list}},
             {<<"telecom">>, {{complex, <<"ContactPoint">>}, list}},
-            {<<"endpoint">>, {{complex, <<"Reference">>}, list}}
+            {<<"endpoint">>, {{special, <<"Reference">>}, list}}
             ],
             [],
             []
@@ -9040,7 +9040,7 @@
             {<<"valueQuantity">>, {{complex, <<"Quantity">>}, optional}},
             {<<"valueRange">>, {{complex, <<"Range">>}, optional}},
             {<<"valueRatio">>, {{complex, <<"Ratio">>}, optional}},
-            {<<"valueReference">>, {{complex, <<"Reference">>}, optional}},
+            {<<"valueReference">>, {{special, <<"Reference">>}, optional}},
             {<<"valueSampledData">>, {{complex, <<"SampledData">>}, optional}},
             {<<"valueSignature">>, {{complex, <<"Signature">>}, optional}},
             {<<"valueTiming">>, {{bbelement, <<"Timing">>}, optional}},
@@ -9083,8 +9083,8 @@
             {<<"photo">>, {{complex, <<"Attachment">>}, list}},
             {<<"contact">>, {{bbelement, <<"Patient.Contact">>}, list}},
             {<<"communication">>, {{bbelement, <<"Patient.Communication">>}, list}},
-            {<<"generalPractitioner">>, {{complex, <<"Reference">>}, list}},
-            {<<"managingOrganization">>, {{complex, <<"Reference">>}, optional}},
+            {<<"generalPractitioner">>, {{special, <<"Reference">>}, list}},
+            {<<"managingOrganization">>, {{special, <<"Reference">>}, optional}},
             {<<"link">>, {{bbelement, <<"Patient.Link">>}, list}}
             ],
             [],
@@ -9104,7 +9104,7 @@
             {<<"telecom">>, {{complex, <<"ContactPoint">>}, list}},
             {<<"address">>, {{complex, <<"Address">>}, optional}},
             {<<"gender">>, {{code, <<"administrativegender">>}, optional}},
-            {<<"organization">>, {{complex, <<"Reference">>}, optional}},
+            {<<"organization">>, {{special, <<"Reference">>}, optional}},
             {<<"period">>, {{complex, <<"Period">>}, optional}}
             ],
             [],
@@ -9128,7 +9128,7 @@
 %%
     , <<"Patient.Link">> => {<<"BackboneElement">>,
             [
-            {<<"other">>, {{complex, <<"Reference">>}, required}},
+            {<<"other">>, {{special, <<"Reference">>}, required}},
             {<<"type">>, {{code, <<"linktype">>}, required}}
             ],
             [],
@@ -9143,14 +9143,14 @@
             [
             {<<"identifier">>, {{complex, <<"Identifier">>}, list}},
             {<<"status">>, {{code, <<"financialresourcestatuscodes">>}, required}},
-            {<<"request">>, {{complex, <<"Reference">>}, optional}},
-            {<<"response">>, {{complex, <<"Reference">>}, optional}},
+            {<<"request">>, {{special, <<"Reference">>}, optional}},
+            {<<"response">>, {{special, <<"Reference">>}, optional}},
             {<<"created">>, {{primitive, <<"dateTime">>}, required}},
-            {<<"provider">>, {{complex, <<"Reference">>}, optional}},
-            {<<"payment">>, {{complex, <<"Reference">>}, required}},
+            {<<"provider">>, {{special, <<"Reference">>}, optional}},
+            {<<"payment">>, {{special, <<"Reference">>}, required}},
             {<<"paymentDate">>, {{primitive, <<"date">>}, optional}},
-            {<<"payee">>, {{complex, <<"Reference">>}, optional}},
-            {<<"recipient">>, {{complex, <<"Reference">>}, required}},
+            {<<"payee">>, {{special, <<"Reference">>}, optional}},
+            {<<"recipient">>, {{special, <<"Reference">>}, required}},
             {<<"amount">>, {{complex, <<"Money">>}, required}},
             {<<"paymentStatus">>, {{complex, <<"CodeableConcept">>}, optional}}
             ],
@@ -9168,9 +9168,9 @@
             {<<"status">>, {{code, <<"financialresourcestatuscodes">>}, required}},
             {<<"period">>, {{complex, <<"Period">>}, optional}},
             {<<"created">>, {{primitive, <<"dateTime">>}, required}},
-            {<<"paymentIssuer">>, {{complex, <<"Reference">>}, optional}},
-            {<<"request">>, {{complex, <<"Reference">>}, optional}},
-            {<<"requestor">>, {{complex, <<"Reference">>}, optional}},
+            {<<"paymentIssuer">>, {{special, <<"Reference">>}, optional}},
+            {<<"request">>, {{special, <<"Reference">>}, optional}},
+            {<<"requestor">>, {{special, <<"Reference">>}, optional}},
             {<<"outcome">>, {{code, <<"remittanceoutcome">>}, optional}},
             {<<"disposition">>, {{primitive, <<"string">>}, optional}},
             {<<"paymentDate">>, {{primitive, <<"date">>}, required}},
@@ -9192,12 +9192,12 @@
             {<<"identifier">>, {{complex, <<"Identifier">>}, optional}},
             {<<"predecessor">>, {{complex, <<"Identifier">>}, optional}},
             {<<"type">>, {{complex, <<"CodeableConcept">>}, required}},
-            {<<"request">>, {{complex, <<"Reference">>}, optional}},
-            {<<"submitter">>, {{complex, <<"Reference">>}, optional}},
-            {<<"response">>, {{complex, <<"Reference">>}, optional}},
+            {<<"request">>, {{special, <<"Reference">>}, optional}},
+            {<<"submitter">>, {{special, <<"Reference">>}, optional}},
+            {<<"response">>, {{special, <<"Reference">>}, optional}},
             {<<"date">>, {{primitive, <<"date">>}, optional}},
-            {<<"responsible">>, {{complex, <<"Reference">>}, optional}},
-            {<<"payee">>, {{complex, <<"Reference">>}, optional}},
+            {<<"responsible">>, {{special, <<"Reference">>}, optional}},
+            {<<"payee">>, {{special, <<"Reference">>}, optional}},
             {<<"amount">>, {{complex, <<"Money">>}, optional}}
             ],
             [],
@@ -9229,7 +9229,7 @@
             {<<"birthDate">>, {{primitive, <<"date">>}, optional}},
             {<<"address">>, {{complex, <<"Address">>}, list}},
             {<<"photo">>, {{complex, <<"Attachment">>}, optional}},
-            {<<"managingOrganization">>, {{complex, <<"Reference">>}, optional}},
+            {<<"managingOrganization">>, {{special, <<"Reference">>}, optional}},
             {<<"active">>, {{primitive, <<"boolean">>}, optional}},
             {<<"link">>, {{bbelement, <<"Person.Link">>}, list}}
             ],
@@ -9242,7 +9242,7 @@
 %%
     , <<"Person.Link">> => {<<"BackboneElement">>,
             [
-            {<<"target">>, {{complex, <<"Reference">>}, required}},
+            {<<"target">>, {{special, <<"Reference">>}, required}},
             {<<"assurance">>, {{code, <<"identityassurancelevel">>}, optional}}
             ],
             [],
@@ -9265,7 +9265,7 @@
             {<<"status">>, {{code, <<"publicationstatus">>}, required}},
             {<<"experimental">>, {{primitive, <<"boolean">>}, optional}},
             {<<"subjectCodeableConcept">>, {{complex, <<"CodeableConcept">>}, optional}},
-            {<<"subjectReference">>, {{complex, <<"Reference">>}, optional}},
+            {<<"subjectReference">>, {{special, <<"Reference">>}, optional}},
             {<<"date">>, {{primitive, <<"dateTime">>}, optional}},
             {<<"publisher">>, {{primitive, <<"string">>}, optional}},
             {<<"contact">>, {{complex, <<"ContactDetail">>}, list}},
@@ -9343,7 +9343,7 @@
             {<<"documentation">>, {{complex, <<"RelatedArtifact">>}, list}},
             {<<"goalId">>, {{primitive, <<"id">>}, list}},
             {<<"subjectCodeableConcept">>, {{complex, <<"CodeableConcept">>}, optional}},
-            {<<"subjectReference">>, {{complex, <<"Reference">>}, optional}},
+            {<<"subjectReference">>, {{special, <<"Reference">>}, optional}},
             {<<"trigger">>, {{complex, <<"TriggerDefinition">>}, list}},
             {<<"condition">>, {{bbelement, <<"PlanDefinition.Condition">>}, list}},
             {<<"input">>, {{complex, <<"DataRequirement">>}, list}},
@@ -9457,7 +9457,7 @@
             {<<"identifier">>, {{complex, <<"Identifier">>}, list}},
             {<<"code">>, {{complex, <<"CodeableConcept">>}, required}},
             {<<"period">>, {{complex, <<"Period">>}, optional}},
-            {<<"issuer">>, {{complex, <<"Reference">>}, optional}}
+            {<<"issuer">>, {{special, <<"Reference">>}, optional}}
             ],
             [],
             []
@@ -9472,17 +9472,17 @@
             {<<"identifier">>, {{complex, <<"Identifier">>}, list}},
             {<<"active">>, {{primitive, <<"boolean">>}, optional}},
             {<<"period">>, {{complex, <<"Period">>}, optional}},
-            {<<"practitioner">>, {{complex, <<"Reference">>}, optional}},
-            {<<"organization">>, {{complex, <<"Reference">>}, optional}},
+            {<<"practitioner">>, {{special, <<"Reference">>}, optional}},
+            {<<"organization">>, {{special, <<"Reference">>}, optional}},
             {<<"code">>, {{complex, <<"CodeableConcept">>}, list}},
             {<<"specialty">>, {{complex, <<"CodeableConcept">>}, list}},
-            {<<"location">>, {{complex, <<"Reference">>}, list}},
-            {<<"healthcareService">>, {{complex, <<"Reference">>}, list}},
+            {<<"location">>, {{special, <<"Reference">>}, list}},
+            {<<"healthcareService">>, {{special, <<"Reference">>}, list}},
             {<<"telecom">>, {{complex, <<"ContactPoint">>}, list}},
             {<<"availableTime">>, {{bbelement, <<"PractitionerRole.AvailableTime">>}, list}},
             {<<"notAvailable">>, {{bbelement, <<"PractitionerRole.NotAvailable">>}, list}},
             {<<"availabilityExceptions">>, {{primitive, <<"string">>}, optional}},
-            {<<"endpoint">>, {{complex, <<"Reference">>}, list}}
+            {<<"endpoint">>, {{special, <<"Reference">>}, list}}
             ],
             [],
             []
@@ -9523,34 +9523,34 @@
             {<<"identifier">>, {{complex, <<"Identifier">>}, list}},
             {<<"instantiatesCanonical">>, {{primitive, <<"canonical">>}, list}},
             {<<"instantiatesUri">>, {{primitive, <<"uri">>}, list}},
-            {<<"basedOn">>, {{complex, <<"Reference">>}, list}},
-            {<<"partOf">>, {{complex, <<"Reference">>}, list}},
+            {<<"basedOn">>, {{special, <<"Reference">>}, list}},
+            {<<"partOf">>, {{special, <<"Reference">>}, list}},
             {<<"status">>, {{code, <<"eventstatus">>}, required}},
             {<<"statusReason">>, {{complex, <<"CodeableConcept">>}, optional}},
             {<<"category">>, {{complex, <<"CodeableConcept">>}, optional}},
             {<<"code">>, {{complex, <<"CodeableConcept">>}, optional}},
-            {<<"subject">>, {{complex, <<"Reference">>}, required}},
-            {<<"encounter">>, {{complex, <<"Reference">>}, optional}},
+            {<<"subject">>, {{special, <<"Reference">>}, required}},
+            {<<"encounter">>, {{special, <<"Reference">>}, optional}},
             {<<"performedDateTime">>, {{primitive, <<"dateTime">>}, optional}},
             {<<"performedPeriod">>, {{complex, <<"Period">>}, optional}},
             {<<"performedString">>, {{primitive, <<"string">>}, optional}},
             {<<"performedAge">>, {{complex, <<"Age">>}, optional}},
             {<<"performedRange">>, {{complex, <<"Range">>}, optional}},
-            {<<"recorder">>, {{complex, <<"Reference">>}, optional}},
-            {<<"asserter">>, {{complex, <<"Reference">>}, optional}},
+            {<<"recorder">>, {{special, <<"Reference">>}, optional}},
+            {<<"asserter">>, {{special, <<"Reference">>}, optional}},
             {<<"performer">>, {{bbelement, <<"Procedure.Performer">>}, list}},
-            {<<"location">>, {{complex, <<"Reference">>}, optional}},
+            {<<"location">>, {{special, <<"Reference">>}, optional}},
             {<<"reasonCode">>, {{complex, <<"CodeableConcept">>}, list}},
-            {<<"reasonReference">>, {{complex, <<"Reference">>}, list}},
+            {<<"reasonReference">>, {{special, <<"Reference">>}, list}},
             {<<"bodySite">>, {{complex, <<"CodeableConcept">>}, list}},
             {<<"outcome">>, {{complex, <<"CodeableConcept">>}, optional}},
-            {<<"report">>, {{complex, <<"Reference">>}, list}},
+            {<<"report">>, {{special, <<"Reference">>}, list}},
             {<<"complication">>, {{complex, <<"CodeableConcept">>}, list}},
-            {<<"complicationDetail">>, {{complex, <<"Reference">>}, list}},
+            {<<"complicationDetail">>, {{special, <<"Reference">>}, list}},
             {<<"followUp">>, {{complex, <<"CodeableConcept">>}, list}},
             {<<"note">>, {{complex, <<"Annotation">>}, list}},
             {<<"focalDevice">>, {{bbelement, <<"Procedure.FocalDevice">>}, list}},
-            {<<"usedReference">>, {{complex, <<"Reference">>}, list}},
+            {<<"usedReference">>, {{special, <<"Reference">>}, list}},
             {<<"usedCode">>, {{complex, <<"CodeableConcept">>}, list}}
             ],
             [],
@@ -9565,8 +9565,8 @@
     , <<"Procedure.Performer">> => {<<"BackboneElement">>,
             [
             {<<"function">>, {{complex, <<"CodeableConcept">>}, optional}},
-            {<<"actor">>, {{complex, <<"Reference">>}, required}},
-            {<<"onBehalfOf">>, {{complex, <<"Reference">>}, optional}}
+            {<<"actor">>, {{special, <<"Reference">>}, required}},
+            {<<"onBehalfOf">>, {{special, <<"Reference">>}, optional}}
             ],
             [],
             []
@@ -9578,7 +9578,7 @@
     , <<"Procedure.FocalDevice">> => {<<"BackboneElement">>,
             [
             {<<"action">>, {{complex, <<"CodeableConcept">>}, optional}},
-            {<<"manipulated">>, {{complex, <<"Reference">>}, required}}
+            {<<"manipulated">>, {{special, <<"Reference">>}, required}}
             ],
             [],
             []
@@ -9590,12 +9590,12 @@
 %%
     , <<"Provenance">> => {<<"DomainResource">>,
             [
-            {<<"target">>, {{complex, <<"Reference">>}, non_empty_list}},
+            {<<"target">>, {{special, <<"Reference">>}, non_empty_list}},
             {<<"occurredPeriod">>, {{complex, <<"Period">>}, optional}},
             {<<"occurredDateTime">>, {{primitive, <<"dateTime">>}, optional}},
             {<<"recorded">>, {{primitive, <<"instant">>}, required}},
             {<<"policy">>, {{primitive, <<"uri">>}, list}},
-            {<<"location">>, {{complex, <<"Reference">>}, optional}},
+            {<<"location">>, {{special, <<"Reference">>}, optional}},
             {<<"reason">>, {{complex, <<"CodeableConcept">>}, list}},
             {<<"activity">>, {{complex, <<"CodeableConcept">>}, optional}},
             {<<"agent">>, {{bbelement, <<"Provenance.Agent">>}, non_empty_list}},
@@ -9615,8 +9615,8 @@
             [
             {<<"type">>, {{complex, <<"CodeableConcept">>}, optional}},
             {<<"role">>, {{complex, <<"CodeableConcept">>}, list}},
-            {<<"who">>, {{complex, <<"Reference">>}, required}},
-            {<<"onBehalfOf">>, {{complex, <<"Reference">>}, optional}}
+            {<<"who">>, {{special, <<"Reference">>}, required}},
+            {<<"onBehalfOf">>, {{special, <<"Reference">>}, optional}}
             ],
             [],
             []
@@ -9628,7 +9628,7 @@
     , <<"Provenance.Entity">> => {<<"BackboneElement">>,
             [
             {<<"role">>, {{code, <<"provenanceentityrole">>}, required}},
-            {<<"what">>, {{complex, <<"Reference">>}, required}},
+            {<<"what">>, {{special, <<"Reference">>}, required}},
             {<<"agent">>, {{bbelement, <<"Provenance.Agent">>}, list}}
             ],
             [],
@@ -9710,7 +9710,7 @@
             {<<"answerString">>, {{primitive, <<"string">>}, required}},
             {<<"answerCoding">>, {{complex, <<"Coding">>}, required}},
             {<<"answerQuantity">>, {{complex, <<"Quantity">>}, required}},
-            {<<"answerReference">>, {{complex, <<"Reference">>}, required}}
+            {<<"answerReference">>, {{special, <<"Reference">>}, required}}
             ],
             [],
             [
@@ -9728,7 +9728,7 @@
             {<<"valueTime">>, {{primitive, <<"time">>}, required}},
             {<<"valueString">>, {{primitive, <<"string">>}, required}},
             {<<"valueCoding">>, {{complex, <<"Coding">>}, required}},
-            {<<"valueReference">>, {{complex, <<"Reference">>}, required}},
+            {<<"valueReference">>, {{special, <<"Reference">>}, required}},
             {<<"initialSelected">>, {{primitive, <<"boolean">>}, optional}}
             ],
             [],
@@ -9753,7 +9753,7 @@
             {<<"valueAttachment">>, {{complex, <<"Attachment">>}, required}},
             {<<"valueCoding">>, {{complex, <<"Coding">>}, required}},
             {<<"valueQuantity">>, {{complex, <<"Quantity">>}, required}},
-            {<<"valueReference">>, {{complex, <<"Reference">>}, required}}
+            {<<"valueReference">>, {{special, <<"Reference">>}, required}}
             ],
             [],
             [
@@ -9768,15 +9768,15 @@
     , <<"QuestionnaireResponse">> => {<<"DomainResource">>,
             [
             {<<"identifier">>, {{complex, <<"Identifier">>}, optional}},
-            {<<"basedOn">>, {{complex, <<"Reference">>}, list}},
-            {<<"partOf">>, {{complex, <<"Reference">>}, list}},
+            {<<"basedOn">>, {{special, <<"Reference">>}, list}},
+            {<<"partOf">>, {{special, <<"Reference">>}, list}},
             {<<"questionnaire">>, {{primitive, <<"canonical">>}, optional}},
             {<<"status">>, {{code, <<"questionnaireresponsestatus">>}, required}},
-            {<<"subject">>, {{complex, <<"Reference">>}, optional}},
-            {<<"encounter">>, {{complex, <<"Reference">>}, optional}},
+            {<<"subject">>, {{special, <<"Reference">>}, optional}},
+            {<<"encounter">>, {{special, <<"Reference">>}, optional}},
             {<<"authored">>, {{primitive, <<"dateTime">>}, optional}},
-            {<<"author">>, {{complex, <<"Reference">>}, optional}},
-            {<<"source">>, {{complex, <<"Reference">>}, optional}},
+            {<<"author">>, {{special, <<"Reference">>}, optional}},
+            {<<"source">>, {{special, <<"Reference">>}, optional}},
             {<<"item">>, {{bbelement, <<"QuestionnaireResponse.Item">>}, list}}
             ],
             [],
@@ -9814,7 +9814,7 @@
             {<<"valueAttachment">>, {{complex, <<"Attachment">>}, optional}},
             {<<"valueCoding">>, {{complex, <<"Coding">>}, optional}},
             {<<"valueQuantity">>, {{complex, <<"Quantity">>}, optional}},
-            {<<"valueReference">>, {{complex, <<"Reference">>}, optional}},
+            {<<"valueReference">>, {{special, <<"Reference">>}, optional}},
             {<<"item">>, {{bbelement, <<"QuestionnaireResponse.Item">>}, list}}
             ],
             [],
@@ -9831,7 +9831,7 @@
             [
             {<<"identifier">>, {{complex, <<"Identifier">>}, list}},
             {<<"active">>, {{primitive, <<"boolean">>}, optional}},
-            {<<"patient">>, {{complex, <<"Reference">>}, required}},
+            {<<"patient">>, {{special, <<"Reference">>}, required}},
             {<<"relationship">>, {{complex, <<"CodeableConcept">>}, list}},
             {<<"name">>, {{complex, <<"HumanName">>}, list}},
             {<<"telecom">>, {{complex, <<"ContactPoint">>}, list}},
@@ -9867,19 +9867,19 @@
             {<<"identifier">>, {{complex, <<"Identifier">>}, list}},
             {<<"instantiatesCanonical">>, {{primitive, <<"canonical">>}, list}},
             {<<"instantiatesUri">>, {{primitive, <<"uri">>}, list}},
-            {<<"basedOn">>, {{complex, <<"Reference">>}, list}},
-            {<<"replaces">>, {{complex, <<"Reference">>}, list}},
+            {<<"basedOn">>, {{special, <<"Reference">>}, list}},
+            {<<"replaces">>, {{special, <<"Reference">>}, list}},
             {<<"groupIdentifier">>, {{complex, <<"Identifier">>}, optional}},
             {<<"status">>, {{code, <<"requeststatus">>}, required}},
             {<<"intent">>, {{code, <<"requestintent">>}, required}},
             {<<"priority">>, {{code, <<"requestpriority">>}, optional}},
             {<<"code">>, {{complex, <<"CodeableConcept">>}, optional}},
-            {<<"subject">>, {{complex, <<"Reference">>}, optional}},
-            {<<"encounter">>, {{complex, <<"Reference">>}, optional}},
+            {<<"subject">>, {{special, <<"Reference">>}, optional}},
+            {<<"encounter">>, {{special, <<"Reference">>}, optional}},
             {<<"authoredOn">>, {{primitive, <<"dateTime">>}, optional}},
-            {<<"author">>, {{complex, <<"Reference">>}, optional}},
+            {<<"author">>, {{special, <<"Reference">>}, optional}},
             {<<"reasonCode">>, {{complex, <<"CodeableConcept">>}, list}},
-            {<<"reasonReference">>, {{complex, <<"Reference">>}, list}},
+            {<<"reasonReference">>, {{special, <<"Reference">>}, list}},
             {<<"note">>, {{complex, <<"Annotation">>}, list}},
             {<<"action">>, {{bbelement, <<"RequestGroup.Action">>}, list}}
             ],
@@ -9907,14 +9907,14 @@
             {<<"timingDuration">>, {{complex, <<"Duration">>}, optional}},
             {<<"timingRange">>, {{complex, <<"Range">>}, optional}},
             {<<"timingTiming">>, {{bbelement, <<"Timing">>}, optional}},
-            {<<"participant">>, {{complex, <<"Reference">>}, list}},
+            {<<"participant">>, {{special, <<"Reference">>}, list}},
             {<<"type">>, {{complex, <<"CodeableConcept">>}, optional}},
             {<<"groupingBehavior">>, {{code, <<"actiongroupingbehavior">>}, optional}},
             {<<"selectionBehavior">>, {{code, <<"actionselectionbehavior">>}, optional}},
             {<<"requiredBehavior">>, {{code, <<"actionrequiredbehavior">>}, optional}},
             {<<"precheckBehavior">>, {{code, <<"actionprecheckbehavior">>}, optional}},
             {<<"cardinalityBehavior">>, {{code, <<"actioncardinalitybehavior">>}, optional}},
-            {<<"resource">>, {{complex, <<"Reference">>}, optional}},
+            {<<"resource">>, {{special, <<"Reference">>}, optional}},
             {<<"action">>, {{bbelement, <<"RequestGroup.Action">>}, list}}
             ],
             [],
@@ -9967,7 +9967,7 @@
             {<<"status">>, {{code, <<"publicationstatus">>}, required}},
             {<<"experimental">>, {{primitive, <<"boolean">>}, optional}},
             {<<"subjectCodeableConcept">>, {{complex, <<"CodeableConcept">>}, optional}},
-            {<<"subjectReference">>, {{complex, <<"Reference">>}, optional}},
+            {<<"subjectReference">>, {{special, <<"Reference">>}, optional}},
             {<<"date">>, {{primitive, <<"dateTime">>}, optional}},
             {<<"publisher">>, {{primitive, <<"string">>}, optional}},
             {<<"contact">>, {{complex, <<"ContactDetail">>}, list}},
@@ -9988,10 +9988,10 @@
             {<<"endorser">>, {{complex, <<"ContactDetail">>}, list}},
             {<<"relatedArtifact">>, {{complex, <<"RelatedArtifact">>}, list}},
             {<<"library">>, {{primitive, <<"canonical">>}, list}},
-            {<<"population">>, {{complex, <<"Reference">>}, required}},
-            {<<"exposure">>, {{complex, <<"Reference">>}, optional}},
-            {<<"exposureAlternative">>, {{complex, <<"Reference">>}, optional}},
-            {<<"outcome">>, {{complex, <<"Reference">>}, optional}}
+            {<<"population">>, {{special, <<"Reference">>}, required}},
+            {<<"exposure">>, {{special, <<"Reference">>}, optional}},
+            {<<"exposureAlternative">>, {{special, <<"Reference">>}, optional}},
+            {<<"outcome">>, {{special, <<"Reference">>}, optional}}
             ],
             [],
             [
@@ -10015,7 +10015,7 @@
             {<<"status">>, {{code, <<"publicationstatus">>}, required}},
             {<<"experimental">>, {{primitive, <<"boolean">>}, optional}},
             {<<"subjectCodeableConcept">>, {{complex, <<"CodeableConcept">>}, optional}},
-            {<<"subjectReference">>, {{complex, <<"Reference">>}, optional}},
+            {<<"subjectReference">>, {{special, <<"Reference">>}, optional}},
             {<<"date">>, {{primitive, <<"dateTime">>}, optional}},
             {<<"publisher">>, {{primitive, <<"string">>}, optional}},
             {<<"contact">>, {{complex, <<"ContactDetail">>}, list}},
@@ -10089,8 +10089,8 @@
             [
             {<<"identifier">>, {{complex, <<"Identifier">>}, list}},
             {<<"title">>, {{primitive, <<"string">>}, optional}},
-            {<<"protocol">>, {{complex, <<"Reference">>}, list}},
-            {<<"partOf">>, {{complex, <<"Reference">>}, list}},
+            {<<"protocol">>, {{special, <<"Reference">>}, list}},
+            {<<"partOf">>, {{special, <<"Reference">>}, list}},
             {<<"status">>, {{code, <<"researchstudystatus">>}, required}},
             {<<"primaryPurposeType">>, {{complex, <<"CodeableConcept">>}, optional}},
             {<<"phase">>, {{complex, <<"CodeableConcept">>}, optional}},
@@ -10102,11 +10102,11 @@
             {<<"keyword">>, {{complex, <<"CodeableConcept">>}, list}},
             {<<"location">>, {{complex, <<"CodeableConcept">>}, list}},
             {<<"description">>, {{primitive, <<"markdown">>}, optional}},
-            {<<"enrollment">>, {{complex, <<"Reference">>}, list}},
+            {<<"enrollment">>, {{special, <<"Reference">>}, list}},
             {<<"period">>, {{complex, <<"Period">>}, optional}},
-            {<<"sponsor">>, {{complex, <<"Reference">>}, optional}},
-            {<<"principalInvestigator">>, {{complex, <<"Reference">>}, optional}},
-            {<<"site">>, {{complex, <<"Reference">>}, list}},
+            {<<"sponsor">>, {{special, <<"Reference">>}, optional}},
+            {<<"principalInvestigator">>, {{special, <<"Reference">>}, optional}},
+            {<<"site">>, {{special, <<"Reference">>}, list}},
             {<<"reasonStopped">>, {{complex, <<"CodeableConcept">>}, optional}},
             {<<"note">>, {{complex, <<"Annotation">>}, list}},
             {<<"arm">>, {{bbelement, <<"ResearchStudy.Arm">>}, list}},
@@ -10150,11 +10150,11 @@
             {<<"identifier">>, {{complex, <<"Identifier">>}, list}},
             {<<"status">>, {{code, <<"researchsubjectstatus">>}, required}},
             {<<"period">>, {{complex, <<"Period">>}, optional}},
-            {<<"study">>, {{complex, <<"Reference">>}, required}},
-            {<<"individual">>, {{complex, <<"Reference">>}, required}},
+            {<<"study">>, {{special, <<"Reference">>}, required}},
+            {<<"individual">>, {{special, <<"Reference">>}, required}},
             {<<"assignedArm">>, {{primitive, <<"string">>}, optional}},
             {<<"actualArm">>, {{primitive, <<"string">>}, optional}},
-            {<<"consent">>, {{complex, <<"Reference">>}, optional}}
+            {<<"consent">>, {{special, <<"Reference">>}, optional}}
             ],
             [],
             []
@@ -10167,20 +10167,20 @@
     , <<"RiskAssessment">> => {<<"DomainResource">>,
             [
             {<<"identifier">>, {{complex, <<"Identifier">>}, list}},
-            {<<"basedOn">>, {{complex, <<"Reference">>}, optional}},
-            {<<"parent">>, {{complex, <<"Reference">>}, optional}},
+            {<<"basedOn">>, {{special, <<"Reference">>}, optional}},
+            {<<"parent">>, {{special, <<"Reference">>}, optional}},
             {<<"status">>, {{code, <<"observationstatus">>}, required}},
             {<<"method">>, {{complex, <<"CodeableConcept">>}, optional}},
             {<<"code">>, {{complex, <<"CodeableConcept">>}, optional}},
-            {<<"subject">>, {{complex, <<"Reference">>}, required}},
-            {<<"encounter">>, {{complex, <<"Reference">>}, optional}},
+            {<<"subject">>, {{special, <<"Reference">>}, required}},
+            {<<"encounter">>, {{special, <<"Reference">>}, optional}},
             {<<"occurrenceDateTime">>, {{primitive, <<"dateTime">>}, optional}},
             {<<"occurrencePeriod">>, {{complex, <<"Period">>}, optional}},
-            {<<"condition">>, {{complex, <<"Reference">>}, optional}},
-            {<<"performer">>, {{complex, <<"Reference">>}, optional}},
+            {<<"condition">>, {{special, <<"Reference">>}, optional}},
+            {<<"performer">>, {{special, <<"Reference">>}, optional}},
             {<<"reasonCode">>, {{complex, <<"CodeableConcept">>}, list}},
-            {<<"reasonReference">>, {{complex, <<"Reference">>}, list}},
-            {<<"basis">>, {{complex, <<"Reference">>}, list}},
+            {<<"reasonReference">>, {{special, <<"Reference">>}, list}},
+            {<<"basis">>, {{special, <<"Reference">>}, list}},
             {<<"prediction">>, {{bbelement, <<"RiskAssessment.Prediction">>}, list}},
             {<<"mitigation">>, {{primitive, <<"string">>}, optional}},
             {<<"note">>, {{complex, <<"Annotation">>}, list}}
@@ -10243,9 +10243,9 @@
             {<<"relatedArtifact">>, {{complex, <<"RelatedArtifact">>}, list}},
             {<<"synthesisType">>, {{complex, <<"CodeableConcept">>}, optional}},
             {<<"studyType">>, {{complex, <<"CodeableConcept">>}, optional}},
-            {<<"population">>, {{complex, <<"Reference">>}, required}},
-            {<<"exposure">>, {{complex, <<"Reference">>}, optional}},
-            {<<"outcome">>, {{complex, <<"Reference">>}, required}},
+            {<<"population">>, {{special, <<"Reference">>}, required}},
+            {<<"exposure">>, {{special, <<"Reference">>}, optional}},
+            {<<"outcome">>, {{special, <<"Reference">>}, required}},
             {<<"sampleSize">>, {{bbelement, <<"RiskEvidenceSynthesis.SampleSize">>}, optional}},
             {<<"riskEstimate">>, {{bbelement, <<"RiskEvidenceSynthesis.RiskEstimate">>}, optional}},
             {<<"certainty">>, {{bbelement, <<"RiskEvidenceSynthesis.Certainty">>}, list}}
@@ -10335,7 +10335,7 @@
             {<<"serviceCategory">>, {{complex, <<"CodeableConcept">>}, list}},
             {<<"serviceType">>, {{complex, <<"CodeableConcept">>}, list}},
             {<<"specialty">>, {{complex, <<"CodeableConcept">>}, list}},
-            {<<"actor">>, {{complex, <<"Reference">>}, non_empty_list}},
+            {<<"actor">>, {{special, <<"Reference">>}, non_empty_list}},
             {<<"planningHorizon">>, {{complex, <<"Period">>}, optional}},
             {<<"comment">>, {{primitive, <<"string">>}, optional}}
             ],
@@ -10401,8 +10401,8 @@
             {<<"identifier">>, {{complex, <<"Identifier">>}, list}},
             {<<"instantiatesCanonical">>, {{primitive, <<"canonical">>}, list}},
             {<<"instantiatesUri">>, {{primitive, <<"uri">>}, list}},
-            {<<"basedOn">>, {{complex, <<"Reference">>}, list}},
-            {<<"replaces">>, {{complex, <<"Reference">>}, list}},
+            {<<"basedOn">>, {{special, <<"Reference">>}, list}},
+            {<<"replaces">>, {{special, <<"Reference">>}, list}},
             {<<"requisition">>, {{complex, <<"Identifier">>}, optional}},
             {<<"status">>, {{code, <<"requeststatus">>}, required}},
             {<<"intent">>, {{code, <<"requestintent">>}, required}},
@@ -10414,28 +10414,28 @@
             {<<"quantityQuantity">>, {{complex, <<"Quantity">>}, optional}},
             {<<"quantityRatio">>, {{complex, <<"Ratio">>}, optional}},
             {<<"quantityRange">>, {{complex, <<"Range">>}, optional}},
-            {<<"subject">>, {{complex, <<"Reference">>}, required}},
-            {<<"encounter">>, {{complex, <<"Reference">>}, optional}},
+            {<<"subject">>, {{special, <<"Reference">>}, required}},
+            {<<"encounter">>, {{special, <<"Reference">>}, optional}},
             {<<"occurrenceDateTime">>, {{primitive, <<"dateTime">>}, optional}},
             {<<"occurrencePeriod">>, {{complex, <<"Period">>}, optional}},
             {<<"occurrenceTiming">>, {{bbelement, <<"Timing">>}, optional}},
             {<<"asNeededBoolean">>, {{primitive, <<"boolean">>}, optional}},
             {<<"asNeededCodeableConcept">>, {{complex, <<"CodeableConcept">>}, optional}},
             {<<"authoredOn">>, {{primitive, <<"dateTime">>}, optional}},
-            {<<"requester">>, {{complex, <<"Reference">>}, optional}},
+            {<<"requester">>, {{special, <<"Reference">>}, optional}},
             {<<"performerType">>, {{complex, <<"CodeableConcept">>}, optional}},
-            {<<"performer">>, {{complex, <<"Reference">>}, list}},
+            {<<"performer">>, {{special, <<"Reference">>}, list}},
             {<<"locationCode">>, {{complex, <<"CodeableConcept">>}, list}},
-            {<<"locationReference">>, {{complex, <<"Reference">>}, list}},
+            {<<"locationReference">>, {{special, <<"Reference">>}, list}},
             {<<"reasonCode">>, {{complex, <<"CodeableConcept">>}, list}},
-            {<<"reasonReference">>, {{complex, <<"Reference">>}, list}},
-            {<<"insurance">>, {{complex, <<"Reference">>}, list}},
-            {<<"supportingInfo">>, {{complex, <<"Reference">>}, list}},
-            {<<"specimen">>, {{complex, <<"Reference">>}, list}},
+            {<<"reasonReference">>, {{special, <<"Reference">>}, list}},
+            {<<"insurance">>, {{special, <<"Reference">>}, list}},
+            {<<"supportingInfo">>, {{special, <<"Reference">>}, list}},
+            {<<"specimen">>, {{special, <<"Reference">>}, list}},
             {<<"bodySite">>, {{complex, <<"CodeableConcept">>}, list}},
             {<<"note">>, {{complex, <<"Annotation">>}, list}},
             {<<"patientInstruction">>, {{primitive, <<"string">>}, optional}},
-            {<<"relevantHistory">>, {{complex, <<"Reference">>}, list}}
+            {<<"relevantHistory">>, {{special, <<"Reference">>}, list}}
             ],
             [],
             [
@@ -10456,7 +10456,7 @@
             {<<"serviceType">>, {{complex, <<"CodeableConcept">>}, list}},
             {<<"specialty">>, {{complex, <<"CodeableConcept">>}, list}},
             {<<"appointmentType">>, {{complex, <<"CodeableConcept">>}, optional}},
-            {<<"schedule">>, {{complex, <<"Reference">>}, required}},
+            {<<"schedule">>, {{special, <<"Reference">>}, required}},
             {<<"status">>, {{code, <<"slotstatus">>}, required}},
             {<<"start">>, {{primitive, <<"instant">>}, required}},
             {<<"end">>, {{primitive, <<"instant">>}, required}},
@@ -10477,10 +10477,10 @@
             {<<"accessionIdentifier">>, {{complex, <<"Identifier">>}, optional}},
             {<<"status">>, {{code, <<"specimenstatus">>}, optional}},
             {<<"type">>, {{complex, <<"CodeableConcept">>}, optional}},
-            {<<"subject">>, {{complex, <<"Reference">>}, optional}},
+            {<<"subject">>, {{special, <<"Reference">>}, optional}},
             {<<"receivedTime">>, {{primitive, <<"dateTime">>}, optional}},
-            {<<"parent">>, {{complex, <<"Reference">>}, list}},
-            {<<"request">>, {{complex, <<"Reference">>}, list}},
+            {<<"parent">>, {{special, <<"Reference">>}, list}},
+            {<<"request">>, {{special, <<"Reference">>}, list}},
             {<<"collection">>, {{bbelement, <<"Specimen.Collection">>}, optional}},
             {<<"processing">>, {{bbelement, <<"Specimen.Processing">>}, list}},
             {<<"container">>, {{bbelement, <<"Specimen.Container">>}, list}},
@@ -10496,7 +10496,7 @@
 %%
     , <<"Specimen.Collection">> => {<<"BackboneElement">>,
             [
-            {<<"collector">>, {{complex, <<"Reference">>}, optional}},
+            {<<"collector">>, {{special, <<"Reference">>}, optional}},
             {<<"collectedDateTime">>, {{primitive, <<"dateTime">>}, optional}},
             {<<"collectedPeriod">>, {{complex, <<"Period">>}, optional}},
             {<<"duration">>, {{complex, <<"Duration">>}, optional}},
@@ -10520,7 +10520,7 @@
             [
             {<<"description">>, {{primitive, <<"string">>}, optional}},
             {<<"procedure">>, {{complex, <<"CodeableConcept">>}, optional}},
-            {<<"additive">>, {{complex, <<"Reference">>}, list}},
+            {<<"additive">>, {{special, <<"Reference">>}, list}},
             {<<"timeDateTime">>, {{primitive, <<"dateTime">>}, optional}},
             {<<"timePeriod">>, {{complex, <<"Period">>}, optional}}
             ],
@@ -10541,7 +10541,7 @@
             {<<"capacity">>, {{complex, <<"Quantity">>}, optional}},
             {<<"specimenQuantity">>, {{complex, <<"Quantity">>}, optional}},
             {<<"additiveCodeableConcept">>, {{complex, <<"CodeableConcept">>}, optional}},
-            {<<"additiveReference">>, {{complex, <<"Reference">>}, optional}}
+            {<<"additiveReference">>, {{special, <<"Reference">>}, optional}}
             ],
             [],
             [
@@ -10611,7 +10611,7 @@
     , <<"SpecimenDefinition.Additive">> => {<<"BackboneElement">>,
             [
             {<<"additiveCodeableConcept">>, {{complex, <<"CodeableConcept">>}, required}},
-            {<<"additiveReference">>, {{complex, <<"Reference">>}, required}}
+            {<<"additiveReference">>, {{special, <<"Reference">>}, required}}
             ],
             [],
             [
@@ -10853,7 +10853,7 @@
             {<<"defaultValueQuantity">>, {{complex, <<"Quantity">>}, optional}},
             {<<"defaultValueRange">>, {{complex, <<"Range">>}, optional}},
             {<<"defaultValueRatio">>, {{complex, <<"Ratio">>}, optional}},
-            {<<"defaultValueReference">>, {{complex, <<"Reference">>}, optional}},
+            {<<"defaultValueReference">>, {{special, <<"Reference">>}, optional}},
             {<<"defaultValueSampledData">>, {{complex, <<"SampledData">>}, optional}},
             {<<"defaultValueSignature">>, {{complex, <<"Signature">>}, optional}},
             {<<"defaultValueTiming">>, {{bbelement, <<"Timing">>}, optional}},
@@ -10996,7 +10996,7 @@
             [
             {<<"quantity">>, {{complex, <<"Ratio">>}, optional}},
             {<<"substanceCodeableConcept">>, {{complex, <<"CodeableConcept">>}, required}},
-            {<<"substanceReference">>, {{complex, <<"Reference">>}, required}}
+            {<<"substanceReference">>, {{special, <<"Reference">>}, required}}
             ],
             [],
             [
@@ -11218,7 +11218,7 @@
             [
             {<<"geneSequenceOrigin">>, {{complex, <<"CodeableConcept">>}, optional}},
             {<<"gene">>, {{complex, <<"CodeableConcept">>}, optional}},
-            {<<"source">>, {{complex, <<"Reference">>}, list}}
+            {<<"source">>, {{special, <<"Reference">>}, list}}
             ],
             [],
             []
@@ -11231,7 +11231,7 @@
             [
             {<<"type">>, {{complex, <<"CodeableConcept">>}, optional}},
             {<<"element">>, {{complex, <<"Identifier">>}, optional}},
-            {<<"source">>, {{complex, <<"Reference">>}, list}}
+            {<<"source">>, {{special, <<"Reference">>}, list}}
             ],
             [],
             []
@@ -11245,7 +11245,7 @@
             {<<"domain">>, {{complex, <<"CodeableConcept">>}, optional}},
             {<<"classification">>, {{complex, <<"CodeableConcept">>}, optional}},
             {<<"subtype">>, {{complex, <<"CodeableConcept">>}, list}},
-            {<<"source">>, {{complex, <<"Reference">>}, list}}
+            {<<"source">>, {{special, <<"Reference">>}, list}}
             ],
             [],
             []
@@ -11265,7 +11265,7 @@
             {<<"amountRange">>, {{complex, <<"Range">>}, optional}},
             {<<"amountString">>, {{primitive, <<"string">>}, optional}},
             {<<"amountType">>, {{complex, <<"CodeableConcept">>}, optional}},
-            {<<"source">>, {{complex, <<"Reference">>}, list}}
+            {<<"source">>, {{special, <<"Reference">>}, list}}
             ],
             [],
             [
@@ -11391,20 +11391,20 @@
             {<<"status">>, {{complex, <<"CodeableConcept">>}, optional}},
             {<<"domain">>, {{complex, <<"CodeableConcept">>}, optional}},
             {<<"description">>, {{primitive, <<"string">>}, optional}},
-            {<<"source">>, {{complex, <<"Reference">>}, list}},
+            {<<"source">>, {{special, <<"Reference">>}, list}},
             {<<"comment">>, {{primitive, <<"string">>}, optional}},
             {<<"moiety">>, {{bbelement, <<"SubstanceSpecification.Moiety">>}, list}},
             {<<"property">>, {{bbelement, <<"SubstanceSpecification.Property">>}, list}},
-            {<<"referenceInformation">>, {{complex, <<"Reference">>}, optional}},
+            {<<"referenceInformation">>, {{special, <<"Reference">>}, optional}},
             {<<"structure">>, {{bbelement, <<"SubstanceSpecification.Structure">>}, optional}},
             {<<"code">>, {{bbelement, <<"SubstanceSpecification.Code">>}, list}},
             {<<"name">>, {{bbelement, <<"SubstanceSpecification.Name">>}, list}},
             {<<"molecularWeight">>, {{bbelement, <<"SubstanceSpecification.MolecularWeight">>}, list}},
             {<<"relationship">>, {{bbelement, <<"SubstanceSpecification.Relationship">>}, list}},
-            {<<"nucleicAcid">>, {{complex, <<"Reference">>}, optional}},
-            {<<"polymer">>, {{complex, <<"Reference">>}, optional}},
-            {<<"protein">>, {{complex, <<"Reference">>}, optional}},
-            {<<"sourceMaterial">>, {{complex, <<"Reference">>}, optional}}
+            {<<"nucleicAcid">>, {{special, <<"Reference">>}, optional}},
+            {<<"polymer">>, {{special, <<"Reference">>}, optional}},
+            {<<"protein">>, {{special, <<"Reference">>}, optional}},
+            {<<"sourceMaterial">>, {{special, <<"Reference">>}, optional}}
             ],
             [],
             []
@@ -11438,7 +11438,7 @@
             {<<"category">>, {{complex, <<"CodeableConcept">>}, optional}},
             {<<"code">>, {{complex, <<"CodeableConcept">>}, optional}},
             {<<"parameters">>, {{primitive, <<"string">>}, optional}},
-            {<<"definingSubstanceReference">>, {{complex, <<"Reference">>}, optional}},
+            {<<"definingSubstanceReference">>, {{special, <<"Reference">>}, optional}},
             {<<"definingSubstanceCodeableConcept">>, {{complex, <<"CodeableConcept">>}, optional}},
             {<<"amountQuantity">>, {{complex, <<"Quantity">>}, optional}},
             {<<"amountString">>, {{primitive, <<"string">>}, optional}}
@@ -11461,7 +11461,7 @@
             {<<"molecularFormulaByMoiety">>, {{primitive, <<"string">>}, optional}},
             {<<"isotope">>, {{bbelement, <<"SubstanceSpecification.Isotope">>}, list}},
             {<<"molecularWeight">>, {{bbelement, <<"SubstanceSpecification.MolecularWeight">>}, optional}},
-            {<<"source">>, {{complex, <<"Reference">>}, list}},
+            {<<"source">>, {{special, <<"Reference">>}, list}},
             {<<"representation">>, {{bbelement, <<"SubstanceSpecification.Representation">>}, list}}
             ],
             [],
@@ -11518,7 +11518,7 @@
             {<<"status">>, {{complex, <<"CodeableConcept">>}, optional}},
             {<<"statusDate">>, {{primitive, <<"dateTime">>}, optional}},
             {<<"comment">>, {{primitive, <<"string">>}, optional}},
-            {<<"source">>, {{complex, <<"Reference">>}, list}}
+            {<<"source">>, {{special, <<"Reference">>}, list}}
             ],
             [],
             []
@@ -11539,7 +11539,7 @@
             {<<"synonym">>, {{bbelement, <<"SubstanceSpecification.Name">>}, list}},
             {<<"translation">>, {{bbelement, <<"SubstanceSpecification.Name">>}, list}},
             {<<"official">>, {{bbelement, <<"SubstanceSpecification.Official">>}, list}},
-            {<<"source">>, {{complex, <<"Reference">>}, list}}
+            {<<"source">>, {{special, <<"Reference">>}, list}}
             ],
             [],
             []
@@ -11563,7 +11563,7 @@
 %%
     , <<"SubstanceSpecification.Relationship">> => {<<"BackboneElement">>,
             [
-            {<<"substanceReference">>, {{complex, <<"Reference">>}, optional}},
+            {<<"substanceReference">>, {{special, <<"Reference">>}, optional}},
             {<<"substanceCodeableConcept">>, {{complex, <<"CodeableConcept">>}, optional}},
             {<<"relationship">>, {{complex, <<"CodeableConcept">>}, optional}},
             {<<"isDefining">>, {{primitive, <<"boolean">>}, optional}},
@@ -11573,7 +11573,7 @@
             {<<"amountString">>, {{primitive, <<"string">>}, optional}},
             {<<"amountRatioLowLimit">>, {{complex, <<"Ratio">>}, optional}},
             {<<"amountType">>, {{complex, <<"CodeableConcept">>}, optional}},
-            {<<"source">>, {{complex, <<"Reference">>}, list}}
+            {<<"source">>, {{special, <<"Reference">>}, list}}
             ],
             [],
             [
@@ -11589,18 +11589,18 @@
     , <<"SupplyDelivery">> => {<<"DomainResource">>,
             [
             {<<"identifier">>, {{complex, <<"Identifier">>}, list}},
-            {<<"basedOn">>, {{complex, <<"Reference">>}, list}},
-            {<<"partOf">>, {{complex, <<"Reference">>}, list}},
+            {<<"basedOn">>, {{special, <<"Reference">>}, list}},
+            {<<"partOf">>, {{special, <<"Reference">>}, list}},
             {<<"status">>, {{code, <<"supplydeliverystatus">>}, optional}},
-            {<<"patient">>, {{complex, <<"Reference">>}, optional}},
+            {<<"patient">>, {{special, <<"Reference">>}, optional}},
             {<<"type">>, {{complex, <<"CodeableConcept">>}, optional}},
             {<<"suppliedItem">>, {{bbelement, <<"SupplyDelivery.SuppliedItem">>}, optional}},
             {<<"occurrenceDateTime">>, {{primitive, <<"dateTime">>}, optional}},
             {<<"occurrencePeriod">>, {{complex, <<"Period">>}, optional}},
             {<<"occurrenceTiming">>, {{bbelement, <<"Timing">>}, optional}},
-            {<<"supplier">>, {{complex, <<"Reference">>}, optional}},
-            {<<"destination">>, {{complex, <<"Reference">>}, optional}},
-            {<<"receiver">>, {{complex, <<"Reference">>}, list}}
+            {<<"supplier">>, {{special, <<"Reference">>}, optional}},
+            {<<"destination">>, {{special, <<"Reference">>}, optional}},
+            {<<"receiver">>, {{special, <<"Reference">>}, list}}
             ],
             [],
             [
@@ -11615,7 +11615,7 @@
             [
             {<<"quantity">>, {{complex, <<"Quantity">>}, optional}},
             {<<"itemCodeableConcept">>, {{complex, <<"CodeableConcept">>}, optional}},
-            {<<"itemReference">>, {{complex, <<"Reference">>}, optional}}
+            {<<"itemReference">>, {{special, <<"Reference">>}, optional}}
             ],
             [],
             [
@@ -11634,19 +11634,19 @@
             {<<"category">>, {{complex, <<"CodeableConcept">>}, optional}},
             {<<"priority">>, {{code, <<"requestpriority">>}, optional}},
             {<<"itemCodeableConcept">>, {{complex, <<"CodeableConcept">>}, required}},
-            {<<"itemReference">>, {{complex, <<"Reference">>}, required}},
+            {<<"itemReference">>, {{special, <<"Reference">>}, required}},
             {<<"quantity">>, {{complex, <<"Quantity">>}, required}},
             {<<"parameter">>, {{bbelement, <<"SupplyRequest.Parameter">>}, list}},
             {<<"occurrenceDateTime">>, {{primitive, <<"dateTime">>}, optional}},
             {<<"occurrencePeriod">>, {{complex, <<"Period">>}, optional}},
             {<<"occurrenceTiming">>, {{bbelement, <<"Timing">>}, optional}},
             {<<"authoredOn">>, {{primitive, <<"dateTime">>}, optional}},
-            {<<"requester">>, {{complex, <<"Reference">>}, optional}},
-            {<<"supplier">>, {{complex, <<"Reference">>}, list}},
+            {<<"requester">>, {{special, <<"Reference">>}, optional}},
+            {<<"supplier">>, {{special, <<"Reference">>}, list}},
             {<<"reasonCode">>, {{complex, <<"CodeableConcept">>}, list}},
-            {<<"reasonReference">>, {{complex, <<"Reference">>}, list}},
-            {<<"deliverFrom">>, {{complex, <<"Reference">>}, optional}},
-            {<<"deliverTo">>, {{complex, <<"Reference">>}, optional}}
+            {<<"reasonReference">>, {{special, <<"Reference">>}, list}},
+            {<<"deliverFrom">>, {{special, <<"Reference">>}, optional}},
+            {<<"deliverTo">>, {{special, <<"Reference">>}, optional}}
             ],
             [],
             [
@@ -11681,9 +11681,9 @@
             {<<"identifier">>, {{complex, <<"Identifier">>}, list}},
             {<<"instantiatesCanonical">>, {{primitive, <<"canonical">>}, optional}},
             {<<"instantiatesUri">>, {{primitive, <<"uri">>}, optional}},
-            {<<"basedOn">>, {{complex, <<"Reference">>}, list}},
+            {<<"basedOn">>, {{special, <<"Reference">>}, list}},
             {<<"groupIdentifier">>, {{complex, <<"Identifier">>}, optional}},
-            {<<"partOf">>, {{complex, <<"Reference">>}, list}},
+            {<<"partOf">>, {{special, <<"Reference">>}, list}},
             {<<"status">>, {{code, <<"taskstatus">>}, required}},
             {<<"statusReason">>, {{complex, <<"CodeableConcept">>}, optional}},
             {<<"businessStatus">>, {{complex, <<"CodeableConcept">>}, optional}},
@@ -11691,21 +11691,21 @@
             {<<"priority">>, {{code, <<"requestpriority">>}, optional}},
             {<<"code">>, {{complex, <<"CodeableConcept">>}, optional}},
             {<<"description">>, {{primitive, <<"string">>}, optional}},
-            {<<"focus">>, {{complex, <<"Reference">>}, optional}},
-            {<<"for">>, {{complex, <<"Reference">>}, optional}},
-            {<<"encounter">>, {{complex, <<"Reference">>}, optional}},
+            {<<"focus">>, {{special, <<"Reference">>}, optional}},
+            {<<"for">>, {{special, <<"Reference">>}, optional}},
+            {<<"encounter">>, {{special, <<"Reference">>}, optional}},
             {<<"executionPeriod">>, {{complex, <<"Period">>}, optional}},
             {<<"authoredOn">>, {{primitive, <<"dateTime">>}, optional}},
             {<<"lastModified">>, {{primitive, <<"dateTime">>}, optional}},
-            {<<"requester">>, {{complex, <<"Reference">>}, optional}},
+            {<<"requester">>, {{special, <<"Reference">>}, optional}},
             {<<"performerType">>, {{complex, <<"CodeableConcept">>}, list}},
-            {<<"owner">>, {{complex, <<"Reference">>}, optional}},
-            {<<"location">>, {{complex, <<"Reference">>}, optional}},
+            {<<"owner">>, {{special, <<"Reference">>}, optional}},
+            {<<"location">>, {{special, <<"Reference">>}, optional}},
             {<<"reasonCode">>, {{complex, <<"CodeableConcept">>}, optional}},
-            {<<"reasonReference">>, {{complex, <<"Reference">>}, optional}},
-            {<<"insurance">>, {{complex, <<"Reference">>}, list}},
+            {<<"reasonReference">>, {{special, <<"Reference">>}, optional}},
+            {<<"insurance">>, {{special, <<"Reference">>}, list}},
             {<<"note">>, {{complex, <<"Annotation">>}, list}},
-            {<<"relevantHistory">>, {{complex, <<"Reference">>}, list}},
+            {<<"relevantHistory">>, {{special, <<"Reference">>}, list}},
             {<<"restriction">>, {{bbelement, <<"Task.Restriction">>}, optional}},
             {<<"input">>, {{bbelement, <<"Task.Input">>}, list}},
             {<<"output">>, {{bbelement, <<"Task.Output">>}, list}}
@@ -11721,7 +11721,7 @@
             [
             {<<"repetitions">>, {{primitive, <<"positiveInt">>}, optional}},
             {<<"period">>, {{complex, <<"Period">>}, optional}},
-            {<<"recipient">>, {{complex, <<"Reference">>}, list}}
+            {<<"recipient">>, {{special, <<"Reference">>}, list}}
             ],
             [],
             []
@@ -11769,7 +11769,7 @@
             {<<"valueQuantity">>, {{complex, <<"Quantity">>}, required}},
             {<<"valueRange">>, {{complex, <<"Range">>}, required}},
             {<<"valueRatio">>, {{complex, <<"Ratio">>}, required}},
-            {<<"valueReference">>, {{complex, <<"Reference">>}, required}},
+            {<<"valueReference">>, {{special, <<"Reference">>}, required}},
             {<<"valueSampledData">>, {{complex, <<"SampledData">>}, required}},
             {<<"valueSignature">>, {{complex, <<"Signature">>}, required}},
             {<<"valueTiming">>, {{bbelement, <<"Timing">>}, required}},
@@ -11831,7 +11831,7 @@
             {<<"valueQuantity">>, {{complex, <<"Quantity">>}, required}},
             {<<"valueRange">>, {{complex, <<"Range">>}, required}},
             {<<"valueRatio">>, {{complex, <<"Ratio">>}, required}},
-            {<<"valueReference">>, {{complex, <<"Reference">>}, required}},
+            {<<"valueReference">>, {{special, <<"Reference">>}, required}},
             {<<"valueSampledData">>, {{complex, <<"SampledData">>}, required}},
             {<<"valueSignature">>, {{complex, <<"Signature">>}, required}},
             {<<"valueTiming">>, {{bbelement, <<"Timing">>}, required}},
@@ -12020,7 +12020,7 @@
             {<<"identifier">>, {{complex, <<"Identifier">>}, optional}},
             {<<"name">>, {{primitive, <<"string">>}, optional}},
             {<<"status">>, {{code, <<"testreportstatus">>}, required}},
-            {<<"testScript">>, {{complex, <<"Reference">>}, required}},
+            {<<"testScript">>, {{special, <<"Reference">>}, required}},
             {<<"result">>, {{code, <<"testreportresult">>}, required}},
             {<<"score">>, {{primitive, <<"decimal">>}, optional}},
             {<<"tester">>, {{primitive, <<"string">>}, optional}},
@@ -12168,7 +12168,7 @@
             {<<"destination">>, {{bbelement, <<"TestScript.Destination">>}, list}},
             {<<"metadata">>, {{bbelement, <<"TestScript.Metadata">>}, optional}},
             {<<"fixture">>, {{bbelement, <<"TestScript.Fixture">>}, list}},
-            {<<"profile">>, {{complex, <<"Reference">>}, list}},
+            {<<"profile">>, {{special, <<"Reference">>}, list}},
             {<<"variable">>, {{bbelement, <<"TestScript.Variable">>}, list}},
             {<<"setup">>, {{bbelement, <<"TestScript.Setup">>}, optional}},
             {<<"test">>, {{bbelement, <<"TestScript.Test">>}, list}},
@@ -12250,7 +12250,7 @@
             [
             {<<"autocreate">>, {{primitive, <<"boolean">>}, required}},
             {<<"autodelete">>, {{primitive, <<"boolean">>}, required}},
-            {<<"resource">>, {{complex, <<"Reference">>}, optional}}
+            {<<"resource">>, {{special, <<"Reference">>}, optional}}
             ],
             [],
             []
@@ -12572,7 +12572,7 @@
 %%
     , <<"VerificationResult">> => {<<"DomainResource">>,
             [
-            {<<"target">>, {{complex, <<"Reference">>}, list}},
+            {<<"target">>, {{special, <<"Reference">>}, list}},
             {<<"targetLocation">>, {{primitive, <<"string">>}, list}},
             {<<"need">>, {{complex, <<"CodeableConcept">>}, optional}},
             {<<"status">>, {{code, <<"status">>}, required}},
@@ -12596,7 +12596,7 @@
 %%
     , <<"VerificationResult.PrimarySource">> => {<<"BackboneElement">>,
             [
-            {<<"who">>, {{complex, <<"Reference">>}, optional}},
+            {<<"who">>, {{special, <<"Reference">>}, optional}},
             {<<"type">>, {{complex, <<"CodeableConcept">>}, list}},
             {<<"communicationMethod">>, {{complex, <<"CodeableConcept">>}, list}},
             {<<"validationStatus">>, {{complex, <<"CodeableConcept">>}, optional}},
@@ -12613,8 +12613,8 @@
 %%
     , <<"VerificationResult.Attestation">> => {<<"BackboneElement">>,
             [
-            {<<"who">>, {{complex, <<"Reference">>}, optional}},
-            {<<"onBehalfOf">>, {{complex, <<"Reference">>}, optional}},
+            {<<"who">>, {{special, <<"Reference">>}, optional}},
+            {<<"onBehalfOf">>, {{special, <<"Reference">>}, optional}},
             {<<"communicationMethod">>, {{complex, <<"CodeableConcept">>}, optional}},
             {<<"date">>, {{primitive, <<"date">>}, optional}},
             {<<"sourceIdentityCertificate">>, {{primitive, <<"string">>}, optional}},
@@ -12631,7 +12631,7 @@
 %%
     , <<"VerificationResult.Validator">> => {<<"BackboneElement">>,
             [
-            {<<"organization">>, {{complex, <<"Reference">>}, required}},
+            {<<"organization">>, {{special, <<"Reference">>}, required}},
             {<<"identityCertificate">>, {{primitive, <<"string">>}, optional}},
             {<<"attestationSignature">>, {{complex, <<"Signature">>}, optional}}
             ],
@@ -12648,10 +12648,10 @@
             {<<"identifier">>, {{complex, <<"Identifier">>}, list}},
             {<<"status">>, {{code, <<"financialresourcestatuscodes">>}, required}},
             {<<"created">>, {{primitive, <<"dateTime">>}, required}},
-            {<<"patient">>, {{complex, <<"Reference">>}, required}},
-            {<<"encounter">>, {{complex, <<"Reference">>}, optional}},
+            {<<"patient">>, {{special, <<"Reference">>}, required}},
+            {<<"encounter">>, {{special, <<"Reference">>}, optional}},
             {<<"dateWritten">>, {{primitive, <<"dateTime">>}, required}},
-            {<<"prescriber">>, {{complex, <<"Reference">>}, required}},
+            {<<"prescriber">>, {{special, <<"Reference">>}, required}},
             {<<"lensSpecification">>, {{bbelement, <<"VisionPrescription.LensSpecification">>}, non_empty_list}}
             ],
             [],

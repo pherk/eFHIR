@@ -18,7 +18,7 @@
 
 -record(bundle, {
       id          :: id()
-    , meta        :: complex:meta()
+    , meta        :: special:meta()
     , implicitRules :: uri()
     , language    :: code()
     , identifier_ :: complex:identifier()
@@ -202,11 +202,15 @@ bundle_to_test() ->
          {bundle,<<"p-21666">>,undefined,undefined, undefined, 
                   undefined,<<"searchset">>, undefined, undefined,
                           [],
-                          [{bundleentry,[],
-                                        <<"http://eNahar.org/nabu/patient-test">>,
-                                        {[{<<"resourceType">>,<<"Patient">>},
-                                          {<<"id">>,<<"p-21666">>}]},
-                                        undefined,undefined,undefined}],
+                          [{bundleentry,
+                               [],
+                               <<"http://eNahar.org/nabu/patient-test">>,
+                               {patient,<<"p-21666">>,undefined,undefined,
+                                   undefined,undefined,[],[],[],[],undefined,[],[],
+                                   undefined,undefined,undefined,undefined,[],
+                                   undefined,undefined,undefined,[],[],[],[],
+                                   undefined,[]},
+                                undefined,undefined,undefined}],
                           undefined}).
 bundle_toprop_test() ->
     ?asrtp(

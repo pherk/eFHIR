@@ -79,24 +79,59 @@ resolve_base(Base, L) ->
     {NewBase, BI, Attrs, Restrictions} = xsd_info(Base),
     resolve_base(NewBase, BI++L).
 
+validate({primitive, <<"base64Binary">>},   Value) -> Value;
 validate({primitive, <<"boolean">>},   Value) -> utils:binary_to_boolean(Value,error);
 validate({primitive, <<"canonical">>},   Value) -> Value;
 validate({primitive, <<"code">>},   Value) -> Value;
+validate({primitive, <<"date">>},   Value) -> Value;
 validate({primitive, <<"dateTime">>},   Value) -> Value;
+validate({primitive, <<"decimal">>},   Value) -> Value;
 validate({primitive, <<"id">>},   Value) -> Value;
 validate({primitive, <<"instant">>},   Value) -> Value;
-validate({primitive, <<"period">>},   Value) -> Value;
+validate({primitive, <<"integer">>},   Value) -> Value;
+validate({primitive, <<"makdown">>},   Value) -> Value;
+validate({primitive, <<"oid">>},   Value) -> Value;
 validate({primitive, <<"positiveInt">>},   Value) -> Value;
 validate({primitive, <<"string">>},   Value) -> Value;
+validate({primitive, <<"time">>},   Value) -> Value;
+validate({primitive, <<"uuid">>},   Value) -> Value;
 validate({primitive, <<"unsignedInt">>},   Value) -> Value;
 validate({primitive, <<"uri">>},   Value) -> Value;
+validate({primitive, <<"url">>},   Value) -> Value;
+validate({primitive, <<"xhtml">>},   Value) -> Value;
 validate({code, Type},   Value) -> 
     List = maps:get(Type,?fhir_codes),
     io:format("code: ~s in ~p~n",[Value,List]),
     Value;
-validate({complex, <<"Meta">>},   Value) -> complex:to_meta(Value);
-validate({complex, <<"ResourceContainer">>},   Value) -> patient:to_patient(Value); % TODO fhir/resource.erl
-validate({complex, Type},   Value) -> Value;
+validate({complex, <<"Address">>},        Value) -> complex:to_address(Value);
+validate({complex, <<"Age">>},            Value) -> complex:to_age(Value);
+validate({complex, <<"Annotation">>},     Value) -> complex:to_annotation(Value);
+validate({complex, <<"Attachment">>},     Value) -> complex:to_attachment(Value);
+validate({complex, <<"Coding">>},         Value) -> complex:to_coding(Value);
+validate({complex, <<"CodeableConcept">>}, Value) -> complex:to_codeableConcept(Value);
+validate({complex, <<"ContactPoint">>},   Value) -> complex:to_contactPoint(Value);
+validate({complex, <<"Count">>},          Value) -> complex:to_count(Value);
+validate({complex, <<"Distance">>},       Value) -> complex:to_distance(Value);
+validate({complex, <<"Duration">>},       Value) -> complex:to_duration(Value);
+validate({complex, <<"HumanName">>},      Value) -> complex:to_humanName(Value);
+validate({complex, <<"Identifier">>},     Value) -> complex:to_identifier(Value);
+validate({complex, <<"Money">>},          Value) -> complex:to_money(Value);
+validate({complex, <<"MoneyQuantity">>},  Value) -> complex:to_moneyQuantity(Value);
+validate({complex, <<"Narrative">>},      Value) -> complex:to_narrative(Value);
+validate({complex, <<"Period">>},         Value) -> complex:to_period(Value);
+validate({complex, <<"Range">>},          Value) -> complex:to_range(Value);
+validate({complex, <<"Ratio">>},          Value) -> complex:to_ratio(Value);
+validate({complex, <<"Quantity">>},       Value) -> complex:to_quantity(Value);
+validate({complex, <<"ResourceContainer">>}, Value) -> patient:to_patient(Value); % TODO fhir/resource.erl
+validate({complex, <<"Signature">>},      Value) -> complex:to_signature(Value);
+validate({complex, <<"SimpleQuantity">>}, Value) -> complex:to_simpleQuantity(Value);
+validate({complex, <<"Timing">>}, Value)         -> complex:to_timing(Value);
+validate({metadata, <<"RelatedArtifakt">>}, Value) -> complex:to_relatedArtifakt(Value);
+validate({special, <<"xhtml">>},          Value) -> Value;
+validate({special, <<"Extension">>},      Value) -> extensions:to_extension(Value);
+validate({special, <<"Meta">>},           Value) -> complex:to_meta(Value);
+validate({special, <<"Narrative">>},      Value) -> complex:to_narrative(Value);
+validate({special, <<"Reference">>},      Value) -> complex:to_referencee(Value);
 validate({bbelement, Resource},   Value) -> Value;
 validate({bbelement, Type},   Value) -> Value.
 
@@ -108,7 +143,7 @@ get_fun({primitive, <<"dateTime">>})   -> fun to_dateTime/1;
 get_fun({primitive, <<"string">>})     -> fun to_string/1;
 get_fun({primitive, <<"time">>})       -> fun to_time/1;
 get_fun({complex,   <<"Coding">>})     -> fun complex:to_coding/1;
-get_fun({complex,   <<"Extension">>})  -> fun extensions:to_extension/1;
+get_fun({special,   <<"Extension">>})  -> fun extensions:to_extension/1;
 get_fun({bbelement, <<"Bundle.Entry">>})   -> fun bundle:to_bundle_entry/1;
 get_fun({bbelement, <<"Bundle.Link">>})    -> fun bundle:to_bundle_link/1.
 

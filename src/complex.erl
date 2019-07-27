@@ -4,15 +4,14 @@
 %%
 %% API exports
 %%
+-export_type([address/0,annotation/0]).
+-export_type([attachment/0]).
 -export_type([coding/0,codeableConcept/0]).
--export_type([fhir_identifier/0,reference_/0]).
--export_type([humanName/0,address/0,contactPoint/0]).
--export_type([relatedArtifact/0,attachment/0]).
+-export_type([identifier/0]).
+-export_type([humanName/0,contactPoint/0]).
 -export_type([quantity/0,range/0,ratio/0]).
 -export_type([period/0,repeat/0,timing/0]).
--export_type([annotation/0,signature/0]).
--export_type([narrative/0]).
--export_type([meta/0]).
+-export_type([signature/0]).
 
 
 -record(address, {
@@ -30,7 +29,7 @@
 -opaque address() :: #address{}.
 
 -record(annotation, {
-      authorReference :: reference_()
+      authorReference :: special:reference_()
     , time :: date()
     , text :: binary()
     }).
@@ -90,7 +89,7 @@
      , system         :: uri()             %% The namespace for the fhir_identifier
      , value          :: binary()          %% The value that is unique
      , period         :: period()          %% Time period when id is/was valid for use
-     , assigner       :: reference_()             %% Organization that issued id (may be just text)
+     , assigner       :: special:reference_()  %% Organization that issued id (may be just text)
 }).
 -opaque fhir_identifier()   :: #identifier{}.
 
@@ -143,8 +142,8 @@
 -record(signature, {
       type :: [coding]
     , when_ :: binary()
-    , whoReference :: reference_()
-    , onBehalfOfReference :: reference_()
+    , whoReference :: special:reference_()
+    , onBehalfOfReference :: special:reference_()
     , contentType :: binary()
     , blob :: base64Binary()
     }).
@@ -156,42 +155,6 @@
     , code :: codeableConcept()
     }).
 -opaque timing() :: #timing{}.
-
-%%
-%%   - Special Datatypes
-%%
--record(narrative, {
-      status :: binary()
-    , div_ :: binary()
-    }).
--opaque narrative() :: #narrative{}.
-
--record(meta, {
-       versionId = 0 :: positiveInt()
-     , lastUpdated   :: dateTime()
-     , source        :: binary()
-     , profile       :: [uri()]
-     , security      :: [coding()]
-     , tag           :: [coding()]
-     , extension     :: [extensions:extension()]
-}).
--opaque meta()   :: #meta{}.
-
--record(reference, {
-       reference_ :: binary()
-     , display   :: binary()
-}).
--opaque reference_()    :: #reference{}.
-
--record(relatedArtifact, {
-      type :: binary()
-    , display :: binary()
-    , citation :: binary()
-    , url :: binary()
-    , document :: attachment()
-    , resource :: reference_()
-    }).
--opaque relatedArtifact() :: #relatedArtifact{}.
 
 %%====================================================================
 %% API functions
@@ -373,48 +336,6 @@ to_timing(Props) ->
     , code = decode:value(<<"code">>, Props, DT)
     }.
 
-%%
-%%====================================================================
-%% Special data types
-%%====================================================================
-%%
-to_narrative({Props}) -> to_narrative(Props);
-to_narrative(Props) ->
-    DT = decode:xsd_info(<<"Narrative">>),
-    io:format("~p~n~p~n",[Props,DT]),
-    #narrative{
-        status = decode:value(<<"status">>, Props, DT)
-      , div_   = decode:value(<<"div">>, Props, DT)
-      }.
-
-to_meta({Props}) -> to_meta(Props);
-to_meta(Props) ->
-    DT = decode:xsd_info(<<"Meta">>),
-    io:format("~p~n~p~n",[Props,DT]),
-    #meta{
-        versionId    = decode:value(<<"versionId">>, Props, DT)
-      , lastUpdated  = decode:value(<<"lastUpdated">>, Props, DT)
-      , source       = decode:value(<<"source">>, Props, DT)
-      , profile      = decode:value(<<"profile">>, Props, DT) 
-      , security     = decode:value(<<"security">>, Props, DT)
-      , tag          = decode:value(<<"tag">>, Props, DT)
-      , extension    = decode:value(<<"extension">>, Props, DT)
-      }.
-
-to_reference({Props}) -> to_reference(Props);
-to_reference(Props) ->
-    DT = decode:xsd_info(<<"Reference">>),
-    io:format("~p~n~p~n",[Props,DT]),
-    #reference{
-        reference_ = decode:value(<<"reference">>, Props, DT)
-      , display    = decode:value(<<"display">>, Props, DT)
-      }.
-
-%%
-%% Access functions
-%%
-narrative(undefined) -> <<"no text">>;
-narrative(#narrative{div_=Text}) -> Text.
 
 %%%
 %%% EUnit
@@ -437,25 +358,6 @@ complex_to_test() ->
             {humanName,<<"official">>,undefined,undefined,[],[],[],undefined}),
     ?asrtto(complex:to_humanName({[{<<"use">>, <<"official">>},{<<"family">>,<<"Sokolow">>},{<<"given">>,[<<"Nicolai">>]}]}),
             {humanName,<<"official">>,undefined,<<"Sokolow">>,[<<"Nicolai">>],[],[],undefined}).
-
-complex_meta_test() ->
-    ?asrtto(complex:to_meta({[{<<"versionId">>, <<"999">>},
-                              {<<"lastUpdated">>,<<"2019-07-14T09:10:10">>},
-                              {<<"tag">>,
-                                   [{[{<<"system">>,<<"http://eNahar.org/test">>},
-                                      {<<"code">>,<<"hello">>}]}]},
-                              {<<"extension">>,
-                                   [{[{<<"url">>, <<"http://eNahar.org/nabu/extension#lastUpdatedBy">>},
-                                      {<<"valueReference">>,
-                                             {[{<<"reference">>, <<"metis/practitioners/u-vkr">>},
-                                               {<<"display">>, <<"von Kleist-Retzow, JÃ¼rgen-Christoph">>}]}}]}]}
-                             ]}),
-            {meta,<<"999">>,<<"2019-07-14T09:10:10">>,undefined, [], [], 
-                          [{coding, <<"http://eNahar.org/test">>,undefined,<<"hello">>,undefined,undefined}],
-                          [{extension,
-                            <<"http://eNahar.org/nabu/extension#lastUpdatedBy">>,
-                              {valueReference,
-                                 {reference,<<"metis/practitioners/u-vkr">>, <<"von Kleist-Retzow, JÃ¼rgen-Christoph">>}}}]}).
 
 complex_timing_test() ->
     ?asrtto(complex:to_timing({[{<<"event">>, [<<"2019-07-15T12:00:00">>]}]}),

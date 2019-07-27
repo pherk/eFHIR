@@ -37,7 +37,7 @@
 -record(valueAnnotation,      {value :: complex:annotation()}).
 -record(valueCodeableConcept, {value :: complex:codeableConcept()}).
 -record(valueCoding,          {value :: complex:coding()}).
--record(valueReference,       {value :: complex:reference()}).
+-record(valueReference,       {value :: special:reference_()}).
 
 -type extensionValue() :: 
       #valueBase64Binary{}
@@ -159,5 +159,5 @@ to_extensionValue(<<"valueCodeableConcept">>, Props) ->
 to_extensionValue(<<"valueCoding">>, Props) ->
     #valueCoding{ value = complex:to_coding(Props) };
 to_extensionValue(<<"valueReference">>, Props) ->
-    #valueReference{ value = complex:to_reference(Props) }.
+    #valueReference{ value = special:to_reference(Props) }.
     
