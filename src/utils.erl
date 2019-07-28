@@ -7,7 +7,8 @@
 %%
 
 -spec keys(Props :: list()) -> list(). 
-keys(Props) -> keys(Props,[]).
+keys(Props) -> 
+    keys(Props,[]).
 keys([],L) -> lists:reverse(L);
 keys([{K,_}|T],Acc) ->
     NewAcc = [K] ++ Acc,

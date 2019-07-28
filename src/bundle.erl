@@ -81,7 +81,11 @@
 %%====================================================================
 %% API functions
 %%====================================================================
-
+new(bundle, <<"batch-response">>,Resources) ->
+    Entries = lists:map(fun(R) -> new(entry,R) end, Resources),
+    #bundle{type = <<"batch-response">>, entry = Entries}.
+new(entry,{ok, Resource}) ->
+    #bundleentry{resource = Resource}.
 
 to_bundle({Props}) -> to_bundle(Props);
 to_bundle(Props) ->
@@ -167,6 +171,12 @@ repr(Bundle, {summary, R}) ->
 repr_summary(#bundle{ entry = Es } = Bundle, R) ->
     io:format("~p~n",[Bundle]),
     lists:filtermap(fun text/1, Es).
+
+resource(#bundleentry{resource=Res}) ->
+    Res.
+
+id(#bundleentry{fullUrl= U, resource=Res, request= Req}) ->
+    12345.
 
 text(#bundleentry{resource=R}) ->
     io:format("~p~n",[R]),

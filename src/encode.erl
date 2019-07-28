@@ -1,8 +1,11 @@
 -module(encode).
+
 -compile(export_all).
+
 -include("primitives.hrl").
 -include("fhir_400.hrl").
 
+-export([to_proplist/1]).
 %%====================================================================
 %% Internal functions
 %%====================================================================
@@ -32,12 +35,19 @@ xsd_info(Key) -> maps:get(Key,?fhir_xsd).
 get_type(bundle) -> <<"Bundle">>;
 get_type(patient) -> <<"Patient">>.
 
-record_info(XSDType) -> 
+rec_info(XSDType) -> 
     {Base,FI,Attrs,Restrictions} = xsd_info(XSDType), 
     BFI = resolve_base(Base,FI),
     io:format("r_i: ~p~n",[BFI]),
-    utils:keys(BFI).
+    keys(BFI).
 
+-spec keys(Props :: list()) -> list(). 
+keys(Props) -> 
+    keys(Props,[]).
+keys([],L) -> lists:reverse(L);
+keys([{K,_}|T],Acc) ->
+    NewAcc = [K] ++ Acc,
+    keys(T,NewAcc).
 
 %%
 %% Serialization back to ejson
@@ -47,15 +57,17 @@ check_value(Field, Value, RecInfo) ->
 	case Value of
           undefined  -> false;
           []         -> false;
+          V when is_list(V) ->  {true, {Field, []}};
+          R when is_tuple(R) -> {true, {Field, to_proplist(R)}};
           _          -> {true, {Field, Value}}
 	end.	
 
-rec_to_proplist(Rec) ->
+to_proplist(Rec) ->
     RecName = element(1,Rec),
     io:format("r2p-0: ~p~n",[Rec]),
     XSDType  = get_type(RecName),
     io:format("r2p-1: ~p~n",[XSDType]),
-    Info = record_info(XSDType),
+    Info = rec_info(XSDType),
     io:format("r2p-2: ~p~n",[Info]),
 	FL = lists:zip(Info, tl(tuple_to_list(Rec))), 
 	io:format("r2p-3: ~p~n", [FL]),
