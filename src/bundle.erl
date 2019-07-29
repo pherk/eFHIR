@@ -25,35 +25,35 @@
     , type        :: code() 
     , timestamp   :: instant()
     , total       :: unsignedInt()
-    , link        :: [bundlelink()]
-    , entry       :: [bundleentry()]
+    , link        :: [bundle_link()]
+    , entry       :: [bundle_entry()]
     , signature   :: complex:signature()
     }).
 -type bundle() :: #bundle{}.
 
--record(bundlelink, {
+-record(bundle_link, {
            relation :: binary()
          , url :: uri()
          }).
--type bundlelink() :: #bundlelink{}.
+-type bundle_link() :: #bundle_link{}.
 
--record(bundleentry, {
-           link :: [bundlelink()]
+-record(bundle_entry, {
+           link :: [bundle_link()]
          , fullUrl :: uri()
          , resource :: resource:resourceContainer()
-         , search   :: bundlesearch()
-         , request  :: bundlerequest()
-         , reponse  :: bundleresponse()
+         , search   :: bundle_search()
+         , request  :: bundle_request()
+         , reponse  :: bundle_response()
          }).
--type bundleentry() :: #bundleentry{}.
+-type bundle_entry() :: #bundle_entry{}.
 
--record(bundlesearch, {
+-record(bundle_search, {
            mode :: code()
          , score :: decimal()
          }).
--type bundlesearch() :: #bundlesearch{}.
+-type bundle_search() :: #bundle_search{}.
 
--record(bundlerequest, {
+-record(bundle_request, {
            method :: code() 
          , url    :: uri()
          , ifNoneMatch :: binary()
@@ -61,16 +61,16 @@
          , ifMatch :: binary()
          , ifNoneExist :: binary()
          }).
--type bundlerequest() :: #bundlerequest{}.
+-type bundle_request() :: #bundle_request{}.
 
--record(bundleresponse, {
+-record(bundle_response, {
            status :: binary()
          , location :: uri()
          , etag :: binary()
          , lastModified :: instant()
          , outcome :: resource:resourceContainer()
          }).
--type bundleresponse() :: #bundleresponse{}.
+-type bundle_response() :: #bundle_response{}.
 
 
 
@@ -85,7 +85,7 @@ new(bundle, <<"batch-response">>,Resources) ->
     Entries = lists:map(fun(R) -> new(entry,R) end, Resources),
     #bundle{type = <<"batch-response">>, entry = Entries}.
 new(entry,{ok, Resource}) ->
-    #bundleentry{resource = Resource}.
+    #bundle_entry{resource = Resource}.
 
 to_bundle({Props}) -> to_bundle(Props);
 to_bundle(Props) ->
@@ -107,7 +107,7 @@ to_bundle(Props) ->
 to_bundle_link({Props}) -> to_bundle_link(Props);
 to_bundle_link(Props) ->
   DT = decode:xsd_info(<<"Bundle.Link">>),
-  #bundlelink{
+  #bundle_link{
       relation = decode:value(<<"relation">>, Props, DT)
     , url  = decode:value(<<"url">>, Props, DT)
     }.
@@ -115,7 +115,7 @@ to_bundle_link(Props) ->
 to_bundle_entry({Props}) -> to_bundle_entry(Props);
 to_bundle_entry(Props) ->
   DT = decode:xsd_info(<<"Bundle.Entry">>),
-  #bundleentry{
+  #bundle_entry{
       link      = decode:value(<<"link">>,Props, DT)
     , fullUrl   = decode:value(<<"fullUrl">>, Props, DT)
     , resource  = decode:value(<<"resource">>,Props, DT)
@@ -130,7 +130,7 @@ to_bundle_entry(Props) ->
 to_bundle_search({Props}) -> to_bundle_search(Props);
 to_bundle_search(Props) ->
     DT = decode:xsd_info(<<"Bundle.Search">>),
-	#bundlesearch{
+	#bundle_search{
        mode = decode:value(<<"mode">>, Props, DT)
      , score = decode:value(<<"score">>, Props, DT)
 	 }.
@@ -138,7 +138,7 @@ to_bundle_search(Props) ->
 to_bundle_request({Props}) -> to_bundle_request(Props);
 to_bundle_request(Props) ->
     DT = decode:xsd_info(<<"Bundle.Request">>),
-    #bundlerequest{
+    #bundle_request{
            method        = decode:value(<<"method">>, Props, DT)
          , url           = decode:value(<<"url">>, Props, DT)
          , ifNoneMatch   = decode:value(<<"ifNoneMatch">>, Props, DT)
@@ -150,7 +150,7 @@ to_bundle_request(Props) ->
 to_bundle_response({Props}) -> to_bundle_response(Props);
 to_bundle_response(Props) ->
     DT = decode:xsd_info(<<"Bundle.Response">>),
-    #bundleresponse{
+    #bundle_response{
            status        = decode:value(<<"status">>, Props, DT)
          , location      = decode:value(<<"location">>, Props, DT)
          , etag          = decode:value(<<"etag">>, Props, DT)
@@ -172,13 +172,13 @@ repr_summary(#bundle{ entry = Es } = Bundle, R) ->
     io:format("~p~n",[Bundle]),
     lists:filtermap(fun text/1, Es).
 
-resource(#bundleentry{resource=Res}) ->
+resource(#bundle_entry{resource=Res}) ->
     Res.
 
-id(#bundleentry{fullUrl= U, resource=Res, request= Req}) ->
+id(#bundle_entry{fullUrl= U, resource=Res, request= Req}) ->
     12345.
 
-text(#bundleentry{resource=R}) ->
+text(#bundle_entry{resource=R}) ->
     io:format("~p~n",[R]),
     {true, resource:text(R)}.
 
@@ -197,8 +197,8 @@ text(#bundleentry{resource=R}) ->
 -include_lib("eunit/include/eunit.hrl").
 
 -define(asrtto(A, B), ?assertEqual(B, bundle:to_bundle(A))).
--define(asrtp(A, B), ?assertEqual(B, encode:rec_to_proplist(A))).
--define(asrtjson(A, B), ?assertEqual(B, jiffy:encode({encode:rec_to_proplist(A)}))).
+-define(asrtp(A, B), ?assertEqual(B, encode:to_proplist(A))).
+-define(asrtjson(A, B), ?assertEqual(B, jiffy:encode(encode:to_proplist(A)))).
 
 bundle_to_test() ->
     ?asrtto([{<<"id">>, <<"p-21666">>},{<<"type">>,<<"searchset">>},
@@ -212,7 +212,7 @@ bundle_to_test() ->
          {bundle,<<"p-21666">>,undefined,undefined, undefined, 
                   undefined,<<"searchset">>, undefined, undefined,
                           [],
-                          [{bundleentry,
+                          [{bundle_entry,
                                [],
                                <<"http://eNahar.org/nabu/patient-test">>,
                                {patient,<<"p-21666">>,undefined,undefined,
@@ -227,9 +227,9 @@ bundle_toprop_test() ->
          {bundle,<<"p-21666">>,undefined,undefined, undefined, 
                   undefined,undefined, undefined, undefined,
                           [],[],undefined},
-            [{<<"resourceType">>,<<"Bundle">>},
+         {[{<<"resourceType">>,<<"Bundle">>},
               {<<"id">>,<<"p-21666">>}
-            ]).
+            ]}).
 
 bundle_json_test() ->
     ?asrtjson(

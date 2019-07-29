@@ -32,8 +32,19 @@ fhir_to_erlang(Key) -> Key.
 
 xsd_info(Key) -> maps:get(Key,?fhir_xsd).
 
-get_type(bundle) -> <<"Bundle">>;
-get_type(patient) -> <<"Patient">>.
+get_type(bundle) ->          {<<"DomainResource">>, <<"Bundle">>};
+get_type(bundle_link) ->     {<<"BackboneElement">>, <<"Bundle.Link">>};
+get_type(bundle_entry) ->    {<<"BackboneElement">>, <<"Bundle.Entry">>};
+get_type(bundle_search) ->   {<<"BackboneElement">>, <<"Bundle.Search">>};
+get_type(bundle_request) ->  {<<"BackboneElement">>, <<"Bundle.Request">>};
+get_type(bundle_response) -> {<<"BackboneElement">>, <<"Bundle.Response">>};
+get_type(extension) ->       {<<"Element">>, <<"Extension">>};
+get_type(meta) ->            {<<"Element">>, <<"Meta">>};
+get_type(narrative) ->       {<<"Element">>, <<"Narrative">>};
+get_type(patient) ->         {<<"DomainResource">>, <<"Patient">>};
+get_type(patient_contact) -> {<<"BackboneElement">>, <<"Patient.Contact">>};
+get_type(patient_communication) -> {<<"BackboneElement">>, <<"Patient.Communication">>};
+get_type(patient_link) ->    {<<"BackboneElement">>, <<"Patient.Link">>}.
 
 rec_info(XSDType) -> 
     {Base,FI,Attrs,Restrictions} = xsd_info(XSDType), 
@@ -57,23 +68,26 @@ check_value(Field, Value, RecInfo) ->
 	case Value of
           undefined  -> false;
           []         -> false;
-          V when is_list(V) ->  {true, {Field, []}};
-          R when is_tuple(R) -> {true, {Field, to_proplist(R)}};
-          _          -> {true, {Field, Value}}
+          V when is_list(V) -> {true, {Field, lists:map(fun to_proplist/1, V)}};
+          V                 -> {true, {Field, to_proplist(V)}}
 	end.	
 
-to_proplist(Rec) ->
+to_proplist(Rec) when is_tuple(Rec) ->
     RecName = element(1,Rec),
     io:format("r2p-0: ~p~n",[Rec]),
-    XSDType  = get_type(RecName),
-    io:format("r2p-1: ~p~n",[XSDType]),
+    {XSDBaseType, XSDType}  = get_type(RecName),
+    io:format("r2p-1: ~s <= ~s~n",[XSDType,XSDBaseType]),
     Info = rec_info(XSDType),
     io:format("r2p-2: ~p~n",[Info]),
 	FL = lists:zip(Info, tl(tuple_to_list(Rec))), 
 	io:format("r2p-3: ~p~n", [FL]),
 	PropList = lists:filtermap(fun({Key,Value}) -> check_value(Key,Value,Info) end, FL),
 	io:format("r2p-4: ~p~n", [PropList]),
-	[{<<"resourceType">>, get_type(RecName)}] ++ PropList.
+    case XSDBaseType of
+        <<"DomainResource">> -> {[{<<"resourceType">>, XSDType}] ++ PropList};
+        _                    -> {PropList}
+    end;
+to_proplist(Value) -> Value.
 
 patient_to_proplist(Rec) ->
     L = [{resourceType, element(1,Rec)}] ++

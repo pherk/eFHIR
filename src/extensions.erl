@@ -2,8 +2,10 @@
 -include("primitives.hrl").
 
 -export_type([extension/0]).
--exports([to_extension/1]).
+-export([to_extension/1]).
 
+
+%% not used
 -define(ext_info, {<<"Element">>, [
                    {<<"value">>, {extensionValue, optional}} ],
                   [ {<<"url">>, {primitive, <<"uri">>}, required}} ],

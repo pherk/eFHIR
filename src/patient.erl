@@ -35,7 +35,8 @@
 -opaque patient() :: #patient{}.
 
 -record(patient_contact, {
-	  relationship :: [complex:codeableConcept()]
+      extension   :: [extensions:extension()]
+	, relationship :: [complex:codeableConcept()]
     , name         :: complex:humanName()
     , telecom      :: [complex:contactPoint()]
     , address      :: complex:address()
@@ -46,14 +47,16 @@
 -opaque patient_contact() :: #patient_contact{}.
 
 -record(patient_communication, {
-          language :: complex:codeableCOncept()
-        , preferred :: boolean()
+      extension   :: [extensions:extension()]
+    , language :: complex:codeableCOncept()
+    , preferred :: boolean()
     }).
 -opaque patient_communication() :: #patient_communication{}.
 
 -record(patient_link, {
-          other :: special:reference_()
-        , type  :: complex:code()
+      extension   :: [extensions:extension()]
+    , other :: special:reference_()
+    , type  :: complex:code()
     }). 
 -opaque patient_link() :: #patient_link{}.
 
@@ -106,7 +109,8 @@ to_patient_contact({Props}) -> to_patient_contact(Props);
 to_patient_contact(Props) ->
   DT = decode:xsd_info(<<"Patient.Contact">>),
   #patient_contact{ 
-      relationship = decode:value(<<"relationship">>, Props, DT)
+      extension        = decode:value(<<"extension">>, Props, DT)
+    , relationship = decode:value(<<"relationship">>, Props, DT)
     , name         = decode:value(<<"name">>, Props, DT)
     , telecom      = decode:value(<<"telecom">>, Props, DT)
     , address      = decode:value(<<"address">>, Props, DT)
@@ -119,7 +123,8 @@ to_patient_communication({Props}) -> to_patient_communication(Props);
 to_patient_communication(Props) -> 
   DT = decode:xsd_info(<<"Patient.Communication">>),
   #patient_communication{
-      language  = decode:value(<<"language">>, Props, DT)
+      extension        = decode:value(<<"extension">>, Props, DT)
+    , language  = decode:value(<<"language">>, Props, DT)
     , preferred = decode:value(<<"preferred">>, Props, DT)
     }.
 
@@ -127,7 +132,8 @@ to_patient_link({Props}) -> to_patient_link(Props);
 to_patient_link(Props) -> 
   DT = decode:xsd_info(<<"Patient.Link">>),
   #patient_link{
-      other = decode:value(<<"other">>, Props, DT)
+      extension        = decode:value(<<"extension">>, Props, DT)
+    , other = decode:value(<<"other">>, Props, DT)
     , type  = decode:value(<<"type">>, Props, DT)
     }.
 
@@ -142,8 +148,8 @@ text(#patient{text=N}) ->
 -include_lib("eunit/include/eunit.hrl").
 
 -define(asrtto(A, B), ?assertEqual(B, patient:to_patient(A))).
--define(asrtp(A, B), ?assertEqual(B, encode:rec_to_proplist(A))).
--define(asrtjson(A, B), ?assertEqual(B, jiffy:encode({encode:rec_to_proplist(A)}))).
+-define(asrtp(A, B), ?assertEqual(B, encode:to_proplist(A))).
+-define(asrtjson(A, B), ?assertEqual(B, jiffy:encode(encode:to_proplist(A)))).
 
 patient_to_test() ->
     ?asrtto([{<<"id">>, <<"p-21666">>}],
@@ -158,9 +164,9 @@ patient_toprop_test() ->
                           [],undefined,[],[],undefined,undefined,
                           undefined,undefined,[],undefined,undefined,
                           undefined,[],[],[],[],undefined, []},
-            [{<<"resourceType">>,<<"Patient">>},
+           {[{<<"resourceType">>,<<"Patient">>},
               {<<"id">>,<<"p-21666">>}
-            ]).
+            ]}).
 
 patient_json_test() ->
     ?asrtjson({patient,<<"p-21666">>,undefined,undefined,undefined, 
