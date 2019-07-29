@@ -49,7 +49,7 @@ get_type(patient_link) ->    {<<"BackboneElement">>, <<"Patient.Link">>}.
 rec_info(XSDType) -> 
     {Base,FI,Attrs,Restrictions} = xsd_info(XSDType), 
     BFI = resolve_base(Base,FI),
-    io:format("r_i: ~p~n",[BFI]),
+%    io:format("r_i: ~p~n",[BFI]),
     keys(BFI).
 
 -spec keys(Props :: list()) -> list(). 
@@ -74,15 +74,15 @@ check_value(Field, Value, RecInfo) ->
 
 to_proplist(Rec) when is_tuple(Rec) ->
     RecName = element(1,Rec),
-    io:format("r2p-0: ~p~n",[Rec]),
+%    io:format("r2p-0: ~p~n",[Rec]),
     {XSDBaseType, XSDType}  = get_type(RecName),
-    io:format("r2p-1: ~s <= ~s~n",[XSDType,XSDBaseType]),
+%    io:format("r2p-1: ~s <= ~s~n",[XSDType,XSDBaseType]),
     Info = rec_info(XSDType),
-    io:format("r2p-2: ~p~n",[Info]),
+%    io:format("r2p-2: ~p~n",[Info]),
 	FL = lists:zip(Info, tl(tuple_to_list(Rec))), 
-	io:format("r2p-3: ~p~n", [FL]),
+%	io:format("r2p-3: ~p~n", [FL]),
 	PropList = lists:filtermap(fun({Key,Value}) -> check_value(Key,Value,Info) end, FL),
-	io:format("r2p-4: ~p~n", [PropList]),
+%	io:format("r2p-4: ~p~n", [PropList]),
     case XSDBaseType of
         <<"DomainResource">> -> {[{<<"resourceType">>, XSDType}] ++ PropList};
         _                    -> {PropList}

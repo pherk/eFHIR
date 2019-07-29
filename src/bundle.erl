@@ -169,7 +169,7 @@ repr(Bundle, {summary, R}) ->
     repr_summary(Bundle, R).
 
 repr_summary(#bundle{ entry = Es } = Bundle, R) ->
-    io:format("~p~n",[Bundle]),
+%    io:format("~p~n",[Bundle]),
     lists:filtermap(fun text/1, Es).
 
 resource(#bundle_entry{resource=Res}) ->
@@ -179,7 +179,7 @@ id(#bundle_entry{fullUrl= U, resource=Res, request= Req}) ->
     12345.
 
 text(#bundle_entry{resource=R}) ->
-    io:format("~p~n",[R]),
+%    io:format("~p~n",[R]),
     {true, resource:text(R)}.
 
 % Now, suppose you have a list of resources in the Bundle:

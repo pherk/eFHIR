@@ -43,14 +43,14 @@ to_time(Bin) -> Bin.
 
 
 value(Key, Props, {Base,FI,Attrs,Restriction}=DT) ->
-    io:format("get_value0: ~s~n",[Key]),
+%    io:format("value0: ~s~n",[Key]),
     BFI = resolve_base(Base,FI),
-    io:format("get_value: ~p~n",[BFI]),
+%    io:format("value1: ~p~n",[BFI]),
     {Type,Occurs} = proplists:get_value(Key, BFI),
-    io:format("get_value1: ~s: ~p~n",[Key, {Type,Occurs}]),
-    io:format("get_value2: ~s: ~p~n",[Key, Props]),
+%    io:format("get_value2: ~s: ~p~n",[Key, {Type,Occurs}]),
+%    io:format("get_value3: ~s: ~p~n",[Key, Props]),
     Value = proplists:get_value(erlang_to_fhir(Key), Props),
-    io:format("get_value3: ~p~n",[Value]),
+%    io:format("get_value4: ~p~n",[Value]),
     case {Value,Occurs} of
         {undefined, optional}       -> undefined;
         {undefined, required}       -> error;
@@ -101,7 +101,7 @@ validate({primitive, <<"url">>},   Value) -> Value;
 validate({primitive, <<"xhtml">>},   Value) -> Value;
 validate({code, Type},   Value) -> 
     List = maps:get(Type,?fhir_codes),
-    io:format("code: ~s in ~p~n",[Value,List]),
+%    io:format("code: ~s in ~p~n",[Value,List]),
     Value;
 validate({complex, <<"Address">>},        Value) -> complex:to_address(Value);
 validate({complex, <<"Age">>},            Value) -> complex:to_age(Value);
@@ -136,7 +136,7 @@ validate({bbelement, Resource},   Value) ->
     R = string:lowercase(Resource),
     Mod = hd(binary:split(R, <<".">>)),
     Fun = list_to_binary([<<"to_">>,binary:replace(R,<<".">>,<<"_">>)]),
-    io:format("validate: apply: ~s:~s(~p)~n",[Mod,Fun,Value]),
+%    io:format("validate: apply: ~s:~s(~p)~n",[Mod,Fun,Value]),
     apply(binary_to_atom(Mod,utf8),binary_to_atom(Fun,utf8),[Value]).
 
 
@@ -170,7 +170,7 @@ get_type(patient) -> <<"Patient">>.
 record_info(XSDType) -> 
     {Base,FI,Attrs,Restrictions} = xsd_info(XSDType), 
     BFI = resolve_base(Base,FI),
-    io:format("r_i: ~p~n",[BFI]),
+%    io:format("r_i: ~p~n",[BFI]),
     utils:keys(BFI).
 
 
