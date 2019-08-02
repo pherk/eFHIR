@@ -43,7 +43,7 @@
          , resource :: resource:resourceContainer()
          , search   :: bundle_search()
          , request  :: bundle_request()
-         , reponse  :: bundle_response()
+         , response  :: bundle_response()
          }).
 -type bundle_entry() :: #bundle_entry{}.
 
@@ -81,11 +81,24 @@
 %%====================================================================
 %% API functions
 %%====================================================================
-new(bundle, <<"batch-response">>,Resources) ->
-    Entries = lists:map(fun(R) -> new(entry,R) end, Resources),
-    #bundle{type = <<"batch-response">>, entry = Entries}.
-new(entry,{ok, Resource}) ->
-    #bundle_entry{resource = Resource}.
+new(bundle, {<<"batch-response">>, Entries}) ->
+    #bundle{type = <<"batch-response">>, entry = Entries};
+%% {ok, Uri, Resource} is a response from dao functions
+%% automatically generate a response prop for entry
+%%       <outcome>
+%%        <OperationOutcome>
+%%          <issue>
+%%             <severity value="warning"/>
+%%             <code value="not-found"/>
+%%             <details>
+%%               <text value="The Managing organization was not known and was deleted"/>
+%%             </details>
+%%             <expression value="Patient.managingOrganization"/>
+%%          </issue>
+%%        </OperationOutcome>
+new(entry,{Uri, Etag, Resource, Outcome}) ->
+    Response = #bundle_response{status = 200, location = Uri, etag = Etag, lastModified = <<"2001-01-01">>, outcome = Outcome},
+    #bundle_entry{resource = resource:to_resource(Resource), response = Response}.
 
 to_bundle({Props}) -> to_bundle(Props);
 to_bundle(Props) ->
@@ -121,7 +134,7 @@ to_bundle_entry(Props) ->
     , resource  = decode:value(<<"resource">>,Props, DT)
     , search    = decode:value(<<"search">>,Props, DT)
     , request   = decode:value(<<"request">>, Props, DT)
-    , reponse   = decode:value(<<"response">>, Props, DT)
+    , response  = decode:value(<<"response">>, Props, DT)
     }.
 
 %%====================================================================
