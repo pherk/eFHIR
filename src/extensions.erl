@@ -1,7 +1,7 @@
 -module(extensions).
 -include("primitives.hrl").
 
--export_type([extension/0]).
+-export_type(['Extension'/0]).
 -export([to_extension/1]).
 
 
@@ -11,11 +11,11 @@
                   [ {<<"url">>, {primitive, <<"uri">>}, required}} ],
                   [] }).
 
--record(extension, {
+-record('Extension', {
       url :: binary()
     , value :: extensionValue()
     }).
--opaque extension() :: #extension{}.
+-opaque 'Extension'() :: #'Extension'{}.
 
 
 -record(valueBase64Binary, {value :: base64Binary()}).
@@ -36,10 +36,10 @@
 -record(valueUri,      {value :: uri()}).
 -record(valueUrl,      {value :: url()}).
 -record(valueUuid,     {value :: uuid()}). 
--record(valueAnnotation,      {value :: complex:annotation()}).
--record(valueCodeableConcept, {value :: complex:codeableConcept()}).
--record(valueCoding,          {value :: complex:coding()}).
--record(valueReference,       {value :: special:reference_()}).
+-record(valueAnnotation,      {value :: complex:'Annotation'()}).
+-record(valueCodeableConcept, {value :: complex:'CodeableConcept'()}).
+-record(valueCoding,          {value :: complex:'Coding'()}).
+-record(valueReference,       {value :: special:'Reference'()}).
 
 -type extensionValue() :: 
       #valueBase64Binary{}
@@ -108,7 +108,7 @@ to_extension(Props) ->
     [ValueType] = lists:delete(<<"url">>,proplists:get_keys(Props)),
     {Value} = proplists:get_value(ValueType,Props),
     io:format("extensions: ~s: ~p~n",[ValueType, Value]),
-    #extension{
+    #'Extension'{
         url    = proplists:get_value(<<"url">>, Props)
       , value  = to_extensionValue(ValueType,Value)
       }.

@@ -4,38 +4,38 @@
 %%
 %% API exports
 %%
--export_type([meta/0]).
--export_type([narrative/0]).
--export_type([reference_/0]).
+-export_type(['Meta'/0]).
+-export_type(['Narrative'/0]).
+-export_type(['Reference'/0]).
 
 
 %%
 %%   - Special Datatypes
 %%
--record(narrative, {
-      extension     :: [extensions:extension()]
+-record('Narrative', {
+      extension     :: [extensions:'Extension'()]
     , status :: binary()
-    , div_ :: binary()
+    , 'div' :: binary()
     }).
--opaque narrative() :: #narrative{}.
+-opaque 'Narrative'() :: #'Narrative'{}.
 
--record(meta, {
-      extension     :: [extensions:extension()]
+-record('Meta', {
+      extension     :: [extensions:'Extension'()]
     , versionId = 0 :: positiveInt()
     , lastUpdated   :: dateTime()
     , source        :: binary()
     , profile       :: [uri()]
-    , security      :: [complex:coding()]
-    , tag           :: [complex:coding()]
+    , security      :: [complex:'Coding'()]
+    , tag           :: [complex:'Coding'()]
     }).
--opaque meta()   :: #meta{}.
+-opaque 'Meta'()   :: #'Meta'{}.
 
--record(reference, {
-       extension  :: [extensions:extension()]
-     , reference_ :: binary()
-     , display   :: binary()
+-record('Reference', {
+       extension   :: [extensions:'Extension'()]
+     , 'reference' :: binary()
+     , display     :: binary()
 }).
--opaque reference_()    :: #reference{}.
+-opaque 'Reference'()    :: #'Reference'{}.
 
 
 %%====================================================================
@@ -45,18 +45,18 @@ to_narrative({Props}) -> to_narrative(Props);
 to_narrative(Props) ->
     DT = decode:xsd_info(<<"Narrative">>),
     io:format("~p~n~p~n",[Props,DT]),
-    #narrative{
+    #'Narrative'{
         extension = decode:value(<<"extension">>, Props, DT)
       , status = decode:value(<<"status">>, Props, DT)
-      , div_   = decode:value(<<"div">>, Props, DT)
+      , 'div'   = decode:value(<<"div">>, Props, DT)
       }.
 
 to_meta({Props}) -> to_meta(Props);
 to_meta(Props) ->
     DT = decode:xsd_info(<<"Meta">>),
     io:format("~p~n~p~n",[Props,DT]),
-    #meta{
-        extension = decode:value(<<"extension">>, Props, DT)
+    #'Meta'{
+        extension    = decode:value(<<"extension">>, Props, DT)
       , versionId    = decode:value(<<"versionId">>, Props, DT)
       , lastUpdated  = decode:value(<<"lastUpdated">>, Props, DT)
       , source       = decode:value(<<"source">>, Props, DT)
@@ -69,9 +69,9 @@ to_reference({Props}) -> to_reference(Props);
 to_reference(Props) ->
     DT = decode:xsd_info(<<"Reference">>),
     io:format("~p~n~p~n",[Props,DT]),
-    #reference{
-        extension = decode:value(<<"extension">>, Props, DT)
-      , reference_ = decode:value(<<"reference">>, Props, DT)
+    #'Reference'{
+        extension  = decode:value(<<"extension">>, Props, DT)
+      , 'reference' = decode:value(<<"reference">>, Props, DT)
       , display    = decode:value(<<"display">>, Props, DT)
       }.
 
@@ -79,7 +79,7 @@ to_reference(Props) ->
 %% Access functions
 %%
 narrative(undefined) -> <<"no text">>;
-narrative(#narrative{div_=Text}) -> Text.
+narrative(#'Narrative'{'div'=Text}) -> Text.
 
 %%%
 %%% EUnit
@@ -103,13 +103,13 @@ complex_meta_test() ->
                                              {[{<<"reference">>, <<"metis/practitioners/u-vkr">>},
                                                {<<"display">>, <<"von Kleist-Retzow, JÃ¼rgen-Christoph">>}]}}]}]}
                              ]}),
-            {meta,
-                 [{extension,
+            {'Meta',
+                 [{'Extension',
                      <<"http://eNahar.org/nabu/extension#lastUpdatedBy">>,
                      {valueReference,
-                         {reference,[], <<"metis/practitioners/u-vkr">>, <<"von Kleist-Retzow, JÃ¼rgen-Christoph">>}}}],
+                         {'Reference',[], <<"metis/practitioners/u-vkr">>, <<"von Kleist-Retzow, JÃ¼rgen-Christoph">>}}}],
                  <<"999">>,<<"2019-07-14T09:10:10">>,undefined, [], [], 
-                 [{coding, <<"http://eNahar.org/test">>,undefined,<<"hello">>,undefined,undefined}]
+                 [{'Coding', <<"http://eNahar.org/test">>,undefined,<<"hello">>,undefined,undefined}]
            }).
 
 

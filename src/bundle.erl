@@ -16,44 +16,44 @@
 %% Rule: A document must have a Composition as the first resource
 %% Rule: A message must have a MessageHeader as the first resource
 
--record(bundle, {
+-record('Bundle', {
       id          :: id()
-    , meta        :: special:meta()
+    , meta        :: special:'Meta'()
     , implicitRules :: uri()
     , language    :: code()
-    , identifier_ :: complex:identifier()
+    , 'identifier' :: complex:'Identifier'()
     , type        :: code() 
     , timestamp   :: instant()
     , total       :: unsignedInt()
-    , link        :: [bundle_link()]
-    , entry       :: [bundle_entry()]
-    , signature   :: complex:signature()
+    , link        :: ['Bundle.Link'()]
+    , entry       :: ['Bundle.Entry'()]
+    , signature   :: complex:'Signature'()
     }).
--type bundle() :: #bundle{}.
+-type 'Bundle'() :: #'Bundle'{}.
 
--record(bundle_link, {
+-record('Bundle.Link', {
            relation :: binary()
          , url :: uri()
          }).
--type bundle_link() :: #bundle_link{}.
+-type 'Bundle.Link'() :: #'Bundle.Link'{}.
 
--record(bundle_entry, {
-           link :: [bundle_link()]
+-record('Bundle.Entry', {
+           link :: ['Bundle.Link'()]
          , fullUrl :: uri()
-         , resource :: resource:resourceContainer()
-         , search   :: bundle_search()
-         , request  :: bundle_request()
-         , response  :: bundle_response()
+         , resource :: resource:'ResourceContainer'()
+         , search   :: 'Bundle.Search'()
+         , request  :: 'Bundle.Request'()
+         , response  :: 'Bundle.Response'()
          }).
--type bundle_entry() :: #bundle_entry{}.
+-type 'Bundle.Entry'() :: #'Bundle.Entry'{}.
 
--record(bundle_search, {
+-record('Bundle.Search', {
            mode :: code()
          , score :: decimal()
          }).
--type bundle_search() :: #bundle_search{}.
+-type 'Bundle.Search'() :: #'Bundle.Search'{}.
 
--record(bundle_request, {
+-record('Bundle.Request', {
            method :: code() 
          , url    :: uri()
          , ifNoneMatch :: binary()
@@ -61,16 +61,16 @@
          , ifMatch :: binary()
          , ifNoneExist :: binary()
          }).
--type bundle_request() :: #bundle_request{}.
+-type 'Bundle.Request'() :: #'Bundle.Request'{}.
 
--record(bundle_response, {
+-record('Bundle.Response', {
            status :: binary()
          , location :: uri()
          , etag :: binary()
          , lastModified :: instant()
          , outcome :: resource:resourceContainer()
          }).
--type bundle_response() :: #bundle_response{}.
+-type 'Bundle.Response'() :: #'Bundle.Response'{}.
 
 
 
@@ -81,8 +81,8 @@
 %%====================================================================
 %% API functions
 %%====================================================================
-new(bundle, {<<"batch-response">>, Entries}) ->
-    #bundle{type = <<"batch-response">>, entry = Entries};
+new('Bundle', {<<"batch-response">>, Entries}) ->
+    #'Bundle'{type = <<"batch-response">>, entry = Entries};
 %% {ok, Uri, Resource} is a response from dao functions
 %% automatically generate a response prop for entry
 %%       <outcome>
@@ -96,19 +96,19 @@ new(bundle, {<<"batch-response">>, Entries}) ->
 %%             <expression value="Patient.managingOrganization"/>
 %%          </issue>
 %%        </OperationOutcome>
-new(entry,{Uri, Etag, Resource, Outcome}) ->
-    Response = #bundle_response{status = 200, location = Uri, etag = Etag, lastModified = <<"2001-01-01">>, outcome = Outcome},
-    #bundle_entry{resource = resource:to_resource(Resource), response = Response}.
+new('Bundle.Entry',{Uri, Etag, Resource, Outcome}) ->
+    Response = #'Bundle.Response'{status = 200, location = Uri, etag = Etag, lastModified = <<"2001-01-01">>, outcome = Outcome},
+    #'Bundle.Entry'{resource = resource:to_resource(Resource), response = Response}.
 
 to_bundle({Props}) -> to_bundle(Props);
 to_bundle(Props) ->
   DT = decode:xsd_info(<<"Bundle">>),
-  #bundle{
+  #'Bundle'{
       id          = decode:value(<<"id">>, Props, DT)
     , meta        = decode:value(<<"meta">>, Props, DT)
     , implicitRules = decode:value(<<"implicitRules">>, Props, DT)
     , language    = decode:value(<<"language">>, Props, DT)
-    , identifier_ = decode:value(<<"identifier">>, Props, DT)
+    , 'identifier' = decode:value(<<"identifier">>, Props, DT)
     , type        = decode:value(<<"type">>, Props, DT) 
     , timestamp   = decode:value(<<"timestamp">>, Props, DT)
     , total       = decode:value(<<"total">>, Props, DT)
@@ -120,7 +120,7 @@ to_bundle(Props) ->
 to_bundle_link({Props}) -> to_bundle_link(Props);
 to_bundle_link(Props) ->
   DT = decode:xsd_info(<<"Bundle.Link">>),
-  #bundle_link{
+  #'Bundle.Link'{
       relation = decode:value(<<"relation">>, Props, DT)
     , url  = decode:value(<<"url">>, Props, DT)
     }.
@@ -128,7 +128,7 @@ to_bundle_link(Props) ->
 to_bundle_entry({Props}) -> to_bundle_entry(Props);
 to_bundle_entry(Props) ->
   DT = decode:xsd_info(<<"Bundle.Entry">>),
-  #bundle_entry{
+  #'Bundle.Entry'{
       link      = decode:value(<<"link">>,Props, DT)
     , fullUrl   = decode:value(<<"fullUrl">>, Props, DT)
     , resource  = decode:value(<<"resource">>,Props, DT)
@@ -143,7 +143,7 @@ to_bundle_entry(Props) ->
 to_bundle_search({Props}) -> to_bundle_search(Props);
 to_bundle_search(Props) ->
     DT = decode:xsd_info(<<"Bundle.Search">>),
-	#bundle_search{
+	#'Bundle.Search'{
        mode = decode:value(<<"mode">>, Props, DT)
      , score = decode:value(<<"score">>, Props, DT)
 	 }.
@@ -151,7 +151,7 @@ to_bundle_search(Props) ->
 to_bundle_request({Props}) -> to_bundle_request(Props);
 to_bundle_request(Props) ->
     DT = decode:xsd_info(<<"Bundle.Request">>),
-    #bundle_request{
+    #'Bundle.Request'{
            method        = decode:value(<<"method">>, Props, DT)
          , url           = decode:value(<<"url">>, Props, DT)
          , ifNoneMatch   = decode:value(<<"ifNoneMatch">>, Props, DT)
@@ -163,7 +163,7 @@ to_bundle_request(Props) ->
 to_bundle_response({Props}) -> to_bundle_response(Props);
 to_bundle_response(Props) ->
     DT = decode:xsd_info(<<"Bundle.Response">>),
-    #bundle_response{
+    #'Bundle.Response'{
            status        = decode:value(<<"status">>, Props, DT)
          , location      = decode:value(<<"location">>, Props, DT)
          , etag          = decode:value(<<"etag">>, Props, DT)
@@ -172,26 +172,26 @@ to_bundle_response(Props) ->
 	}.
 %%
 %%
-%-spec unmarshal({xml, Doc, Description} | {json, Doc, Description} | {postgres, ...}) -> {ok, bundle()} | {error, Reason}.
+%-spec unmarshal({xml, Doc, Description} | {json, Doc, Description} | {postgres, ...}) -> {ok, 'Bundle'()} | {error, Reason}.
 %-spec marshal(Bundle, xml | json | transit) -> Data.
 % repr(Bundle, {msgpack, View}) -> msgpack:encode(repr(Bundle, View));
 repr(Bundle, {json, View}) -> jiffy:encode(repr(Bundle, View));
-repr(#bundle{ type = T, timestamp = TS, total = Total }, summary) ->
+repr(#'Bundle'{ type = T, timestamp = TS, total = Total }, summary) ->
     { TS, T, Total };
 repr(Bundle, {summary, R}) ->
     repr_summary(Bundle, R).
 
-repr_summary(#bundle{ entry = Es } = Bundle, R) ->
+repr_summary(#'Bundle'{ entry = Es } = Bundle, R) ->
 %    io:format("~p~n",[Bundle]),
     lists:filtermap(fun text/1, Es).
 
-resource(#bundle_entry{resource=Res}) ->
+resource(#'Bundle.Entry'{resource=Res}) ->
     Res.
 
-id(#bundle_entry{fullUrl= U, resource=Res, request= Req}) ->
+id(#'Bundle.Entry'{fullUrl= U, resource=Res, request= Req}) ->
     12345.
 
-text(#bundle_entry{resource=R}) ->
+text(#'Bundle.Entry'{resource=R}) ->
 %    io:format("~p~n",[R]),
     {true, resource:text(R)}.
 
@@ -222,13 +222,13 @@ bundle_to_test() ->
                                              ]}}]
                            }]}
             ],
-         {bundle,<<"p-21666">>,undefined,undefined, undefined, 
+         {'Bundle',<<"p-21666">>,undefined,undefined, undefined, 
                   undefined,<<"searchset">>, undefined, undefined,
                           [],
-                          [{bundle_entry,
+                          [{'Bundle.Entry',
                                [],
                                <<"http://eNahar.org/nabu/patient-test">>,
-                               {patient,<<"p-21666">>,undefined,undefined,
+                               {'Patient',<<"p-21666">>,undefined,undefined,
                                    undefined,undefined,[],[],[],[],undefined,[],[],
                                    undefined,undefined,undefined,undefined,[],
                                    undefined,undefined,undefined,[],[],[],[],
@@ -237,7 +237,7 @@ bundle_to_test() ->
                           undefined}).
 bundle_toprop_test() ->
     ?asrtp(
-         {bundle,<<"p-21666">>,undefined,undefined, undefined, 
+         {'Bundle',<<"p-21666">>,undefined,undefined, undefined, 
                   undefined,undefined, undefined, undefined,
                           [],[],undefined},
          {[{<<"resourceType">>,<<"Bundle">>},
@@ -246,7 +246,7 @@ bundle_toprop_test() ->
 
 bundle_json_test() ->
     ?asrtjson(
-         {bundle,<<"p-21666">>,undefined,undefined, undefined, 
+         {'Bundle',<<"p-21666">>,undefined,undefined, undefined, 
                   undefined,undefined, undefined, undefined,
                           [],[],undefined},
            <<"{\"resourceType\":\"Bundle\",\"id\":\"p-21666\"}">>).

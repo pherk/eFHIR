@@ -4,15 +4,15 @@
 %%
 %% API exports
 %%
--record(relatedArtifact, {
+-record('RelatedArtifact', {
       type :: binary()
     , display :: binary()
     , citation :: binary()
     , url :: binary()
-    , document :: complex:attachment()
-    , resource :: special:reference()
+    , document :: complex:'Attachment'()
+    , resource :: special:'Reference'()
     }).
--opaque relatedArtifact() :: #relatedArtifact{}.
+-opaque 'RelatedArtifact'() :: #'RelatedArtifact'{}.
 
 %%====================================================================
 %% API functions

@@ -3,8 +3,8 @@
 
 -export([to_resource/1, text/1]).
 
--type resourceContainer() ::
-      patient:patient().
+-type 'ResourceContainer'() ::
+      patient:'Patient'().
 %%      careplan()
 %%    | careteam()
 %%    | composition()

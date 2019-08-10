@@ -18,33 +18,27 @@ resolve_base(Base, L) ->
     {NewBase, BI, Attrs, Restrictions} = xsd_info(Base),
     resolve_base(NewBase, BI++L).
 
-erlang_to_fhir(<<"reference_">>) -> <<"reference">>;
 erlang_to_fhir(<<"when_">>) -> <<"when">>;
-erlang_to_fhir(<<"start_">>) -> <<"start">>;
-erlang_to_fhir(<<"end_">>) -> <<"end">>;
 erlang_to_fhir(Key) -> Key.
 
-fhir_to_erlang(<<"reference">>) -> <<"reference_">>;
 fhir_to_erlang(<<"when">>) -> <<"when_">>;
-fhir_to_erlang(<<"start">>) -> <<"start_">>;
-fhir_to_erlang(<<"end">>) -> <<"end_">>;
 fhir_to_erlang(Key) -> Key.
 
 xsd_info(Key) -> maps:get(Key,?fhir_xsd).
 
-get_type(bundle) ->          {<<"DomainResource">>, <<"Bundle">>};
-get_type(bundle_link) ->     {<<"BackboneElement">>, <<"Bundle.Link">>};
-get_type(bundle_entry) ->    {<<"BackboneElement">>, <<"Bundle.Entry">>};
-get_type(bundle_search) ->   {<<"BackboneElement">>, <<"Bundle.Search">>};
-get_type(bundle_request) ->  {<<"BackboneElement">>, <<"Bundle.Request">>};
-get_type(bundle_response) -> {<<"BackboneElement">>, <<"Bundle.Response">>};
-get_type(extension) ->       {<<"Element">>, <<"Extension">>};
-get_type(meta) ->            {<<"Element">>, <<"Meta">>};
-get_type(narrative) ->       {<<"Element">>, <<"Narrative">>};
-get_type(patient) ->         {<<"DomainResource">>, <<"Patient">>};
-get_type(patient_contact) -> {<<"BackboneElement">>, <<"Patient.Contact">>};
-get_type(patient_communication) -> {<<"BackboneElement">>, <<"Patient.Communication">>};
-get_type(patient_link) ->    {<<"BackboneElement">>, <<"Patient.Link">>}.
+get_type('Bundle') ->          {<<"DomainResource">>, <<"Bundle">>};
+get_type('Bundle.Link') ->     {<<"BackboneElement">>, <<"Bundle.Link">>};
+get_type('Bundle.Entry') ->    {<<"BackboneElement">>, <<"Bundle.Entry">>};
+get_type('Bundle.Search') ->   {<<"BackboneElement">>, <<"Bundle.Search">>};
+get_type('Bundle.Request') ->  {<<"BackboneElement">>, <<"Bundle.Request">>};
+get_type('Bundle.Response') -> {<<"BackboneElement">>, <<"Bundle.Response">>};
+get_type('Extension') ->       {<<"Element">>, <<"Extension">>};
+get_type('Meta') ->            {<<"Element">>, <<"Meta">>};
+get_type('Narrative') ->       {<<"Element">>, <<"Narrative">>};
+get_type('Patient') ->         {<<"DomainResource">>, <<"Patient">>};
+get_type('Patient.Contact') -> {<<"BackboneElement">>, <<"Patient.Contact">>};
+get_type('Patient.Communication') -> {<<"BackboneElement">>, <<"Patient.Communication">>};
+get_type('Patient.Link') ->    {<<"BackboneElement">>, <<"Patient.Link">>}.
 
 rec_info(XSDType) -> 
     {Base,FI,Attrs,Restrictions} = xsd_info(XSDType), 

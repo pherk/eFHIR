@@ -4,61 +4,61 @@
 -include("primitives.hrl").
 -include("codes.hrl").
 
--record(patient, {
+-record('Patient', {
       id          :: binary()
-    , meta        :: special:meta()
+    , meta        :: special:'Meta'()
     , implicitRules :: uri()
     , language    :: code()
-    , text        :: special:narrative()
-    , contained   :: [resource:resource()]
-    , extension   :: [extensions:extension()]
-    , modifierExtension   :: [extensions:extension()]
-    , identifier_ :: complex:identifier()
+    , text        :: special:'Narrative'()
+    , contained   :: [resource:'Resource'()]
+    , extension   :: [extensions:'Extension'()]
+    , modifierExtension   :: [extensions:'Extension'()]
+    , 'identifier' :: complex:'Identifier'()
     , active      :: boolean()
-    , name        :: [complex:humanName()]
-    , telecom     :: [complex:contactPoint()]
+    , name        :: [complex:'HumanName'()]
+    , telecom     :: [complex:'ContactPoint'()]
     , gender      :: code()
     , birthDate   :: date()
     , deceasedBoolean  :: boolean()
     , deceasedDateTime :: dateTime()
-    , address          :: [complex:address()]
-    , maritalStatus    :: complex:codeableConcept()
+    , address          :: [complex:'Address'()]
+    , maritalStatus    :: complex:'CodeableConcept'()
     , multipleBirthBoolean :: boolean()
     , multipleBirthInteger :: integer()
-    , photo                :: [complex:attachment()]
-    , contact              :: [patient_contact()]	
-    , communication        :: [patient_communication()]
-    , generalPractitioner  :: [special:reference_()]
-    , managingOrganization :: special:reference_()
-    , link                 :: [patient_link()]
+    , photo                :: [complex:'Attachment'()]
+    , contact              :: ['Patient.Contact'()]	
+    , communication        :: ['Patient.Communication'()]
+    , generalPractitioner  :: [special:'Reference'()]
+    , managingOrganization :: special:'Reference'()
+    , link                 :: ['Patient.Link'()]
     }).
--opaque patient() :: #patient{}.
+-opaque 'Patient'() :: #'Patient'{}.
 
--record(patient_contact, {
-      extension   :: [extensions:extension()]
-	, relationship :: [complex:codeableConcept()]
-    , name         :: complex:humanName()
-    , telecom      :: [complex:contactPoint()]
-    , address      :: complex:address()
-    , gender       :: complex:code()
-    , organization :: special:reference_()
-    , period       :: complex:period()
+-record('Patient.Contact', {
+      extension   :: [extensions:'Extension'()]
+	, relationship :: [complex:'CodeableConcept'()]
+    , name         :: complex:'HumanName'()
+    , telecom      :: [complex:'ContactPoint'()]
+    , address      :: complex:'Address'()
+    , gender       :: code()
+    , organization :: special:'Reference'()
+    , period       :: complex:'Period'()
     }).
--opaque patient_contact() :: #patient_contact{}.
+-opaque 'Patient.Contact'() :: #'Patient.Contact'{}.
 
--record(patient_communication, {
-      extension   :: [extensions:extension()]
-    , language :: complex:codeableCOncept()
+-record('Patient.Communication', {
+      extension   :: [extensions:'Extension'()]
+    , language :: complex:'CodeableCOncept'()
     , preferred :: boolean()
     }).
--opaque patient_communication() :: #patient_communication{}.
+-opaque 'Patient.Communication'() :: #'Patient.Communication'{}.
 
--record(patient_link, {
-      extension   :: [extensions:extension()]
-    , other :: special:reference_()
-    , type  :: complex:code()
+-record('Patient.Link', {
+      extension   :: [extensions:'Extension'()]
+    , other :: special:'Reference'()
+    , type  :: code()
     }). 
--opaque patient_link() :: #patient_link{}.
+-opaque 'Patient.Link'() :: #'Patient.Link'{}.
 
 %%
 %% API exports
@@ -72,7 +72,7 @@
 to_patient({Props}) -> to_patient(Props);
 to_patient(Props) ->
   DT = decode:xsd_info(<<"Patient">>),
-  #patient{ 
+  #'Patient'{ 
       id               = decode:value(<<"id">>, Props, DT)
     , meta             = decode:value(<<"meta">>, Props, DT)
     , implicitRules    = decode:value(<<"implicitRules">>, Props, DT)
@@ -81,7 +81,7 @@ to_patient(Props) ->
     , contained        = decode:value(<<"contained">>, Props, DT)
     , extension        = decode:value(<<"extension">>, Props, DT)
     , modifierExtension = decode:value(<<"modifierExtension">>, Props, DT)
-    , identifier_      = decode:value(<<"identifier">>, Props, DT)
+    , 'identifier'      = decode:value(<<"identifier">>, Props, DT)
     , active           = decode:value(<<"active">>, Props, DT)
     , name             = decode:value(<<"name">>, Props, DT)
     , telecom          = decode:value(<<"telecom">>, Props, DT)
@@ -108,7 +108,7 @@ to_patient(Props) ->
 to_patient_contact({Props}) -> to_patient_contact(Props);
 to_patient_contact(Props) ->
   DT = decode:xsd_info(<<"Patient.Contact">>),
-  #patient_contact{ 
+  #'Patient.Contact'{ 
       extension        = decode:value(<<"extension">>, Props, DT)
     , relationship = decode:value(<<"relationship">>, Props, DT)
     , name         = decode:value(<<"name">>, Props, DT)
@@ -122,7 +122,7 @@ to_patient_contact(Props) ->
 to_patient_communication({Props}) -> to_patient_communication(Props);
 to_patient_communication(Props) -> 
   DT = decode:xsd_info(<<"Patient.Communication">>),
-  #patient_communication{
+  #'Patient.Communication'{
       extension        = decode:value(<<"extension">>, Props, DT)
     , language  = decode:value(<<"language">>, Props, DT)
     , preferred = decode:value(<<"preferred">>, Props, DT)
@@ -131,13 +131,13 @@ to_patient_communication(Props) ->
 to_patient_link({Props}) -> to_patient_link(Props);
 to_patient_link(Props) -> 
   DT = decode:xsd_info(<<"Patient.Link">>),
-  #patient_link{
+  #'Patient.Link'{
       extension        = decode:value(<<"extension">>, Props, DT)
     , other = decode:value(<<"other">>, Props, DT)
     , type  = decode:value(<<"type">>, Props, DT)
     }.
 
-text(#patient{text=N}) -> 
+text(#'Patient'{text=N}) -> 
     special:narrative(N).
 
 %%
@@ -153,13 +153,13 @@ text(#patient{text=N}) ->
 
 patient_to_test() ->
     ?asrtto([{<<"id">>, <<"p-21666">>}],
-         {patient,<<"p-21666">>,undefined,undefined, undefined, 
+         {'Patient',<<"p-21666">>,undefined,undefined, undefined, 
                   undefined,[], [], [],
                           [],undefined,[],[],undefined,undefined,
                           undefined,undefined,[],undefined,undefined,
                           undefined,[],[],[],[],undefined,[]}).
 patient_toprop_test() ->
-    ?asrtp({patient,<<"p-21666">>,undefined,undefined,undefined, 
+    ?asrtp({'Patient',<<"p-21666">>,undefined,undefined,undefined, 
                   undefined, [],[], [],
                           [],undefined,[],[],undefined,undefined,
                           undefined,undefined,[],undefined,undefined,
@@ -169,7 +169,7 @@ patient_toprop_test() ->
             ]}).
 
 patient_json_test() ->
-    ?asrtjson({patient,<<"p-21666">>,undefined,undefined,undefined, 
+    ?asrtjson({'Patient',<<"p-21666">>,undefined,undefined,undefined, 
                   undefined, [],[], [],
                           [],undefined,[],[],undefined,undefined,
                           undefined,undefined,[],undefined,undefined,
@@ -177,3 +177,4 @@ patient_json_test() ->
            <<"{\"resourceType\":\"Patient\",\"id\":\"p-21666\"}">>).
 
 -endif.
+
