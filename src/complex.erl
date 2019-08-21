@@ -161,14 +161,14 @@
 to_address({Props}) -> to_address(Props);
 to_address(Props) -> 
     DT = decode:xsd_info(<<"Address">>),
-    io:format("~p~n~p~n",[Props,DT]),
+    % io:format("~p~n~p~n",[Props,DT]),
     #'Address'{
       use        = decode:value(<<"use">>, Props, DT)
     , type       = decode:value(<<"type">>, Props, DT) 
     , text       = decode:value(<<"text">>, Props, DT)
     , line       = decode:value(<<"line">>, Props, DT)
     , city       = decode:value(<<"city">>, Props, DT) 
-    , district   = decode:value(<<"distrinct">>, Props, DT) 
+    , district   = decode:value(<<"district">>, Props, DT) 
     , state      = decode:value(<<"state">>, Props, DT) 
     , postalCode = decode:value(<<"postalCode">>, Props, DT) 
     , country    = decode:value(<<"country">>, Props, DT) 
@@ -178,7 +178,7 @@ to_address(Props) ->
 to_annotation({Props}) -> to_annotation(Props);
 to_annotation(Props) ->
     DT = decode:xsd_info(<<"Annotation">>),
-    io:format("~p~n~p~n",[Props,DT]),
+    % io:format("~p~n~p~n",[Props,DT]),
     #'Annotation'{
       authorReference = decode:value(<<"authorReference">>, Props, DT)
     , time = decode:value(<<"time">>, Props, DT)
@@ -188,7 +188,7 @@ to_annotation(Props) ->
 to_attachment({Props}) -> to_attachment(Props);
 to_attachment(Props) -> 
     DT = decode:xsd_info(<<"Attachment">>),
-    io:format("~p~n~p~n",[Props,DT]),
+    % io:format("~p~n~p~n",[Props,DT]),
     #'Attachment'{
       contentType = decode:value(<<"contentType">>, Props, DT)
     , language    = decode:value(<<"language">>, Props, DT)
@@ -203,7 +203,7 @@ to_attachment(Props) ->
 to_coding({Props}) -> to_coding(Props);
 to_coding(Props) ->
     DT = decode:xsd_info(<<"Coding">>),
-    io:format("~p~n~p~n",[Props,DT]),
+    % io:format("~p~n~p~n",[Props,DT]),
     #'Coding'{
         system  = decode:value(<<"system">>, Props, DT)
       , version = decode:value(<<"version">>, Props, DT)
@@ -215,7 +215,7 @@ to_coding(Props) ->
 to_codeableConcept({Props}) -> to_codeableConcept(Props);
 to_codeableConcept(Props) ->
     DT = decode:xsd_info(<<"CodeableConcept">>),
-    io:format("~p~n~p~n",[Props,DT]),
+    % io:format("~p~n~p~n",[Props,DT]),
     #'CodeableConcept'{
         coding  = decode:value(<<"coding">>, Props, DT)
       , text = decode:value(<<"text">>, Props, DT)
@@ -224,7 +224,7 @@ to_codeableConcept(Props) ->
 to_contactPoint({Props}) -> to_contactPoint(Props);
 to_contactPoint(Props) -> 
     DT = decode:xsd_info(<<"ContactPoint">>),
-    io:format("~p~n~p~n",[Props,DT]),
+    % io:format("~p~n~p~n",[Props,DT]),
     #'ContactPoint'{
       use    = decode:value(<<"use">>, Props, DT)
     , system = decode:value(<<"system">>, Props, DT)

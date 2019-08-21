@@ -1,8 +1,8 @@
 -module(extensions).
 -include("primitives.hrl").
 
+-export([to_extension/1, to_extension_list/1]).
 -export_type(['Extension'/0]).
--export([to_extension/1]).
 
 
 %% not used
@@ -36,13 +36,15 @@
 -record(valueUri,      {value :: uri()}).
 -record(valueUrl,      {value :: url()}).
 -record(valueUuid,     {value :: uuid()}). 
+-record(valueAddress,         {value :: complex:'Address'()}).
 -record(valueAnnotation,      {value :: complex:'Annotation'()}).
 -record(valueCodeableConcept, {value :: complex:'CodeableConcept'()}).
 -record(valueCoding,          {value :: complex:'Coding'()}).
 -record(valueReference,       {value :: special:'Reference'()}).
 
 -type extensionValue() :: 
-      #valueBase64Binary{}
+      'Extension'()
+    | #valueBase64Binary{}
     | #valueBoolean{}
     | #valueCode{}
     | #valueDate{}
@@ -63,10 +65,8 @@
     | #valueAnnotation{}
     | #valueCodeableConcept{}
     | #valueCoding{}
-    | #valueReference{}.
-
-
-%% ValueAddress Address
+    | #valueReference{}
+    | #valueAddress{}.
 %% ValueAge Age
 %% ValueAttachment Attachment
 %% ValueContactPoint ContactPoint
@@ -97,63 +97,86 @@
 
 %%
 %% API exports
--export([to_extension/1]).
+-export([to_extension/1, to_extension_list/1]).
 
 %%====================================================================
 %% API functions
+%%
+%%[{[{<<"url">>,<<"ombCategory">>},
+%%   {<<"valueCoding">>,
+%%      {[{<<"system">>, <<"urn:oid:2.16.840.1.113883.6.238">>},
+%%        {<<"code">>,<<"2054-5">>},
+%%        {<<"display">>, <<"Black or African American">>}]}
+%%      }]},
+%% {[{<<"url">>,<<"text">>},
+%%   {<<"valueString">>,<<"Black or African American">>}]}
+%%]
+
 %%====================================================================
+to_extension_list({List}) -> to_extension(List);
+to_extension_list(List) ->
+    [ to_extension(P) || P <- List].
+
 to_extension({Props}) ->    to_extension(Props);
 to_extension(Props) ->
     % DT = ?ext_info,
-    [ValueType] = lists:delete(<<"url">>,proplists:get_keys(Props)),
-    {Value} = proplists:get_value(ValueType,Props),
-    io:format("extensions: ~s: ~p~n",[ValueType, Value]),
-    #'Extension'{
-        url    = proplists:get_value(<<"url">>, Props)
-      , value  = to_extensionValue(ValueType,Value)
-      }.
+    Keys = proplists:get_keys(Props),
+    [ValueType] = lists:delete(<<"url">>,Keys),
+    Value = proplists:get_value(ValueType,Props),
+    case Value of
+      {Val} ->   % Object
+          #'Extension'{ url    = proplists:get_value(<<"url">>, Props),
+                        value  = to_extensionValue(ValueType,Value)};
+      Val ->     % simple value
+          #'Extension'{ url    = proplists:get_value(<<"url">>, Props),
+                        value  = to_extensionValue(ValueType,Value)}
+    end.
 
 %% TODO replace by makeTuple
 %%====================================================================
 %% Internal functions
 %%====================================================================
 
-to_extensionValue(<<"valueBase64Binary">>, Props) ->
-    #valueBase64Binary{ value = proplists:get_value(<<"valueBase64Binary">>, Props) };
-to_extensionValue(<<"valueBoolean">>, Props) ->
-    #valueBoolean{ value = proplists:get_value(<<"valueBoolean">>, Props) };
-to_extensionValue(<<"valueCode">>, Props) ->
-    #valueCode{ value = proplists:get_value(<<"valueCode">>, Props) };
-to_extensionValue(<<"valueDate">>, Props) ->
-    #valueDate{ value = proplists:get_value(<<"valueDate">>, Props) };
-to_extensionValue(<<"valueDateTime">>, Props) ->
-    #valueDateTime{ value = proplists:get_value(<<"valueDateTime">>, Props) };
-to_extensionValue(<<"valueDecimal">>, Props) ->
-    #valueDecimal{ value = proplists:get_value(<<"valueDecimal">>, Props) };
-to_extensionValue(<<"valueId">>, Props) ->
-    #valueId{ value = proplists:get_value(<<"valueId">>, Props) };
-to_extensionValue(<<"valueInstant">>, Props) ->
-    #valueInstant{ value = proplists:get_value(<<"valueInstant">>, Props) };
-to_extensionValue(<<"valueInteger">>, Props) ->
-    #valueInteger{ value = proplists:get_value(<<"valueInteger">>, Props) };
-to_extensionValue(<<"valueMarkdown">>, Props) ->
-    #valueMarkdown{ value = proplists:get_value(<<"valueMarkdown">>, Props) };
-to_extensionValue(<<"valueOid">>, Props) ->
-    #valueOid{ value = proplists:get_value(<<"valueOid">>, Props) };
-to_extensionValue(<<"valuePositiveInt">>, Props) ->
-    #valuePositiveInt{ value = proplists:get_value(<<"valuePositiveInt">>, Props) };
-to_extensionValue(<<"valueString">>, Props) ->
-    #valueString{ value = proplists:get_value(<<"valueString">>, Props) };
-to_extensionValue(<<"valueTime">>, Props) ->
-    #valueTime{ value = proplists:get_value(<<"valueTime">>, Props) };
-to_extensionValue(<<"valueUnsignedInt">>, Props) ->
-    #valueUnsignedInt{ value = proplists:get_value(<<"valueUnsignedInt">>, Props) };
-to_extensionValue(<<"valueUri">>, Props) ->
-    #valueUri{ value = proplists:get_value(<<"valueUri">>, Props) };
-to_extensionValue(<<"valueUrl">>, Props) ->
-    #valueUrl{ value = proplists:get_value(<<"valueUrl">>, Props) };
-to_extensionValue(<<"valueUuid">>, Props) ->
-    #valueUuid{ value = proplists:get_value(<<"valueUuid">>, Props) };
+to_extensionValue(<<"extension">>, Value) ->
+    to_extension_list(Value);
+to_extensionValue(<<"valueBase64Binary">>, Value) ->
+    #valueBase64Binary{ value = Value };
+to_extensionValue(<<"valueBoolean">>, Value ) ->
+    #valueBoolean{ value = Value };
+to_extensionValue(<<"valueCode">>, Value ) ->
+    #valueCode{ value = Value };
+to_extensionValue(<<"valueDate">>, Value ) ->
+    #valueDate{ value = Value };
+to_extensionValue(<<"valueDateTime">>, Value ) ->
+    #valueDateTime{ value = Value };
+to_extensionValue(<<"valueDecimal">>, Value ) ->
+    #valueDecimal{ value = Value };
+to_extensionValue(<<"valueId">>, Value) ->
+    #valueId{ value = Value };
+to_extensionValue(<<"valueInstant">>, Value) ->
+    #valueInstant{ value = Value };
+to_extensionValue(<<"valueInteger">>, Value) ->
+    #valueInteger{ value = Value };
+to_extensionValue(<<"valueMarkdown">>, Value) ->
+    #valueMarkdown{ value = Value };
+to_extensionValue(<<"valueOid">>, Value) ->
+    #valueOid{ value = Value };
+to_extensionValue(<<"valuePositiveInt">>, Value) ->
+    #valuePositiveInt{ value = Value };
+to_extensionValue(<<"valueString">>, Value) ->
+    #valueString{ value = Value };
+to_extensionValue(<<"valueTime">>, Value) ->
+    #valueTime{ value = Value };
+to_extensionValue(<<"valueUnsignedInt">>, Value) ->
+    #valueUnsignedInt{ value = Value };
+to_extensionValue(<<"valueUri">>, Value) ->
+    #valueUri{ value = Value };
+to_extensionValue(<<"valueUrl">>, Value) ->
+    #valueUrl{ value = Value };
+to_extensionValue(<<"valueUuid">>, Value) ->
+    #valueUuid{ value = Value };
+to_extensionValue(<<"valueAddress">>, Props) ->
+    #valueAddress{ value = complex:to_address(Props) };
 to_extensionValue(<<"valueAnnotation">>, Props) ->
     #valueAnnotation{ value = complex:to_annotation(Props) };
 to_extensionValue(<<"valueCodeableConcept">>, Props) ->
@@ -163,3 +186,72 @@ to_extensionValue(<<"valueCoding">>, Props) ->
 to_extensionValue(<<"valueReference">>, Props) ->
     #valueReference{ value = special:to_reference(Props) }.
     
+
+%% EUnit Tests
+%%
+-ifdef(TEST).
+
+-include_lib("eunit/include/eunit.hrl").
+
+-define(asrte(A, B), ?assertEqual(B, extensions:to_extension(A))).
+-define(asrtelist(A, B), ?assertEqual(B, extensions:to_extension_list(A))).
+
+
+extensions_type_test() ->
+    ?asrte({[{<<"url">>,<<"text">>},
+             {<<"valueString">>,<<"Black or African American">>}]},
+           {'Extension',<<"text">>,
+                        {valueString,<<"Black or African American">>}}
+          ),
+    ?asrte({[{<<"url">>,<<"ombCategory">>},
+               {<<"valueCoding">>,
+                 {[{<<"system">>, <<"urn:oid:2.16.840.1.113883.6.238">>},
+                   {<<"code">>,<<"2054-5">>},
+                   {<<"display">>, <<"Black or African American">>}]}
+                 }]},
+           {'Extension',<<"ombCategory">>,
+                        {valueCoding, 
+                            {'Coding',<<"urn:oid:2.16.840.1.113883.6.238">>, undefined,<<"2054-5">>, <<"Black or African American">>,undefined}}}
+          ).
+
+
+extensions_list_test() ->
+    ?asrtelist([{[{<<"url">>,<<"ombCategory">>},
+                {<<"valueCoding">>,
+                   {[{<<"system">>, <<"urn:oid:2.16.840.1.113883.6.238">>},
+                     {<<"code">>,<<"2054-5">>},
+                     {<<"display">>, <<"Black or African American">>}]}
+                }]},
+                {[{<<"url">>,<<"text">>},
+                  {<<"valueString">>,<<"Black or African American">>}]}
+               ], 
+               [{'Extension',<<"ombCategory">>,
+                      {valueCoding,
+                          {'Coding',<<"urn:oid:2.16.840.1.113883.6.238">>, undefined,<<"2054-5">>, <<"Black or African American">>,undefined}}},
+                {'Extension',<<"text">>,
+                      {valueString,<<"Black or African American">>}}
+               ]).
+
+extension_recursive_test() ->
+    ?asrtelist({[{<<"url">>, <<"http://hl7.org/fhir/us/core/StructureDefinition/us-core-race">>},
+                   {<<"extension">>,
+                     [{[{<<"url">>, <<"ombCategory">>},
+                        {<<"valueCoding">>,
+                          {[{<<"system">>, <<"urn:oid:2.16.840.1.113883.6.238">>},
+                            {<<"code">>, <<"2054-5">>},
+                            {<<"display">>, <<"Black or African American">>}]}}]},
+                      {[{<<"url">>, <<"text">>},
+                        {<<"valueString">>, <<"Black or African American">>}]}]}]},
+              {'Extension', <<"http://hl7.org/fhir/us/core/StructureDefinition/us-core-race">>,
+                     [{'Extension',<<"ombCategory">>,
+                          {valueCoding,
+                              {'Coding',
+                                  <<"urn:oid:2.16.840.1.113883.6.238">>,
+                                  undefined,<<"2054-5">>,
+                                  <<"Black or African American">>,undefined}}},
+                      {'Extension',<<"text">>,
+                          {valueString,<<"Black or African American">>}}]}).
+
+
+-endif.
+

@@ -74,13 +74,15 @@ resourceType(EJson) ->
 resolve_base(Base) -> 
     resolve_base(Base,[]).
 resolve_base(<<>>, L) -> L;
-resolve_base(<<"BackboneElement">>, L) -> L;
+resolve_base(<<"BackboneElement">>, L) ->
+    {NewBase, BI, Attrs, Restrictions} = xsd_info(<<"BackboneElement">>),
+    resolve_base(NewBase, BI++L);
 resolve_base(Base, L) -> 
     {NewBase, BI, Attrs, Restrictions} = xsd_info(Base),
     resolve_base(NewBase, BI++L).
 
 validate({primitive, <<"base64Binary">>},   Value) -> Value;
-validate({primitive, <<"boolean">>},   Value) -> utils:binary_to_boolean(Value,error);
+validate({primitive, <<"boolean">>},   Value) -> Value; % utils:binary_to_boolean(Value,error);
 validate({primitive, <<"canonical">>},   Value) -> Value;
 validate({primitive, <<"code">>},   Value) -> Value;
 validate({primitive, <<"date">>},   Value) -> Value;
@@ -122,13 +124,13 @@ validate({complex, <<"Period">>},         Value) -> complex:to_period(Value);
 validate({complex, <<"Range">>},          Value) -> complex:to_range(Value);
 validate({complex, <<"Ratio">>},          Value) -> complex:to_ratio(Value);
 validate({complex, <<"Quantity">>},       Value) -> complex:to_quantity(Value);
-validate({complex, <<"ResourceContainer">>}, Value) -> patient:to_patient(Value); % TODO fhir/resource.erl
+validate({complex, <<"ResourceContainer">>}, Value) -> resource:to_resource(Value); 
 validate({complex, <<"Signature">>},      Value) -> complex:to_signature(Value);
 validate({complex, <<"SimpleQuantity">>}, Value) -> complex:to_simpleQuantity(Value);
 validate({complex, <<"Timing">>}, Value)         -> complex:to_timing(Value);
 validate({metadata, <<"RelatedArtifakt">>}, Value) -> metadata:to_relatedArtifakt(Value);
 validate({special, <<"xhtml">>},          Value) -> Value;
-validate({special, <<"Extension">>},      Value) -> extensions:to_extension(Value);
+validate({special, <<"Extension">>},      Value) -> extensions:to_extension_list(Value);
 validate({special, <<"Meta">>},           Value) -> special:to_meta(Value);
 validate({special, <<"Narrative">>},      Value) -> special:to_narrative(Value);
 validate({special, <<"Reference">>},      Value) -> special:to_reference(Value);
@@ -146,10 +148,42 @@ get_fun({primitive, <<"date">>})       -> fun to_date/1;
 get_fun({primitive, <<"dateTime">>})   -> fun to_dateTime/1;
 get_fun({primitive, <<"string">>})     -> fun to_string/1;
 get_fun({primitive, <<"time">>})       -> fun to_time/1;
-get_fun({complex,   <<"Coding">>})     -> fun complex:to_coding/1;
-get_fun({special,   <<"Extension">>})  -> fun extensions:to_extension/1;
+get_fun({complex, <<"Address">>}) -> fun complex:to_address/1;
+get_fun({complex, <<"Age">>}) -> fun complex:to_age/1;
+get_fun({complex, <<"Attachment">>}) -> fun complex:to_attachment/1;
+get_fun({complex, <<"Coding">>})     -> fun complex:to_coding/1;
+get_fun({complex, <<"ContactPoint">>}) -> fun complex:to_contactPoint/1;
+get_fun({complex, <<"Count">>}) -> fun complex:to_count/1;
+get_fun({complex, <<"Distance">>}) -> fun complex:to_distance/1;
+get_fun({complex, <<"Duration">>}) -> fun complex:to_duration/1;
+get_fun({complex, <<"HumanName">>})  -> fun complex:to_humanName/1;
+get_fun({complex, <<"Identifier">>}) -> fun complex:to_identifier/1;
+get_fun({complex, <<"Money">>}) -> fun complex:to_money/1;
+get_fun({complex, <<"Period">>}) -> fun complex:to_period/1;
+get_fun({complex, <<"Quantity">>}) -> fun complex:to_quantity/1;
+get_fun({complex, <<"Range">>}) -> fun complex:to_range/1;
+get_fun({complex, <<"Ratio">>}) -> fun complex:to_ration/1;
+get_fun({complex, <<"SampledData">>}) -> fun complex:to_sampled_data/1;
+get_fun({complex, <<"Signature">>}) -> fun complex:to_signature/1;
+get_fun({complex, <<"Timing">>}) -> fun complex:to_timing/1;
+get_fun({complex, <<"ContactDetail">>}) -> fun complex:to_contact_details/1;
+get_fun({complex, <<"Contributor">>}) -> fun complex:to_contributor/1;
+get_fun({complex, <<"DataRequirement">>}) -> fun complex:to_data_requirement/1;
+get_fun({complex, <<"Expression">>}) -> fun complex:to_expression/1;
+get_fun({complex, <<"ParameterDefinition">>}) -> fun complex:to_parameter_definition/1;
+get_fun({complex, <<"RelatedArtifact">>}) -> fun complex:to_related_artifiact/1;
+get_fun({complex, <<"TriggerDefinition">>}) -> fun complex:to_trigger_definition/1;
+get_fun({complex, <<"UsageContext">>}) -> fun complex:to_usage_context/1;
+get_fun({complex, <<"Dosage">>}) -> fun complex:to_dosage/1;
+get_fun({special,   <<"Extension">>})  -> fun extensions:to_extension_list/1;
 get_fun({bbelement, <<"Bundle.Entry">>}) -> fun bundle:to_bundle_entry/1;
-get_fun({bbelement, <<"Bundle.Link">>})  -> fun bundle:to_bundle_link/1.
+get_fun({bbelement, <<"Bundle.Link">>})  -> fun bundle:to_bundle_link/1;
+get_fun({bbelement, Resource}) ->
+     R = string:lowercase(Resource),
+     Mod = hd(binary:split(R, <<".">>)),
+     Fun = list_to_binary([<<"to_">>,binary:replace(R,<<".">>,<<"_">>)]),
+%    io:format("validate: apply: ~s:~s(~p)~n",[Mod,Fun]),
+     fun(V) -> apply(binary_to_atom(Mod,utf8),binary_to_atom(Fun,utf8),[V]) end.
 
 erlang_to_fhir(<<"reference_">>) -> <<"reference">>;
 erlang_to_fhir(<<"when_">>) -> <<"when">>;

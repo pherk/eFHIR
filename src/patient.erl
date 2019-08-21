@@ -109,7 +109,7 @@ to_patient_contact({Props}) -> to_patient_contact(Props);
 to_patient_contact(Props) ->
   DT = decode:xsd_info(<<"Patient.Contact">>),
   #'Patient.Contact'{ 
-      extension        = decode:value(<<"extension">>, Props, DT)
+      extension    = decode:value(<<"extension">>, Props, DT)
     , relationship = decode:value(<<"relationship">>, Props, DT)
     , name         = decode:value(<<"name">>, Props, DT)
     , telecom      = decode:value(<<"telecom">>, Props, DT)
@@ -123,7 +123,7 @@ to_patient_communication({Props}) -> to_patient_communication(Props);
 to_patient_communication(Props) -> 
   DT = decode:xsd_info(<<"Patient.Communication">>),
   #'Patient.Communication'{
-      extension        = decode:value(<<"extension">>, Props, DT)
+      extension = decode:value(<<"extension">>, Props, DT)
     , language  = decode:value(<<"language">>, Props, DT)
     , preferred = decode:value(<<"preferred">>, Props, DT)
     }.
@@ -132,9 +132,9 @@ to_patient_link({Props}) -> to_patient_link(Props);
 to_patient_link(Props) -> 
   DT = decode:xsd_info(<<"Patient.Link">>),
   #'Patient.Link'{
-      extension        = decode:value(<<"extension">>, Props, DT)
-    , other = decode:value(<<"other">>, Props, DT)
-    , type  = decode:value(<<"type">>, Props, DT)
+      extension = decode:value(<<"extension">>, Props, DT)
+    , other     = decode:value(<<"other">>, Props, DT)
+    , type      = decode:value(<<"type">>, Props, DT)
     }.
 
 text(#'Patient'{text=N}) -> 
