@@ -126,7 +126,8 @@ to_consent({Props}) -> to_consent(Props);
 to_consent(Props) ->
   DT = decode:xsd_info(<<"Consent">>),
   #'Consent'{ 
-      id               = decode:value(<<"id">>, Props, DT)
+      anyAttribs = decode:attrs(Props, DT) 
+    , id               = decode:value(<<"id">>, Props, DT)
     , meta             = decode:value(<<"meta">>, Props, DT)
     , implicitRules    = decode:value(<<"implicitRules">>, Props, DT)
     , language         = decode:value(<<"language">>, Props, DT)
@@ -135,18 +136,18 @@ to_consent(Props) ->
     , extension        = decode:value(<<"extension">>, Props, DT)
     , modifierExtension = decode:value(<<"modifierExtension">>, Props, DT)
     , 'identifier'      = decode:value(<<"identifier">>, Props, DT)
-	status :: complex:'ConsentState'(),
-	scope :: complex:'CodeableConcept'(),
-	category :: [complex:'CodeableConcept'()],
-	patient :: special:'Reference'() | undefined,
-	dateTime :: dateTime() | undefined,
-	performer :: [special:'Reference'()] | undefined,
-	organization :: [special:'Reference'()] | undefined,
-	choice :: special:'Reference'() | complex:'Attachment'() | undefined,
-	policy :: [complex:'Consent.Policy'()] | undefined,
-	policyRule :: complex:'CodeableConcept'() | undefined,
-	verification :: [complex:'Consent.Verification'()] | undefined,
-	provision :: complex:'Consent.Provision'() | undefined}).
+    , status  = decode:value(<<"status">>, Props, DT)
+    , scope  = decode:value(<<"scope">>, Props, DT)
+    , category  = decode:value(<<"category">>, Props, DT)
+    , patient  = decode:value(<<"patient">>, Props, DT)
+    , dateTime  = decode:value(<<"dateTime">>, Props, DT)
+    , performer  = decode:value(<<"performer">>, Props, DT)
+    , organization  = decode:value(<<"organization">>, Props, DT)
+    , choice  = decode:value(<<"choice">>, Props, DT)
+    , policy  = decode:value(<<"policy">>, Props, DT)
+    , policyRule  = decode:value(<<"policyRule">>, Props, DT)
+    , verification  = decode:value(<<"verification">>, Props, DT)
+    , provision  = decode:value(<<"provision">>, Props, DT)
     }.
 
 
@@ -157,45 +158,45 @@ to_consent.Data({Props}) ->  to_consent.Data(Props);
 to_consent.Data(Props) -> 
   DT = decode:xsd_info(<<"Consent.Data">>),
   #'Consent.Data'{ 
-    anyAttribs :: anyAttribs(),
-	id :: string() | undefined,
-	extension :: [extensions:'Extension'()] | undefined,
-	modifierExtension :: [extensions:'Extension'()] | undefined,
-	meaning :: complex:'ConsentDataMeaning'(),
-	reference :: special:'Reference'()}).
+    anyAttribs  = decode:attrs(Props, DT)
+    , id  = decode:value(<<"id">>, Props, DT)
+    , extension  = decode:value(<<"extension">>, Props, DT)
+    , modifierExtension  = decode:value(<<"modifierExtension">>, Props, DT)
+    , meaning  = decode:value(<<"meaning">>, Props, DT)
+    , reference  = decode:value(<<"reference">>, Props, DT)
     }.
 
 to_consent.Actor({Props}) ->  to_consent.Actor(Props);
 to_consent.Actor(Props) -> 
   DT = decode:xsd_info(<<"Consent.Actor">>),
   #'Consent.Actor'{ 
-    anyAttribs :: anyAttribs(),
-	id :: string() | undefined,
-	extension :: [extensions:'Extension'()] | undefined,
-	modifierExtension :: [extensions:'Extension'()] | undefined,
-	role :: complex:'CodeableConcept'(),
-	reference :: special:'Reference'()}).
+    anyAttribs  = decode:attrs(Props, DT)
+    , id  = decode:value(<<"id">>, Props, DT)
+    , extension  = decode:value(<<"extension">>, Props, DT)
+    , modifierExtension  = decode:value(<<"modifierExtension">>, Props, DT)
+    , role  = decode:value(<<"role">>, Props, DT)
+    , reference  = decode:value(<<"reference">>, Props, DT)
     }.
 
 to_consent.Provision({Props}) ->  to_consent.Provision(Props);
 to_consent.Provision(Props) -> 
   DT = decode:xsd_info(<<"Consent.Provision">>),
   #'Consent.Provision'{ 
-    anyAttribs :: anyAttribs(),
-	id :: string() | undefined,
-	extension :: [extensions:'Extension'()] | undefined,
-	modifierExtension :: [extensions:'Extension'()] | undefined,
-	type :: complex:'ConsentProvisionType'() | undefined,
-	period :: complex:'Period'() | undefined,
-	actor :: [complex:'Consent.Actor'()] | undefined,
-	action :: [complex:'CodeableConcept'()] | undefined,
-	securityLabel :: [complex:'Coding'()] | undefined,
-	purpose :: [complex:'Coding'()] | undefined,
-	class :: [complex:'Coding'()] | undefined,
-	code :: [complex:'CodeableConcept'()] | undefined,
-	dataPeriod :: complex:'Period'() | undefined,
-	data :: [complex:'Consent.Data'()] | undefined,
-	provision :: [complex:'Consent.Provision'()] | undefined}).
+    anyAttribs  = decode:attrs(Props, DT)
+    , id  = decode:value(<<"id">>, Props, DT)
+    , extension  = decode:value(<<"extension">>, Props, DT)
+    , modifierExtension  = decode:value(<<"modifierExtension">>, Props, DT)
+    , type  = decode:value(<<"type">>, Props, DT)
+    , period  = decode:value(<<"period">>, Props, DT)
+    , actor  = decode:value(<<"actor">>, Props, DT)
+    , action  = decode:value(<<"action">>, Props, DT)
+    , securityLabel  = decode:value(<<"securityLabel">>, Props, DT)
+    , purpose  = decode:value(<<"purpose">>, Props, DT)
+    , class  = decode:value(<<"class">>, Props, DT)
+    , code  = decode:value(<<"code">>, Props, DT)
+    , dataPeriod  = decode:value(<<"dataPeriod">>, Props, DT)
+    , data  = decode:value(<<"data">>, Props, DT)
+    , provision  = decode:value(<<"provision">>, Props, DT)
     }.
 
 
@@ -203,13 +204,13 @@ to_consent.Verification({Props}) ->  to_consent.Verification(Props);
 to_consent.Verification(Props) -> 
   DT = decode:xsd_info(<<"Consent.Verification">>),
   #'Consent.Verification'{ 
-    anyAttribs :: anyAttribs(),
-	id :: string() | undefined,
-	extension :: [extensions:'Extension'()] | undefined,
-	modifierExtension :: [extensions:'Extension'()] | undefined,
-	verified :: boolean(),
-	verifiedWith :: special:'Reference'() | undefined,
-	verificationDate :: dateTime() | undefined}).
+    anyAttribs  = decode:attrs(Props, DT)
+    , id  = decode:value(<<"id">>, Props, DT)
+    , extension  = decode:value(<<"extension">>, Props, DT)
+    , modifierExtension  = decode:value(<<"modifierExtension">>, Props, DT)
+    , verified  = decode:value(<<"verified">>, Props, DT)
+    , verifiedWith  = decode:value(<<"verifiedWith">>, Props, DT)
+    , verificationDate  = decode:value(<<"verificationDate">>, Props, DT)
     }.
 
 
@@ -217,12 +218,12 @@ to_consent.Policy({Props}) ->  to_consent.Policy(Props);
 to_consent.Policy(Props) -> 
   DT = decode:xsd_info(<<"Consent.policy">>),
   #'Consent.Policy'{ 
-    anyAttribs :: anyAttribs(),
-	id :: string() | undefined,
-	extension :: [extensions:'Extension'()] | undefined,
-	modifierExtension :: [extensions:'Extension'()] | undefined,
-	authority :: uri() | undefined,
-	uri :: uri() | undefined}).
+    anyAttribs  = decode:attrs(Props, DT)
+    , id  = decode:value(<<"id">>, Props, DT)
+    , extension  = decode:value(<<"extension">>, Props, DT)
+    , modifierExtension  = decode:value(<<"modifierExtension">>, Props, DT)
+    , authority  = decode:value(<<"authority">>, Props, DT)
+    , uri  = decode:value(<<"uri">>, Props, DT)
     }.
 
 

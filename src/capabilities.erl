@@ -212,13 +212,12 @@
 %%====================================================================
 %% API functions
 %%====================================================================
-
-
 to_capabilityStatement({Props}) -> to_capabilityStatement(Props);
 to_capabilityStatement(Props) ->
   DT = decode:xsd_info(<<"CapabilityStatement">>),
   #'CapabilityStatement'{ 
-      id               = decode:value(<<"id">>, Props, DT)
+      anyAttribs = decode:attrs(Props, DT) 
+    , id               = decode:value(<<"id">>, Props, DT)
     , meta             = decode:value(<<"meta">>, Props, DT)
     , implicitRules    = decode:value(<<"implicitRules">>, Props, DT)
     , language         = decode:value(<<"language">>, Props, DT)
@@ -226,32 +225,32 @@ to_capabilityStatement(Props) ->
     , contained        = decode:value(<<"contained">>, Props, DT)
     , extension        = decode:value(<<"extension">>, Props, DT)
     , modifierExtension = decode:value(<<"modifierExtension">>, Props, DT)
-	url :: uri() | undefined,
-	version :: string() | undefined,
-	name :: string() | undefined,
-	title :: string() | undefined,
-	status :: code() | undefined,
-	experimental :: boolean() | undefined,
-	date :: dateTime(),
-	publisher :: string() | undefined,
-	contact :: [metadata:'ContactDetail'()] | undefined,
-	description :: markdown() | undefined,
-	useContext :: [code()] | undefined,
-	jurisdiction :: [complex:'CodeableConcept'()] | undefined,
-	purpose :: markdown() | undefined,
-	copyright :: markdown() | undefined,
-	kind :: code(),
-	instantiates :: [canonical()] | undefined,
-	imports :: [canonical()] | undefined,
-	software :: complex:'CapabilityStatement.Software'() | undefined,
-	implementation :: complex:'CapabilityStatement.Implementation'() | undefined,
-	fhirVersion :: code(),
-	format :: [code()],
-	patchFormat :: [code()] | undefined,
-	implementationGuide :: [canonical()] | undefined,
-	rest :: [complex:'CapabilityStatement.Rest'()] | undefined,
-	messaging :: [complex:'CapabilityStatement.Messaging'()] | undefined,
-	document :: [complex:'CapabilityStatement.Document'()] | undefined}).
+    , url  = decode:value(<<"url">>, Props, DT) 
+    , version  = decode:value(<<"version">>, Props, DT) 
+    , name  = decode:value(<<"name">>, Props, DT) 
+    , title  = decode:value(<<"title">>, Props, DT) 
+    , status  = decode:value(<<"status">>, Props, DT) 
+    , experimental  = decode:value(<<"experimental">>, Props, DT) 
+    , date  = decode:value(<<"date">>, Props, DT) 
+    , publisher  = decode:value(<<"publisher">>, Props, DT) 
+    , contact  = decode:value(<<"contact">>, Props, DT) 
+    , description  = decode:value(<<"description">>, Props, DT) 
+    , useContext  = decode:value(<<"useContext">>, Props, DT) 
+    , jurisdiction  = decode:value(<<"jurisdiction">>, Props, DT) 
+    , purpose  = decode:value(<<"purpose">>, Props, DT) 
+    , copyright  = decode:value(<<"copyright">>, Props, DT) 
+    , kind  = decode:value(<<"kind">>, Props, DT) 
+    , instantiates  = decode:value(<<"instantiates">>, Props, DT) 
+    , imports  = decode:value(<<"imports">>, Props, DT) 
+    , software  = decode:value(<<"software">>, Props, DT) 
+    , implementation  = decode:value(<<"implementation">>, Props, DT) 
+    , fhirVersion  = decode:value(<<"fhirVersion">>, Props, DT) 
+    , format  = decode:value(<<"format">>, Props, DT) 
+    , patchFormat  = decode:value(<<"patchFormat">>, Props, DT) 
+    , implementationGuide  = decode:value(<<"implementationGuide">>, Props, DT) 
+    , rest  = decode:value(<<"rest">>, Props, DT) 
+    , messaging  = decode:value(<<"messaging">>, Props, DT) 
+    , document  = decode:value(<<"document">>, Props, DT) 
     }.
 
 
@@ -262,13 +261,13 @@ to_capabilityStatement.Document({Props}) -> to_capabilityStatement.Document(Prop
 to_capabilityStatement.Document(Props) ->
   DT = decode:xsd_info(<<"CapabilityStatement.Document">>),
   #'CapabilityStatement.Document'{ 
-    anyAttribs :: anyAttribs(),
-	id :: string() | undefined,
-	extension :: [extensions:'Extension'()] | undefined,
-	modifierExtension :: [extensions:'Extension'()] | undefined,
-	mode :: code(),
-	documentation :: markdown() | undefined,
-	profile :: canonical()}).
+    anyAttribs  = decode:attrs(Props, DT)
+    , id  = decode:value(<<"id">>, Props, DT) 
+    , extension  = decode:value(<<"extension">>, Props, DT) 
+    , modifierExtension  = decode:value(<<"modifierExtension">>, Props, DT) 
+    , mode  = decode:value(<<"mode">>, Props, DT) 
+    , documentation  = decode:value(<<"documentation">>, Props, DT) 
+    , profile  = decode:value(<<"profile">>, Props, DT) 
     }.
 
 
@@ -277,12 +276,12 @@ to_capabilityStatement.SupportedMessage({Props}) -> to_capabilityStatement.Suppo
 to_capabilityStatement(Props) ->
   DT = decode:xsd_info(<<"CapabilityStatement.SupportedMessage">>),
   #'CapabilityStatement.SupportedMessage'{ 
-    anyAttribs :: anyAttribs(),
-	id :: string() | undefined,
-	extension :: [extensions:'Extension'()] | undefined,
-	modifierExtension :: [extensions:'Extension'()] | undefined,
-	mode :: code(),
-	definition :: canonical()}).
+    anyAttribs  = decode:attrs(Props, DT)
+    , id  = decode:value(<<"id">>, Props, DT) 
+    , extension  = decode:value(<<"extension">>, Props, DT) 
+    , modifierExtension  = decode:value(<<"modifierExtension">>, Props, DT) 
+    , mode  = decode:value(<<"mode">>, Props, DT) 
+    , definition  = decode:value(<<"definition">>, Props, DT) 
     }.
 
 
@@ -291,12 +290,12 @@ to_capabilityStatement.Endpoint({Props}) -> to_capabilityStatement.Endpoint(Prop
 to_capabilityStatement(Props) ->
   DT = decode:xsd_info(<<"CapabilityStatement.Endpoint">>),
   #'CapabilityStatement.Endpoint'{ 
-    anyAttribs :: anyAttribs(),
-	id :: string() | undefined,
-	extension :: [extensions:'Extension'()] | undefined,
-	modifierExtension :: [extensions:'Extension'()] | undefined,
-	protocol :: complex:'Coding'(),
-	address :: url()}).
+    anyAttribs  = decode:attrs(Props, DT)
+    , id  = decode:value(<<"id">>, Props, DT) 
+    , extension  = decode:value(<<"extension">>, Props, DT) 
+    , modifierExtension  = decode:value(<<"modifierExtension">>, Props, DT) 
+    , protocol  = decode:value(<<"protocol">>, Props, DT) 
+    , address  = decode:value(<<"address">>, Props, DT) 
     }.
 
 
@@ -305,14 +304,14 @@ to_capabilityStatement.Messaging({Props}) -> to_capabilityStatement.Messaging(Pr
 to_capabilityStatement(Props) ->
   DT = decode:xsd_info(<<"CapabilityStatement.Messaging">>),
   #'CapabilityStatement.Messaging'{ 
-    anyAttribs :: anyAttribs(),
-	id :: string() | undefined,
-	extension :: [extensions:'Extension'()] | undefined,
-	modifierExtension :: [extensions:'Extension'()] | undefined,
-	endpoint :: [complex:'CapabilityStatement.Endpoint'()] | undefined,
-	reliableCache :: unsignedInt() | undefined,
-	documentation :: markdown() | undefined,
-	supportedMessage :: [complex:'CapabilityStatement.SupportedMessage'()] | undefined}).
+    anyAttribs  = decode:attrs(Props, DT)
+    , id  = decode:value(<<"id">>, Props, DT) 
+    , extension  = decode:value(<<"extension">>, Props, DT) 
+    , modifierExtension  = decode:value(<<"modifierExtension">>, Props, DT) 
+    , endpoint  = decode:value(<<"endpoint">>, Props, DT) 
+    , reliableCache  = decode:value(<<"reliableCache">>, Props, DT) 
+    , documentation  = decode:value(<<"documentation">>, Props, DT) 
+    , supportedMessage  = decode:value(<<"supportedMessage">>, Props, DT) 
     }.
 
 
@@ -320,12 +319,12 @@ to_capabilityStatement.Interaction1({Props}) -> to_capabilityStatement.Interacti
 to_capabilityStatement(Props) ->
   DT = decode:xsd_info(<<"CapabilityStatement.Interaction1">>),
   #'CapabilityStatement.Interaction1'{ 
-    anyAttribs :: anyAttribs(),
-	id :: string() | undefined,
-	extension :: [extensions:'Extension'()] | undefined,
-	modifierExtension :: [extensions:'Extension'()] | undefined,
-	code :: code(),
-	documentation :: markdown() | undefined}).
+    anyAttribs  = decode:attrs(Props, DT)
+    , id  = decode:value(<<"id">>, Props, DT) 
+    , extension  = decode:value(<<"extension">>, Props, DT) 
+    , modifierExtension  = decode:value(<<"modifierExtension">>, Props, DT) 
+    , code  = decode:value(<<"code">>, Props, DT) 
+    , documentation  = decode:value(<<"documentation">>, Props, DT) 
     }.
 
 
@@ -334,13 +333,13 @@ to_capabilityStatement.Operation({Props}) -> to_capabilityStatement.Operation(Pr
 to_capabilityStatement(Props) ->
   DT = decode:xsd_info(<<"CapabilityStatement.Operation">>),
   #'CapabilityStatement.Operation'{ 
-    anyAttribs :: anyAttribs(),
-	id :: string() | undefined,
-	extension :: [extensions:'Extension'()] | undefined,
-	modifierExtension :: [extensions:'Extension'()] | undefined,
-	name :: string(),
-	definition :: canonical(),
-	documentation :: markdown() | undefined}).
+    anyAttribs  = decode:attrs(Props, DT)
+    , id  = decode:value(<<"id">>, Props, DT) 
+    , extension  = decode:value(<<"extension">>, Props, DT) 
+    , modifierExtension  = decode:value(<<"modifierExtension">>, Props, DT) 
+    , name  = decode:value(<<"name">>, Props, DT) 
+    , definition  = decode:value(<<"definition">>, Props, DT) 
+    , documentation  = decode:value(<<"documentation">>, Props, DT) 
     }.
 
 
@@ -349,26 +348,26 @@ to_capabilityStatement.SearchParam({Props}) -> to_capabilityStatement.SearchPara
 to_capabilityStatement(Props) ->
   DT = decode:xsd_info(<<"CapabilityStatement.SearchParam">>),
   #'CapabilityStatement.SearchParam'{ 
-    anyAttribs :: anyAttribs(),
-	id :: string() | undefined,
-	extension :: [extensions:'Extension'()] | undefined,
-	modifierExtension :: [extensions:'Extension'()] | undefined,
-	name :: string(),
-	definition :: canonical() | undefined,
-	type :: code(),
-	documentation :: markdown() | undefined}).
+    anyAttribs  = decode:attrs(Props, DT)
+    , id  = decode:value(<<"id">>, Props, DT) 
+    , extension  = decode:value(<<"extension">>, Props, DT) 
+    , modifierExtension  = decode:value(<<"modifierExtension">>, Props, DT) 
+    , name  = decode:value(<<"name">>, Props, DT) 
+    , definition  = decode:value(<<"definition">>, Props, DT) 
+    , type  = decode:value(<<"type">>, Props, DT) 
+    , documentation  = decode:value(<<"documentation">>, Props, DT) 
 
 
 to_capabilityStatement.Interaction({Props}) -> to_capabilityStatement.Interaction(Props);
 to_capabilityStatement(Props) ->
   DT = decode:xsd_info(<<"CapabilityStatement.Interaction">>),
   #'CapabilityStatement.Interaction'{ 
-    anyAttribs :: anyAttribs(),
-	id :: string() | undefined,
-	extension :: [extensions:'Extension'()] | undefined,
-	modifierExtension :: [extensions:'Extension'()] | undefined,
-	code :: code(),
-	documentation :: markdown() | undefined}).
+    anyAttribs  = decode:attrs(Props, DT)
+    , id  = decode:value(<<"id">>, Props, DT) 
+    , extension  = decode:value(<<"extension">>, Props, DT) 
+    , modifierExtension  = decode:value(<<"modifierExtension">>, Props, DT) 
+    , code  = decode:value(<<"code">>, Props, DT) 
+    , documentation  = decode:value(<<"documentation">>, Props, DT) 
     }.
 
 
@@ -377,27 +376,27 @@ to_capabilityStatement.Resource({Props}) -> to_capabilityStatement.Resource(Prop
 to_capabilityStatement(Props) ->
   DT = decode:xsd_info(<<"CapabilityStatement.Resource">>),
   #'CapabilityStatement.Resource'{ 
-    anyAttribs :: anyAttribs(),
-	id :: string() | undefined,
-	extension :: [extensions:'Extension'()] | undefined,
-	modifierExtension :: [extensions:'Extension'()] | undefined,
-	type :: code(),
-	profile :: canonical() | undefined,
-	supportedProfile :: [canonical()] | undefined,
-	documentation :: markdown() | undefined,
-	interaction :: [complex:'CapabilityStatement.Interaction'()] | undefined,
-	versioning :: code() | undefined,
-	readHistory :: boolean() | undefined,
-	updateCreate :: boolean() | undefined,
-	conditionalCreate :: boolean() | undefined,
-	conditionalRead :: code() | undefined,
-	conditionalUpdate :: boolean() | undefined,
-	conditionalDelete :: code() | undefined,
-	referencePolicy :: [code()] | undefined,
-	searchInclude :: [string()] | undefined,
-	searchRevInclude :: [string()] | undefined,
-	searchParam :: [complex:'CapabilityStatement.SearchParam'()] | undefined,
-	operation :: [complex:'CapabilityStatement.Operation'()] | undefined}).
+    anyAttribs  = decode:attrs(Props, DT)
+    , id  = decode:value(<<"id">>, Props, DT) 
+    , extension  = decode:value(<<"extension">>, Props, DT) 
+    , modifierExtension  = decode:value(<<"modifierExtension">>, Props, DT) 
+    , type  = decode:value(<<"type">>, Props, DT) 
+    , profile  = decode:value(<<"profile">>, Props, DT) 
+    , supportedProfile  = decode:value(<<"supportedProfile">>, Props, DT) 
+    , documentation  = decode:value(<<"documentation">>, Props, DT) 
+    , interaction  = decode:value(<<"interaction">>, Props, DT) 
+    , versioning  = decode:value(<<"versioning">>, Props, DT) 
+    , readHistory  = decode:value(<<"readHistory">>, Props, DT) 
+    , updateCreate  = decode:value(<<"updateCreate">>, Props, DT) 
+    , conditionalCreate  = decode:value(<<"conditionalCreate">>, Props, DT) 
+    , conditionalRead  = decode:value(<<"conditionalRead">>, Props, DT) 
+    , conditionalUpdate  = decode:value(<<"conditionalUpdate">>, Props, DT) 
+    , conditionalDelete  = decode:value(<<"conditionalDelete">>, Props, DT) 
+    , referencePolicy  = decode:value(<<"referencePolicy">>, Props, DT) 
+    , searchInclude  = decode:value(<<"searchInclude">>, Props, DT) 
+    , searchRevInclude  = decode:value(<<"searchRevInclude">>, Props, DT) 
+    , searchParam  = decode:value(<<"searchParam">>, Props, DT) 
+    , operation  = decode:value(<<"operation">>, Props, DT) 
     }.
 
 
@@ -406,13 +405,13 @@ to_capabilityStatement.Security({Props}) -> to_capabilityStatement.Security(Prop
 to_capabilityStatement(Props) ->
   DT = decode:xsd_info(<<"CapabilityStatement.Security">>),
   #'CapabilityStatement.Security'{ 
-    anyAttribs :: anyAttribs(),
-	id :: string() | undefined,
-	extension :: [extensions:'Extension'()] | undefined,
-	modifierExtension :: [extensions:'Extension'()] | undefined,
-	cors :: boolean() | undefined,
-	service :: [complex:'CodeableConcept'()] | undefined,
-	description :: markdown() | undefined}).
+    anyAttribs  = decode:attrs(Props, DT)
+    , id  = decode:value(<<"id">>, Props, DT) 
+    , extension  = decode:value(<<"extension">>, Props, DT) 
+    , modifierExtension  = decode:value(<<"modifierExtension">>, Props, DT) 
+    , cors  = decode:value(<<"cors">>, Props, DT) 
+    , service  = decode:value(<<"service">>, Props, DT) 
+    , description  = decode:value(<<"description">>, Props, DT) 
     }.
 
 
@@ -421,18 +420,18 @@ to_capabilityStatement.Rest({Props}) -> to_capabilityStatement.Rest(Props);
 to_capabilityStatement(Props) ->
   DT = decode:xsd_info(<<"CapabilityStatement.Rest">>),
   #'CapabilityStatement.Rest'{ 
-    anyAttribs :: anyAttribs(),
-	id :: string() | undefined,
-	extension :: [extensions:'Extension'()] | undefined,
-	modifierExtension :: [extensions:'Extension'()] | undefined,
-	mode :: code(),
-	documentation :: markdown() | undefined,
-	security :: complex:'CapabilityStatement.Security'() | undefined,
-	resource :: [complex:'CapabilityStatement.Resource'()] | undefined,
-	interaction :: [complex:'CapabilityStatement.Interaction1'()] | undefined,
-	searchParam :: [complex:'CapabilityStatement.SearchParam'()] | undefined,
-	operation :: [complex:'CapabilityStatement.Operation'()] | undefined,
-	compartment :: [canonical()] | undefined}).
+    anyAttribs  = decode:attrs(Props, DT)
+    , id  = decode:value(<<"id">>, Props, DT) 
+    , extension  = decode:value(<<"extension">>, Props, DT) 
+    , modifierExtension  = decode:value(<<"modifierExtension">>, Props, DT) 
+    , mode  = decode:value(<<"mode">>, Props, DT) 
+    , documentation  = decode:value(<<"documentation">>, Props, DT) 
+    , security  = decode:value(<<"security">>, Props, DT) 
+    , resource  = decode:value(<<"resource">>, Props, DT) 
+    , interaction  = decode:value(<<"interaction">>, Props, DT) 
+    , searchParam  = decode:value(<<"searchParam">>, Props, DT) 
+    , operation  = decode:value(<<"operation">>, Props, DT) 
+    , compartment  = decode:value(<<"compartment">>, Props, DT) 
     }.
 
 
@@ -441,13 +440,13 @@ to_capabilityStatement.Implementation({Props}) -> to_capabilityStatement.Impleme
 to_capabilityStatement(Props) ->
   DT = decode:xsd_info(<<"CapabilityStatement.Implementation">>),
   #'CapabilityStatement.Implementation'{ 
-    anyAttribs :: anyAttribs(),
-	id :: string() | undefined,
-	extension :: [extensions:'Extension'()] | undefined,
-	modifierExtension :: [extensions:'Extension'()] | undefined,
-	description :: string(),
-	url :: url() | undefined,
-	custodian :: special:'Reference'() | undefined}).
+    anyAttribs  = decode:attrs(Props, DT)
+    , id  = decode:value(<<"id">>, Props, DT) 
+    , extension  = decode:value(<<"extension">>, Props, DT) 
+    , modifierExtension  = decode:value(<<"modifierExtension">>, Props, DT) 
+    , description  = decode:value(<<"description">>, Props, DT) 
+    , url  = decode:value(<<"url">>, Props, DT) 
+    , custodian  = decode:value(<<"custodian">>, Props, DT) 
     }.
 
 
@@ -456,13 +455,13 @@ to_capabilityStatement.Software({Props}) -> to_capabilityStatement.Software({Pro
 to_capabilityStatement(Props) ->
   DT = decode:xsd_info(<<"CapabilityStatement.Software">>),
   #'CapabilityStatement.Software'{ 
-    anyAttribs :: anyAttribs(),
-	id :: string() | undefined,
-	extension :: [extensions:'Extension'()] | undefined,
-	modifierExtension :: [extensions:'Extension'()] | undefined,
-	name :: string(),
-	version :: string() | undefined,
-	releaseDate :: dateTime() | undefined}).
+    anyAttribs  = decode:attrs(Props, DT)
+    , id  = decode:value(<<"id">>, Props, DT) 
+    , extension  = decode:value(<<"extension">>, Props, DT) 
+    , modifierExtension  = decode:value(<<"modifierExtension">>, Props, DT) 
+    , name  = decode:value(<<"name">>, Props, DT) 
+    , version  = decode:value(<<"version">>, Props, DT) 
+    , releaseDate  = decode:value(<<"releaseDate">>, Props, DT) 
     }.
 
 

@@ -120,10 +120,10 @@ to_patient_contact({Props}) -> to_patient_contact(Props);
 to_patient_contact(Props) ->
   DT = decode:xsd_info(<<"Patient.Contact">>),
   #'Patient.Contact'{ 
-    anyAttribs :: anyAttribs(),
-	id :: string() | undefined,
-	extension :: [extensions:'Extension'()] | undefined,
-	modifierExtension :: [extensions:'Extension'()] | undefined,
+      anyAttribs  = decode:attrs(Props, DT)
+    , id  = decode:value(<<"id">>, Props, DT)
+    , extension  = decode:value(<<"extension">>, Props, DT)
+    , modifierExtension  = decode:value(<<"modifierExtension">>, Props, DT)
     , relationship = decode:value(<<"relationship">>, Props, DT)
     , name         = decode:value(<<"name">>, Props, DT)
     , telecom      = decode:value(<<"telecom">>, Props, DT)
@@ -137,10 +137,10 @@ to_patient_communication({Props}) -> to_patient_communication(Props);
 to_patient_communication(Props) -> 
   DT = decode:xsd_info(<<"Patient.Communication">>),
   #'Patient.Communication'{
-    anyAttribs :: anyAttribs(),
-	id :: string() | undefined,
-	extension :: [extensions:'Extension'()] | undefined,
-	modifierExtension :: [extensions:'Extension'()] | undefined,
+      anyAttribs  = decode:attrs(Props, DT)
+    , id  = decode:value(<<"id">>, Props, DT)
+    , extension  = decode:value(<<"extension">>, Props, DT)
+    , modifierExtension  = decode:value(<<"modifierExtension">>, Props, DT)
     , language  = decode:value(<<"language">>, Props, DT)
     , preferred = decode:value(<<"preferred">>, Props, DT)
     }.
@@ -149,10 +149,9 @@ to_patient_link({Props}) -> to_patient_link(Props);
 to_patient_link(Props) -> 
   DT = decode:xsd_info(<<"Patient.Link">>),
   #'Patient.Link'{
-    anyAttribs :: anyAttribs(),
-	id :: string() | undefined,
-	extension :: [extensions:'Extension'()] | undefined,
-	modifierExtension :: [extensions:'Extension'()] | undefined,
+      anyAttribs  = decode:attrs(Props, DT)
+    , id  = decode:value(<<"id">>, Props, DT)
+    , extension  = decode:value(<<"extension">>, Props, DT)
     , other     = decode:value(<<"other">>, Props, DT)
     , type      = decode:value(<<"type">>, Props, DT)
     }.

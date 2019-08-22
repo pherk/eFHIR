@@ -107,13 +107,12 @@
 %%====================================================================
 %% API functions
 %%====================================================================
-
-
 to_device({Props}) -> to_device(Props);
 to_device(Props) ->
   DT = decode:xsd_info(<<"Device">>),
   #'Device'{ 
-      id               = decode:value(<<"id">>, Props, DT)
+      anyAttribs = decode:attrs(Props, DT) 
+    , id               = decode:value(<<"id">>, Props, DT)
     , meta             = decode:value(<<"meta">>, Props, DT)
     , implicitRules    = decode:value(<<"implicitRules">>, Props, DT)
     , language         = decode:value(<<"language">>, Props, DT)
@@ -122,31 +121,31 @@ to_device(Props) ->
     , extension        = decode:value(<<"extension">>, Props, DT)
     , modifierExtension = decode:value(<<"modifierExtension">>, Props, DT)
     , 'identifier'      = decode:value(<<"identifier">>, Props, DT)
-	definition :: special:'Reference'() | undefined,
-	udiCarrier :: [complex:'Device.UdiCarrier'()] | undefined,
-	status :: complex:'FHIRDeviceStatus'() | undefined,
-	statusReason :: [complex:'CodeableConcept'()] | undefined,
-	distinctIdentifier :: string() | undefined,
-	manufacturer :: string() | undefined,
-	manufactureDate :: dateTime() | undefined,
-	expirationDate :: dateTime() | undefined,
-	lotNumber :: string() | undefined,
-	serialNumber :: string() | undefined,
-	deviceName :: [complex:'Device.DeviceName'()] | undefined,
-	modelNumber :: string() | undefined,
-	partNumber :: string() | undefined,
-	type :: complex:'CodeableConcept'() | undefined,
-	specialization :: [complex:'Device.Specialization'()] | undefined,
-	version :: [complex:'Device.Version'()] | undefined,
-	property :: [complex:'Device.Property'()] | undefined,
-	patient :: special:'Reference'() | undefined,
-	owner :: special:'Reference'() | undefined,
-	contact :: [complex:'ContactPoint'()] | undefined,
-	location :: special:'Reference'() | undefined,
-	url :: uri() | undefined,
-	note :: [complex:'Annotation'()] | undefined,
-	safety :: [complex:'CodeableConcept'()] | undefined,
-	parent :: special:'Reference'() | undefined}).
+    , definition  = decode:value(<<"definition">>, Props, DT)
+    , udiCarrier  = decode:value(<<"udiCarrier">>, Props, DT)
+    , status  = decode:value(<<"status">>, Props, DT)
+    , statusReason  = decode:value(<<"statusReason">>, Props, DT)
+    , distinctIdentifier  = decode:value(<<"distinctIdentifier">>, Props, DT)
+    , manufacturer  = decode:value(<<"manufacturer">>, Props, DT)
+    , manufactureDate  = decode:value(<<"manufactureDate">>, Props, DT)
+    , expirationDate  = decode:value(<<"expirationDate">>, Props, DT)
+    , lotNumber  = decode:value(<<"lotNumber">>, Props, DT)
+    , serialNumber  = decode:value(<<"serialNumber">>, Props, DT)
+    , deviceName  = decode:value(<<"deviceName">>, Props, DT)
+    , modelNumber  = decode:value(<<"modelNumber">>, Props, DT)
+    , partNumber  = decode:value(<<"partNumber">>, Props, DT)
+    , type  = decode:value(<<"type">>, Props, DT)
+    , specialization  = decode:value(<<"specialization">>, Props, DT)
+    , version  = decode:value(<<"version">>, Props, DT)
+    , property  = decode:value(<<"property">>, Props, DT)
+    , patient  = decode:value(<<"patient">>, Props, DT)
+    , owner  = decode:value(<<"owner">>, Props, DT)
+    , contact  = decode:value(<<"contact">>, Props, DT)
+    , location  = decode:value(<<"location">>, Props, DT)
+    , url  = decode:value(<<"url">>, Props, DT)
+    , note  = decode:value(<<"note">>, Props, DT)
+    , safety  = decode:value(<<"safety">>, Props, DT)
+    , parent  = decode:value(<<"parent">>, Props, DT)
     }.
 
 
@@ -157,13 +156,13 @@ to_device.Property({Props}) -> to_device.Property(Props);
 to_device.Property(Props) ->
   DT = decode:xsd_info(<<"Device.Property">>),
   #'Device.Property'{ 
-    anyAttribs :: anyAttribs(),
-	id :: string() | undefined,
-	extension :: [extensions:'Extension'()] | undefined,
-	modifierExtension :: [extensions:'Extension'()] | undefined,
-	type :: complex:'CodeableConcept'(),
-	valueQuantity :: [complex:'Quantity'() | complex:'Duration'() | complex:'Age'() | complex:'Distance'() | complex:'Count'()] | undefined,
-	valueCode :: [complex:'CodeableConcept'()] | undefined}).
+      anyAttribs  = decode:attrs(Props, DT)
+    , id  = decode:value(<<"id">>, Props, DT)
+    , extension  = decode:value(<<"extension">>, Props, DT)
+    , modifierExtension  = decode:value(<<"modifierExtension">>, Props, DT)
+    , type  = decode:value(<<"type">>, Props, DT)
+    , valueQuantity  = decode:value(<<"valueQuantity">>, Props, DT)
+    , valueCode  = decode:value(<<"valueCode">>, Props, DT)
     }.
 
 
@@ -171,13 +170,13 @@ to_device.Version({Props}) -> to_device.Version(Props);
 to_device.Version(Props) ->
   DT = decode:xsd_info(<<"Device.Version">>),
   #'Device.Version'{ 
-    anyAttribs :: anyAttribs(),
-	id :: string() | undefined,
-	extension :: [extensions:'Extension'()] | undefined,
-	modifierExtension :: [extensions:'Extension'()] | undefined,
-	type :: complex:'CodeableConcept'() | undefined,
-	component :: complex:'Identifier'() | undefined,
-	value :: string()}).
+      anyAttribs  = decode:attrs(Props, DT)
+    , id  = decode:value(<<"id">>, Props, DT)
+    , extension  = decode:value(<<"extension">>, Props, DT)
+    , modifierExtension  = decode:value(<<"modifierExtension">>, Props, DT)
+    , type  = decode:value(<<"type">>, Props, DT)
+    , component  = decode:value(<<"component">>, Props, DT)
+    , value  = decode:value(<<"value">>, Props, DT)
     }.
 
 
@@ -185,12 +184,12 @@ to_device.Specialization({Props}) -> to_device.Specialization(Props);
 to_device.Specialization(Props) ->
   DT = decode:xsd_info(<<"Device.Specialization">>),
   #'Device.Specialization'{ 
-    anyAttribs :: anyAttribs(),
-	id :: string() | undefined,
-	extension :: [extensions:'Extension'()] | undefined,
-	modifierExtension :: [extensions:'Extension'()] | undefined,
-	systemType :: complex:'CodeableConcept'(),
-	version :: string() | undefined}).
+      anyAttribs  = decode:attrs(Props, DT)
+    , id  = decode:value(<<"id">>, Props, DT)
+    , extension  = decode:value(<<"extension">>, Props, DT)
+    , modifierExtension  = decode:value(<<"modifierExtension">>, Props, DT)
+    , systemType  = decode:value(<<"systemType">>, Props, DT)
+    , version  = decode:value(<<"version">>, Props, DT)
     }.
 
 
@@ -198,12 +197,12 @@ to_device.DeviceName({Props}) -> to_device.DeviceName(Props);
 to_device.DeviceName(Props) ->
   DT = decode:xsd_info(<<"Device.DeviceName">>),
   #'Device.DeviceName'{ 
-    anyAttribs :: anyAttribs(),
-	id :: string() | undefined,
-	extension :: [extensions:'Extension'()] | undefined,
-	modifierExtension :: [extensions:'Extension'()] | undefined,
-	name :: string(),
-	type :: complex:'DeviceNameType'()}).
+      anyAttribs  = decode:attrs(Props, DT)
+    , id  = decode:value(<<"id">>, Props, DT)
+    , extension  = decode:value(<<"extension">>, Props, DT)
+    , modifierExtension  = decode:value(<<"modifierExtension">>, Props, DT)
+    , name  = decode:value(<<"name">>, Props, DT)
+    , type  = decode:value(<<"type">>, Props, DT)
     }.
 
 
@@ -212,16 +211,16 @@ to_device.UdiCarrier({Props}) -> to_device.UdiCarrier(Props);
 to_device.UdiCarrier(Props) ->
   DT = decode:xsd_info(<<"Device.UdiCarrier">>),
   #'Device.UdiCarrier'{ 
-    anyAttribs :: anyAttribs(),
-	id :: string() | undefined,
-	extension :: [extensions:'Extension'()] | undefined,
-	modifierExtension :: [extensions:'Extension'()] | undefined,
-	deviceIdentifier :: string() | undefined,
-	issuer :: uri() | undefined,
-	jurisdiction :: uri() | undefined,
-	carrierAIDC :: base64Binary() | undefined,
-	carrierHRF :: string() | undefined,
-	entryType :: complex:'UDIEntryType'() | undefined}).
+      anyAttribs  = decode:attrs(Props, DT)
+    , id  = decode:value(<<"id">>, Props, DT)
+    , extension  = decode:value(<<"extension">>, Props, DT)
+    , modifierExtension  = decode:value(<<"modifierExtension">>, Props, DT)
+    , deviceIdentifier  = decode:value(<<"deviceIdentifier">>, Props, DT)
+    , issuer  = decode:value(<<"issuer">>, Props, DT)
+    , jurisdiction  = decode:value(<<"jurisdiction">>, Props, DT)
+    , carrierAIDC  = decode:value(<<"carrierAIDC">>, Props, DT)
+    , carrierHRF  = decode:value(<<"carrierHRF">>, Props, DT)
+    , entryType  = decode:value(<<"entryType">>, Props, DT)
     }.
 
 

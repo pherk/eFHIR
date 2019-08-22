@@ -92,7 +92,8 @@ to_composition({Props}) -> to_composition(Props);
 to_composition(Props) ->
   DT = decode:xsd_info(<<"Composition">>),
   #'Composition'{ 
-      id               = decode:value(<<"id">>, Props, DT)
+      anyAttribs = decode:attrs(Props, DT) 
+    , id               = decode:value(<<"id">>, Props, DT)
     , meta             = decode:value(<<"meta">>, Props, DT)
     , implicitRules    = decode:value(<<"implicitRules">>, Props, DT)
     , language         = decode:value(<<"language">>, Props, DT)
@@ -101,20 +102,20 @@ to_composition(Props) ->
     , extension        = decode:value(<<"extension">>, Props, DT)
     , modifierExtension = decode:value(<<"modifierExtension">>, Props, DT)
     , 'identifier'      = decode:value(<<"identifier">>, Props, DT)
-	status :: complex:'CompositionStatus'(),
-	type :: complex:'CodeableConcept'(),
-	category :: [complex:'CodeableConcept'()] | undefined,
-	subject :: special:'Reference'() | undefined,
-	encounter :: special:'Reference'() | undefined,
-	date :: dateTime(),
-	author :: [special:'Reference'()],
-	title :: string(),
-	confidentiality :: vConfidentialityClassification() | undefined,
-	attester :: [complex:'Composition.Attester'()] | undefined,
-	custodian :: special:'Reference'() | undefined,
-	relatesTo :: [complex:'Composition.RelatesTo'()] | undefined,
-	event :: [complex:'Composition.Event'()] | undefined,
-	section :: [complex:'Composition.Section'()] | undefined}).
+    , status  = decode:value(<<"status">>, Props, DT)
+    , type  = decode:value(<<"type">>, Props, DT)
+    , category  = decode:value(<<"category">>, Props, DT)
+    , subject  = decode:value(<<"subject">>, Props, DT)
+    , encounter  = decode:value(<<"encounter">>, Props, DT)
+    , date  = decode:value(<<"date">>, Props, DT)
+    , author  = decode:value(<<"author">>, Props, DT)
+    , title  = decode:value(<<"title">>, Props, DT)
+    , confidentiality  = decode:value(<<"confidentiality">>, Props, DT)
+    , attester  = decode:value(<<"attester">>, Props, DT)
+    , custodian  = decode:value(<<"custodian">>, Props, DT)
+    , relatesTo  = decode:value(<<"relatesTo">>, Props, DT)
+    , event  = decode:value(<<"event">>, Props, DT)
+    , section  = decode:value(<<"section">>, Props, DT)
     }.
 
 
@@ -125,20 +126,20 @@ to_composition.Section({Props}) ->  to_composition.Section(Props);
 to_composition.Section(Props) -> 
   DT = decode:xsd_info(<<"Composition.Section">>),
   #'Composition.Section'{ 
-    anyAttribs :: anyAttribs(),
-	id :: string() | undefined,
-	extension :: [extensions:'Extension'()] | undefined,
-	modifierExtension :: [extensions:'Extension'()] | undefined,
-	title :: string() | undefined,
-	code :: complex:'CodeableConcept'() | undefined,
-	author :: [special:'Reference'()] | undefined,
-	focus :: special:'Reference'() | undefined,
-	text :: special:'Narrative'() | undefined,
-	mode :: complex:'ListMode'() | undefined,
-	orderedBy :: complex:'CodeableConcept'() | undefined,
-	entry :: [special:'Reference'()] | undefined,
-	emptyReason :: complex:'CodeableConcept'() | undefined,
-	section :: [complex:'Composition.Section'()] | undefined}).
+    anyAttribs  = decode:attrs(Props, DT)
+    , id  = decode:value(<<"id">>, Props, DT)
+    , extension  = decode:value(<<"extension">>, Props, DT)
+    , modifierExtension  = decode:value(<<"modifierExtension">>, Props, DT)
+    , title  = decode:value(<<"title">>, Props, DT)
+    , code  = decode:value(<<"code">>, Props, DT)
+    , author  = decode:value(<<"author">>, Props, DT)
+    , focus  = decode:value(<<"focus">>, Props, DT)
+    , text  = decode:value(<<"text">>, Props, DT)
+    , mode  = decode:value(<<"mode">>, Props, DT)
+    , orderedBy  = decode:value(<<"orderedBy">>, Props, DT)
+    , entry  = decode:value(<<"entry">>, Props, DT)
+    , emptyReason  = decode:value(<<"emptyReason">>, Props, DT)
+    , section  = decode:value(<<"section">>, Props, DT)
     }.
 
 
@@ -146,13 +147,13 @@ to_composition.Event({Props}) ->  to_composition.Event(Props);
 to_composition.Event(Props) -> 
   DT = decode:xsd_info(<<"Composition.Event">>),
   #'Composition.Event'{ 
-    anyAttribs :: anyAttribs(),
-	id :: string() | undefined,
-	extension :: [extensions:'Extension'()] | undefined,
-	modifierExtension :: [extensions:'Extension'()] | undefined,
-	code :: [complex:'CodeableConcept'()] | undefined,
-	period :: complex:'Period'() | undefined,
-	detail :: [special:'Reference'()] | undefined}).
+    anyAttribs  = decode:attrs(Props, DT)
+    , id  = decode:value(<<"id">>, Props, DT)
+    , extension  = decode:value(<<"extension">>, Props, DT)
+    , modifierExtension  = decode:value(<<"modifierExtension">>, Props, DT)
+    , code  = decode:value(<<"code">>, Props, DT)
+    , period  = decode:value(<<"period">>, Props, DT)
+    , detail  = decode:value(<<"detail">>, Props, DT)
     }.
 
 
@@ -160,12 +161,12 @@ to_composition.RelatesTo({Props}) ->  to_composition.RelatesTo(Props);
 to_composition.RelatesTo(Props) -> 
   DT = decode:xsd_info(<<"Composition.RelatedTo">>),
   #'Composition.RelatedTo'{ 
-    anyAttribs :: anyAttribs(),
-	id :: string() | undefined,
-	extension :: [extensions:'Extension'()] | undefined,
-	modifierExtension :: [extensions:'Extension'()] | undefined,
-	code :: complex:'DocumentRelationshipType'(),
-	choice :: special:'Reference'() | complex:'Identifier'()}).
+    anyAttribs  = decode:attrs(Props, DT)
+    , id  = decode:value(<<"id">>, Props, DT)
+    , extension  = decode:value(<<"extension">>, Props, DT)
+    , modifierExtension  = decode:value(<<"modifierExtension">>, Props, DT)
+    , code  = decode:value(<<"code">>, Props, DT)
+    , choice  = decode:value(<<"choice">>, Props, DT)
     }.
 
 
@@ -173,13 +174,13 @@ to_composition.Attester({Props}) ->  to_composition.Attester(Props);
 to_composition.Attester(Props) -> 
   DT = decode:xsd_info(<<"Composition.Attester">>),
   #'Composition.Attester'{ 
-    anyAttribs :: anyAttribs(),
-	id :: string() | undefined,
-	extension :: [extensions:'Extension'()] | undefined,
-	modifierExtension :: [extensions:'Extension'()] | undefined,
-	mode :: complex:'CompositionAttestationMode'(),
-	time :: dateTime() | undefined,
-	party :: special:'Reference'() | undefined}).
+    anyAttribs  = decode:attrs(Props, DT)
+    , id  = decode:value(<<"id">>, Props, DT)
+    , extension  = decode:value(<<"extension">>, Props, DT)
+    , modifierExtension  = decode:value(<<"modifierExtension">>, Props, DT)
+    , mode  = decode:value(<<"mode">>, Props, DT)
+    , time  = decode:value(<<"time">>, Props, DT)
+    , party  = decode:value(<<"party">>, Props, DT)
     }.
 
 

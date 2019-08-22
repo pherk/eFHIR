@@ -43,7 +43,8 @@ to_operationOutcome({Props}) -> to_operationOutcome(Props);
 to_operationOutcome(Props) ->
   DT = decode:xsd_info(<<"OperationOutcome">>),
   #'OperationOutcome'{ 
-      id               = decode:value(<<"id">>, Props, DT)
+      anyAttribs = decode:attrs(Props, DT) 
+    , id               = decode:value(<<"id">>, Props, DT)
     , meta             = decode:value(<<"meta">>, Props, DT)
     , implicitRules    = decode:value(<<"implicitRules">>, Props, DT)
     , language         = decode:value(<<"language">>, Props, DT)
@@ -62,16 +63,16 @@ to_operationOutcome.Issue({Props}) -> operationOutcome.Issue(Props);
 to_operationOutcome.Issue(Props) -> 
   DT = decode:xsd_info(<<"OperationOutcome.Issue">>),
   #'OperationOutcome.Issue'{ 
-    anyAttribs :: anyAttribs(),
-	id :: string() | undefined,
-	extension :: [extensions:'Extension'()] | undefined,
-	modifierExtension :: [extensions:'Extension'()] | undefined,
-	severity :: complex:'IssueSeverity'(),
-	code :: complex:'IssueType'(),
-	details :: complex:'CodeableConcept'() | undefined,
-	diagnostics :: string() | undefined,
-	location :: [string()] | undefined,
-	expression :: [string()] | undefined}).
+      anyAttribs  = decode:attrs(Props, DT)
+    , id  = decode:value(<<"id">>, Props, DT)
+    , extension  = decode:value(<<"extension">>, Props, DT)
+    , modifierExtension  = decode:value(<<"modifierExtension">>, Props, DT)
+    , severity  = decode:value(<<"severity">>, Props, DT)
+    , code  = decode:value(<<"code">>, Props, DT)
+    , details  = decode:value(<<"details">>, Props, DT)
+    , diagnostics  = decode:value(<<"diagnostics">>, Props, DT)
+    , location  = decode:value(<<"location">>, Props, DT)
+    , expression  = decode:value(<<"expression">>, Props, DT)
     }.
 
 

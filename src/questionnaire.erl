@@ -107,7 +107,8 @@ to_questionnaire({Props}) -> to_questionnaire(Props);
 to_questionnaire(Props) ->
   DT = decode:xsd_info(<<"Questionnaire">>),
   #'Questionnaire'{ 
-      id               = decode:value(<<"id">>, Props, DT)
+      anyAttribs       = decode:attrs(Props, DT)
+    , id               = decode:value(<<"id">>, Props, DT)
     , meta             = decode:value(<<"meta">>, Props, DT)
     , implicitRules    = decode:value(<<"implicitRules">>, Props, DT)
     , language         = decode:value(<<"language">>, Props, DT)
@@ -115,28 +116,28 @@ to_questionnaire(Props) ->
     , contained        = decode:value(<<"contained">>, Props, DT)
     , extension        = decode:value(<<"extension">>, Props, DT)
     , modifierExtension = decode:value(<<"modifierExtension">>, Props, DT)
-	url :: uri() | undefined,
-	identifier :: [complex:'Identifier'()] | undefined,
-	version :: string() | undefined,
-	name :: string() | undefined,
-	title :: string() | undefined,
-	derivedFrom :: [canonical()] | undefined,
-	status :: complex:'PublicationStatus'(),
-	experimental :: boolean() | undefined,
-	subjectType :: [code()] | undefined,
-	date :: dateTime() | undefined,
-	publisher :: string() | undefined,
-	contact :: [complex:'ContactDetail'()] | undefined,
-	description :: markdown() | undefined,
-	useContext :: [complex:'UsageContext'()] | undefined,
-	jurisdiction :: [complex:'CodeableConcept'()] | undefined,
-	purpose :: markdown() | undefined,
-	copyright :: markdown() | undefined,
-	approvalDate :: date() | undefined,
-	lastReviewDate :: date() | undefined,
-	effectivePeriod :: complex:'Period'() | undefined,
-	code :: [complex:'Coding'()] | undefined,
-	item :: [complex:'Questionnaire.Item'()] | undefined}).
+    , url  = decode:value(<<"url">>, Props, DT)
+    , identifier  = decode:value(<<"identifier">>, Props, DT)
+    , version  = decode:value(<<"version">>, Props, DT)
+    , name  = decode:value(<<"name">>, Props, DT)
+    , title  = decode:value(<<"title">>, Props, DT)
+    , derivedFrom  = decode:value(<<"derivedFrom">>, Props, DT)
+    , status  = decode:value(<<"status">>, Props, DT)
+    , experimental  = decode:value(<<"experimental">>, Props, DT)
+    , subjectType  = decode:value(<<"subjectType">>, Props, DT)
+    , date  = decode:value(<<"date">>, Props, DT)
+    , publisher  = decode:value(<<"publisher">>, Props, DT)
+    , contact  = decode:value(<<"contact">>, Props, DT)
+    , description  = decode:value(<<"description">>, Props, DT)
+    , useContext  = decode:value(<<"useContext">>, Props, DT)
+    , jurisdiction  = decode:value(<<"jurisdiction">>, Props, DT)
+    , purpose  = decode:value(<<"purpose">>, Props, DT)
+    , copyright  = decode:value(<<"copyright">>, Props, DT)
+    , approvalDate  = decode:value(<<"approvalDate">>, Props, DT)
+    , lastReviewDate  = decode:value(<<"lastReviewDate">>, Props, DT)
+    , effectivePeriod  = decode:value(<<"effectivePeriod">>, Props, DT)
+    , code  = decode:value(<<"code">>, Props, DT)
+    , item  = decode:value(<<"item">>, Props, DT)
     }.
 
 
@@ -147,11 +148,11 @@ to_questionnaire.Initial({Props}) -> to_questionnaire.Initial(Props);
 to_questionnaire.Initial(Props) ->
   DT = decode:xsd_info(<<"Questionnaire.Initial">>),
   #'Questionnaire.Initial'{ 
-    anyAttribs :: anyAttribs(),
-	id :: string() | undefined,
-	extension :: [extensions:'Extension'()] | undefined,
-	modifierExtension :: [extensions:'Extension'()] | undefined,
-	choice :: uri() | time() | string() | complex:'Reference'() | complex:'Quantity'() | complex:'Duration'() | complex:'Age'() | complex:'Distance'() | complex:'Count'() | integer() | decimal() | dateTime() | date() | complex:'Coding'() | boolean() | complex:'Attachment'()}).
+      anyAttribs  = decode:attrs(Props, DT)
+    , id  = decode:value(<<"id">>, Props, DT)
+    , extension  = decode:value(<<"extension">>, Props, DT)
+    , modifierExtension  = decode:value(<<"modifierExtension">>, Props, DT)
+    , choice  = decode:value(<<"choice">>, Props, DT)
     }.
 
 
@@ -159,12 +160,12 @@ to_questionnaire.AnswerOption({Props}) -> to_questionnaire.AnswerOption(Props);
 to_questionnaire.AnswerOption(Props) ->
   DT = decode:xsd_info(<<"Questionnaire.AnswerOption">>),
   #'Questionnaire.AnswerOption'{ 
-    anyAttribs :: anyAttribs(),
-	id :: string() | undefined,
-	extension :: [extensions:'Extension'()] | undefined,
-	modifierExtension :: [extensions:'Extension'()] | undefined,
-	choice :: time() | string() | complex:'Reference'() | integer() | date() | complex:'Coding'(),
-	initialSelected :: boolean() | undefined}).
+      anyAttribs  = decode:attrs(Props, DT)
+    , id  = decode:value(<<"id">>, Props, DT)
+    , extension  = decode:value(<<"extension">>, Props, DT)
+    , modifierExtension  = decode:value(<<"modifierExtension">>, Props, DT)
+    , choice  = decode:value(<<"choice">>, Props, DT)
+    , initialSelected  = decode:value(<<"initialSelected">>, Props, DT)
     }.
 
 
@@ -172,13 +173,13 @@ to_questionnaire.EnableWhen({Props}) -> to_questionnaire.EnableWhen(Props);
 to_questionnaire.EnableWhen(Props) ->
   DT = decode:xsd_info(<<"Questionnaire.EnableWhen">>),
   #'Questionnaire.EnableWhen'{ 
-    anyAttribs :: anyAttribs(),
-	id :: string() | undefined,
-	extension :: [extensions:'Extension'()] | undefined,
-	modifierExtension :: [extensions:'Extension'()] | undefined,
-	question :: string(),
-	operator :: complex:'QuestionnaireItemOperator'(),
-	choice :: time() | string() | complex:'Reference'() | complex:'Quantity'() | complex:'Duration'() | complex:'Age'() | complex:'Distance'() | complex:'Count'() | integer() | decimal() | dateTime() | date() | complex:'Coding'() | boolean()}).
+      anyAttribs  = decode:attrs(Props, DT)
+    , id  = decode:value(<<"id">>, Props, DT)
+    , extension  = decode:value(<<"extension">>, Props, DT)
+    , modifierExtension  = decode:value(<<"modifierExtension">>, Props, DT)
+    , question  = decode:value(<<"question">>, Props, DT)
+    , operator  = decode:value(<<"operator">>, Props, DT)
+    , choice  = decode:value(<<"choice">>, Props, DT)
     }.
 
 
@@ -186,26 +187,26 @@ to_questionnaire.Item({Props}) -> to_questionnaire.Item(Props);
 to_questionnaire.Item(Props) ->
   DT = decode:xsd_info(<<"Questionnaire.Item">>),
   #'Questionnaire.Item'{ 
-    anyAttribs :: anyAttribs(),
-	id :: string() | undefined,
-	extension :: [extensions:'Extension'()] | undefined,
-	modifierExtension :: [extensions:'Extension'()] | undefined,
-	linkId :: string(),
-	definition :: uri() | undefined,
-	code :: [complex:'Coding'()] | undefined,
-	prefix :: string() | undefined,
-	text :: string() | undefined,
-	type :: complex:'QuestionnaireItemType'(),
-	enableWhen :: [complex:'Questionnaire.EnableWhen'()] | undefined,
-	enableBehavior :: complex:'EnableWhenBehavior'() | undefined,
-	required :: boolean() | undefined,
-	repeats :: boolean() | undefined,
-	readOnly :: boolean() | undefined,
-	maxLength :: integer() | undefined,
-	answerValueSet :: canonical() | undefined,
-	answerOption :: [complex:'Questionnaire.AnswerOption'()] | undefined,
-	initial :: [complex:'Questionnaire.Initial'()] | undefined,
-	item :: [complex:'Questionnaire.Item'()] | undefined}).
+      anyAttribs  = decode:attrs(Props, DT)
+    , id  = decode:value(<<"id">>, Props, DT)
+    , extension  = decode:value(<<"extension">>, Props, DT)
+    , modifierExtension  = decode:value(<<"modifierExtension">>, Props, DT)
+    , linkId  = decode:value(<<"linkId">>, Props, DT)
+    , definition  = decode:value(<<"definition">>, Props, DT)
+    , code  = decode:value(<<"code">>, Props, DT)
+    , prefix  = decode:value(<<"prefix">>, Props, DT)
+    , text  = decode:value(<<"text">>, Props, DT)
+    , type  = decode:value(<<"type">>, Props, DT)
+    , enableWhen  = decode:value(<<"enableWhen">>, Props, DT)
+    , enableBehavior  = decode:value(<<"enableBehavior">>, Props, DT)
+    , required  = decode:value(<<"required">>, Props, DT)
+    , repeats  = decode:value(<<"repeats">>, Props, DT)
+    , readOnly  = decode:value(<<"readOnly">>, Props, DT)
+    , maxLength  = decode:value(<<"maxLength">>, Props, DT)
+    , answerValueSet  = decode:value(<<"answerValueSet">>, Props, DT)
+    , answerOption  = decode:value(<<"answerOption">>, Props, DT)
+    , initial  = decode:value(<<"initial">>, Props, DT)
+    , item  = decode:value(<<"item">>, Props, DT)
     }.
 
 

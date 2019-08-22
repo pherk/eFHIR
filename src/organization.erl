@@ -49,7 +49,8 @@ to_organization({Props}) -> to_organization(Props);
 to_organization(Props) ->
   DT = decode:xsd_info(<<"Organization">>),
   #'Organization'{ 
-      id               = decode:value(<<"id">>, Props, DT)
+      anyAttribs = decode:attrs(Props, DT) 
+    , id               = decode:value(<<"id">>, Props, DT)
     , meta             = decode:value(<<"meta">>, Props, DT)
     , implicitRules    = decode:value(<<"implicitRules">>, Props, DT)
     , language         = decode:value(<<"language">>, Props, DT)
@@ -58,15 +59,15 @@ to_organization(Props) ->
     , extension        = decode:value(<<"extension">>, Props, DT)
     , modifierExtension = decode:value(<<"modifierExtension">>, Props, DT)
     , 'identifier'      = decode:value(<<"identifier">>, Props, DT)
-	active :: boolean() | undefined,
-	type :: [complex:'CodeableConcept'()] | undefined,
-	name :: string() | undefined,
-	alias :: [string()] | undefined,
-	telecom :: [complex:'ContactPoint'()] | undefined,
-	address :: [complex:'Address'()] | undefined,
-	partOf :: special:'Reference'() | undefined,
-	contact :: [complex:'Organization.Contact'()] | undefined,
-	endpoint :: [special:'Reference'()] | undefined}).
+    , active  = decode:value(<<"active">>, Props, DT)
+    , type  = decode:value(<<"type">>, Props, DT)
+    , name  = decode:value(<<"name">>, Props, DT)
+    , alias  = decode:value(<<"alias">>, Props, DT)
+    , telecom  = decode:value(<<"telecom">>, Props, DT)
+    , address  = decode:value(<<"address">>, Props, DT)
+    , partOf  = decode:value(<<"partOf">>, Props, DT)
+    , contact  = decode:value(<<"contact">>, Props, DT)
+    , endpoint  = decode:value(<<"endpoint">>, Props, DT)
     }.
 
 
@@ -77,14 +78,14 @@ to_organization.Contact([Props}) -> to_organization.Contact(Props);
 to_organization.Contact(Props) ->
   DT = decode:xsd_info(<<"Organization.Contact">>),
   #'Organization.Contact'{ 
-    anyAttribs :: anyAttribs(),
-	id :: string() | undefined,
-	extension :: [extensions:'Extension'()] | undefined,
-	modifierExtension :: [extensions:'Extension'()] | undefined,
-	purpose :: complex:'CodeableConcept'() | undefined,
-	name :: complex:'HumanName'() | undefined,
-	telecom :: [complex:'ContactPoint'()] | undefined,
-	address :: complex:'Address'() | undefined}).
+      anyAttribs  = decode:attrs(Props, DT)
+    , id  = decode:value(<<"id">>, Props, DT)
+    , extension  = decode:value(<<"extension">>, Props, DT)
+    , modifierExtension  = decode:value(<<"modifierExtension">>, Props, DT)
+    , purpose  = decode:value(<<"purpose">>, Props, DT)
+    , name  = decode:value(<<"name">>, Props, DT)
+    , telecom  = decode:value(<<"telecom">>, Props, DT)
+    , address  = decode:value(<<"address">>, Props, DT)
     }.
 
 text(#'Organization'{text=N}) -> 

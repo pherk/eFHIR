@@ -62,7 +62,8 @@ to_provenance({Props}) -> to_provenance(Props);
 to_provenance(Props) ->
   DT = decode:xsd_info(<<"Provenance">>),
   #'Provenance'{ 
-      id               = decode:value(<<"id">>, Props, DT)
+      anyAttrs         = decode:attrs(Props, DT)
+    , id               = decode:value(<<"id">>, Props, DT)
     , meta             = decode:value(<<"meta">>, Props, DT)
     , implicitRules    = decode:value(<<"implicitRules">>, Props, DT)
     , language         = decode:value(<<"language">>, Props, DT)
@@ -70,16 +71,16 @@ to_provenance(Props) ->
     , contained        = decode:value(<<"contained">>, Props, DT)
     , extension        = decode:value(<<"extension">>, Props, DT)
     , modifierExtension = decode:value(<<"modifierExtension">>, Props, DT)
-	target :: [special:'Reference'()],
-	choice :: complex:'Period'() | dateTime() | undefined,
-	recorded :: instant(),
-	policy :: [uri()] | undefined,
-	location :: special:'Reference'() | undefined,
-	reason :: [complex:'CodeableConcept'()] | undefined,
-	activity :: complex:'CodeableConcept'() | undefined,
-	agent :: [complex:'Provenance.Agent'()],
-	entity :: [complex:'Provenance.Entity'()] | undefined,
-	signature :: [complex:'Signature'()] | undefined}).
+    , target  = decode:value(<<"target">>, Props, DT)
+    , choice  = decode:value(<<"choice">>, Props, DT)
+    , recorded  = decode:value(<<"recorded">>, Props, DT)
+    , policy  = decode:value(<<"policy">>, Props, DT)
+    , location  = decode:value(<<"location">>, Props, DT)
+    , reason  = decode:value(<<"reason">>, Props, DT)
+    , activity  = decode:value(<<"activity">>, Props, DT)
+    , agent  = decode:value(<<"agent">>, Props, DT)
+    , entity  = decode:value(<<"entity">>, Props, DT)
+    , signature  = decode:value(<<"signature">>, Props, DT)
     }.
 
 
@@ -90,13 +91,13 @@ to_provenance.Entity({Props}) -> to_provenance.Entity(Props);
 to_provenance.Entity(Props) ->
   DT = decode:xsd_info(<<"Provenance.Entity">>),
   #'Provenance.Entity'{ 
-    anyAttribs :: anyAttribs(),
-	id :: string() | undefined,
-	extension :: [extensions:'Extension'()] | undefined,
-	modifierExtension :: [extensions:'Extension'()] | undefined,
-	role :: complex:'ProvenanceEntityRole'(),
-	what :: special:'Reference'(),
-	agent :: [complex:'Provenance.Agent'()] | undefined}).
+      anyAttribs  = decode:attrs(Props, DT)
+    , id  = decode:value(<<"id">>, Props, DT)
+    , extension  = decode:value(<<"extension">>, Props, DT)
+    , modifierExtension  = decode:value(<<"modifierExtension">>, Props, DT)
+    , role  = decode:value(<<"role">>, Props, DT)
+    , what  = decode:value(<<"what">>, Props, DT)
+    , agent  = decode:value(<<"agent">>, Props, DT)
     }.
 
 
@@ -104,14 +105,14 @@ to_provenance.Agent({Props}) -> to_provenance.Agent(Props);
 to_provenance.Agent(Props) ->
   DT = decode:xsd_info(<<"Provenance.Agent">>),
   #'Provenance.Agent'{ 
-    anyAttribs :: anyAttribs(),
-	id :: string() | undefined,
-	extension :: [extensions:'Extension'()] | undefined,
-	modifierExtension :: [extensions:'Extension'()] | undefined,
-	type :: complex:'CodeableConcept'() | undefined,
-	role :: [complex:'CodeableConcept'()] | undefined,
-	who :: special:'Reference'(),
-	onBehalfOf :: special:'Reference'() | undefined}).
+      anyAttribs  = decode:attrs(Props, DT)
+    , id  = decode:value(<<"id">>, Props, DT)
+    , extension  = decode:value(<<"extension">>, Props, DT)
+    , modifierExtension  = decode:value(<<"modifierExtension">>, Props, DT)
+    , type  = decode:value(<<"type">>, Props, DT)
+    , role  = decode:value(<<"role">>, Props, DT)
+    , who  = decode:value(<<"who">>, Props, DT)
+    , onBehalfOf  = decode:value(<<"onBehalfOf">>, Props, DT)
     }.
 
 

@@ -51,7 +51,8 @@ to_practitioner({Props}) -> to_practitioner(Props);
 to_practitioner(Props) ->
   DT = decode:xsd_info(<<"Practitioner">>),
   #'Practitioner'{ 
-      id               = decode:value(<<"id">>, Props, DT)
+      anyAttribs = decode:attrs(Props, DT) 
+    , id               = decode:value(<<"id">>, Props, DT)
     , meta             = decode:value(<<"meta">>, Props, DT)
     , implicitRules    = decode:value(<<"implicitRules">>, Props, DT)
     , language         = decode:value(<<"language">>, Props, DT)
@@ -60,15 +61,15 @@ to_practitioner(Props) ->
     , extension        = decode:value(<<"extension">>, Props, DT)
     , modifierExtension = decode:value(<<"modifierExtension">>, Props, DT)
     , 'identifier'      = decode:value(<<"identifier">>, Props, DT)
-	active :: boolean() | undefined,
-	name :: [complex:'HumanName'()] | undefined,
-	telecom :: [complex:'ContactPoint'()] | undefined,
-	address :: [complex:'Address'()] | undefined,
-	gender :: complex:'AdministrativeGender'() | undefined,
-	birthDate :: date() | undefined,
-	photo :: [complex:'Attachment'()] | undefined,
-	qualification :: [complex:'Practitioner.Qualification'()] | undefined,
-	communication :: [complex:'CodeableConcept'()] | undefined}).
+    , active  = decode:value(<<"active">>, Props, DT)
+    , name  = decode:value(<<"name">>, Props, DT)
+    , telecom  = decode:value(<<"telecom">>, Props, DT)
+    , address  = decode:value(<<"address">>, Props, DT)
+    , gender  = decode:value(<<"gender">>, Props, DT)
+    , birthDate  = decode:value(<<"birthDate">>, Props, DT)
+    , photo  = decode:value(<<"photo">>, Props, DT)
+    , qualification  = decode:value(<<"qualification">>, Props, DT)
+    , communication  = decode:value(<<"communication">>, Props, DT)
     }.
 
 
@@ -79,14 +80,14 @@ to_practitioner.Qualification({Props}) -> to_practitioner.Qualification(Props);
 to_practitioner.Qualification(Props) ->
   DT = decode:xsd_info(<<"Practitioner.Qulification">>),
   #'Practitioner.Qualification'{
-    anyAttribs :: anyAttribs(),
-	id :: string() | undefined,
-	extension :: [extensions:'Extension'()] | undefined,
-	modifierExtension :: [extensions:'Extension'()] | undefined,
-	identifier :: [complex:'Identifier'()] | undefined,
-	code :: complex:'CodeableConcept'(),
-	period :: complex:'Period'() | undefined,
-	issuer :: special:'Reference'() | undefined}).
+      anyAttribs  = decode:attrs(Props, DT)
+    , id  = decode:value(<<"id">>, Props, DT)
+    , extension  = decode:value(<<"extension">>, Props, DT)
+    , modifierExtension  = decode:value(<<"modifierExtension">>, Props, DT)
+    , identifier  = decode:value(<<"identifier">>, Props, DT)
+    , code  = decode:value(<<"code">>, Props, DT)
+    , period  = decode:value(<<"period">>, Props, DT)
+    , issuer  = decode:value(<<"issuer">>, Props, DT)
    }.
 
 text(#'Practitioner'{text=N}) -> 

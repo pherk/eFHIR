@@ -60,7 +60,8 @@ to_group({Props}) -> to_group(Props);
 to_group(Props) ->
   DT = decode:xsd_info(<<"Group">>),
   #'Group'{ 
-      id               = decode:value(<<"id">>, Props, DT)
+      anyAttribs = decode:attrs(Props, DT) 
+    , id               = decode:value(<<"id">>, Props, DT)
     , meta             = decode:value(<<"meta">>, Props, DT)
     , implicitRules    = decode:value(<<"implicitRules">>, Props, DT)
     , language         = decode:value(<<"language">>, Props, DT)
@@ -69,15 +70,15 @@ to_group(Props) ->
     , extension        = decode:value(<<"extension">>, Props, DT)
     , modifierExtension = decode:value(<<"modifierExtension">>, Props, DT)
     , 'identifier'      = decode:value(<<"identifier">>, Props, DT)
-	active :: boolean() | undefined,
-	type :: complex:'GroupType'(),
-	actual :: boolean(),
-	code :: complex:'CodeableConcept'() | undefined,
-	name :: string() | undefined,
-	quantity :: unsignedInt() | undefined,
-	managingEntity :: special:'Reference'() | undefined,
-	characteristic :: [complex:'Group.Characteristic'()] | undefined,
-	member :: [complex:'Group.Member'()] | undefined}).
+    , active  = decode:value(<<"active">>, Props, DT)
+    , type  = decode:value(<<"type">>, Props, DT)
+    , actual  = decode:value(<<"actual">>, Props, DT)
+    , code  = decode:value(<<"code">>, Props, DT)
+    , name  = decode:value(<<"name">>, Props, DT)
+    , quantity  = decode:value(<<"quantity">>, Props, DT)
+    , managingEntity  = decode:value(<<"managingEntity">>, Props, DT)
+    , characteristic  = decode:value(<<"characteristic">>, Props, DT)
+    , member  = decode:value(<<"member">>, Props, DT)
     }.
 
 
@@ -88,13 +89,13 @@ to_group.Member({Props}) -> to_group.Member(Props);
 to_group.Member(Props) ->
   DT = decode:xsd_info(<<"Group.Member">>),
   #'Group.Member'{ 
-    anyAttribs :: anyAttribs(),
-	id :: string() | undefined,
-	extension :: [extensions:'Extension'()] | undefined,
-	modifierExtension :: [extensions:'Extension'()] | undefined,
-	entity :: special:'Reference'(),
-	period :: complex:'Period'() | undefined,
-	inactive :: boolean() | undefined}).
+      anyAttribs  = decode:attrs(Props, DT)
+    , id  = decode:value(<<"id">>, Props, DT)
+    , extension  = decode:value(<<"extension">>, Props, DT)
+    , modifierExtension  = decode:value(<<"modifierExtension">>, Props, DT)
+    , entity  = decode:value(<<"entity">>, Props, DT)
+    , period  = decode:value(<<"period">>, Props, DT)
+    , inactive  = decode:value(<<"inactive">>, Props, DT)
     }.
 
 
@@ -102,14 +103,14 @@ to_group.Characteristic({Props}) -> to_group.Characteristic(Props);
 to_group.Characteristic(Props) ->
   DT = decode:xsd_info(<<"Group.Characteristics">>),
   #'Group:Characteristics'{ 
-    anyAttribs :: anyAttribs(),
-	id :: string() | undefined,
-	extension :: [extensions:'Extension'()] | undefined,
-	modifierExtension :: [extensions:'Extension'()] | undefined,
-	code :: complex:'CodeableConcept'(),
-	choice :: special:'Reference'() | complex:'Range'() | complex:'Quantity'() | complex:'Duration'() | complex:'Age'() | complex:'Distance'() | complex:'Count'() | complex:'CodeableConcept'() | boolean(),
-	exclude :: boolean(),
-	period :: complex:'Period'() | undefined}).
+      anyAttribs  = decode:attrs(Props, DT)
+    , id  = decode:value(<<"id">>, Props, DT)
+    , extension  = decode:value(<<"extension">>, Props, DT)
+    , modifierExtension  = decode:value(<<"modifierExtension">>, Props, DT)
+    , code  = decode:value(<<"code">>, Props, DT)
+    , choice  = decode:value(<<"choice">>, Props, DT)
+    , exclude  = decode:value(<<"exclude">>, Props, DT)
+    , period  = decode:value(<<"period">>, Props, DT)
     }.
 
 

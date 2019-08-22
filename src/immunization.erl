@@ -101,7 +101,8 @@ to_immunization({Props}) -> to_immunization(Props);
 to_immunization(Props) ->
   DT = decode:xsd_info(<<"Immunization">>),
   #'Immunization'{ 
-      id               = decode:value(<<"id">>, Props, DT)
+      anyAttribs = decode:attrs(Props, DT) 
+    , id               = decode:value(<<"id">>, Props, DT)
     , meta             = decode:value(<<"meta">>, Props, DT)
     , implicitRules    = decode:value(<<"implicitRules">>, Props, DT)
     , language         = decode:value(<<"language">>, Props, DT)
@@ -110,33 +111,33 @@ to_immunization(Props) ->
     , extension        = decode:value(<<"extension">>, Props, DT)
     , modifierExtension = decode:value(<<"modifierExtension">>, Props, DT)
     , 'identifier'      = decode:value(<<"identifier">>, Props, DT)
-	status :: complex:'ImmunizationStatusCodes'(),
-	statusReason :: complex:'CodeableConcept'() | undefined,
-	vaccineCode :: complex:'CodeableConcept'(),
-	patient :: special:'Reference'(),
-	encounter :: special:'Reference'() | undefined,
-	choice :: string() | dateTime(),
-	recorded :: dateTime() | undefined,
-	primarySource :: boolean() | undefined,
-	reportOrigin :: complex:'CodeableConcept'() | undefined,
-	location :: special:'Reference'() | undefined,
-	manufacturer :: special:'Reference'() | undefined,
-	lotNumber :: string() | undefined,
-	expirationDate :: date() | undefined,
-	site :: complex:'CodeableConcept'() | undefined,
-	route :: complex:'CodeableConcept'() | undefined,
-	doseQuantity :: complex:'Quantity'() | complex:'Duration'() | complex:'Age'() | complex:'Distance'() | complex:'Count'() | undefined,
-	performer :: [complex:'Immunization.Performer'()] | undefined,
-	note :: [complex:'Annotation'()] | undefined,
-	reasonCode :: [complex:'CodeableConcept'()] | undefined,
-	reasonReference :: [special:'Reference'()] | undefined,
-	isSubpotent :: boolean() | undefined,
-	subpotentReason :: [complex:'CodeableConcept'()] | undefined,
-	education :: [complex:'Immunization.Education'()] | undefined,
-	programEligibility :: [complex:'CodeableConcept'()] | undefined,
-	fundingSource :: complex:'CodeableConcept'() | undefined,
-	reaction :: [complex:'Immunization.Reaction'()] | undefined,
-	protocolApplied :: [complex:'Immunization.ProtocolApplied'()] | undefined}).
+    , status  = decode:value(<<"status">>, Props, DT)
+    , statusReason  = decode:value(<<"statusReason">>, Props, DT)
+    , vaccineCode  = decode:value(<<"vaccineCode">>, Props, DT)
+    , patient  = decode:value(<<"patient">>, Props, DT)
+    , encounter  = decode:value(<<"encounter">>, Props, DT)
+    , choice  = decode:value(<<"choice">>, Props, DT)
+    , recorded  = decode:value(<<"recorded">>, Props, DT)
+    , primarySource  = decode:value(<<"primarySource">>, Props, DT)
+    , reportOrigin  = decode:value(<<"reportOrigin">>, Props, DT)
+    , location  = decode:value(<<"location">>, Props, DT)
+    , manufacturer  = decode:value(<<"manufacturer">>, Props, DT)
+    , lotNumber  = decode:value(<<"lotNumber">>, Props, DT)
+    , expirationDate  = decode:value(<<"expirationDate">>, Props, DT)
+    , site  = decode:value(<<"site">>, Props, DT)
+    , route  = decode:value(<<"route">>, Props, DT)
+    , doseQuantity  = decode:value(<<"doseQuantity">>, Props, DT)
+    , performer  = decode:value(<<"performer">>, Props, DT)
+    , note  = decode:value(<<"note">>, Props, DT)
+    , reasonCode  = decode:value(<<"reasonCode">>, Props, DT)
+    , reasonReference  = decode:value(<<"reasonReference">>, Props, DT)
+    , isSubpotent  = decode:value(<<"isSubpotent">>, Props, DT)
+    , subpotentReason  = decode:value(<<"subpotentReason">>, Props, DT)
+    , education  = decode:value(<<"education">>, Props, DT)
+    , programEligibility  = decode:value(<<"programEligibility">>, Props, DT)
+    , fundingSource  = decode:value(<<"fundingSource">>, Props, DT)
+    , reaction  = decode:value(<<"reaction">>, Props, DT)
+    , protocolApplied  = decode:value(<<"protocolApplied">>, Props, DT)
     }.
 
 
@@ -147,15 +148,15 @@ to_immunization.ProtocolApplied({Props}) -> to_immunization.ProtocolApplied(Prop
 to_immunization.ProtocolApplied(Props) ->
   DT = decode:xsd_info(<<"Immunization.ProtcolApplied">>),
   #'Immunization.ProtocolApplied'{ 
-    anyAttribs :: anyAttribs(),
-	id :: string() | undefined,
-	extension :: [extensions:'Extension'()] | undefined,
-	modifierExtension :: [extensions:'Extension'()] | undefined,
-	series :: string() | undefined,
-	authority :: special:'Reference'() | undefined,
-	targetDisease :: [complex:'CodeableConcept'()] | undefined,
-	choice :: string() | positiveInt(),
-	choice1 :: string() | positiveInt() | undefined}).
+      anyAttribs  = decode:attrs(Props, DT)
+    , id  = decode:value(<<"id">>, Props, DT)
+    , extension  = decode:value(<<"extension">>, Props, DT)
+    , modifierExtension  = decode:value(<<"modifierExtension">>, Props, DT)
+    , series  = decode:value(<<"series">>, Props, DT)
+    , authority  = decode:value(<<"authority">>, Props, DT)
+    , targetDisease  = decode:value(<<"targetDisease">>, Props, DT)
+    , choice  = decode:value(<<"choice">>, Props, DT)
+    , choice1  = decode:value(<<"choice1">>, Props, DT)
     }.
 
 
@@ -163,26 +164,26 @@ to_immunization.Reaction({Props}) -> to_immunization.Reaction(Props);
 to_immunization.Reaction(Props) ->
   DT = decode:xsd_info(<<"Immunization.Reaction">>),
   #'Immunization.Reaction'{ 
-    anyAttribs :: anyAttribs(),
-	id :: string() | undefined,
-	extension :: [extensions:'Extension'()] | undefined,
-	modifierExtension :: [extensions:'Extension'()] | undefined,
-	date :: dateTime() | undefined,
-	detail :: special:'Reference'() | undefined,
-	reported :: boolean() | undefined}).
+      anyAttribs  = decode:attrs(Props, DT)
+    , id  = decode:value(<<"id">>, Props, DT)
+    , extension  = decode:value(<<"extension">>, Props, DT)
+    , modifierExtension  = decode:value(<<"modifierExtension">>, Props, DT)
+    , date  = decode:value(<<"date">>, Props, DT)
+    , detail  = decode:value(<<"detail">>, Props, DT)
+    , reported  = decode:value(<<"reported">>, Props, DT)
 
 to_immunization.Education({Props}) -> to_immunization.Education(Props);
 to_immunization.Education(Props) ->
   DT = decode:xsd_info(<<"Immunization.Education">>),
   #'Immunization.Education'{ 
-    anyAttribs :: anyAttribs(),
-	id :: string() | undefined,
-	extension :: [extensions:'Extension'()] | undefined,
-	modifierExtension :: [extensions:'Extension'()] | undefined,
-	documentType :: string() | undefined,
-	reference :: uri() | undefined,
-	publicationDate :: dateTime() | undefined,
-	presentationDate :: dateTime() | undefined}).
+      anyAttribs  = decode:attrs(Props, DT)
+    , id  = decode:value(<<"id">>, Props, DT)
+    , extension  = decode:value(<<"extension">>, Props, DT)
+    , modifierExtension  = decode:value(<<"modifierExtension">>, Props, DT)
+    , documentType  = decode:value(<<"documentType">>, Props, DT)
+    , reference  = decode:value(<<"reference">>, Props, DT)
+    , publicationDate  = decode:value(<<"publicationDate">>, Props, DT)
+    , presentationDate  = decode:value(<<"presentationDate">>, Props, DT)
     }.
 
 
@@ -190,12 +191,12 @@ to_immunization.Performer({Props}) -> to_immunization.Performer(Props);
 to_immunization.Performer(Props) ->
   DT = decode:xsd_info(<<"Immunization.Performer">>),
   #'Immunization.Performer'{ 
-    anyAttribs :: anyAttribs(),
-	id :: string() | undefined,
-	extension :: [extensions:'Extension'()] | undefined,
-	modifierExtension :: [extensions:'Extension'()] | undefined,
-	function :: complex:'CodeableConcept'() | undefined,
-	actor :: special:'Reference'()}).
+      anyAttribs  = decode:attrs(Props, DT)
+    , id  = decode:value(<<"id">>, Props, DT)
+    , extension  = decode:value(<<"extension">>, Props, DT)
+    , modifierExtension  = decode:value(<<"modifierExtension">>, Props, DT)
+    , function  = decode:value(<<"function">>, Props, DT)
+    , actor  = decode:value(<<"actor">>, Props, DT)
     }.
 
 text(#'Immunization'{text=N}) -> 

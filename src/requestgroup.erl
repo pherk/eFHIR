@@ -96,7 +96,8 @@ to_requestGroup({Props}) -> to_requestGroup(Props);
 to_requestGroup(Props) ->
   DT = decode:xsd_info(<<"RequestGroup">>),
   #'RequestGroup'{ 
-      id               = decode:value(<<"id">>, Props, DT)
+      anyAttribs       = decode:attrs(Props, DT)
+    , id               = decode:value(<<"id">>, Props, DT)
     , meta             = decode:value(<<"meta">>, Props, DT)
     , implicitRules    = decode:value(<<"implicitRules">>, Props, DT)
     , language         = decode:value(<<"language">>, Props, DT)
@@ -105,23 +106,23 @@ to_requestGroup(Props) ->
     , extension        = decode:value(<<"extension">>, Props, DT)
     , modifierExtension = decode:value(<<"modifierExtension">>, Props, DT)
     , 'identifier'      = decode:value(<<"identifier">>, Props, DT)
-	instantiatesCanonical :: [canonical()] | undefined,
-	instantiatesUri :: [uri()] | undefined,
-	basedOn :: [special:'Reference'()] | undefined,
-	replaces :: [special:'Reference'()] | undefined,
-	groupIdentifier :: complex:'Identifier'() | undefined,
-	status :: complex:'RequestStatus'(),
-	intent :: complex:'RequestIntent'(),
-	priority :: complex:'RequestPriority'() | undefined,
-	code :: complex:'CodeableConcept'() | undefined,
-	subject :: special:'Reference'() | undefined,
-	encounter :: special:'Reference'() | undefined,
-	authoredOn :: dateTime() | undefined,
-	author :: special:'Reference'() | undefined,
-	reasonCode :: [complex:'CodeableConcept'()] | undefined,
-	reasonReference :: [special:'Reference'()] | undefined,
-	note :: [complex:'Annotation'()] | undefined,
-	action :: [complex:'RequestGroup.Action'()] | undefined}).
+    , instantiatesCanonical  = decode:value(<<"instantiatesCanonical">>, Props, DT)
+    , instantiatesUri  = decode:value(<<"instantiatesUri">>, Props, DT)
+    , basedOn  = decode:value(<<"basedOn">>, Props, DT)
+    , replaces  = decode:value(<<"replaces">>, Props, DT)
+    , groupIdentifier  = decode:value(<<"groupIdentifier">>, Props, DT)
+    , status  = decode:value(<<"status">>, Props, DT)
+    , intent  = decode:value(<<"intent">>, Props, DT)
+    , priority  = decode:value(<<"priority">>, Props, DT)
+    , code  = decode:value(<<"code">>, Props, DT)
+    , subject  = decode:value(<<"subject">>, Props, DT)
+    , encounter  = decode:value(<<"encounter">>, Props, DT)
+    , authoredOn  = decode:value(<<"authoredOn">>, Props, DT)
+    , author  = decode:value(<<"author">>, Props, DT)
+    , reasonCode  = decode:value(<<"reasonCode">>, Props, DT)
+    , reasonReference  = decode:value(<<"reasonReference">>, Props, DT)
+    , note  = decode:value(<<"note">>, Props, DT)
+    , action  = decode:value(<<"action">>, Props, DT)
     }.
 
 
@@ -132,13 +133,13 @@ to_requestGroup.RelatedAction({Props}) -> to_requestGroup.RelatedAction(Props);
 to_requestGroup.RelatedAction(Props) ->
   DT = decode:xsd_info(<<"RequestGroup.RelatedAction">>),
   #'RequestGroup.RelatedAction'{ 
-    anyAttribs :: anyAttribs(),
-	id :: string() | undefined,
-	extension :: [extensions:'Extension'()] | undefined,
-	modifierExtension :: [extensions:'Extension'()] | undefined,
-	actionId :: id(),
-	relationship :: complex:'ActionRelationshipType'(),
-	choice :: complex:'Range'() | complex:'Duration'() | undefined}).
+      anyAttribs  = decode:attrs(Props, DT)
+    , id  = decode:value(<<"id">>, Props, DT)
+    , extension  = decode:value(<<"extension">>, Props, DT)
+    , modifierExtension  = decode:value(<<"modifierExtension">>, Props, DT)
+    , actionId  = decode:value(<<"actionId">>, Props, DT)
+    , relationship  = decode:value(<<"relationship">>, Props, DT)
+    , choice  = decode:value(<<"choice">>, Props, DT)
     }.
 
 
@@ -146,12 +147,12 @@ to_requestGroup.Condition({Props}) -> to_requestGroup.Condition(Props);
 to_requestGroup.Condition(Props) ->
   DT = decode:xsd_info(<<"RequestGroup.Condition">>),
   #'RequestGroup.Condition'{ 
-    anyAttribs :: anyAttribs(),
-	id :: string() | undefined,
-	extension :: [extensions:'Extension'()] | undefined,
-	modifierExtension :: [extensions:'Extension'()] | undefined,
-	kind :: complex:'ActionConditionKind'(),
-	expression :: complex:'Expression'() | undefined}).
+      anyAttribs  = decode:attrs(Props, DT)
+    , id  = decode:value(<<"id">>, Props, DT)
+    , extension  = decode:value(<<"extension">>, Props, DT)
+    , modifierExtension  = decode:value(<<"modifierExtension">>, Props, DT)
+    , kind  = decode:value(<<"kind">>, Props, DT)
+    , expression  = decode:value(<<"expression">>, Props, DT)
     }.
 
 
@@ -159,29 +160,29 @@ to_requestGroup.Action({Props}) -> to_requestGroup.Action(Props);
 to_requestGroup.Action(Props) ->
   DT = decode:xsd_info(<<"RequestGroup.Action">>),
   #'RequestGroup.Action'{ 
-    anyAttribs :: anyAttribs(),
-	id :: string() | undefined,
-	extension :: [extensions:'Extension'()] | undefined,
-	modifierExtension :: [extensions:'Extension'()] | undefined,
-	prefix :: string() | undefined,
-	title :: string() | undefined,
-	description :: string() | undefined,
-	textEquivalent :: string() | undefined,
-	priority :: complex:'RequestPriority'() | undefined,
-	code :: [complex:'CodeableConcept'()] | undefined,
-	documentation :: [complex:'RelatedArtifact'()] | undefined,
-	condition :: [complex:'RequestGroup.Condition'()] | undefined,
-	relatedAction :: [complex:'RequestGroup.RelatedAction'()] | undefined,
-	choice :: complex:'Timing'() | complex:'Range'() | complex:'Period'() | complex:'Duration'() | dateTime() | complex:'Age'() | undefined,
-	participant :: [special:'Reference'()] | undefined,
-	type :: complex:'CodeableConcept'() | undefined,
-	groupingBehavior :: complex:'ActionGroupingBehavior'() | undefined,
-	selectionBehavior :: complex:'ActionSelectionBehavior'() | undefined,
-	requiredBehavior :: complex:'ActionRequiredBehavior'() | undefined,
-	precheckBehavior :: complex:'ActionPrecheckBehavior'() | undefined,
-	cardinalityBehavior :: complex:'ActionCardinalityBehavior'() | undefined,
-	resource :: special:'Reference'() | undefined,
-	action :: [complex:'RequestGroup.Action'()] | undefined}).
+      anyAttribs  = decode:attrs(Props, DT)
+    , id  = decode:value(<<"id">>, Props, DT)
+    , extension  = decode:value(<<"extension">>, Props, DT)
+    , modifierExtension  = decode:value(<<"modifierExtension">>, Props, DT)
+    , prefix  = decode:value(<<"prefix">>, Props, DT)
+    , title  = decode:value(<<"title">>, Props, DT)
+    , description  = decode:value(<<"description">>, Props, DT)
+    , textEquivalent  = decode:value(<<"textEquivalent">>, Props, DT)
+    , priority  = decode:value(<<"priority">>, Props, DT)
+    , code  = decode:value(<<"code">>, Props, DT)
+    , documentation  = decode:value(<<"documentation">>, Props, DT)
+    , condition  = decode:value(<<"condition">>, Props, DT)
+    , relatedAction  = decode:value(<<"relatedAction">>, Props, DT)
+    , choice  = decode:value(<<"choice">>, Props, DT)
+    , participant  = decode:value(<<"participant">>, Props, DT)
+    , type  = decode:value(<<"type">>, Props, DT)
+    , groupingBehavior  = decode:value(<<"groupingBehavior">>, Props, DT)
+    , selectionBehavior  = decode:value(<<"selectionBehavior">>, Props, DT)
+    , requiredBehavior  = decode:value(<<"requiredBehavior">>, Props, DT)
+    , precheckBehavior  = decode:value(<<"precheckBehavior">>, Props, DT)
+    , cardinalityBehavior  = decode:value(<<"cardinalityBehavior">>, Props, DT)
+    , resource  = decode:value(<<"resource">>, Props, DT)
+    , action  = decode:value(<<"action">>, Props, DT)
     }.
 
 

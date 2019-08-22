@@ -63,7 +63,8 @@ to_episodeOfCare({Props}) -> to_episodeOfCare(Props);
 to_episodeOfCare(Props) ->
   DT = decode:xsd_info(<<"EpisodeOfCare">>),
   #'EpisodeOfCare'{ 
-      id               = decode:value(<<"id">>, Props, DT)
+      anyAttribs = decode:attrs(Props, DT) 
+    , id               = decode:value(<<"id">>, Props, DT)
     , meta             = decode:value(<<"meta">>, Props, DT)
     , implicitRules    = decode:value(<<"implicitRules">>, Props, DT)
     , language         = decode:value(<<"language">>, Props, DT)
@@ -72,17 +73,17 @@ to_episodeOfCare(Props) ->
     , extension        = decode:value(<<"extension">>, Props, DT)
     , modifierExtension = decode:value(<<"modifierExtension">>, Props, DT)
     , 'identifier'      = decode:value(<<"identifier">>, Props, DT)
-	status :: complex:'EpisodeOfCareStatus'(),
-	statusHistory :: [complex:'EpisodeOfCare.StatusHistory'()] | undefined,
-	type :: [complex:'CodeableConcept'()] | undefined,
-	diagnosis :: [complex:'EpisodeOfCare.Diagnosis'()] | undefined,
-	patient :: special:'Reference'(),
-	managingOrganization :: special:'Reference'() | undefined,
-	period :: complex:'Period'() | undefined,
-	referralRequest :: [special:'Reference'()] | undefined,
-	careManager :: special:'Reference'() | undefined,
-	team :: [special:'Reference'()] | undefined,
-	account :: [special:'Reference'()] | undefined}).
+    , status  = decode:value(<<"status">>, Props, DT)
+    , statusHistory  = decode:value(<<"statusHistory">>, Props, DT)
+    , type  = decode:value(<<"type">>, Props, DT)
+    , diagnosis  = decode:value(<<"diagnosis">>, Props, DT)
+    , patient  = decode:value(<<"patient">>, Props, DT)
+    , managingOrganization  = decode:value(<<"managingOrganization">>, Props, DT)
+    , period  = decode:value(<<"period">>, Props, DT)
+    , referralRequest  = decode:value(<<"referralRequest">>, Props, DT)
+    , careManager  = decode:value(<<"careManager">>, Props, DT)
+    , team  = decode:value(<<"team">>, Props, DT)
+    , account  = decode:value(<<"account">>, Props, DT)
     }.
 
 
@@ -93,13 +94,13 @@ to_episodeOfCare.Diagnosis({Props}) -> to_episodeOfCare.Diagnosis({Props});
 to_episodeOfCare.Diagnosis(Props) ->
   DT = decode:xsd_info(<<"EpisodeOfCare.Diagnosis">>),
   #'EpisodeOfCare.Diagnosis'{ 
-    anyAttribs :: anyAttribs(),
-	id :: string() | undefined,
-	extension :: [extensions:'Extension'()] | undefined,
-	modifierExtension :: [extensions:'Extension'()] | undefined,
-	condition :: special:'Reference'(),
-	role :: complex:'CodeableConcept'() | undefined,
-	rank :: positiveInt() | undefined}).
+      anyAttribs  = decode:attrs(Props, DT)
+    , id  = decode:value(<<"id">>, Props, DT)
+    , extension  = decode:value(<<"extension">>, Props, DT)
+    , modifierExtension  = decode:value(<<"modifierExtension">>, Props, DT)
+    , condition  = decode:value(<<"condition">>, Props, DT)
+    , role  = decode:value(<<"role">>, Props, DT)
+    , rank  = decode:value(<<"rank">>, Props, DT)
     }.
 
 
@@ -107,12 +108,12 @@ to_episodeOfCare.StatusHistory({Props}) -> to_episodeOfCare.StatusHistory({Props
 to_episodeOfCare.StatusHistory(Props) ->
   DT = decode:xsd_info(<<"EpisodeOfCare.StatusHistory">>),
   #'EpisodeOfCare.StatusHistory'{ 
-    anyAttribs :: anyAttribs(),
-	id :: string() | undefined,
-	extension :: [extensions:'Extension'()] | undefined,
-	modifierExtension :: [extensions:'Extension'()] | undefined,
-	status :: complex:'EpisodeOfCareStatus'(),
-	period :: complex:'Period'()}).
+      anyAttribs  = decode:attrs(Props, DT)
+    , id  = decode:value(<<"id">>, Props, DT)
+    , extension  = decode:value(<<"extension">>, Props, DT)
+    , modifierExtension  = decode:value(<<"modifierExtension">>, Props, DT)
+    , status  = decode:value(<<"status">>, Props, DT)
+    , period  = decode:value(<<"period">>, Props, DT)
     }.
 
 

@@ -95,7 +95,7 @@ to_activityDefinition({Props}) -> to_activityDefinition(Props);
 to_activityDefinition(Props) ->
   DT = decode:xsd_info(<<"ActivityDefinition">>),
   #'ActivityDefinition'{ 
-      anyAttribs :: anyAttribs(),
+      anyAttribs = decode:attrs(Props, DT) 
     , id               = decode:value(<<"id">>, Props, DT)
     , meta             = decode:value(<<"meta">>, Props, DT)
     , implicitRules    = decode:value(<<"implicitRules">>, Props, DT)
@@ -160,7 +160,7 @@ to_activityDefinition_dynamicValue({Props}) -> to_activityDefinition_dynamicValu
 to_activityDefinition_dynamicValue(Props) ->
   DT = decode:xsd_info(<<"ActivityDefinition.DynamicValue">>),
   #'ActivityDefinition.DynamicValue'{ 
-      anyAttribs :: anyAttribs(),
+     anyAttribs = decode:attrs(Props, DT)
     , id = decode:value(<<"id">>, Props, DT)
     , extension = decode:value(<<"extension">>, Props, DT)
     , modifierExtension = decode:value(<<"modifierExtension">>, Props, DT)
@@ -173,7 +173,7 @@ to_activityDefinition_participant({Props}) -> to_activityDefinition_participant(
 to_activityDefinition_participant(Props) ->
   DT = decode:xsd_info(<<"ActivityDefinition.Participant">>),
   #'ActivityDefinition.Participant'{ 
-      anyAttribs :: anyAttribs(),
+       anyAttribs = decode:attrs(Props, DT)
     , id = decode:value(<<"id">>, Props, DT)
     , extension = decode:value(<<"extension">>, Props, DT)
     , modifierExtension = decode:value(<<"modifierExtension">>, Props, DT)

@@ -64,7 +64,8 @@ to_practitionerRole({Props}) -> to_practitionerRole(Props);
 to_practitionerRole(Props) ->
   DT = decode:xsd_info(<<"PractitionerRole">>),
   #'PractitionerRole'{ 
-      id               = decode:value(<<"id">>, Props, DT)
+      anyAttribs = decode:attrs(Props, DT) 
+    , id               = decode:value(<<"id">>, Props, DT)
     , meta             = decode:value(<<"meta">>, Props, DT)
     , implicitRules    = decode:value(<<"implicitRules">>, Props, DT)
     , language         = decode:value(<<"language">>, Props, DT)
@@ -73,19 +74,19 @@ to_practitionerRole(Props) ->
     , extension        = decode:value(<<"extension">>, Props, DT)
     , modifierExtension = decode:value(<<"modifierExtension">>, Props, DT)
     , 'identifier'      = decode:value(<<"identifier">>, Props, DT)
-	active :: boolean() | undefined,
-	period :: complex:'Period'() | undefined,
-	practitioner :: special:'Reference'() | undefined,
-	organization :: special:'Reference'() | undefined,
-	code :: [complex:'CodeableConcept'()] | undefined,
-	specialty :: [complex:'CodeableConcept'()] | undefined,
-	location :: [special:'Reference'()] | undefined,
-	healthcareService :: [special:'Reference'()] | undefined,
-	telecom :: [complex:'ContactPoint'()] | undefined,
-	availableTime :: [complex:'PractitionerRole.AvailableTime'()] | undefined,
-	notAvailable :: [complex:'PractitionerRole.NotAvailable'()] | undefined,
-	availabilityExceptions :: string() | undefined,
-	endpoint :: [special:'Reference'()] | undefined}).
+    , active  = decode:value(<<"active">>, Props, DT)
+    , period  = decode:value(<<"period">>, Props, DT)
+    , practitioner  = decode:value(<<"practitioner">>, Props, DT)
+    , organization  = decode:value(<<"organization">>, Props, DT)
+    , code  = decode:value(<<"code">>, Props, DT)
+    , specialty  = decode:value(<<"specialty">>, Props, DT)
+    , location  = decode:value(<<"location">>, Props, DT)
+    , healthcareService  = decode:value(<<"healthcareService">>, Props, DT)
+    , telecom  = decode:value(<<"telecom">>, Props, DT)
+    , availableTime  = decode:value(<<"availableTime">>, Props, DT)
+    , notAvailable  = decode:value(<<"notAvailable">>, Props, DT)
+    , availabilityExceptions  = decode:value(<<"availabilityExceptions">>, Props, DT)
+    , endpoint  = decode:value(<<"endpoint">>, Props, DT)
     }.
 
 
@@ -96,12 +97,12 @@ to_practitionerRole.NotAvailable({Props}) -> to_practitionerRole.NotAvailable(Pr
 to_practitionerRole.NotAvailable(Props) ->
   DT = decode:xsd_info(<<"PractitionerRole.NotAvailableTime">>),
   #'PractitionerRole.NotAvailableTime'{ 
-    anyAttribs :: anyAttribs(),
-	id :: string() | undefined,
-	extension :: [extensions:'Extension'()] | undefined,
-	modifierExtension :: [extensions:'Extension'()] | undefined,
-	description :: string(),
-	during :: complex:'Period'() | undefined}).
+      anyAttribs  = decode:attrs(Props, DT)
+    , id  = decode:value(<<"id">>, Props, DT)
+    , extension  = decode:value(<<"extension">>, Props, DT)
+    , modifierExtension  = decode:value(<<"modifierExtension">>, Props, DT)
+    , description  = decode:value(<<"description">>, Props, DT)
+    , during  = decode:value(<<"during">>, Props, DT)
     }.
 
 
@@ -110,14 +111,14 @@ to_practitionerRole.AvailableTime({Props}) -> to_practitionerRole.AvailableTime(
 to_practitionerRole.AvailableTime(Props) ->
   DT = decode:xsd_info(<<"PractitionerRole.AvailableTime">>),
   #'PractitionerRole.AvailableTime'{ 
-    anyAttribs :: anyAttribs(),
-	id :: string() | undefined,
-	extension :: [extensions:'Extension'()] | undefined,
-	modifierExtension :: [extensions:'Extension'()] | undefined,
-	daysOfWeek :: [complex:'DaysOfWeek'()] | undefined,
-	allDay :: boolean() | undefined,
-	availableStartTime :: time() | undefined,
-	availableEndTime :: time() | undefined}).
+      anyAttribs  = decode:attrs(Props, DT)
+    , id  = decode:value(<<"id">>, Props, DT)
+    , extension  = decode:value(<<"extension">>, Props, DT)
+    , modifierExtension  = decode:value(<<"modifierExtension">>, Props, DT)
+    , daysOfWeek  = decode:value(<<"daysOfWeek">>, Props, DT)
+    , allDay  = decode:value(<<"allDay">>, Props, DT)
+    , availableStartTime  = decode:value(<<"availableStartTime">>, Props, DT)
+    , availableEndTime  = decode:value(<<"availableEndTime">>, Props, DT)
     }.
 
 

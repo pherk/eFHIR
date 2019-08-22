@@ -64,7 +64,8 @@ to_questionnaireResponse({Props}) -> to_questionnaireResponse(Props);
 to_questionnaireResponse(Props) ->
   DT = decode:xsd_info(<<"QuestionnaireResponse">>),
   #'QuestionnaireResponse'{ 
-      id               = decode:value(<<"id">>, Props, DT)
+      anyAttribs       = decode:attrs(Props, DT)
+    , id               = decode:value(<<"id">>, Props, DT)
     , meta             = decode:value(<<"meta">>, Props, DT)
     , implicitRules    = decode:value(<<"implicitRules">>, Props, DT)
     , language         = decode:value(<<"language">>, Props, DT)
@@ -73,16 +74,16 @@ to_questionnaireResponse(Props) ->
     , extension        = decode:value(<<"extension">>, Props, DT)
     , modifierExtension = decode:value(<<"modifierExtension">>, Props, DT)
     , 'identifier'      = decode:value(<<"identifier">>, Props, DT)
-	basedOn :: [special:'Reference'()] | undefined,
-	partOf :: [special:'Reference'()] | undefined,
-	questionnaire :: canonical() | undefined,
-	status :: complex:'QuestionnaireResponseStatus'(),
-	subject :: special:'Reference'() | undefined,
-	encounter :: special:'Reference'() | undefined,
-	authored :: dateTime() | undefined,
-	author :: special:'Reference'() | undefined,
-	source :: special:'Reference'() | undefined,
-	item :: [complex:'QuestionnaireResponse.Item'()] | undefined}).
+    , basedOn  = decode:value(<<"basedOn">>, Props, DT)
+    , partOf  = decode:value(<<"partOf">>, Props, DT)
+    , questionnaire  = decode:value(<<"questionnaire">>, Props, DT)
+    , status  = decode:value(<<"status">>, Props, DT)
+    , subject  = decode:value(<<"subject">>, Props, DT)
+    , encounter  = decode:value(<<"encounter">>, Props, DT)
+    , authored  = decode:value(<<"authored">>, Props, DT)
+    , author  = decode:value(<<"author">>, Props, DT)
+    , source  = decode:value(<<"source">>, Props, DT)
+    , item  = decode:value(<<"item">>, Props, DT)
     }.
 
 
@@ -93,12 +94,12 @@ to_questionnaireResponse.Answer({Props}) -> to_questionnaireResponse.Answer(Prop
 to_questionnaireResponse.Answer(Props) ->
   DT = decode:xsd_info(<<"QuestionnaireResponse.Answer">>),
   #'QuestionnaireResponse.Answer'{
-    anyAttribs :: anyAttribs(),
-	id :: string() | undefined,
-	extension :: [extensions:'Extension'()] | undefined,
-	modifierExtension :: [extensions:'Extension'()] | undefined,
-	choice :: uri() | time() | string() | complex:'Reference'() | complex:'Quantity'() | complex:'Duration'() | complex:'Age'() | complex:'Distance'() | complex:'Count'() | integer() | decimal() | dateTime() | date() | complex:'Coding'() | boolean() | complex:'Attachment'() | undefined,
-	item :: [complex:'QuestionnaireResponse.Item'()] | undefined}).
+      anyAttribs  = decode:attrs(Props, DT)
+    , id  = decode:value(<<"id">>, Props, DT)
+    , extension  = decode:value(<<"extension">>, Props, DT)
+    , modifierExtension  = decode:value(<<"modifierExtension">>, Props, DT)
+    , choice  = decode:value(<<"choice">>, Props, DT)
+    , item  = decode:value(<<"item">>, Props, DT)
     }.
 
 
@@ -106,15 +107,15 @@ to_questionnaireResponse.Item({Props}) -> to_questionnaireResponse.Item(Props);
 to_questionnaireResponse.Item(Props) ->
   DT = decode:xsd_info(<<"QuestionnaireResponse.Item">>),
   #'QuestionnaireResponse.Item'{ 
-    anyAttribs :: anyAttribs(),
-	id :: string() | undefined,
-	extension :: [extensions:'Extension'()] | undefined,
-	modifierExtension :: [extensions:'Extension'()] | undefined,
-	linkId :: string(),
-	definition :: uri() | undefined,
-	text :: string() | undefined,
-	answer :: [complex:'QuestionnaireResponse.Answer'()] | undefined,
-	item :: [complex:'QuestionnaireResponse.Item'()] | undefined}).
+      anyAttribs  = decode:attrs(Props, DT)
+    , id  = decode:value(<<"id">>, Props, DT)
+    , extension  = decode:value(<<"extension">>, Props, DT)
+    , modifierExtension  = decode:value(<<"modifierExtension">>, Props, DT)
+    , linkId  = decode:value(<<"linkId">>, Props, DT)
+    , definition  = decode:value(<<"definition">>, Props, DT)
+    , text  = decode:value(<<"text">>, Props, DT)
+    , answer  = decode:value(<<"answer">>, Props, DT)
+    , item  = decode:value(<<"item">>, Props, DT)
     }.
 
 

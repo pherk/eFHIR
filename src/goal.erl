@@ -56,7 +56,8 @@ to_goal({Props}) -> to_goal(Props);
 to_goal(Props) ->
   DT = decode:xsd_info(<<"Goal">>),
   #'Goal'{ 
-      id               = decode:value(<<"id">>, Props, DT)
+      anyAttribs = decode:attrs(Props, DT) 
+    , id               = decode:value(<<"id">>, Props, DT)
     , meta             = decode:value(<<"meta">>, Props, DT)
     , implicitRules    = decode:value(<<"implicitRules">>, Props, DT)
     , language         = decode:value(<<"language">>, Props, DT)
@@ -65,21 +66,21 @@ to_goal(Props) ->
     , extension        = decode:value(<<"extension">>, Props, DT)
     , modifierExtension = decode:value(<<"modifierExtension">>, Props, DT)
     , 'identifier'      = decode:value(<<"identifier">>, Props, DT)
-	lifecycleStatus :: complex:'GoalLifecycleStatus'(),
-	achievementStatus :: complex:'CodeableConcept'() | undefined,
-	category :: [complex:'CodeableConcept'()] | undefined,
-	priority :: complex:'CodeableConcept'() | undefined,
-	description :: complex:'CodeableConcept'(),
-	subject :: special:'Reference'(),
-	choice :: date() | complex:'CodeableConcept'() | undefined,
-	target :: [complex:'Goal.Target'()] | undefined,
-	statusDate :: date() | undefined,
-	statusReason :: string() | undefined,
-	expressedBy :: special:'Reference'() | undefined,
-	addresses :: [special:'Reference'()] | undefined,
-	note :: [complex:'Annotation'()] | undefined,
-	outcomeCode :: [complex:'CodeableConcept'()] | undefined,
-	outcomeReference :: [special:'Reference'()] | undefined}).
+    , lifecycleStatus  = decode:value(<<"lifecycleStatus">>, Props, DT)
+    , achievementStatus  = decode:value(<<"achievementStatus">>, Props, DT)
+    , category  = decode:value(<<"category">>, Props, DT)
+    , priority  = decode:value(<<"priority">>, Props, DT)
+    , description  = decode:value(<<"description">>, Props, DT)
+    , subject  = decode:value(<<"subject">>, Props, DT)
+    , choice  = decode:value(<<"choice">>, Props, DT)
+    , target  = decode:value(<<"target">>, Props, DT)
+    , statusDate  = decode:value(<<"statusDate">>, Props, DT)
+    , statusReason  = decode:value(<<"statusReason">>, Props, DT)
+    , expressedBy  = decode:value(<<"expressedBy">>, Props, DT)
+    , addresses  = decode:value(<<"addresses">>, Props, DT)
+    , note  = decode:value(<<"note">>, Props, DT)
+    , outcomeCode  = decode:value(<<"outcomeCode">>, Props, DT)
+    , outcomeReference  = decode:value(<<"outcomeReference">>, Props, DT)
     }.
 
 
@@ -88,13 +89,13 @@ to_goal(Props) ->
 %%====================================================================
 goal.Target({Props}) -> goal.Target(Props); 
 goal.Target(Props) -> 
-    anyAttribs :: anyAttribs(),
-	id :: string() | undefined,
-	extension :: [extensions:'Extension'()] | undefined,
-	modifierExtension :: [extensions:'Extension'()] | undefined,
-	measure :: complex:'CodeableConcept'() | undefined,
-	choice :: string() | complex:'Ratio'() | complex:'Range'() | complex:'Quantity'() | complex:'Duration'() | complex:'Age'() | complex:'Distance'() | complex:'Count'() | integer() | complex:'CodeableConcept'() | boolean() | undefined,
-	choice1 :: complex:'Duration'() | date() | undefined}).
+      anyAttribs  = decode:attrs(Props, DT)
+    , id  = decode:value(<<"id">>, Props, DT)
+    , extension  = decode:value(<<"extension">>, Props, DT)
+    , modifierExtension  = decode:value(<<"modifierExtension">>, Props, DT)
+    , measure  = decode:value(<<"measure">>, Props, DT)
+    , choice  = decode:value(<<"choice">>, Props, DT)
+    , choice1  = decode:value(<<"choice1">>, Props, DT)
     }.
 
 
