@@ -1,34 +1,131 @@
+-module(organization).
+-compile(export_all).
+-include("fhir.hrl").
+-include("primitives.hrl").
+
 -record('Organization.Contact', {anyAttribs :: anyAttribs(),
 	id :: string() | undefined,
-	extension :: ['Extension'()] | undefined,
-	modifierExtension :: ['Extension'()] | undefined,
-	purpose :: 'CodeableConcept'() | undefined,
-	name :: 'HumanName'() | undefined,
-	telecom :: ['ContactPoint'()] | undefined,
-	address :: 'Address'() | undefined}).
+	extension :: [extensions:'Extension'()] | undefined,
+	modifierExtension :: [extensions:'Extension'()] | undefined,
+	purpose :: complex:'CodeableConcept'() | undefined,
+	name :: complex:'HumanName'() | undefined,
+	telecom :: [complex:'ContactPoint'()] | undefined,
+	address :: complex:'Address'() | undefined}).
 
 -type 'Organization.Contact'() :: #'Organization.Contact'{}.
 
 
 -record('Organization', {anyAttribs :: anyAttribs(),
 	id :: id() | undefined,
-	meta :: 'Meta'() | undefined,
+	meta :: special:'Meta'() | undefined,
 	implicitRules :: uri() | undefined,
 	language :: code() | undefined,
-	text :: 'Narrative'() | undefined,
-	contained :: ['ResourceContainer'()] | undefined,
-	extension :: ['Extension'()] | undefined,
-	modifierExtension :: ['Extension'()] | undefined,
-	identifier :: ['Identifier'()] | undefined,
+	text :: special:'Narrative'() | undefined,
+	contained :: [complex:'ResourceContainer'()] | undefined,
+	extension :: [extensions:'Extension'()] | undefined,
+	modifierExtension :: [extensions:'Extension'()] | undefined,
+	identifier :: [complex:'Identifier'()] | undefined,
 	active :: boolean() | undefined,
-	type :: ['CodeableConcept'()] | undefined,
+	type :: [complex:'CodeableConcept'()] | undefined,
 	name :: string() | undefined,
 	alias :: [string()] | undefined,
-	telecom :: ['ContactPoint'()] | undefined,
-	address :: ['Address'()] | undefined,
-	partOf :: 'Reference'() | undefined,
-	contact :: ['Organization.Contact'()] | undefined,
-	endpoint :: ['Reference'()] | undefined}).
+	telecom :: [complex:'ContactPoint'()] | undefined,
+	address :: [complex:'Address'()] | undefined,
+	partOf :: special:'Reference'() | undefined,
+	contact :: [complex:'Organization.Contact'()] | undefined,
+	endpoint :: [special:'Reference'()] | undefined}).
 
 -type 'Organization'() :: #'Organization'{}.
+
+
+%%
+%% API exports
+%%-export([]).
+
+%%====================================================================
+%% API functions
+%%====================================================================
+to_organization({Props}) -> to_organization(Props);
+to_organization(Props) ->
+  DT = decode:xsd_info(<<"Organization">>),
+  #'Organization'{ 
+      id               = decode:value(<<"id">>, Props, DT)
+    , meta             = decode:value(<<"meta">>, Props, DT)
+    , implicitRules    = decode:value(<<"implicitRules">>, Props, DT)
+    , language         = decode:value(<<"language">>, Props, DT)
+    , text             = decode:value(<<"text">>, Props, DT)
+    , contained        = decode:value(<<"contained">>, Props, DT)
+    , extension        = decode:value(<<"extension">>, Props, DT)
+    , modifierExtension = decode:value(<<"modifierExtension">>, Props, DT)
+    , 'identifier'      = decode:value(<<"identifier">>, Props, DT)
+	active :: boolean() | undefined,
+	type :: [complex:'CodeableConcept'()] | undefined,
+	name :: string() | undefined,
+	alias :: [string()] | undefined,
+	telecom :: [complex:'ContactPoint'()] | undefined,
+	address :: [complex:'Address'()] | undefined,
+	partOf :: special:'Reference'() | undefined,
+	contact :: [complex:'Organization.Contact'()] | undefined,
+	endpoint :: [special:'Reference'()] | undefined}).
+    }.
+
+
+%%====================================================================
+%% Internal functions
+%%====================================================================
+to_organization.Contact([Props}) -> to_organization.Contact(Props);
+to_organization.Contact(Props) ->
+  DT = decode:xsd_info(<<"Organization.Contact">>),
+  #'Organization.Contact'{ 
+    anyAttribs :: anyAttribs(),
+	id :: string() | undefined,
+	extension :: [extensions:'Extension'()] | undefined,
+	modifierExtension :: [extensions:'Extension'()] | undefined,
+	purpose :: complex:'CodeableConcept'() | undefined,
+	name :: complex:'HumanName'() | undefined,
+	telecom :: [complex:'ContactPoint'()] | undefined,
+	address :: complex:'Address'() | undefined}).
+    }.
+
+text(#'Organization'{text=N}) -> 
+    special:narrative(N).
+
+%%
+%% EUnit Tests
+%%
+-ifdef(TEST).
+
+-include_lib("eunit/include/eunit.hrl").
+
+-define(asrtto(A, B), ?assertEqual(B, organization:to_organization(A))).
+-define(asrtp(A, B), ?assertEqual(B, encode:to_proplist(A))).
+-define(asrtjson(A, B), ?assertEqual(B, jiffy:encode(encode:to_proplist(A)))).
+
+organization_to_test() ->
+    ?asrtto([{<<"id">>, <<"p-21666">>}],
+         {'Organization',<<"p-21666">>,undefined,undefined, undefined, 
+                  undefined,[], [], [],
+                          [],undefined,[],[],undefined,undefined,
+                          undefined,undefined,[],undefined,undefined,
+                          undefined,[],[],[],[],undefined,[]}).
+organization_toprop_test() ->
+    ?asrtp({'Organization',<<"p-21666">>,undefined,undefined,undefined, 
+                  undefined, [],[], [],
+                          [],undefined,[],[],undefined,undefined,
+                          undefined,undefined,[],undefined,undefined,
+                          undefined,[],[],[],[],undefined, []},
+           {[{<<"resourceType">>,<<"Organization">>},
+              {<<"id">>,<<"p-21666">>}
+            ]}).
+
+organization_json_test() ->
+    ?asrtjson({'Organization',<<"p-21666">>,undefined,undefined,undefined, 
+                  undefined, [],[], [],
+                          [],undefined,[],[],undefined,undefined,
+                          undefined,undefined,[],undefined,undefined,
+                          undefined,[],[],[],[],undefined, []},
+           <<"{\"resourceType\":\"Organization\",\"id\":\"p-21666\"}">>).
+
+-endif.
+
 

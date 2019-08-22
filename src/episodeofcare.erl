@@ -1,9 +1,15 @@
+-module(episodeofcare).
+-compile(export_all).
+
+-include("fhir.hrl").
+-include("primitives.hrl").
+
 -record('EpisodeOfCare.Diagnosis', {anyAttribs :: anyAttribs(),
 	id :: string() | undefined,
-	extension :: ['Extension'()] | undefined,
-	modifierExtension :: ['Extension'()] | undefined,
-	condition :: 'Reference'(),
-	role :: 'CodeableConcept'() | undefined,
+	extension :: [extensions:'Extension'()] | undefined,
+	modifierExtension :: [extensions:'Extension'()] | undefined,
+	condition :: special:'Reference'(),
+	role :: complex:'CodeableConcept'() | undefined,
 	rank :: positiveInt() | undefined}).
 
 -type 'EpisodeOfCare.Diagnosis'() :: #'EpisodeOfCare.Diagnosis'{}.
@@ -11,35 +17,145 @@
 
 -record('EpisodeOfCare.StatusHistory', {anyAttribs :: anyAttribs(),
 	id :: string() | undefined,
-	extension :: ['Extension'()] | undefined,
-	modifierExtension :: ['Extension'()] | undefined,
-	status :: 'EpisodeOfCareStatus'(),
-	period :: 'Period'()}).
+	extension :: [extensions:'Extension'()] | undefined,
+	modifierExtension :: [extensions:'Extension'()] | undefined,
+	status :: complex:'EpisodeOfCareStatus'(),
+	period :: complex:'Period'()}).
 
 -type 'EpisodeOfCare.StatusHistory'() :: #'EpisodeOfCare.StatusHistory'{}.
 
 
 -record('EpisodeOfCare', {anyAttribs :: anyAttribs(),
 	id :: id() | undefined,
-	meta :: 'Meta'() | undefined,
+	meta :: special:'Meta'() | undefined,
 	implicitRules :: uri() | undefined,
 	language :: code() | undefined,
-	text :: 'Narrative'() | undefined,
-	contained :: ['ResourceContainer'()] | undefined,
-	extension :: ['Extension'()] | undefined,
-	modifierExtension :: ['Extension'()] | undefined,
-	identifier :: ['Identifier'()] | undefined,
-	status :: 'EpisodeOfCareStatus'(),
-	statusHistory :: ['EpisodeOfCare.StatusHistory'()] | undefined,
-	type :: ['CodeableConcept'()] | undefined,
-	diagnosis :: ['EpisodeOfCare.Diagnosis'()] | undefined,
-	patient :: 'Reference'(),
-	managingOrganization :: 'Reference'() | undefined,
-	period :: 'Period'() | undefined,
-	referralRequest :: ['Reference'()] | undefined,
-	careManager :: 'Reference'() | undefined,
-	team :: ['Reference'()] | undefined,
-	account :: ['Reference'()] | undefined}).
+	text :: special:'Narrative'() | undefined,
+	contained :: [complex:'ResourceContainer'()] | undefined,
+	extension :: [extensions:'Extension'()] | undefined,
+	modifierExtension :: [extensions:'Extension'()] | undefined,
+	identifier :: [complex:'Identifier'()] | undefined,
+	status :: complex:'EpisodeOfCareStatus'(),
+	statusHistory :: [complex:'EpisodeOfCare.StatusHistory'()] | undefined,
+	type :: [complex:'CodeableConcept'()] | undefined,
+	diagnosis :: [complex:'EpisodeOfCare.Diagnosis'()] | undefined,
+	patient :: special:'Reference'(),
+	managingOrganization :: special:'Reference'() | undefined,
+	period :: complex:'Period'() | undefined,
+	referralRequest :: [special:'Reference'()] | undefined,
+	careManager :: special:'Reference'() | undefined,
+	team :: [special:'Reference'()] | undefined,
+	account :: [special:'Reference'()] | undefined}).
 
 -type 'EpisodeOfCare'() :: #'EpisodeOfCare'{}.
+
+
+%%
+%% API exports
+%%-export([]).
+
+%%====================================================================
+%% API functions
+%%====================================================================
+
+
+to_episodeOfCare({Props}) -> to_episodeOfCare(Props);
+to_episodeOfCare(Props) ->
+  DT = decode:xsd_info(<<"EpisodeOfCare">>),
+  #'EpisodeOfCare'{ 
+      id               = decode:value(<<"id">>, Props, DT)
+    , meta             = decode:value(<<"meta">>, Props, DT)
+    , implicitRules    = decode:value(<<"implicitRules">>, Props, DT)
+    , language         = decode:value(<<"language">>, Props, DT)
+    , text             = decode:value(<<"text">>, Props, DT)
+    , contained        = decode:value(<<"contained">>, Props, DT)
+    , extension        = decode:value(<<"extension">>, Props, DT)
+    , modifierExtension = decode:value(<<"modifierExtension">>, Props, DT)
+    , 'identifier'      = decode:value(<<"identifier">>, Props, DT)
+	status :: complex:'EpisodeOfCareStatus'(),
+	statusHistory :: [complex:'EpisodeOfCare.StatusHistory'()] | undefined,
+	type :: [complex:'CodeableConcept'()] | undefined,
+	diagnosis :: [complex:'EpisodeOfCare.Diagnosis'()] | undefined,
+	patient :: special:'Reference'(),
+	managingOrganization :: special:'Reference'() | undefined,
+	period :: complex:'Period'() | undefined,
+	referralRequest :: [special:'Reference'()] | undefined,
+	careManager :: special:'Reference'() | undefined,
+	team :: [special:'Reference'()] | undefined,
+	account :: [special:'Reference'()] | undefined}).
+    }.
+
+
+%%====================================================================
+%% Internal functions
+%%====================================================================
+to_episodeOfCare.Diagnosis({Props}) -> to_episodeOfCare.Diagnosis({Props});
+to_episodeOfCare.Diagnosis(Props) ->
+  DT = decode:xsd_info(<<"EpisodeOfCare.Diagnosis">>),
+  #'EpisodeOfCare.Diagnosis'{ 
+    anyAttribs :: anyAttribs(),
+	id :: string() | undefined,
+	extension :: [extensions:'Extension'()] | undefined,
+	modifierExtension :: [extensions:'Extension'()] | undefined,
+	condition :: special:'Reference'(),
+	role :: complex:'CodeableConcept'() | undefined,
+	rank :: positiveInt() | undefined}).
+    }.
+
+
+to_episodeOfCare.StatusHistory({Props}) -> to_episodeOfCare.StatusHistory({Props});
+to_episodeOfCare.StatusHistory(Props) ->
+  DT = decode:xsd_info(<<"EpisodeOfCare.StatusHistory">>),
+  #'EpisodeOfCare.StatusHistory'{ 
+    anyAttribs :: anyAttribs(),
+	id :: string() | undefined,
+	extension :: [extensions:'Extension'()] | undefined,
+	modifierExtension :: [extensions:'Extension'()] | undefined,
+	status :: complex:'EpisodeOfCareStatus'(),
+	period :: complex:'Period'()}).
+    }.
+
+
+
+text(#'EpisodeOfCare'{text=N}) -> 
+    special:narrative(N).
+
+%%
+%% EUnit Tests
+%%
+-ifdef(TEST).
+
+-include_lib("eunit/include/eunit.hrl").
+
+-define(asrtto(A, B), ?assertEqual(B, episodeOfCare:to_episodeOfCare(A))).
+-define(asrtp(A, B), ?assertEqual(B, encode:to_proplist(A))).
+-define(asrtjson(A, B), ?assertEqual(B, jiffy:encode(encode:to_proplist(A)))).
+
+episodeOfCare_to_test() ->
+    ?asrtto([{<<"id">>, <<"p-21666">>}],
+         {'EpisodeOfCare',<<"p-21666">>,undefined,undefined, undefined, 
+                  undefined,[], [], [],
+                          [],undefined,[],[],undefined,undefined,
+                          undefined,undefined,[],undefined,undefined,
+                          undefined,[],[],[],[],undefined,[]}).
+episodeOfCare_toprop_test() ->
+    ?asrtp({'EpisodeOfCare',<<"p-21666">>,undefined,undefined,undefined, 
+                  undefined, [],[], [],
+                          [],undefined,[],[],undefined,undefined,
+                          undefined,undefined,[],undefined,undefined,
+                          undefined,[],[],[],[],undefined, []},
+           {[{<<"resourceType">>,<<"EpisodeOfCare">>},
+              {<<"id">>,<<"p-21666">>}
+            ]}).
+
+episodeOfCare_json_test() ->
+    ?asrtjson({'EpisodeOfCare',<<"p-21666">>,undefined,undefined,undefined, 
+                  undefined, [],[], [],
+                          [],undefined,[],[],undefined,undefined,
+                          undefined,undefined,[],undefined,undefined,
+                          undefined,[],[],[],[],undefined, []},
+           <<"{\"resourceType\":\"EpisodeOfCare\",\"id\":\"p-21666\"}">>).
+
+-endif.
+
 

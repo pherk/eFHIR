@@ -1,4 +1,5 @@
--ifndef(fhir).
+-ifndef(primitives).
+-define(primitives, true).
 
 -type decimal() :: float().
 

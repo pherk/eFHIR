@@ -1,46 +1,159 @@
+-module(provenance).
+-compile(export_all).
+-include("fhir.hrl").
+-include("primitives.hrl").
+-include("codes.hrl").
+
 -record('Provenance.Entity', {anyAttribs :: anyAttribs(),
 	id :: string() | undefined,
-	extension :: ['Extension'()] | undefined,
-	modifierExtension :: ['Extension'()] | undefined,
-	role :: 'ProvenanceEntityRole'(),
-	what :: 'Reference'(),
-	agent :: ['Provenance.Agent'()] | undefined}).
+	extension :: [extensions:'Extension'()] | undefined,
+	modifierExtension :: [extensions:'Extension'()] | undefined,
+	role :: complex:'ProvenanceEntityRole'(),
+	what :: special:'Reference'(),
+	agent :: [complex:'Provenance.Agent'()] | undefined}).
 
 -type 'Provenance.Entity'() :: #'Provenance.Entity'{}.
 
 
 -record('Provenance.Agent', {anyAttribs :: anyAttribs(),
 	id :: string() | undefined,
-	extension :: ['Extension'()] | undefined,
-	modifierExtension :: ['Extension'()] | undefined,
-	type :: 'CodeableConcept'() | undefined,
-	role :: ['CodeableConcept'()] | undefined,
-	who :: 'Reference'(),
-	onBehalfOf :: 'Reference'() | undefined}).
+	extension :: [extensions:'Extension'()] | undefined,
+	modifierExtension :: [extensions:'Extension'()] | undefined,
+	type :: complex:'CodeableConcept'() | undefined,
+	role :: [complex:'CodeableConcept'()] | undefined,
+	who :: special:'Reference'(),
+	onBehalfOf :: special:'Reference'() | undefined}).
 
 -type 'Provenance.Agent'() :: #'Provenance.Agent'{}.
 
 
 -record('Provenance', {anyAttribs :: anyAttribs(),
 	id :: id() | undefined,
-	meta :: 'Meta'() | undefined,
+	meta :: special:'Meta'() | undefined,
 	implicitRules :: uri() | undefined,
 	language :: code() | undefined,
-	text :: 'Narrative'() | undefined,
-	contained :: ['ResourceContainer'()] | undefined,
-	extension :: ['Extension'()] | undefined,
-	modifierExtension :: ['Extension'()] | undefined,
-	target :: ['Reference'()],
-	choice :: 'Period'() | dateTime() | undefined,
+	text :: special:'Narrative'() | undefined,
+	contained :: [complex:'ResourceContainer'()] | undefined,
+	extension :: [extensions:'Extension'()] | undefined,
+	modifierExtension :: [extensions:'Extension'()] | undefined,
+	target :: [special:'Reference'()],
+	choice :: complex:'Period'() | dateTime() | undefined,
 	recorded :: instant(),
 	policy :: [uri()] | undefined,
-	location :: 'Reference'() | undefined,
-	reason :: ['CodeableConcept'()] | undefined,
-	activity :: 'CodeableConcept'() | undefined,
-	agent :: ['Provenance.Agent'()],
-	entity :: ['Provenance.Entity'()] | undefined,
-	signature :: ['Signature'()] | undefined}).
+	location :: special:'Reference'() | undefined,
+	reason :: [complex:'CodeableConcept'()] | undefined,
+	activity :: complex:'CodeableConcept'() | undefined,
+	agent :: [complex:'Provenance.Agent'()],
+	entity :: [complex:'Provenance.Entity'()] | undefined,
+	signature :: [complex:'Signature'()] | undefined}).
 
 -type 'Provenance'() :: #'Provenance'{}.
+
+
+
+%%
+%% API exports
+%%-export([]).
+
+%%====================================================================
+%% API functions
+%%====================================================================
+to_provenance({Props}) -> to_provenance(Props);
+to_provenance(Props) ->
+  DT = decode:xsd_info(<<"Provenance">>),
+  #'Provenance'{ 
+      id               = decode:value(<<"id">>, Props, DT)
+    , meta             = decode:value(<<"meta">>, Props, DT)
+    , implicitRules    = decode:value(<<"implicitRules">>, Props, DT)
+    , language         = decode:value(<<"language">>, Props, DT)
+    , text             = decode:value(<<"text">>, Props, DT)
+    , contained        = decode:value(<<"contained">>, Props, DT)
+    , extension        = decode:value(<<"extension">>, Props, DT)
+    , modifierExtension = decode:value(<<"modifierExtension">>, Props, DT)
+	target :: [special:'Reference'()],
+	choice :: complex:'Period'() | dateTime() | undefined,
+	recorded :: instant(),
+	policy :: [uri()] | undefined,
+	location :: special:'Reference'() | undefined,
+	reason :: [complex:'CodeableConcept'()] | undefined,
+	activity :: complex:'CodeableConcept'() | undefined,
+	agent :: [complex:'Provenance.Agent'()],
+	entity :: [complex:'Provenance.Entity'()] | undefined,
+	signature :: [complex:'Signature'()] | undefined}).
+    }.
+
+
+%%====================================================================
+%% Internal functions
+%%====================================================================
+to_provenance.Entity({Props}) -> to_provenance.Entity(Props);
+to_provenance.Entity(Props) ->
+  DT = decode:xsd_info(<<"Provenance.Entity">>),
+  #'Provenance.Entity'{ 
+    anyAttribs :: anyAttribs(),
+	id :: string() | undefined,
+	extension :: [extensions:'Extension'()] | undefined,
+	modifierExtension :: [extensions:'Extension'()] | undefined,
+	role :: complex:'ProvenanceEntityRole'(),
+	what :: special:'Reference'(),
+	agent :: [complex:'Provenance.Agent'()] | undefined}).
+    }.
+
+
+to_provenance.Agent({Props}) -> to_provenance.Agent(Props);
+to_provenance.Agent(Props) ->
+  DT = decode:xsd_info(<<"Provenance.Agent">>),
+  #'Provenance.Agent'{ 
+    anyAttribs :: anyAttribs(),
+	id :: string() | undefined,
+	extension :: [extensions:'Extension'()] | undefined,
+	modifierExtension :: [extensions:'Extension'()] | undefined,
+	type :: complex:'CodeableConcept'() | undefined,
+	role :: [complex:'CodeableConcept'()] | undefined,
+	who :: special:'Reference'(),
+	onBehalfOf :: special:'Reference'() | undefined}).
+    }.
+
+
+text(#'Provenance'{text=N}) -> 
+    special:narrative(N).
+
+%%
+%% EUnit Tests
+%%
+-ifdef(TEST).
+
+-include_lib("eunit/include/eunit.hrl").
+
+-define(asrtto(A, B), ?assertEqual(B, provenance:to_provenance(A))).
+-define(asrtp(A, B), ?assertEqual(B, encode:to_proplist(A))).
+-define(asrtjson(A, B), ?assertEqual(B, jiffy:encode(encode:to_proplist(A)))).
+
+provenance_to_test() ->
+    ?asrtto([{<<"id">>, <<"p-21666">>}],
+         {'Provenance',<<"p-21666">>,undefined,undefined, undefined, 
+                  undefined,[], [], [],
+                          [],undefined,[],[],undefined,undefined,
+                          undefined,undefined,[],undefined,undefined,
+                          undefined,[],[],[],[],undefined,[]}).
+provenance_toprop_test() ->
+    ?asrtp({'Provenance',<<"p-21666">>,undefined,undefined,undefined, 
+                  undefined, [],[], [],
+                          [],undefined,[],[],undefined,undefined,
+                          undefined,undefined,[],undefined,undefined,
+                          undefined,[],[],[],[],undefined, []},
+           {[{<<"resourceType">>,<<"Provenance">>},
+              {<<"id">>,<<"p-21666">>}
+            ]}).
+
+provenance_json_test() ->
+    ?asrtjson({'Provenance',<<"p-21666">>,undefined,undefined,undefined, 
+                  undefined, [],[], [],
+                          [],undefined,[],[],undefined,undefined,
+                          undefined,undefined,[],undefined,undefined,
+                          undefined,[],[],[],[],undefined, []},
+           <<"{\"resourceType\":\"Provenance\",\"id\":\"p-21666\"}">>).
+
+-endif.
 
 

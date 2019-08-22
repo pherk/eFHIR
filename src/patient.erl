@@ -5,7 +5,8 @@
 -include("codes.hrl").
 
 -record('Patient', {
-      id          :: binary()
+      anyAttribs :: anyAttribs(),
+    , id          :: binary()
     , meta        :: special:'Meta'()
     , implicitRules :: uri()
     , language    :: code()
@@ -35,7 +36,10 @@
 -opaque 'Patient'() :: #'Patient'{}.
 
 -record('Patient.Contact', {
-      extension   :: [extensions:'Extension'()]
+    anyAttribs :: anyAttribs(),
+	id :: string() | undefined,
+	extension :: [extensios:'Extension'()] | undefined,
+	modifierExtension :: [extensions:'Extension'()] | undefined,
 	, relationship :: [complex:'CodeableConcept'()]
     , name         :: complex:'HumanName'()
     , telecom      :: [complex:'ContactPoint'()]
@@ -47,14 +51,20 @@
 -opaque 'Patient.Contact'() :: #'Patient.Contact'{}.
 
 -record('Patient.Communication', {
-      extension   :: [extensions:'Extension'()]
+    anyAttribs :: anyAttribs(),
+	id :: string() | undefined,
+	extension :: [extensios:'Extension'()] | undefined,
+	modifierExtension :: [extensions:'Extension'()] | undefined,
     , language :: complex:'CodeableCOncept'()
     , preferred :: boolean()
     }).
 -opaque 'Patient.Communication'() :: #'Patient.Communication'{}.
 
 -record('Patient.Link', {
-      extension   :: [extensions:'Extension'()]
+    anyAttribs :: anyAttribs(),
+	id :: string() | undefined,
+	extension :: [extensios:'Extension'()] | undefined,
+	modifierExtension :: [extensions:'Extension'()] | undefined,
     , other :: special:'Reference'()
     , type  :: code()
     }). 
@@ -73,7 +83,8 @@ to_patient({Props}) -> to_patient(Props);
 to_patient(Props) ->
   DT = decode:xsd_info(<<"Patient">>),
   #'Patient'{ 
-      id               = decode:value(<<"id">>, Props, DT)
+      anyAttribs = decode:attrs(Props, DT)
+    , id               = decode:value(<<"id">>, Props, DT)
     , meta             = decode:value(<<"meta">>, Props, DT)
     , implicitRules    = decode:value(<<"implicitRules">>, Props, DT)
     , language         = decode:value(<<"language">>, Props, DT)
@@ -109,7 +120,10 @@ to_patient_contact({Props}) -> to_patient_contact(Props);
 to_patient_contact(Props) ->
   DT = decode:xsd_info(<<"Patient.Contact">>),
   #'Patient.Contact'{ 
-      extension    = decode:value(<<"extension">>, Props, DT)
+    anyAttribs :: anyAttribs(),
+	id :: string() | undefined,
+	extension :: [extensions:'Extension'()] | undefined,
+	modifierExtension :: [extensions:'Extension'()] | undefined,
     , relationship = decode:value(<<"relationship">>, Props, DT)
     , name         = decode:value(<<"name">>, Props, DT)
     , telecom      = decode:value(<<"telecom">>, Props, DT)
@@ -123,7 +137,10 @@ to_patient_communication({Props}) -> to_patient_communication(Props);
 to_patient_communication(Props) -> 
   DT = decode:xsd_info(<<"Patient.Communication">>),
   #'Patient.Communication'{
-      extension = decode:value(<<"extension">>, Props, DT)
+    anyAttribs :: anyAttribs(),
+	id :: string() | undefined,
+	extension :: [extensions:'Extension'()] | undefined,
+	modifierExtension :: [extensions:'Extension'()] | undefined,
     , language  = decode:value(<<"language">>, Props, DT)
     , preferred = decode:value(<<"preferred">>, Props, DT)
     }.
@@ -132,7 +149,10 @@ to_patient_link({Props}) -> to_patient_link(Props);
 to_patient_link(Props) -> 
   DT = decode:xsd_info(<<"Patient.Link">>),
   #'Patient.Link'{
-      extension = decode:value(<<"extension">>, Props, DT)
+    anyAttribs :: anyAttribs(),
+	id :: string() | undefined,
+	extension :: [extensions:'Extension'()] | undefined,
+	modifierExtension :: [extensions:'Extension'()] | undefined,
     , other     = decode:value(<<"other">>, Props, DT)
     , type      = decode:value(<<"type">>, Props, DT)
     }.
