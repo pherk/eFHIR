@@ -109,8 +109,8 @@ to_coverage(Props) ->
 %%====================================================================
 %% Internal functions
 %%====================================================================
-to_coverage.Exception({Props}) ->  to_coverage.Exception(Props);
-to_coverage.Exception(Props) -> 
+to_coverage_exception({Props}) ->  to_coverage_exception(Props);
+to_coverage_exception(Props) -> 
   DT = decode:xsd_info(<<"Coverage.Exception">>),
   #'Coverage.Exception'{ 
       anyAttribs  = decode:attrs(Props, DT)
@@ -122,10 +122,10 @@ to_coverage.Exception(Props) ->
     }.
 
 
-to_coverage.CostToBeneficiary({Props}) ->  to_coverage.CostToBeneficiary(Props);
-to_coverage.CostToBeneficiary(Props) -> 
-  DT = decode:xsd_info(<<"Coverage.CostToBeneficary">>),
-  #'Coverage.CostToBeneficary'{ 
+to_coverage_costToBeneficiary({Props}) ->  to_coverage_costToBeneficiary(Props);
+to_coverage_costToBeneficiary(Props) -> 
+  DT = decode:xsd_info(<<"Coverage.CostToBeneficiary">>),
+  #'Coverage.CostToBeneficiary'{ 
       anyAttribs  = decode:attrs(Props, DT)
     , id  = decode:value(<<"id">>, Props, DT)
     , extension  = decode:value(<<"extension">>, Props, DT)
@@ -137,8 +137,8 @@ to_coverage.CostToBeneficiary(Props) ->
 
 
 
-to_coverage.Class({Props}) ->  to_coverage.Class(Props);
-to_coverage.Class(Props) -> 
+to_coverage_class({Props}) ->  to_coverage_class(Props);
+to_coverage_class(Props) -> 
   DT = decode:xsd_info(<<"Coverage.Class">>),
   #'Coverage.Class'{ 
       anyAttribs  = decode:attrs(Props, DT)

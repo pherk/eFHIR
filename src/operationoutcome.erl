@@ -59,8 +59,8 @@ to_operationOutcome(Props) ->
 %%====================================================================
 %% Internal functions
 %%====================================================================
-to_operationOutcome.Issue({Props}) -> operationOutcome.Issue(Props);
-to_operationOutcome.Issue(Props) -> 
+to_operationOutcome_issue({Props}) -> to_operationOutcome_issue(Props);
+to_operationOutcome_issue(Props) -> 
   DT = decode:xsd_info(<<"OperationOutcome.Issue">>),
   #'OperationOutcome.Issue'{ 
       anyAttribs  = decode:attrs(Props, DT)

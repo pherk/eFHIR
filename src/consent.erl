@@ -154,8 +154,8 @@ to_consent(Props) ->
 %%====================================================================
 %% Internal functions
 %%====================================================================
-to_consent.Data({Props}) ->  to_consent.Data(Props);
-to_consent.Data(Props) -> 
+to_consent_data({Props}) ->  to_consent_data(Props);
+to_consent_data(Props) -> 
   DT = decode:xsd_info(<<"Consent.Data">>),
   #'Consent.Data'{ 
     anyAttribs  = decode:attrs(Props, DT)
@@ -166,8 +166,8 @@ to_consent.Data(Props) ->
     , reference  = decode:value(<<"reference">>, Props, DT)
     }.
 
-to_consent.Actor({Props}) ->  to_consent.Actor(Props);
-to_consent.Actor(Props) -> 
+to_consent_actor({Props}) ->  to_consent_actor(Props);
+to_consent_actor(Props) -> 
   DT = decode:xsd_info(<<"Consent.Actor">>),
   #'Consent.Actor'{ 
     anyAttribs  = decode:attrs(Props, DT)
@@ -178,8 +178,8 @@ to_consent.Actor(Props) ->
     , reference  = decode:value(<<"reference">>, Props, DT)
     }.
 
-to_consent.Provision({Props}) ->  to_consent.Provision(Props);
-to_consent.Provision(Props) -> 
+to_consent_provision({Props}) ->  to_consent_provision(Props);
+to_consent_provision(Props) -> 
   DT = decode:xsd_info(<<"Consent.Provision">>),
   #'Consent.Provision'{ 
     anyAttribs  = decode:attrs(Props, DT)
@@ -200,8 +200,8 @@ to_consent.Provision(Props) ->
     }.
 
 
-to_consent.Verification({Props}) ->  to_consent.Verification(Props);
-to_consent.Verification(Props) -> 
+to_consent_verification({Props}) ->  to_consent_verification(Props);
+to_consent_verification(Props) -> 
   DT = decode:xsd_info(<<"Consent.Verification">>),
   #'Consent.Verification'{ 
     anyAttribs  = decode:attrs(Props, DT)
@@ -214,8 +214,8 @@ to_consent.Verification(Props) ->
     }.
 
 
-to_consent.Policy({Props}) ->  to_consent.Policy(Props);
-to_consent.Policy(Props) -> 
+to_consent_policy({Props}) ->  to_consent_policy(Props);
+to_consent_policy(Props) -> 
   DT = decode:xsd_info(<<"Consent.policy">>),
   #'Consent.Policy'{ 
     anyAttribs  = decode:attrs(Props, DT)

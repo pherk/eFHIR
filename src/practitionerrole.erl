@@ -93,10 +93,10 @@ to_practitionerRole(Props) ->
 %%====================================================================
 %% Internal functions
 %%====================================================================
-to_practitionerRole.NotAvailable({Props}) -> to_practitionerRole.NotAvailable(Props);
-to_practitionerRole.NotAvailable(Props) ->
-  DT = decode:xsd_info(<<"PractitionerRole.NotAvailableTime">>),
-  #'PractitionerRole.NotAvailableTime'{ 
+to_practitionerRole_notAvailable({Props}) -> to_practitionerRole_notAvailable(Props);
+to_practitionerRole_notAvailable(Props) ->
+  DT = decode:xsd_info(<<"PractitionerRole.NotAvailable">>),
+  #'PractitionerRole.NotAvailable'{ 
       anyAttribs  = decode:attrs(Props, DT)
     , id  = decode:value(<<"id">>, Props, DT)
     , extension  = decode:value(<<"extension">>, Props, DT)
@@ -107,8 +107,8 @@ to_practitionerRole.NotAvailable(Props) ->
 
 
 
-to_practitionerRole.AvailableTime({Props}) -> to_practitionerRole.AvailableTime(Props);
-to_practitionerRole.AvailableTime(Props) ->
+to_practitionerRole_availableTime({Props}) -> to_practitionerRole_availableTime(Props);
+to_practitionerRole_availableTime(Props) ->
   DT = decode:xsd_info(<<"PractitionerRole.AvailableTime">>),
   #'PractitionerRole.AvailableTime'{ 
       anyAttribs  = decode:attrs(Props, DT)
@@ -134,23 +134,22 @@ text(#'PractitionerRole'{text=N}) ->
 
 -include_lib("eunit/include/eunit.hrl").
 
--define(asrtto(A, B), ?assertEqual(B, practitionerRole:to_practitionerRole(A))).
+-define(asrtto(A, B), ?assertEqual(B, practitionerrole:to_practitionerRole(A))).
 -define(asrtp(A, B), ?assertEqual(B, encode:to_proplist(A))).
 -define(asrtjson(A, B), ?assertEqual(B, jiffy:encode(encode:to_proplist(A)))).
 
 practitionerRole_to_test() ->
     ?asrtto([{<<"id">>, <<"p-21666">>}],
-         {'PractitionerRole',<<"p-21666">>,undefined,undefined, undefined, 
-                  undefined,[], [], [],
-                          [],undefined,[],[],undefined,undefined,
-                          undefined,undefined,[],undefined,undefined,
-                          undefined,[],[],[],[],undefined,[]}).
+            {'PractitionerRole',[],<<"p-21666">>,undefined,undefined,
+                                     undefined,undefined,[],[],[],[],
+                                     undefined,undefined,undefined,undefined,
+                                     [],[],[],[],[],[],[],undefined,[]}).
 practitionerRole_toprop_test() ->
-    ?asrtp({'PractitionerRole',<<"p-21666">>,undefined,undefined,undefined, 
-                  undefined, [],[], [],
-                          [],undefined,[],[],undefined,undefined,
-                          undefined,undefined,[],undefined,undefined,
-                          undefined,[],[],[],[],undefined, []},
+    ?asrtp(
+            {'PractitionerRole',[],<<"p-21666">>,undefined,undefined,
+                                     undefined,undefined,[],[],[],[],
+                                     undefined,undefined,undefined,undefined,
+                                     [],[],[],[],[],[],[],undefined,[]},
            {[{<<"resourceType">>,<<"PractitionerRole">>},
               {<<"id">>,<<"p-21666">>}
             ]}).

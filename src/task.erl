@@ -138,8 +138,8 @@ to_task(Props) ->
 %%====================================================================
 %% Internal functions
 %%====================================================================
-to_task.Output({Props}) -> to_task.Output(Props);
-to_task.Output(Props) ->
+to_task_output({Props}) -> to_task_output(Props);
+to_task_output(Props) ->
   DT = decode:xsd_info(<<"Task.Output">>),
   #'Task.Output'{ 
       anyAttribs  = decode:attrs(Props, DT)
@@ -151,8 +151,8 @@ to_task.Output(Props) ->
     }.
 
 
-to_task.Input({Props}) -> to_task.Input(Props);
-to_task.Input(Props) ->
+to_task_input({Props}) -> to_task_input(Props);
+to_task_input(Props) ->
   DT = decode:xsd_info(<<"Task.Input">>),
   #'Task.Input'{ 
       anyAttribs  = decode:attrs(Props, DT)
@@ -164,8 +164,8 @@ to_task.Input(Props) ->
     }.
 
 
-to_task.Restriction({Props}) -> to_task.Restriction(Props);
-to_task.Restriction(Props) ->
+to_task_restriction({Props}) -> to_task_restriction(Props);
+to_task_restriction(Props) ->
   DT = decode:xsd_info(<<"Task.Restriction">>),
   #'Task.Restriction'{ 
       anyAttribs  = decode:attrs(Props, DT)
@@ -194,29 +194,42 @@ text(#'Task'{text=N}) ->
 -define(asrtjson(A, B), ?assertEqual(B, jiffy:encode(encode:to_proplist(A)))).
 
 task_to_test() ->
-    ?asrtto([{<<"id">>, <<"p-21666">>}],
-         {'Task',<<"p-21666">>,undefined,undefined, undefined, 
-                  undefined,[], [], [],
-                          [],undefined,[],[],undefined,undefined,
-                          undefined,undefined,[],undefined,undefined,
-                          undefined,[],[],[],[],undefined,[]}).
+    ?asrtto([{<<"id">>, <<"p-21666">>},{<<"status">>,<<"requested">>},{<<"intent">>,<<"order">>}],
+{'Task',[],<<"p-21666">>,undefined,undefined,undefined,undefined,[],[],[],
+           [],undefined,undefined,[], undefined,
+           [],<<"requested">>,undefined,undefined, <<"order">>,
+           undefined,undefined,undefined,undefined, undefined,
+           undefined,undefined,undefined,undefined, undefined,
+           [],undefined,undefined,undefined,undefined,
+           [],[],[],undefined,[],
+           []}).
+
 task_toprop_test() ->
-    ?asrtp({'Task',<<"p-21666">>,undefined,undefined,undefined, 
-                  undefined, [],[], [],
-                          [],undefined,[],[],undefined,undefined,
-                          undefined,undefined,[],undefined,undefined,
-                          undefined,[],[],[],[],undefined, []},
+    ?asrtp(
+{'Task',[],<<"p-21666">>,undefined,undefined,undefined,undefined,[],[],[],
+           [],undefined,undefined,[], undefined,
+           [],<<"requested">>,undefined,undefined, <<"order">>,
+           undefined,undefined,undefined,undefined, undefined,
+           undefined,undefined,undefined,undefined, undefined,
+           [],undefined,undefined,undefined,undefined,
+           [],[],[],undefined,[],
+           []},
            {[{<<"resourceType">>,<<"Task">>},
-              {<<"id">>,<<"p-21666">>}
-            ]}).
+             {<<"id">>,<<"p-21666">>},
+             {<<"status">>,<<"requested">>},
+             {<<"intent">>,<<"order">>}]}).
 
 task_json_test() ->
-    ?asrtjson({'Task',<<"p-21666">>,undefined,undefined,undefined, 
-                  undefined, [],[], [],
-                          [],undefined,[],[],undefined,undefined,
-                          undefined,undefined,[],undefined,undefined,
-                          undefined,[],[],[],[],undefined, []},
-           <<"{\"resourceType\":\"Task\",\"id\":\"p-21666\"}">>).
+    ?asrtjson(
+{'Task',[],<<"p-21666">>,undefined,undefined,undefined,undefined,[],[],[],
+           [],undefined,undefined,[], undefined,
+           [],<<"requested">>,undefined,undefined, <<"order">>,
+           undefined,undefined,undefined,undefined, undefined,
+           undefined,undefined,undefined,undefined, undefined,
+           [],undefined,undefined,undefined,undefined,
+           [],[],[],undefined,[],
+           []},
+           <<"{\"resourceType\":\"Task\",\"id\":\"p-21666\",\"status\":\"requested\",\"intent\":\"order\"}">>).
 
 -endif.
 

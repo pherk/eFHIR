@@ -17,7 +17,7 @@
 	id :: string() | undefined,
 	extension :: [extensions:'Extension'()] | undefined,
 	modifierExtension :: [extensions:'Extension'()] | undefined,
-	quantity :: complex:'Quantity'() | 'Duration'() | 'Age'() | 'Distance'() | 'Count'() | undefined,
+	quantity :: complex:'Quantity'() | complex:'Duration'() | complex:'Age'() | complex:'Distance'() | complex:'Count'() | undefined,
 	duration :: complex:'Duration'() | undefined}).
 
 -type 'MedicationRequest.InitialFill'() :: #'MedicationRequest.InitialFill'{}.
@@ -31,7 +31,7 @@
 	dispenseInterval :: complex:'Duration'() | undefined,
 	validityPeriod :: complex:'Period'() | undefined,
 	numberOfRepeatsAllowed :: unsignedInt() | undefined,
-	quantity :: complex:'Quantity'() | 'Duration'() | 'Age'() | 'Distance'() | 'Count'() | undefined,
+	quantity :: complex:'Quantity'() | complex:'Duration'() | complex:'Age'() | complex:'Distance'() | complex:'Count'() | undefined,
 	expectedSupplyDuration :: complex:'Duration'() | undefined,
 	performer :: special:'Reference'() | undefined}).
 
@@ -48,14 +48,14 @@
 	extension :: [extensions:'Extension'()] | undefined,
 	modifierExtension :: [extensions:'Extension'()] | undefined,
 	identifier :: [complex:'Identifier'()] | undefined,
-	status :: medicationrequestStatus(),
+	status :: complex:'MedicationrequestStatus'(),
 	statusReason :: complex:'CodeableConcept'() | undefined,
-	intent :: medicationRequestIntent(),
+	intent :: complex:'MedicationRequestIntent'(),
 	category :: [complex:'CodeableConcept'()] | undefined,
 	priority :: complex:'RequestPriority'() | undefined,
 	doNotPerform :: boolean() | undefined,
 	choice :: special:'Reference'() | boolean() | undefined,
-	choice1 :: special:'Reference'() | 'CodeableConcept'(),
+	choice1 :: special:'Reference'() | complex:'CodeableConcept'(),
 	subject :: special:'Reference'(),
 	encounter :: special:'Reference'() | undefined,
 	supportingInformation :: [special:'Reference'()] | undefined,
@@ -141,8 +141,8 @@ to_medicationRequest(Props) ->
 %%====================================================================
 %% Internal functions
 %%====================================================================
-to_medicationRequest.Substitution({Props}) -> to_medicationRequest.Substitution(Props);
-to_medicationRequest.Substitution(Props) ->
+to_medicationRequest_substitution({Props}) -> to_medicationRequest_substitution(Props);
+to_medicationRequest_substitution(Props) ->
   DT = decode:xsd_info(<<"MedicationRequest.Substitution">>),
   #'MedicationRequest.Substitution'{ 
       anyAttribs  = decode:attrs(Props, DT)
@@ -154,8 +154,8 @@ to_medicationRequest.Substitution(Props) ->
     }.
 
 
-to_medicationRequest.InitialFill({Props}) -> to_medicationRequest.InitialFill(Props);
-to_medicationRequest.InitialFill(Props) ->
+to_medicationRequest_initialFill({Props}) -> to_medicationRequest_initialFill(Props);
+to_medicationRequest_initialFill(Props) ->
   DT = decode:xsd_info(<<"MedicationRequest.InitialFIll">>),
   #'MedicationRequest.InitialFill'{ 
       anyAttribs  = decode:attrs(Props, DT)
@@ -168,8 +168,8 @@ to_medicationRequest.InitialFill(Props) ->
 
 
 
-to_medicationRequest.DispenseRequest({Props}) -> to_medicationRequest.DispenseRequest(Props);
-to_medicationRequest.DispenseRequest(Props) ->
+to_medicationRequest_dispenseRequest({Props}) -> to_medicationRequest_dispenseRequest(Props);
+to_medicationRequest_dispenseRequest(Props) ->
   DT = decode:xsd_info(<<"MedicationRequest.DispenseRequest">>),
   #'MedicationRequest.DispenseRequest'{ 
       anyAttribs  = decode:attrs(Props, DT)

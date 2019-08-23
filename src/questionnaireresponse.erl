@@ -90,8 +90,8 @@ to_questionnaireResponse(Props) ->
 %%====================================================================
 %% Internal functions
 %%====================================================================
-to_questionnaireResponse.Answer({Props}) -> to_questionnaireResponse.Answer(Props);
-to_questionnaireResponse.Answer(Props) ->
+to_questionnaireResponse_answer({Props}) -> to_questionnaireResponse_answer(Props);
+to_questionnaireResponse_answer(Props) ->
   DT = decode:xsd_info(<<"QuestionnaireResponse.Answer">>),
   #'QuestionnaireResponse.Answer'{
       anyAttribs  = decode:attrs(Props, DT)
@@ -103,8 +103,8 @@ to_questionnaireResponse.Answer(Props) ->
     }.
 
 
-to_questionnaireResponse.Item({Props}) -> to_questionnaireResponse.Item(Props);
-to_questionnaireResponse.Item(Props) ->
+to_questionnaireResponse_item({Props}) -> to_questionnaireResponse_item(Props);
+to_questionnaireResponse_item(Props) ->
   DT = decode:xsd_info(<<"QuestionnaireResponse.Item">>),
   #'QuestionnaireResponse.Item'{ 
       anyAttribs  = decode:attrs(Props, DT)
@@ -130,25 +130,26 @@ text(#'QuestionnaireResponse'{text=N}) ->
 
 -include_lib("eunit/include/eunit.hrl").
 
--define(asrtto(A, B), ?assertEqual(B, questionnaireResponse:to_questionnaireResponse(A))).
+-define(asrtto(A, B), ?assertEqual(B, questionnaireresponse:to_questionnaireResponse(A))).
 -define(asrtp(A, B), ?assertEqual(B, encode:to_proplist(A))).
 -define(asrtjson(A, B), ?assertEqual(B, jiffy:encode(encode:to_proplist(A)))).
 
 questionnaireResponse_to_test() ->
-    ?asrtto([{<<"id">>, <<"p-21666">>}],
-         {'QuestionnaireResponse',<<"p-21666">>,undefined,undefined, undefined, 
-                  undefined,[], [], [],
-                          [],undefined,[],[],undefined,undefined,
-                          undefined,undefined,[],undefined,undefined,
-                          undefined,[],[],[],[],undefined,[]}).
+    ?asrtto([{<<"id">>, <<"p-21666">>},{<<"status">>,<<"completed">>}],
+        {'QuestionnaireResponse',[],<<"p-21666">>,undefined,
+                     undefined,undefined,undefined,[],[],[],undefined,[],[],
+                     undefined,<<"completed">>,undefined,undefined,undefined,undefined,
+                     undefined,[]}).
+
 questionnaireResponse_toprop_test() ->
-    ?asrtp({'QuestionnaireResponse',<<"p-21666">>,undefined,undefined,undefined, 
-                  undefined, [],[], [],
-                          [],undefined,[],[],undefined,undefined,
-                          undefined,undefined,[],undefined,undefined,
-                          undefined,[],[],[],[],undefined, []},
+    ?asrtp(
+        {'QuestionnaireResponse',[],<<"p-21666">>,undefined,
+                     undefined,undefined,undefined,[],[],[],undefined,[],[],
+                     undefined,<<"completed">>,undefined,undefined,undefined,undefined,
+                     undefined,[]},
            {[{<<"resourceType">>,<<"QuestionnaireResponse">>},
-              {<<"id">>,<<"p-21666">>}
+              {<<"id">>,<<"p-21666">>},
+              {<<"status">>,<<"completed">>}
             ]}).
 
 questionnaireResponse_json_test() ->

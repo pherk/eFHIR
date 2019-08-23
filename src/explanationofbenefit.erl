@@ -431,10 +431,10 @@ to_explanationOfBenefit(Props) ->
 %%====================================================================
 %% Internal functions
 %%====================================================================
-to_explanationOfBenefit.Financial({Props}) -> to_explanationOfBenefit.Financial(Props);
-to_explanationOfBenefit.Financial(Props) ->
-  DT = decode:xsd_info(<<"ExplanationOfBenefit">>),
-  #'ExplanationOfBenefit'{ 
+to_explanationOfBenefit_financial({Props}) -> to_explanationOfBenefit_financial(Props);
+to_explanationOfBenefit_financial(Props) ->
+  DT = decode:xsd_info(<<"ExplanationOfBenefit.Financial">>),
+  #'ExplanationOfBenefit.Financial'{ 
       anyAttribs  = decode:attrs(Props, DT)
     , extension  = decode:value(<<"extension">>, Props, DT)
     , modifierExtension  = decode:value(<<"modifierExtension">>, Props, DT)
@@ -444,10 +444,10 @@ to_explanationOfBenefit.Financial(Props) ->
     }.
 
 
-to_explanationOfBenefit.BenefitBalance({Props}) -> to_explanationOfBenefit.BenefitBalance(Props);
-to_explanationOfBenefit.BenefitBalance(Props) ->
-  DT = decode:xsd_info(<<"ExplanationOfBenefit.Financial">>),
-  #'ExplanationOfBenefit.Financial'{ 
+to_explanationOfBenefit_benefitBalance({Props}) -> to_explanationOfBenefit_benefitBalance(Props);
+to_explanationOfBenefit_benefitBalance(Props) ->
+  DT = decode:xsd_info(<<"ExplanationOfBenefit.BenefitBalance">>),
+  #'ExplanationOfBenefit.BenefitBalance'{ 
       anyAttribs  = decode:attrs(Props, DT)
     , id  = decode:value(<<"id">>, Props, DT)
     , extension  = decode:value(<<"extension">>, Props, DT)
@@ -463,8 +463,8 @@ to_explanationOfBenefit.BenefitBalance(Props) ->
     }.
 
 
-to_explanationOfBenefit.ProcessNote({Props}) -> to_explanationOfBenefit.ProcessNote(Props);
-to_explanationOfBenefit.ProcessNote(Props) ->
+to_explanationOfBenefit_processNote({Props}) -> to_explanationOfBenefit_processNote(Props);
+to_explanationOfBenefit_processNote(Props) ->
   DT = decode:xsd_info(<<"ExplanationOfBenefit.ProcessNote">>),
   #'ExplanationOfBenefit.ProcessNote'{ 
       anyAttribs  = decode:attrs(Props, DT)
@@ -478,8 +478,8 @@ to_explanationOfBenefit.ProcessNote(Props) ->
     }.
 
 
-to_explanationOfBenefit.Payment({Props}) -> to_explanationOfBenefit.Payment(Props);
-to_explanationOfBenefit.Payment(Props) ->
+to_explanationOfBenefit_payment({Props}) -> to_explanationOfBenefit_payment(Props);
+to_explanationOfBenefit_payment(Props) ->
   DT = decode:xsd_info(<<"ExplanationOfBenefit.Payment">>),
   #'ExplanationOfBenefit.Payment'{ 
       anyAttribs  = decode:attrs(Props, DT)
@@ -495,8 +495,8 @@ to_explanationOfBenefit.Payment(Props) ->
     }.
 
 
-to_explanationOfBenefit.Total({Props}) -> to_explanationOfBenefit.Total(Props);
-to_explanationOfBenefit.Total(Props) ->
+to_explanationOfBenefit_total({Props}) -> to_explanationOfBenefit_total(Props);
+to_explanationOfBenefit_total(Props) ->
   DT = decode:xsd_info(<<"ExplanationOfBenefit.Total">>),
   #'ExplanationOfBenefit.Total'{ 
       anyAttribs  = decode:attrs(Props, DT)
@@ -508,8 +508,8 @@ to_explanationOfBenefit.Total(Props) ->
     }.
 
 
-to_explanationOfBenefit.SubDetail1({Props}) -> to_explanationOfBenefit.SubDetail1(Props);
-to_explanationOfBenefit.SubDetail1(Props) ->
+to_explanationOfBenefit_subDetail1({Props}) -> to_explanationOfBenefit_subDetail1(Props);
+to_explanationOfBenefit_subDetail1(Props) ->
   DT = decode:xsd_info(<<"ExplanationOfBenefit.SubDetail1">>),
   #'ExplanationOfBenefit.SubDetail1'{ 
       anyAttribs  = decode:attrs(Props, DT)
@@ -527,8 +527,8 @@ to_explanationOfBenefit.SubDetail1(Props) ->
     }.
 
 
-to_explanationOfBenefit.Detail1({Props}) -> to_explanationOfBenefit.Detail1(Props);
-to_explanationOfBenefit.Detail1(Props) ->
+to_explanationOfBenefit_detail1({Props}) -> to_explanationOfBenefit_detail1(Props);
+to_explanationOfBenefit_detail1(Props) ->
   DT = decode:xsd_info(<<"ExplanationOfBenefit.Detail1">>),
   #'ExplanationOfBenefit.Detail1'{ 
       anyAttribs  = decode:attrs(Props, DT)
@@ -547,8 +547,8 @@ to_explanationOfBenefit.Detail1(Props) ->
     }.
 
 
-to_explanationOfBenefit.AddItem({Props}) -> to_explanationOfBenefit.AddItem(Props);
-to_explanationOfBenefit.AddItem(Props) ->
+to_explanationOfBenefit_addItem({Props}) -> to_explanationOfBenefit_addItem(Props);
+to_explanationOfBenefit_addItem(Props) ->
   DT = decode:xsd_info(<<"ExplanationOfBenefit.AddItem">>),
   #'ExplanationOfBenefit.AddItem'{ 
       anyAttribs  = decode:attrs(Props, DT)
@@ -576,8 +576,8 @@ to_explanationOfBenefit.AddItem(Props) ->
     }.
 
 
-to_explanationOfBenefit.SubDetail({Props}) -> to_explanationOfBenefit.SubDetail(Props);
-to_explanationOfBenefit.SubDetail(Props) ->
+to_explanationOfBenefit_subDetail({Props}) -> to_explanationOfBenefit_subDetail(Props);
+to_explanationOfBenefit_subDetail(Props) ->
   DT = decode:xsd_info(<<"ExplanationOfBenefiti.SubDetail">>),
   #'ExplanationOfBenefit.SubDetail'{ 
       anyAttribs  = decode:attrs(Props, DT)
@@ -600,8 +600,8 @@ to_explanationOfBenefit.SubDetail(Props) ->
     }.
 
 
-to_explanationOfBenefit.Detail({Props}) -> to_explanationOfBenefit.Detail(Props);
-to_explanationOfBenefit.Detail(Props) ->
+to_explanationOfBenefit_detail({Props}) -> to_explanationOfBenefit_detail(Props);
+to_explanationOfBenefit_detail(Props) ->
   DT = decode:xsd_info(<<"ExplanationOfBenefit.Detail">>),
   #'ExplanationOfBenefit.Detail'{ 
       anyAttribs  = decode:attrs(Props, DT)
@@ -625,8 +625,8 @@ to_explanationOfBenefit.Detail(Props) ->
     }.
 
 
-to_explanationOfBenefit.Adjudication({Props}) -> to_explanationOfBenefit.Adjudication(Props);
-to_explanationOfBenefit.Adjudication(Props) ->
+to_explanationOfBenefit_adjudication({Props}) -> to_explanationOfBenefit_adjudication(Props);
+to_explanationOfBenefit_adjudication(Props) ->
   DT = decode:xsd_info(<<"ExplanationOfBenefit.Adjudication">>),
   #'ExplanationOfBenefit.Adjudication'{ 
       anyAttribs  = decode:attrs(Props, DT)
@@ -640,8 +640,8 @@ to_explanationOfBenefit.Adjudication(Props) ->
     }.
 
 
-to_explanationOfBenefit.Item({Props}) -> to_explanationOfBenefit.Item(Props);
-to_explanationOfBenefit.Item(Props) ->
+to_explanationOfBenefit_item({Props}) -> to_explanationOfBenefit_item(Props);
+to_explanationOfBenefit_item(Props) ->
   DT = decode:xsd_info(<<"ExplanationOfBenefit.Item">>),
   #'ExplanationOfBenefit.Item'{ 
       anyAttribs  = decode:attrs(Props, DT)
@@ -674,8 +674,8 @@ to_explanationOfBenefit.Item(Props) ->
     }.
 
 
-to_explanationOfBenefit.Accident({Props}) -> to_explanationOfBenefit.Accident(Props);
-to_explanationOfBenefit.Accident(Props) ->
+to_explanationOfBenefit_accident({Props}) -> to_explanationOfBenefit_accident(Props);
+to_explanationOfBenefit_accident(Props) ->
   DT = decode:xsd_info(<<"ExplanationOfBenefit.Accident">>),
   #'ExplanationOfBenefit.Accident'{ 
       anyAttribs  = decode:attrs(Props, DT)
@@ -688,8 +688,8 @@ to_explanationOfBenefit.Accident(Props) ->
     }.
 
 
-to_explanationOfBenefit.Insurance({Props}) -> to_explanationOfBenefit.Insurance(Props);
-to_explanationOfBenefit.Insurance(Props) ->
+to_explanationOfBenefit_insurance({Props}) -> to_explanationOfBenefit_insurance(Props);
+to_explanationOfBenefit_insurance(Props) ->
   DT = decode:xsd_info(<<"ExplanationOfBenefit.Insurance">>),
   #'ExplanationOfBenefit.Insurance'{ 
       anyAttribs  = decode:attrs(Props, DT)
@@ -702,8 +702,8 @@ to_explanationOfBenefit.Insurance(Props) ->
     }.
 
 
-to_explanationOfBenefit.Procedure({Props}) -> to_explanationOfBenefit.Procedure(Props);
-to_explanationOfBenefit.Procedure(Props) ->
+to_explanationOfBenefit_procedure({Props}) -> to_explanationOfBenefit_procedure(Props);
+to_explanationOfBenefit_procedure(Props) ->
   DT = decode:xsd_info(<<"ExplanationOfBenefit.Procedure">>),
   #'ExplanationOfBenefit.Procedure'{ 
       anyAttribs  = decode:attrs(Props, DT)
@@ -718,8 +718,8 @@ to_explanationOfBenefit.Procedure(Props) ->
     }.
 
 
-to_explanationOfBenefit.Diagnosis({Props}) -> to_explanationOfBenefit.Diagnosis(Props);
-to_explanationOfBenefit.Diagnosis(Props) ->
+to_explanationOfBenefit_diagnosis({Props}) -> to_explanationOfBenefit_diagnosis(Props);
+to_explanationOfBenefit_diagnosis(Props) ->
   DT = decode:xsd_info(<<"ExplanationOfBenefit.Diagnosis">>),
   #'ExplanationOfBenefit.Diagnosis'{ 
       anyAttribs  = decode:attrs(Props, DT)
@@ -734,8 +734,8 @@ to_explanationOfBenefit.Diagnosis(Props) ->
     }.
 
 
-to_explanationOfBenefit.SupportingInfo({Props}) -> to_explanationOfBenefit.SupportingInfo(Props);
-to_explanationOfBenefit.SupportingInfo(Props) ->
+to_explanationOfBenefit_supportingInfo({Props}) -> to_explanationOfBenefit_supportingInfo(Props);
+to_explanationOfBenefit_supportingInfo(Props) ->
   DT = decode:xsd_info(<<"ExplanationOfBenefit.SupportingInfo">>),
   #'ExplanationOfBenefit.SupportingInfo'{ 
       anyAttribs  = decode:attrs(Props, DT)
@@ -751,8 +751,8 @@ to_explanationOfBenefit.SupportingInfo(Props) ->
     }.
 
 
-to_explanationOfBenefit.CareTeam({Props}) -> to_explanationOfBenefit.CareTeam(Props);
-to_explanationOfBenefit.CareTeam(Props) ->
+to_explanationOfBenefit_careTeam({Props}) -> to_explanationOfBenefit_careTeam(Props);
+to_explanationOfBenefit_careTeam(Props) ->
   DT = decode:xsd_info(<<"ExplanationOfBenefit.CareTeam">>),
   #'ExplanationOfBenefit.CareTeam'{ 
       anyAttribs  = decode:attrs(Props, DT)
@@ -767,8 +767,8 @@ to_explanationOfBenefit.CareTeam(Props) ->
     }.
 
 
-to_explanationOfBenefit.Payee({Props}) -> to_explanationOfBenefit.Payee(Props);
-to_explanationOfBenefit.Payee(Props) ->
+to_explanationOfBenefit_payee({Props}) -> to_explanationOfBenefit_payee(Props);
+to_explanationOfBenefit_payee(Props) ->
   DT = decode:xsd_info(<<"ExplanationOfBenefit.Payee">>),
   #'ExplanationOfBenefit.Payee'{ 
       anyAttribs  = decode:attrs(Props, DT)
@@ -780,8 +780,8 @@ to_explanationOfBenefit.Payee(Props) ->
     }.
 
 
-to_explanationOfBenefit.Related({Props}) -> to_explanationOfBenefit.Related(Props);
-to_explanationOfBenefit.Related(Props) ->
+to_explanationOfBenefit_related({Props}) -> to_explanationOfBenefit_related(Props);
+to_explanationOfBenefit_related(Props) ->
   DT = decode:xsd_info(<<"ExplanationOfBenefit.Related">>),
   #'ExplanationOfBenefit.Related'{ 
       anyAttribs  = decode:attrs(Props, DT)

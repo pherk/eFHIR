@@ -85,8 +85,8 @@ to_group(Props) ->
 %%====================================================================
 %% Internal functions
 %%====================================================================
-to_group.Member({Props}) -> to_group.Member(Props);
-to_group.Member(Props) ->
+to_group_member({Props}) -> to_group_member(Props);
+to_group_member(Props) ->
   DT = decode:xsd_info(<<"Group.Member">>),
   #'Group.Member'{ 
       anyAttribs  = decode:attrs(Props, DT)
@@ -99,10 +99,10 @@ to_group.Member(Props) ->
     }.
 
 
-to_group.Characteristic({Props}) -> to_group.Characteristic(Props);
-to_group.Characteristic(Props) ->
-  DT = decode:xsd_info(<<"Group.Characteristics">>),
-  #'Group:Characteristics'{ 
+to_group_characteristic({Props}) -> to_group_characteristic(Props);
+to_group_characteristic(Props) ->
+  DT = decode:xsd_info(<<"Group.Characteristic">>),
+  #'Group.Characteristic'{ 
       anyAttribs  = decode:attrs(Props, DT)
     , id  = decode:value(<<"id">>, Props, DT)
     , extension  = decode:value(<<"extension">>, Props, DT)

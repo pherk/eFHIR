@@ -99,8 +99,8 @@ to_location(Props) ->
 %%====================================================================
 %% Internal functions
 %%====================================================================
-to_location.HoursOfOperation({Props}) -> to_location.HoursOfOperation(Props);
-to_location.HoursOfOperation(Props) ->
+to_location_hoursOfOperation({Props}) -> to_location_hoursOfOperation(Props);
+to_location_hoursOfOperation(Props) ->
   DT = decode:xsd_info(<<"Location.HoursOfOperation">>),
   #'Location.HoursOfOperation'{ 
       anyAttribs  = decode:attrs(Props, DT)
@@ -114,8 +114,8 @@ to_location.HoursOfOperation(Props) ->
     }.
 
 
-to_location.Position({Props}) -> to_location.Position(Props);
-to_location.Position(Props) ->
+to_location_position({Props}) -> to_location_position(Props);
+to_location_position(Props) ->
   DT = decode:xsd_info(<<"Location.Position">>),
   #'Location.Position'{ 
       anyAttribs  = decode:attrs(Props, DT)

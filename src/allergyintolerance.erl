@@ -85,8 +85,8 @@ to_allergyIntolerance(Props) ->
 
 to_allergyIntolerance_reaction({Props}) -> to_allergyIntolerance_reaction(Props);
 to_allergyIntolerance_reaction(Props) ->
-  DT = decode:xsd_info(<<"AllergyIntolerance.Reakion">>),
-  #'AllergyIntolerance.Reaktion'{ 
+  DT = decode:xsd_info(<<"AllergyIntolerance.Reaction">>),
+  #'AllergyIntolerance.Reaction'{ 
       anyAttribs = decode:attrs(Props, DT)
     , id               = decode:value(<<"id">>, Props, DT)
     , extension  = decode:value(<<"extension">>, Props, DT) 

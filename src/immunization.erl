@@ -144,8 +144,8 @@ to_immunization(Props) ->
 %%====================================================================
 %% Internal functions
 %%====================================================================
-to_immunization.ProtocolApplied({Props}) -> to_immunization.ProtocolApplied(Props);
-to_immunization.ProtocolApplied(Props) ->
+to_immunization_protocolApplied({Props}) -> to_immunization_protocolApplied(Props);
+to_immunization_protocolApplied(Props) ->
   DT = decode:xsd_info(<<"Immunization.ProtcolApplied">>),
   #'Immunization.ProtocolApplied'{ 
       anyAttribs  = decode:attrs(Props, DT)
@@ -160,8 +160,8 @@ to_immunization.ProtocolApplied(Props) ->
     }.
 
 
-to_immunization.Reaction({Props}) -> to_immunization.Reaction(Props);
-to_immunization.Reaction(Props) ->
+to_immunization_reaction({Props}) -> to_immunization_reaction(Props);
+to_immunization_reaction(Props) ->
   DT = decode:xsd_info(<<"Immunization.Reaction">>),
   #'Immunization.Reaction'{ 
       anyAttribs  = decode:attrs(Props, DT)
@@ -171,9 +171,10 @@ to_immunization.Reaction(Props) ->
     , date  = decode:value(<<"date">>, Props, DT)
     , detail  = decode:value(<<"detail">>, Props, DT)
     , reported  = decode:value(<<"reported">>, Props, DT)
+    }.
 
-to_immunization.Education({Props}) -> to_immunization.Education(Props);
-to_immunization.Education(Props) ->
+to_immunization_education({Props}) -> to_immunization_education(Props);
+to_immunization_education(Props) ->
   DT = decode:xsd_info(<<"Immunization.Education">>),
   #'Immunization.Education'{ 
       anyAttribs  = decode:attrs(Props, DT)
@@ -187,8 +188,8 @@ to_immunization.Education(Props) ->
     }.
 
 
-to_immunization.Performer({Props}) -> to_immunization.Performer(Props);
-to_immunization.Performer(Props) ->
+to_immunization_performer({Props}) -> to_immunization_performer(Props);
+to_immunization_performer(Props) ->
   DT = decode:xsd_info(<<"Immunization.Performer">>),
   #'Immunization.Performer'{ 
       anyAttribs  = decode:attrs(Props, DT)

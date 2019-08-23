@@ -26,24 +26,21 @@ fhir_to_erlang(Key) -> Key.
 
 xsd_info(Key) -> maps:get(Key,?fhir_xsd).
 
-get_type('Bundle') ->          {<<"DomainResource">>, <<"Bundle">>};
-get_type('Bundle.Link') ->     {<<"BackboneElement">>, <<"Bundle.Link">>};
-get_type('Bundle.Entry') ->    {<<"BackboneElement">>, <<"Bundle.Entry">>};
-get_type('Bundle.Search') ->   {<<"BackboneElement">>, <<"Bundle.Search">>};
-get_type('Bundle.Request') ->  {<<"BackboneElement">>, <<"Bundle.Request">>};
-get_type('Bundle.Response') -> {<<"BackboneElement">>, <<"Bundle.Response">>};
-get_type('Extension') ->       {<<"Element">>, <<"Extension">>};
-get_type('Meta') ->            {<<"Element">>, <<"Meta">>};
-get_type('Narrative') ->       {<<"Element">>, <<"Narrative">>};
-get_type('Patient') ->         {<<"DomainResource">>, <<"Patient">>};
-get_type('Patient.Contact') -> {<<"BackboneElement">>, <<"Patient.Contact">>};
-get_type('Patient.Communication') -> {<<"BackboneElement">>, <<"Patient.Communication">>};
-get_type('Patient.Link') ->    {<<"BackboneElement">>, <<"Patient.Link">>}.
+%% TODO more elegant via compiled XSD?
+get_type(<<"Extension">>) ->   {<<"Element">>, <<"Extension">>};
+get_type(<<"Meta">>)      ->   {<<"Element">>, <<"Meta">>};
+get_type(<<"Narrative">>) ->   {<<"Element">>, <<"Narrative">>};
+get_type(<<"Reference">>) ->   {<<"Element">>, <<"Reference">>};
+get_type(ResourceName) ->
+    case binary:split(ResourceName, <<".">>,[global]) of    
+        [Base]       -> {<<"DomainResource">>,  Base};
+        [Base | BBs] -> {<<"BackboneElement">>, ResourceName}
+    end.
 
 rec_info(XSDType) -> 
     {Base,FI,Attrs,Restrictions} = xsd_info(XSDType), 
     BFI = resolve_base(Base,FI),
-%    io:format("r_i: ~p~n",[BFI]),
+    % io:format("r_i: ~p~n",[BFI]),
     keys(BFI).
 
 -spec keys(Props :: list()) -> list(). 
@@ -67,12 +64,12 @@ check_value(Field, Value, RecInfo) ->
 	end.	
 
 to_proplist(Rec) when is_tuple(Rec) ->
-    RecName = element(1,Rec),
-%    io:format("r2p-0: ~p~n",[Rec]),
+    RecName = atom_to_binary(element(1,Rec),latin1),
+    io:format("r2p-0: ~p~n",[Rec]),
     {XSDBaseType, XSDType}  = get_type(RecName),
-%    io:format("r2p-1: ~s <= ~s~n",[XSDType,XSDBaseType]),
-    Info = rec_info(XSDType),
-%    io:format("r2p-2: ~p~n",[Info]),
+    io:format("r2p-1: ~s <= ~s~n",[XSDType,XSDBaseType]),
+    Info = [<<"attribs">> | rec_info(XSDType)],
+    io:format("r2p-2: ~p~n",[Info]),
 	FL = lists:zip(Info, tl(tuple_to_list(Rec))), 
 %	io:format("r2p-3: ~p~n", [FL]),
 	PropList = lists:filtermap(fun({Key,Value}) -> check_value(Key,Value,Info) end, FL),
@@ -81,7 +78,9 @@ to_proplist(Rec) when is_tuple(Rec) ->
         <<"DomainResource">> -> {[{<<"resourceType">>, XSDType}] ++ PropList};
         _                    -> {PropList}
     end;
-to_proplist(Value) -> Value.
+to_proplist(Value) -> 
+    io:format("r2p2-1: ~p~n",[Value]),
+    Value.
 
 patient_to_proplist(Rec) ->
     L = [{resourceType, element(1,Rec)}] ++

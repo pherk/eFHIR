@@ -1,5 +1,7 @@
 -module(extensions).
+-include("fhir.hrl").
 -include("primitives.hrl").
+-include("fhir_400.hrl").
 
 -export([to_extension/1, to_extension_list/1]).
 -export_type(['Extension'/0]).

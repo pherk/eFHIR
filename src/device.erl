@@ -152,8 +152,8 @@ to_device(Props) ->
 %%====================================================================
 %% Internal functions
 %%====================================================================
-to_device.Property({Props}) -> to_device.Property(Props);
-to_device.Property(Props) ->
+to_device_property({Props}) -> to_device_property(Props);
+to_device_property(Props) ->
   DT = decode:xsd_info(<<"Device.Property">>),
   #'Device.Property'{ 
       anyAttribs  = decode:attrs(Props, DT)
@@ -166,8 +166,8 @@ to_device.Property(Props) ->
     }.
 
 
-to_device.Version({Props}) -> to_device.Version(Props);
-to_device.Version(Props) ->
+to_device_version({Props}) -> to_device_version(Props);
+to_device_version(Props) ->
   DT = decode:xsd_info(<<"Device.Version">>),
   #'Device.Version'{ 
       anyAttribs  = decode:attrs(Props, DT)
@@ -180,8 +180,8 @@ to_device.Version(Props) ->
     }.
 
 
-to_device.Specialization({Props}) -> to_device.Specialization(Props);
-to_device.Specialization(Props) ->
+to_device_specialization({Props}) -> to_device_specialization(Props);
+to_device_specialization(Props) ->
   DT = decode:xsd_info(<<"Device.Specialization">>),
   #'Device.Specialization'{ 
       anyAttribs  = decode:attrs(Props, DT)
@@ -193,8 +193,8 @@ to_device.Specialization(Props) ->
     }.
 
 
-to_device.DeviceName({Props}) -> to_device.DeviceName(Props);
-to_device.DeviceName(Props) ->
+to_device_deviceName({Props}) -> to_device_deviceName(Props);
+to_device_deviceName(Props) ->
   DT = decode:xsd_info(<<"Device.DeviceName">>),
   #'Device.DeviceName'{ 
       anyAttribs  = decode:attrs(Props, DT)
@@ -207,8 +207,8 @@ to_device.DeviceName(Props) ->
 
 
 
-to_device.UdiCarrier({Props}) -> to_device.UdiCarrier(Props);
-to_device.UdiCarrier(Props) ->
+to_device_udiCarrier({Props}) -> to_device_udiCarrier(Props);
+to_device_udiCarrier(Props) ->
   DT = decode:xsd_info(<<"Device.UdiCarrier">>),
   #'Device.UdiCarrier'{ 
       anyAttribs  = decode:attrs(Props, DT)

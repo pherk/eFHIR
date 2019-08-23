@@ -28,11 +28,11 @@
 	doNotPerform :: boolean() | undefined,
 	code :: complex:'CodeableConcept'() | undefined,
 	orderDetail :: [complex:'CodeableConcept'()] | undefined,
-	choice :: complex:'Ratio'() | complex:'Range'() | complex:'Quantity'() | complex:'Duration'() | complex:'Age'() | complex:'Distance'() | complex:'Count'() | undefined,
+	quantity :: complex:'Ratio'() | complex:'Range'() | complex:'Quantity'() | complex:'Duration'() | complex:'Age'() | complex:'Distance'() | complex:'Count'() | undefined,
 	subject :: special:'Reference'(),
 	encounter :: special:'Reference'() | undefined,
-	choice1 :: complex:'Timing'() | complex:'Period'() | dateTime() | undefined,
-	choice2 :: complex:'CodeableConcept'() | boolean() | undefined,
+	occurrence :: complex:'Timing'() | complex:'Period'() | dateTime() | undefined,
+	asNeeded :: complex:'CodeableConcept'() | boolean() | undefined,
 	authoredOn :: dateTime() | undefined,
 	requester :: special:'Reference'() | undefined,
 	performerType :: complex:'CodeableConcept'() | undefined,
@@ -88,11 +88,11 @@ to_serviceRequest(Props) ->
     , doNotPerform  = decode:value(<<"doNotPerform">>, Props, DT)
     , code  = decode:value(<<"code">>, Props, DT)
     , orderDetail  = decode:value(<<"orderDetail">>, Props, DT)
-    , choice  = decode:value(<<"choice">>, Props, DT)
+    , quantity  = decode:value(<<"quantity">>, Props, DT)
     , subject  = decode:value(<<"subject">>, Props, DT)
     , encounter  = decode:value(<<"encounter">>, Props, DT)
-    , choice1  = decode:value(<<"choice1">>, Props, DT)
-    , choice2  = decode:value(<<"choice2">>, Props, DT)
+    , occurrence  = decode:value(<<"occurrence">>, Props, DT)
+    , asNeeded  = decode:value(<<"asNeeded">>, Props, DT)
     , authoredOn  = decode:value(<<"authoredOn">>, Props, DT)
     , requester  = decode:value(<<"requester">>, Props, DT)
     , performerType  = decode:value(<<"performerType">>, Props, DT)
@@ -129,21 +129,31 @@ text(#'ServiceRequest'{text=N}) ->
 -define(asrtjson(A, B), ?assertEqual(B, jiffy:encode(encode:to_proplist(A)))).
 
 servicerequest_to_test() ->
-    ?asrtto([{<<"id">>, <<"p-21666">>}],
-         {'ServiceRequest',<<"p-21666">>,undefined,undefined, undefined, 
-                  undefined,[], [], [],
-                          [],undefined,[],[],undefined,undefined,
-                          undefined,undefined,[],undefined,undefined,
-                          undefined,[],[],[],[],undefined,[]}).
+    ?asrtto([{<<"id">>, <<"p-21666">>},{<<"status">>, <<"active">>},{<<"intent">>,<<"order">>},
+             {<<"subject">>, {[{<<"reference">>,<<"nabu/Patient/p-21666">>}]}},
+             {<<"asNeededBoolean">>, true}
+            ],
+{'ServiceRequest',[],<<"p-21666">>,undefined,undefined, undefined,undefined,[],[],[],
+     [],[],[],[],[],undefined, <<"active">>,<<"order">>,[],undefined,
+     undefined,undefined,[],undefined, {'Reference',[],[],<<"nabu/Patient/p-21666">>,undefined, undefined, undefined},
+                     undefined,undefined,true,undefined,undefined,
+    undefined,[], [],[],[],[],[],[],[],[],
+    [],undefined,[]}).
+
+
 servicerequest_toprop_test() ->
 
-    ?asrtp({'ServiceRequest',<<"p-21666">>,undefined,undefined,undefined, 
-                  undefined, [],[], [],
-                          [],undefined,[],[],undefined,undefined,
-                          undefined,undefined,[],undefined,undefined,
-                          undefined,[],[],[],[],undefined, []},
+    ?asrtp(
+{'ServiceRequest',[],<<"p-21666">>,undefined,undefined, undefined,undefined,[],[],[],
+     [],[],[],[],[],undefined, <<"active">>,<<"order">>,[],undefined,undefined,undefined,[],undefined,
+                     {'Reference',[],[],<<"nabu/Patient/p-21666">>,undefined, undefined, undefined},
+                     undefined,undefined,undefined,undefined,undefined,undefined,[],
+                     [],[],[],[],[],[],[],[],[],undefined,[]},
            {[{<<"resourceType">>,<<"ServiceRequest">>},
-              {<<"id">>,<<"p-21666">>}
+             {<<"id">>,<<"p-21666">>},
+             {<<"status">>, <<"active">>},
+             {<<"intent">>,<<"order">>},
+             {<<"subject">>, {[{<<"reference">>,<<"nabu/Patient/p-21666">>}]}}
             ]}).
 
 servicerequest_json_test() ->

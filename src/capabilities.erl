@@ -257,8 +257,8 @@ to_capabilityStatement(Props) ->
 %%====================================================================
 %% Internal functions
 %%====================================================================
-to_capabilityStatement.Document({Props}) -> to_capabilityStatement.Document(Props);
-to_capabilityStatement.Document(Props) ->
+to_capabilityStatement_document({Props}) -> to_capabilityStatement_document(Props);
+to_capabilityStatement_document(Props) ->
   DT = decode:xsd_info(<<"CapabilityStatement.Document">>),
   #'CapabilityStatement.Document'{ 
     anyAttribs  = decode:attrs(Props, DT)
@@ -272,8 +272,8 @@ to_capabilityStatement.Document(Props) ->
 
 
 
-to_capabilityStatement.SupportedMessage({Props}) -> to_capabilityStatement.SupportedMessage(Props);
-to_capabilityStatement(Props) ->
+to_capabilityStatement_supportedMessage({Props}) -> to_capabilityStatement_supportedMessage(Props);
+to_capabilityStatement_supportedMessage(Props) ->
   DT = decode:xsd_info(<<"CapabilityStatement.SupportedMessage">>),
   #'CapabilityStatement.SupportedMessage'{ 
     anyAttribs  = decode:attrs(Props, DT)
@@ -286,8 +286,8 @@ to_capabilityStatement(Props) ->
 
 
 
-to_capabilityStatement.Endpoint({Props}) -> to_capabilityStatement.Endpoint(Props);
-to_capabilityStatement(Props) ->
+to_capabilityStatement_endpoint({Props}) -> to_capabilityStatement_endpoint(Props);
+to_capabilityStatement_endpoint(Props) ->
   DT = decode:xsd_info(<<"CapabilityStatement.Endpoint">>),
   #'CapabilityStatement.Endpoint'{ 
     anyAttribs  = decode:attrs(Props, DT)
@@ -300,8 +300,8 @@ to_capabilityStatement(Props) ->
 
 
 
-to_capabilityStatement.Messaging({Props}) -> to_capabilityStatement.Messaging(Props);
-to_capabilityStatement(Props) ->
+to_capabilityStatement_messaging({Props}) -> to_capabilityStatement_messaging(Props);
+to_capabilityStatement_messaging(Props) ->
   DT = decode:xsd_info(<<"CapabilityStatement.Messaging">>),
   #'CapabilityStatement.Messaging'{ 
     anyAttribs  = decode:attrs(Props, DT)
@@ -315,8 +315,8 @@ to_capabilityStatement(Props) ->
     }.
 
 
-to_capabilityStatement.Interaction1({Props}) -> to_capabilityStatement.Interaction1(Props);
-to_capabilityStatement(Props) ->
+to_capabilityStatement_interaction1({Props}) -> to_capabilityStatement_interaction1(Props);
+to_capabilityStatement_interaction1(Props) ->
   DT = decode:xsd_info(<<"CapabilityStatement.Interaction1">>),
   #'CapabilityStatement.Interaction1'{ 
     anyAttribs  = decode:attrs(Props, DT)
@@ -329,8 +329,8 @@ to_capabilityStatement(Props) ->
 
 
 
-to_capabilityStatement.Operation({Props}) -> to_capabilityStatement.Operation(Props);
-to_capabilityStatement(Props) ->
+to_capabilityStatement_operation({Props}) -> to_capabilityStatement_operation(Props);
+to_capabilityStatement_operation(Props) ->
   DT = decode:xsd_info(<<"CapabilityStatement.Operation">>),
   #'CapabilityStatement.Operation'{ 
     anyAttribs  = decode:attrs(Props, DT)
@@ -344,8 +344,8 @@ to_capabilityStatement(Props) ->
 
 
 
-to_capabilityStatement.SearchParam({Props}) -> to_capabilityStatement.SearchParam(Props);
-to_capabilityStatement(Props) ->
+to_capabilityStatement_searchParam({Props}) -> to_capabilityStatement_searchParam(Props);
+to_capabilityStatement_searchParam(Props) ->
   DT = decode:xsd_info(<<"CapabilityStatement.SearchParam">>),
   #'CapabilityStatement.SearchParam'{ 
     anyAttribs  = decode:attrs(Props, DT)
@@ -356,10 +356,12 @@ to_capabilityStatement(Props) ->
     , definition  = decode:value(<<"definition">>, Props, DT) 
     , type  = decode:value(<<"type">>, Props, DT) 
     , documentation  = decode:value(<<"documentation">>, Props, DT) 
+    }.
 
 
-to_capabilityStatement.Interaction({Props}) -> to_capabilityStatement.Interaction(Props);
-to_capabilityStatement(Props) ->
+
+to_capabilityStatement_interaction({Props}) -> to_capabilityStatement_interaction(Props);
+to_capabilityStatement_interaction(Props) ->
   DT = decode:xsd_info(<<"CapabilityStatement.Interaction">>),
   #'CapabilityStatement.Interaction'{ 
     anyAttribs  = decode:attrs(Props, DT)
@@ -372,8 +374,8 @@ to_capabilityStatement(Props) ->
 
 
 
-to_capabilityStatement.Resource({Props}) -> to_capabilityStatement.Resource(Props);
-to_capabilityStatement(Props) ->
+to_capabilityStatement_resource({Props}) -> to_capabilityStatement_resource(Props);
+to_capabilityStatement_resource(Props) ->
   DT = decode:xsd_info(<<"CapabilityStatement.Resource">>),
   #'CapabilityStatement.Resource'{ 
     anyAttribs  = decode:attrs(Props, DT)
@@ -401,8 +403,8 @@ to_capabilityStatement(Props) ->
 
 
 
-to_capabilityStatement.Security({Props}) -> to_capabilityStatement.Security(Props);
-to_capabilityStatement(Props) ->
+to_capabilityStatement_security({Props}) -> to_capabilityStatement_security(Props);
+to_capabilityStatement_security(Props) ->
   DT = decode:xsd_info(<<"CapabilityStatement.Security">>),
   #'CapabilityStatement.Security'{ 
     anyAttribs  = decode:attrs(Props, DT)
@@ -416,8 +418,8 @@ to_capabilityStatement(Props) ->
 
 
 
-to_capabilityStatement.Rest({Props}) -> to_capabilityStatement.Rest(Props);
-to_capabilityStatement(Props) ->
+to_capabilityStatement_rest({Props}) -> to_capabilityStatement_rest(Props);
+to_capabilityStatement_rest(Props) ->
   DT = decode:xsd_info(<<"CapabilityStatement.Rest">>),
   #'CapabilityStatement.Rest'{ 
     anyAttribs  = decode:attrs(Props, DT)
@@ -436,8 +438,8 @@ to_capabilityStatement(Props) ->
 
 
 
-to_capabilityStatement.Implementation({Props}) -> to_capabilityStatement.Implementation(Props);
-to_capabilityStatement(Props) ->
+to_capabilityStatement_implementation({Props}) -> to_capabilityStatement_implementation(Props);
+to_capabilityStatement_implementation(Props) ->
   DT = decode:xsd_info(<<"CapabilityStatement.Implementation">>),
   #'CapabilityStatement.Implementation'{ 
     anyAttribs  = decode:attrs(Props, DT)
@@ -451,8 +453,8 @@ to_capabilityStatement(Props) ->
 
 
 
-to_capabilityStatement.Software({Props}) -> to_capabilityStatement.Software({Props});
-to_capabilityStatement(Props) ->
+to_capabilityStatement_software({Props}) -> to_capabilityStatement_software({Props});
+to_capabilityStatement_software(Props) ->
   DT = decode:xsd_info(<<"CapabilityStatement.Software">>),
   #'CapabilityStatement.Software'{ 
     anyAttribs  = decode:attrs(Props, DT)

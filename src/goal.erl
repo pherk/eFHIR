@@ -87,8 +87,10 @@ to_goal(Props) ->
 %%====================================================================
 %% Internal functions
 %%====================================================================
-goal.Target({Props}) -> goal.Target(Props); 
-goal.Target(Props) -> 
+to_goal_target({Props}) -> to_goal_target(Props); 
+to_goal_target(Props) -> 
+  DT = decode:xsd_info(<<"Goal.Target">>),
+  #'Goal.Target'{ 
       anyAttribs  = decode:attrs(Props, DT)
     , id  = decode:value(<<"id">>, Props, DT)
     , extension  = decode:value(<<"extension">>, Props, DT)

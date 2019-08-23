@@ -74,8 +74,8 @@ to_organization(Props) ->
 %%====================================================================
 %% Internal functions
 %%====================================================================
-to_organization.Contact([Props}) -> to_organization.Contact(Props);
-to_organization.Contact(Props) ->
+to_organization_contact({Props}) -> to_organization_contact(Props);
+to_organization_contact(Props) ->
   DT = decode:xsd_info(<<"Organization.Contact">>),
   #'Organization.Contact'{ 
       anyAttribs  = decode:attrs(Props, DT)

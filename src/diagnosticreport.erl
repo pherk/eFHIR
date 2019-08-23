@@ -90,8 +90,8 @@ to_diagnosticReport(Props) ->
 %%====================================================================
 %% Internal functions
 %%====================================================================
-to_diagnosticReport.Media({Props}) -> to_diagnosticReport.Media(Props);
-to_diagnosticReport.Media(Props) ->
+to_diagnosticReport_media({Props}) -> to_diagnosticReport_media(Props);
+to_diagnosticReport_media(Props) ->
   DT = decode:xsd_info(<<"DiagnosticReport.Media">>),
   #'DiagnosticReport.Media'{ 
       anyAttribs  = decode:attrs(Props, DT)

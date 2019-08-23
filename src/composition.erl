@@ -71,7 +71,7 @@
 	date :: dateTime(),
 	author :: [special:'Reference'()],
 	title :: string(),
-	confidentiality :: vConfidentialityClassification() | undefined,
+	confidentiality :: complex:'ConfidentialityClassification'() | undefined,
 	attester :: [complex:'Composition.Attester'()] | undefined,
 	custodian :: special:'Reference'() | undefined,
 	relatesTo :: [complex:'Composition.RelatesTo'()] | undefined,
@@ -122,8 +122,8 @@ to_composition(Props) ->
 %%====================================================================
 %% Internal functions
 %%====================================================================
-to_composition.Section({Props}) ->  to_composition.Section(Props);
-to_composition.Section(Props) -> 
+to_composition_section({Props}) ->  to_composition_section(Props);
+to_composition_section(Props) -> 
   DT = decode:xsd_info(<<"Composition.Section">>),
   #'Composition.Section'{ 
     anyAttribs  = decode:attrs(Props, DT)
@@ -143,8 +143,8 @@ to_composition.Section(Props) ->
     }.
 
 
-to_composition.Event({Props}) ->  to_composition.Event(Props);
-to_composition.Event(Props) -> 
+to_composition_event({Props}) ->  to_composition_event(Props);
+to_composition_event(Props) -> 
   DT = decode:xsd_info(<<"Composition.Event">>),
   #'Composition.Event'{ 
     anyAttribs  = decode:attrs(Props, DT)
@@ -157,10 +157,10 @@ to_composition.Event(Props) ->
     }.
 
 
-to_composition.RelatesTo({Props}) ->  to_composition.RelatesTo(Props);
-to_composition.RelatesTo(Props) -> 
-  DT = decode:xsd_info(<<"Composition.RelatedTo">>),
-  #'Composition.RelatedTo'{ 
+to_composition_relatesTo({Props}) ->  to_composition_relatesTo(Props);
+to_composition_relatesTo(Props) -> 
+  DT = decode:xsd_info(<<"Composition.RelatesTo">>),
+  #'Composition.RelatesTo'{ 
     anyAttribs  = decode:attrs(Props, DT)
     , id  = decode:value(<<"id">>, Props, DT)
     , extension  = decode:value(<<"extension">>, Props, DT)
@@ -170,8 +170,8 @@ to_composition.RelatesTo(Props) ->
     }.
 
 
-to_composition.Attester({Props}) ->  to_composition.Attester(Props);
-to_composition.Attester(Props) -> 
+to_composition_attester({Props}) ->  to_composition_attester(Props);
+to_composition_attester(Props) -> 
   DT = decode:xsd_info(<<"Composition.Attester">>),
   #'Composition.Attester'{ 
     anyAttribs  = decode:attrs(Props, DT)

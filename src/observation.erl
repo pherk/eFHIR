@@ -117,8 +117,8 @@ to_observation(Props) ->
 %%====================================================================
 %% Internal functions
 %%====================================================================
-to_observation.Component({Props}) -> to_observation.Component(Props);
-to_observation.Component(Props) ->
+to_observation_component({Props}) -> to_observation_component(Props);
+to_observation_component(Props) ->
   DT = decode:xsd_info(<<"Observation.Component">>),
   #'Observation.Component'{ 
       anyAttribs  = decode:attrs(Props, DT)
@@ -133,10 +133,10 @@ to_observation.Component(Props) ->
     }.
 
 
-to_observation.ReferenceRange({Props}) -> to_observation.ReferenceRange(Props);
-to_observation.ReferenceRange(Props) ->
+to_observation_referenceRange({Props}) -> to_observation_referenceRange(Props);
+to_observation_referenceRange(Props) ->
   DT = decode:xsd_info(<<"Observation.ReferenceRange">>),
-  #'Observation.ReferencRange'{ 
+  #'Observation.ReferenceRange'{ 
       anyAttribs  = decode:attrs(Props, DT)
     , id  = decode:value(<<"id">>, Props, DT)
     , extension  = decode:value(<<"extension">>, Props, DT)

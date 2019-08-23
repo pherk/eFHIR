@@ -90,8 +90,8 @@ to_episodeOfCare(Props) ->
 %%====================================================================
 %% Internal functions
 %%====================================================================
-to_episodeOfCare.Diagnosis({Props}) -> to_episodeOfCare.Diagnosis({Props});
-to_episodeOfCare.Diagnosis(Props) ->
+to_episodeOfCare_diagnosis({Props}) -> to_episodeOfCare_diagnosis({Props});
+to_episodeOfCare_diagnosis(Props) ->
   DT = decode:xsd_info(<<"EpisodeOfCare.Diagnosis">>),
   #'EpisodeOfCare.Diagnosis'{ 
       anyAttribs  = decode:attrs(Props, DT)
@@ -104,8 +104,8 @@ to_episodeOfCare.Diagnosis(Props) ->
     }.
 
 
-to_episodeOfCare.StatusHistory({Props}) -> to_episodeOfCare.StatusHistory({Props});
-to_episodeOfCare.StatusHistory(Props) ->
+to_episodeOfCare_statusHistory({Props}) -> to_episodeOfCare_statusHistory({Props});
+to_episodeOfCare_statusHistory(Props) ->
   DT = decode:xsd_info(<<"EpisodeOfCare.StatusHistory">>),
   #'EpisodeOfCare.StatusHistory'{ 
       anyAttribs  = decode:attrs(Props, DT)

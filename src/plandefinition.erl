@@ -172,7 +172,7 @@ to_planDefinition(Props) ->
     , extension        = decode:value(<<"extension">>, Props, DT)
     , modifierExtension = decode:value(<<"modifierExtension">>, Props, DT)
     , url  = decode:value(<<"url">>, Props, DT)
-	'identifier' 
+	, 'identifier' = decode:value(<<"identifier">>, Props, DT)
     , version  = decode:value(<<"version">>, Props, DT)
     , name  = decode:value(<<"name">>, Props, DT)
     , title  = decode:value(<<"title">>, Props, DT)
@@ -208,8 +208,8 @@ to_planDefinition(Props) ->
 %%====================================================================
 %% Internal functions
 %%====================================================================
-to_planDefinition.DynamicValue({Props}) -> to_planDefinition.DynamicValue(Props);
-to_planDefinition.DynamicValue(Props) ->
+to_planDefinition_dynamicValue({Props}) -> to_planDefinition_dynamicValue(Props);
+to_planDefinition_dynamicValue(Props) ->
   DT = decode:xsd_info(<<"PlanDefinition.DynamicValue">>),
   #'PlanDefinition.DynamicValue'{ 
       anyAttribs  = decode:attrs(Props, DT)
@@ -221,8 +221,8 @@ to_planDefinition.DynamicValue(Props) ->
     }.
 
 
-to_planDefinition.Participant({Props}) -> to_planDefinition.Participant(Props);
-to_planDefinition.Participant(Props) ->
+to_planDefinition_participant({Props}) -> to_planDefinition_participant(Props);
+to_planDefinition_participant(Props) ->
   DT = decode:xsd_info(<<"PlanDefinition.Participant">>),
   #'PlanDefinition.Participant'{ 
       anyAttribs  = decode:attrs(Props, DT)
@@ -234,8 +234,8 @@ to_planDefinition.Participant(Props) ->
     }.
 
 
-to_planDefinition.RelatedAction({Props}) -> to_planDefinition.RelatedAction(Props);
-to_planDefinition.RelatedAction(Props) ->
+to_planDefinition_relatedAction({Props}) -> to_planDefinition_relatedAction(Props);
+to_planDefinition_relatedAction(Props) ->
   DT = decode:xsd_info(<<"PlanDefinition.RelatedAction">>),
   #'PlanDefinition.RelatedAction'{ 
       anyAttribs  = decode:attrs(Props, DT)
@@ -248,8 +248,8 @@ to_planDefinition.RelatedAction(Props) ->
     }.
 
 
-to_planDefinition.Condition({Props}) -> to_planDefinition.Condition(Props);
-to_planDefinition.Condition(Props) ->
+to_planDefinition_condition({Props}) -> to_planDefinition_condition(Props);
+to_planDefinition_condition(Props) ->
   DT = decode:xsd_info(<<"PlanDefinition.Condition">>),
   #'PlanDefinition.Condition'{ 
       anyAttribs  = decode:attrs(Props, DT)
@@ -261,8 +261,8 @@ to_planDefinition.Condition(Props) ->
     }.
 
 
-to_planDefinition.Action({Props}) -> to_planDefinition.Action(Props);
-to_planDefinition.Action(Props) ->
+to_planDefinition_action({Props}) -> to_planDefinition_action(Props);
+to_planDefinition_action(Props) ->
   DT = decode:xsd_info(<<"PlanDefinition.Action">>),
   #'PlanDefinition.Action'{ 
       anyAttribs  = decode:attrs(Props, DT)
@@ -299,8 +299,8 @@ to_planDefinition.Action(Props) ->
     }.
 
 
-to_planDefinition.Target({Props}) -> to_planDefinition.Target(Props);
-to_planDefinition.Target(Props) ->
+to_planDefinition_target({Props}) -> to_planDefinition_target(Props);
+to_planDefinition_target(Props) ->
   DT = decode:xsd_info(<<"PlanDefinition.Target">>),
   #'PlanDefinition.Target'{ 
       anyAttribs  = decode:attrs(Props, DT)
@@ -313,8 +313,8 @@ to_planDefinition.Target(Props) ->
     }.
 
 
-to_planDefinition.Goal({Props}) -> to_planDefinition.Goal(Props);
-to_planDefinition.Goal(Props) ->
+to_planDefinition_goal({Props}) -> to_planDefinition_goal(Props);
+to_planDefinition_goal(Props) ->
   DT = decode:xsd_info(<<"PlanDefinition.Goal">>),
   #'PlanDefinition.Goal'{ 
       anyAttribs  = decode:attrs(Props, DT)

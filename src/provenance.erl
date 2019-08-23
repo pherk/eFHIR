@@ -62,7 +62,7 @@ to_provenance({Props}) -> to_provenance(Props);
 to_provenance(Props) ->
   DT = decode:xsd_info(<<"Provenance">>),
   #'Provenance'{ 
-      anyAttrs         = decode:attrs(Props, DT)
+      anyAttribs       = decode:attrs(Props, DT)
     , id               = decode:value(<<"id">>, Props, DT)
     , meta             = decode:value(<<"meta">>, Props, DT)
     , implicitRules    = decode:value(<<"implicitRules">>, Props, DT)
@@ -87,8 +87,8 @@ to_provenance(Props) ->
 %%====================================================================
 %% Internal functions
 %%====================================================================
-to_provenance.Entity({Props}) -> to_provenance.Entity(Props);
-to_provenance.Entity(Props) ->
+to_provenance_entity({Props}) -> to_provenance_entity(Props);
+to_provenance_entity(Props) ->
   DT = decode:xsd_info(<<"Provenance.Entity">>),
   #'Provenance.Entity'{ 
       anyAttribs  = decode:attrs(Props, DT)
@@ -101,8 +101,8 @@ to_provenance.Entity(Props) ->
     }.
 
 
-to_provenance.Agent({Props}) -> to_provenance.Agent(Props);
-to_provenance.Agent(Props) ->
+to_provenance_agent({Props}) -> to_provenance_agent(Props);
+to_provenance_agent(Props) ->
   DT = decode:xsd_info(<<"Provenance.Agent">>),
   #'Provenance.Agent'{ 
       anyAttribs  = decode:attrs(Props, DT)

@@ -266,8 +266,8 @@ to_claim(Props) ->
 %%====================================================================
 %% Internal functions
 %%====================================================================
-to_claim.SubDetail({Props}) ->  to_claim.SubDetail(Props);
-to_claim.SubDetail(Props) -> 
+to_claim_subDetail({Props}) ->  to_claim_subDetail(Props);
+to_claim_subDetail(Props) -> 
   DT = decode:xsd_info(<<"Claim.SubDetail">>),
   #'Claim.SubDetail'{ 
     anyAttribs  = decode:attrs(Props, DT)
@@ -289,8 +289,8 @@ to_claim.SubDetail(Props) ->
 
 
 
-to_claim.Detail({Props}) ->  to_claim.Detail(Props);
-to_claim.Detail(Props) -> 
+to_claim_detail({Props}) ->  to_claim_detail(Props);
+to_claim_detail(Props) -> 
   DT = decode:xsd_info(<<"Claim.Detail">>),
   #'Claim.Detail'{ 
     anyAttribs  = decode:attrs(Props, DT)
@@ -311,8 +311,8 @@ to_claim.Detail(Props) ->
     , subDetail  = decode:value(<<"subDetail">>, Props, DT)
     }.
 
-to_claim.Item({Props}) ->  to_claim.Item(Props);
-to_claim.Item(Props) -> 
+to_claim_item({Props}) ->  to_claim_item(Props);
+to_claim_item(Props) -> 
   DT = decode:xsd_info(<<"Claim.Item">>),
   #'Claim.Item'{ 
     anyAttribs  = decode:attrs(Props, DT)
@@ -343,8 +343,8 @@ to_claim.Item(Props) ->
     }.
 
 
-to_claim.Accident({Props}) ->  to_claim.Accident(Props);
-to_claim.Accident(Props) -> 
+to_claim_accident({Props}) ->  to_claim_accident(Props);
+to_claim_accident(Props) -> 
   DT = decode:xsd_info(<<"Claim.Accident">>),
   #'Claim.Accident'{ 
     anyAttribs  = decode:attrs(Props, DT)
@@ -356,8 +356,8 @@ to_claim.Accident(Props) ->
     , choice  = decode:value(<<"choice">>, Props, DT)
     }.
 
-to_claim.Insurance({Props}) ->  to_claim.Insurance(Props);
-to_claim.Insurance(Props) -> 
+to_claim_insurance({Props}) ->  to_claim_insurance(Props);
+to_claim_insurance(Props) -> 
   DT = decode:xsd_info(<<"Claim.Insurance">>),
   #'Claim.Insurance'{ 
     anyAttribs  = decode:attrs(Props, DT)
@@ -375,8 +375,8 @@ to_claim.Insurance(Props) ->
 
 
 
-to_claim.Procedure({Props}) ->  to_claim.Procedure(Props);
-to_claim.Procedure(Props) -> 
+to_claim_procedure({Props}) ->  to_claim_procedure(Props);
+to_claim_procedure(Props) -> 
   DT = decode:xsd_info(<<"Claim.Procedure">>),
   #'Claim.Procedure'{ 
     anyAttribs  = decode:attrs(Props, DT)
@@ -388,12 +388,13 @@ to_claim.Procedure(Props) ->
     , date  = decode:value(<<"date">>, Props, DT)
     , choice  = decode:value(<<"choice">>, Props, DT)
     , udi  = decode:value(<<"udi">>, Props, DT)
+    }.
 
 
-to_claim.Diagnosis({Props}) ->  to_claim.Diagnosis(Props);
-to_claim.Diagnosis(Props) -> 
-  DT = decode:xsd_info(<<"Claim.Procedure">>),
-  #'Claim.Procedure'{ 
+to_claim_diagnosis({Props}) ->  to_claim_diagnosis(Props);
+to_claim_diagnosis(Props) -> 
+  DT = decode:xsd_info(<<"Claim.Diagnosis">>),
+  #'Claim.Diagnosis'{ 
     anyAttribs  = decode:attrs(Props, DT)
     , id  = decode:value(<<"id">>, Props, DT)
     , extension  = decode:value(<<"extension">>, Props, DT)
@@ -406,8 +407,8 @@ to_claim.Diagnosis(Props) ->
     }.
 
 
-to_claim.SupportingInfo({Props}) ->  to_claim.SupportingInfo(Props);
-to_claim.SupportingInfo(Props) -> 
+to_claim_supportingInfo({Props}) ->  to_claim_supportingInfo(Props);
+to_claim_supportingInfo(Props) -> 
   DT = decode:xsd_info(<<"Claim.SupportingInfo">>),
   #'Claim.SupportingInfo'{ 
     anyAttribs  = decode:attrs(Props, DT)
@@ -424,8 +425,8 @@ to_claim.SupportingInfo(Props) ->
 
 
 
-to_claim.CareTeam({Props}) ->  to_claim.CareTeam({Props}) 
-to_claim.CareTeam(Props) ->  
+to_claim_careTeam({Props}) ->  to_claim_careTeam({Props});
+to_claim_careTeam(Props) ->  
   DT = decode:xsd_info(<<"Claim.CareTeam">>),
   #'Claim.CareTeam'{ 
     anyAttribs  = decode:attrs(Props, DT)
@@ -441,8 +442,8 @@ to_claim.CareTeam(Props) ->
 
 
 
-to_claim.Payee({Props}) ->  to_claim.Payee(Props);
-to_claim.Payee(Props) -> 
+to_claim_payee({Props}) ->  to_claim_payee(Props);
+to_claim_payee(Props) -> 
   DT = decode:xsd_info(<<"Claim.Payee">>),
   #'Claim.Payee'{ 
     anyAttribs  = decode:attrs(Props, DT)
@@ -451,10 +452,11 @@ to_claim.Payee(Props) ->
     , modifierExtension  = decode:value(<<"modifierExtension">>, Props, DT)
     , type  = decode:value(<<"type">>, Props, DT)
     , party  = decode:value(<<"party">>, Props, DT)
+    }.
 
 
-to_claim.Related({Props}) ->  to_claim.Related(Props);
-to_claim.Related(Props) -> 
+to_claim_related({Props}) ->  to_claim_related(Props);
+to_claim_related(Props) -> 
   DT = decode:xsd_info(<<"Claim.Related">>),
   #'Claim.Related'{ 
     anyAttribs  = decode:attrs(Props, DT)

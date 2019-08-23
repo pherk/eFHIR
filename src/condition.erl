@@ -99,8 +99,8 @@ to_condition(Props) ->
 %%====================================================================
 %% Internal functions
 %%====================================================================
-to_condition.Evidence({Props}) ->  to_condition.Evidence(Props);
-to_condition.Evidence(Props) -> 
+to_condition_evidence({Props}) ->  to_condition_evidence(Props);
+to_condition_evidence(Props) -> 
   DT = decode:xsd_info(<<"Condition.Evidence">>),
   #'Condition.Evidence'{ 
     anyAttribs  = decode:attrs(Props, DT)
@@ -111,8 +111,8 @@ to_condition.Evidence(Props) ->
     , detail  = decode:value(<<"detail">>, Props, DT)
     }.
 
-to_condition.Stage({Props}) ->  to_condition.Stage(Props);
-to_condition.Stage(Props) -> 
+to_condition_stage({Props}) ->  to_condition_stage(Props);
+to_condition_stage(Props) -> 
   DT = decode:xsd_info(<<"Condition.Stage">>),
   #'Condition.Stage'{ 
     anyAttribs  = decode:attrs(Props, DT)
@@ -122,6 +122,7 @@ to_condition.Stage(Props) ->
     , summary  = decode:value(<<"summary">>, Props, DT)
     , assessment  = decode:value(<<"assessment">>, Props, DT)
     , type  = decode:value(<<"type">>, Props, DT)
+    }.
 
 text(#'Condition'{text=N}) -> 
     special:narrative(N).

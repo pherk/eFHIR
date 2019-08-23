@@ -76,8 +76,8 @@ to_practitioner(Props) ->
 %%====================================================================
 %% Internal functions
 %%====================================================================
-to_practitioner.Qualification({Props}) -> to_practitioner.Qualification(Props);
-to_practitioner.Qualification(Props) ->
+to_practitioner_qualification({Props}) -> to_practitioner_qualification(Props);
+to_practitioner_qualification(Props) ->
   DT = decode:xsd_info(<<"Practitioner.Qulification">>),
   #'Practitioner.Qualification'{
       anyAttribs  = decode:attrs(Props, DT)
@@ -106,17 +106,14 @@ text(#'Practitioner'{text=N}) ->
 
 practitioner_to_test() ->
     ?asrtto([{<<"id">>, <<"p-21666">>}],
-         {'Practitioner',<<"p-21666">>,undefined,undefined, undefined, 
-                  undefined,[], [], [],
-                          [],undefined,[],[],undefined,undefined,
-                          undefined,undefined,[],undefined,undefined,
-                          undefined,[],[],[],[],undefined,[]}).
+            {'Practitioner',[],<<"p-21666">>,undefined,undefined,
+                                 undefined,undefined,[],[],[],[],undefined,[],
+                                 [],[],undefined,undefined,[],[],[]}).
 practitioner_toprop_test() ->
-    ?asrtp({'Practitioner',<<"p-21666">>,undefined,undefined,undefined, 
-                  undefined, [],[], [],
-                          [],undefined,[],[],undefined,undefined,
-                          undefined,undefined,[],undefined,undefined,
-                          undefined,[],[],[],[],undefined, []},
+    ?asrtp(
+           {'Practitioner',[],<<"p-21666">>,undefined,undefined,
+                                 undefined,undefined,[],[],[],[],undefined,[],
+                                 [],[],undefined,undefined,[],[],[]},
            {[{<<"resourceType">>,<<"Practitioner">>},
               {<<"id">>,<<"p-21666">>}
             ]}).

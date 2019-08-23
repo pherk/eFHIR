@@ -107,7 +107,6 @@
 	location :: ['Encounter.Location'()] | undefined,
 	serviceProvider :: special:'Reference'() | undefined,
 	partOf :: special:'Reference'() | undefined}).
-    }.
 
 
 %%
@@ -157,8 +156,8 @@ to_encounter(Props) ->
 %%====================================================================
 %% Internal functions
 %%====================================================================
-to_encounter.Location({Props}) -> to_encounter.Location(Props);
-to_encounter.Location(Props) ->
+to_encounter_location({Props}) -> to_encounter_location(Props);
+to_encounter_location(Props) ->
   DT = decode:xsd_info(<<"Encounter.Location">>),
   #'Encounter.Location'{ 
       anyAttribs  = decode:attrs(Props, DT)
@@ -172,8 +171,8 @@ to_encounter.Location(Props) ->
     }.
 
 
-to_encounter.Hospitalization({Props}) -> to_encounter.Hospitalization(Props);
-to_encounter.Hospitalization(Props) ->
+to_encounter_hospitalization({Props}) -> to_encounter_hospitalization(Props);
+to_encounter_hospitalization(Props) ->
   DT = decode:xsd_info(<<"Encounter.Hospitalization">>),
   #'Encounter.Hospitalization'{ 
       anyAttribs  = decode:attrs(Props, DT)
@@ -192,8 +191,8 @@ to_encounter.Hospitalization(Props) ->
     }.
 
 
-to_encounter.Diagnosis({Props}) -> to_encounter.Diagnosis(Props);
-to_encounter.Diagnosis(Props) ->
+to_encounter_diagnosis({Props}) -> to_encounter_diagnosis(Props);
+to_encounter_diagnosis(Props) ->
   DT = decode:xsd_info(<<"Encounter.Diagnosis">>),
   #'Encounter.Diagnosis'{ 
       anyAttribs  = decode:attrs(Props, DT)
@@ -203,9 +202,10 @@ to_encounter.Diagnosis(Props) ->
     , condition  = decode:value(<<"condition">>, Props, DT)
     , use  = decode:value(<<"use">>, Props, DT)
     , rank  = decode:value(<<"rank">>, Props, DT)
+    }.
 
-to_encounter.Participant({Props}) -> to_encounter.Participant(Props);
-to_encounter.Participant(Props) ->
+to_encounter_participant({Props}) -> to_encounter_participant(Props);
+to_encounter_participant(Props) ->
   DT = decode:xsd_info(<<"Encounter.Participant">>),
   #'Encounter.Participant'{ 
       anyAttribs  = decode:attrs(Props, DT)
@@ -217,8 +217,8 @@ to_encounter.Participant(Props) ->
     , individual  = decode:value(<<"individual">>, Props, DT)
     }.
 
-to_encounter.ClassHistory({Props}) -> to_encounter.ClassHistory(Props);
-to_encounter.ClassHistory(Props) ->
+to_encounter_classHistory({Props}) -> to_encounter_classHistory(Props);
+to_encounter_classHistory(Props) ->
   DT = decode:xsd_info(<<"Encounter.ClassHistory">>),
   #'Encounter.ClassHistory'{ 
       anyAttribs  = decode:attrs(Props, DT)
@@ -229,8 +229,8 @@ to_encounter.ClassHistory(Props) ->
     , period  = decode:value(<<"period">>, Props, DT)
     }.
 
-to_encounter.StatusHistory({Props}) -> to_encounter.StatusHistory(Props);
-to_encounter.StatusHistory(Props) ->
+to_encounter_statusHistory({Props}) -> to_encounter_statusHistory(Props);
+to_encounter_statusHistory(Props) ->
   DT = decode:xsd_info(<<"Encounter.StatusHistory">>),
   #'Encounter.StatusHistory'{ 
       anyAttribs  = decode:attrs(Props, DT)

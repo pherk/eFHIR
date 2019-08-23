@@ -124,8 +124,8 @@ to_imagingStudy(Props) ->
 %%====================================================================
 %% Internal functions
 %%====================================================================
-to_imagingStudy.Instance({Props}) -> to_imagingStudy.Instance(Props);
-to_imagingStudy.Instance(Props) ->
+to_imagingStudy_instance({Props}) -> to_imagingStudy_instance(Props);
+to_imagingStudy_instance(Props) ->
   DT = decode:xsd_info(<<"ImagingStudy.Instance">>),
   #'ImagingStudy.Instance'{ 
       anyAttribs  = decode:attrs(Props, DT)
@@ -140,8 +140,8 @@ to_imagingStudy.Instance(Props) ->
 
 
 
-to_imagingStudy.Performer({Props}) -> to_imagingStudy.Performer(Props);
-to_imagingStudy.Performer(Props) ->
+to_imagingStudy_performer({Props}) -> to_imagingStudy_performer(Props);
+to_imagingStudy_performer(Props) ->
   DT = decode:xsd_info(<<"ImagingStudy.Performer">>),
   #'ImagingStudy.Performer'{ 
       anyAttribs  = decode:attrs(Props, DT)
@@ -153,8 +153,8 @@ to_imagingStudy.Performer(Props) ->
     }.
 
 
-to_imagingStudy.Series({Props}) -> to_imagingStudy.Series(Props);
-to_imagingStudy.Series(Props) ->
+to_imagingStudy_series({Props}) -> to_imagingStudy_series(Props);
+to_imagingStudy_series(Props) ->
   DT = decode:xsd_info(<<"ImagingStudy.Series">>),
   #'ImagingStudy.Series'{ 
       anyAttribs  = decode:attrs(Props, DT)

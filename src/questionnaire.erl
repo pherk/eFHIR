@@ -144,8 +144,8 @@ to_questionnaire(Props) ->
 %%====================================================================
 %% Internal functions
 %%====================================================================
-to_questionnaire.Initial({Props}) -> to_questionnaire.Initial(Props);
-to_questionnaire.Initial(Props) ->
+to_questionnaire_initial({Props}) -> to_questionnaire_initial(Props);
+to_questionnaire_initial(Props) ->
   DT = decode:xsd_info(<<"Questionnaire.Initial">>),
   #'Questionnaire.Initial'{ 
       anyAttribs  = decode:attrs(Props, DT)
@@ -156,8 +156,8 @@ to_questionnaire.Initial(Props) ->
     }.
 
 
-to_questionnaire.AnswerOption({Props}) -> to_questionnaire.AnswerOption(Props);
-to_questionnaire.AnswerOption(Props) ->
+to_questionnaire_answerOption({Props}) -> to_questionnaire_answerOption(Props);
+to_questionnaire_answerOption(Props) ->
   DT = decode:xsd_info(<<"Questionnaire.AnswerOption">>),
   #'Questionnaire.AnswerOption'{ 
       anyAttribs  = decode:attrs(Props, DT)
@@ -169,8 +169,8 @@ to_questionnaire.AnswerOption(Props) ->
     }.
 
 
-to_questionnaire.EnableWhen({Props}) -> to_questionnaire.EnableWhen(Props);
-to_questionnaire.EnableWhen(Props) ->
+to_questionnaire_enableWhen({Props}) -> to_questionnaire_enableWhen(Props);
+to_questionnaire_enableWhen(Props) ->
   DT = decode:xsd_info(<<"Questionnaire.EnableWhen">>),
   #'Questionnaire.EnableWhen'{ 
       anyAttribs  = decode:attrs(Props, DT)
@@ -183,8 +183,8 @@ to_questionnaire.EnableWhen(Props) ->
     }.
 
 
-to_questionnaire.Item({Props}) -> to_questionnaire.Item(Props);
-to_questionnaire.Item(Props) ->
+to_questionnaire_item({Props}) -> to_questionnaire_item(Props);
+to_questionnaire_item(Props) ->
   DT = decode:xsd_info(<<"Questionnaire.Item">>),
   #'Questionnaire.Item'{ 
       anyAttribs  = decode:attrs(Props, DT)
@@ -225,20 +225,23 @@ text(#'Questionnaire'{text=N}) ->
 -define(asrtjson(A, B), ?assertEqual(B, jiffy:encode(encode:to_proplist(A)))).
 
 questionnaire_to_test() ->
-    ?asrtto([{<<"id">>, <<"p-21666">>}],
-         {'Questionnaire',<<"p-21666">>,undefined,undefined, undefined, 
-                  undefined,[], [], [],
-                          [],undefined,[],[],undefined,undefined,
-                          undefined,undefined,[],undefined,undefined,
-                          undefined,[],[],[],[],undefined,[]}).
+    ?asrtto([{<<"id">>, <<"p-21666">>},{<<"status">>,<<"active">>}],
+            {'Questionnaire',[],<<"p-21666">>,undefined,undefined, undefined,undefined,[],[],[],
+              undefined,[], undefined,undefined,undefined,[],<<"active">>,
+                                  undefined,[],undefined,undefined,[],
+                                  undefined,[],[],undefined,undefined,
+                                  undefined,undefined,undefined,[],[]}).
+
 questionnaire_toprop_test() ->
-    ?asrtp({'Questionnaire',<<"p-21666">>,undefined,undefined,undefined, 
-                  undefined, [],[], [],
-                          [],undefined,[],[],undefined,undefined,
-                          undefined,undefined,[],undefined,undefined,
-                          undefined,[],[],[],[],undefined, []},
+    ?asrtp(
+           {'Questionnaire',[],<<"p-21666">>,undefined,undefined, undefined,undefined,[],[],[],
+              undefined,[], undefined,undefined,undefined,[],<<"active">>,
+                                  undefined,[],undefined,undefined,[],
+                                  undefined,[],[],undefined,undefined,
+                                  undefined,undefined,undefined,[],[]},
            {[{<<"resourceType">>,<<"Questionnaire">>},
-              {<<"id">>,<<"p-21666">>}
+              {<<"id">>,<<"p-21666">>},
+              {<<"status">>, <<"active">>}
             ]}).
 
 questionnaire_json_test() ->

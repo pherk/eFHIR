@@ -42,30 +42,57 @@ to_time({Bin}) -> Bin;
 to_time(Bin) -> Bin.
 
 
-value(Key, Props, {Base,FI,Attrs,Restriction}=DT) ->
-%    io:format("value0: ~s~n",[Key]),
+value(Key, Props, {Base,FI,Attrs,Restriction}=DT) when is_list(Props)->
+    % io:format("value0: ~s~n",[Key]),
     BFI = resolve_base(Base,FI),
-%    io:format("value1: ~p~n",[BFI]),
-    {Type,Occurs} = proplists:get_value(Key, BFI),
-%    io:format("get_value2: ~s: ~p~n",[Key, {Type,Occurs}]),
-%    io:format("get_value3: ~s: ~p~n",[Key, Props]),
+    % io:format("value1: ~p~n",[BFI]),
+    PropInfo = proplists:get_value(Key, BFI),
+    analyse_propinfo(PropInfo, Key, Props);
+value(Key, Props, {Base,FI,Attrs,Restriction}=DT) ->
+    throw(<<"proplists error, input malformat">>).
+
+analyse_propinfo(Choice, Key, Props) when is_list(Choice) ->
+    io:format("api1: ~p~n",[Choice]),
+    ChoiceKeys = proplists:get_keys(Choice),
+    CVs = check_choices(ChoiceKeys, Props),
+    io:format("api4: ~p~n",[CVs]),
+    case CVs of
+        []         -> undefined;
+        [{K, V}|_] ->
+            {Type,optional} = proplists:get_value(K, Choice),
+            match_propinfo(Type, optional, V);
+        [_,_|_]    ->
+            throw(<<"error in fhir:decode(): more than one of a choice type in resource">>)
+    end;
+analyse_propinfo({Type, Occurs}, Key, Props) ->
     Value = proplists:get_value(erlang_to_fhir(Key), Props),
-%    io:format("get_value4: ~p~n",[Value]),
+    match_propinfo(Type, Occurs, Value).
+
+check_choices(Keys, Props) ->
+    lists:filtermap(fun(K) -> case proplists:get_value(K, Props) of
+                                  undefined -> false;
+                                  V         -> {true, {K, V}}
+                              end end, Keys).
+
+match_propinfo(Type, Occurs, Value) ->
     case {Value,Occurs} of
-        {undefined, optional}       -> undefined;
-        {undefined, required}       -> error;
-        {undefined, list}           -> [];
-        {undefined, non_empty_list} -> error;
-        {Value,     optional}       -> validate(Type,Value);
-        {Value,     required}       -> validate(Type,Value);
-        {Value,     list}           -> Fun = get_fun(Type), lists:map(Fun, Value);
-        {Value,     non_empty_list} -> Fun = get_fun(Type), lists:map(Fun, Value)
+                {undefined, optional}       -> undefined;
+                {undefined, required}       -> error;
+                {undefined, list}           -> [];
+                {undefined, non_empty_list} -> error;
+                {Value,     optional}       -> validate(Type,Value);
+                {Value,     required}       -> 
+            io:format("mpi_required: ~p : ~p~n",[Type, Value]), validate(Type,Value);
+                {Value,     list}           -> Fun = get_fun(Type), lists:map(Fun, Value);
+                {Value,     non_empty_list} -> Fun = get_fun(Type), lists:map(Fun, Value)
     end.
 
 resourceType({EJson}) -> resourceType(EJson);
 resourceType(EJson) ->
      proplists:get_value(<<"resourceType">>,EJson).
 
+attrs(Props, {Base,FI,Attrs,Restriction}=DT) ->
+    [].
 
 %%====================================================================
 %% Internal functions

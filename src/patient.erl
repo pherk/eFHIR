@@ -5,7 +5,7 @@
 -include("codes.hrl").
 
 -record('Patient', {
-      anyAttribs :: anyAttribs(),
+      anyAttribs :: anyAttribs()
     , id          :: binary()
     , meta        :: special:'Meta'()
     , implicitRules :: uri()
@@ -36,10 +36,10 @@
 -opaque 'Patient'() :: #'Patient'{}.
 
 -record('Patient.Contact', {
-    anyAttribs :: anyAttribs(),
-	id :: string() | undefined,
-	extension :: [extensios:'Extension'()] | undefined,
-	modifierExtension :: [extensions:'Extension'()] | undefined,
+      anyAttribs :: anyAttribs()
+	, id :: string() | undefined
+	, extension :: [extensios:'Extension'()] | undefined
+	, modifierExtension :: [extensions:'Extension'()] | undefined
 	, relationship :: [complex:'CodeableConcept'()]
     , name         :: complex:'HumanName'()
     , telecom      :: [complex:'ContactPoint'()]
@@ -51,20 +51,20 @@
 -opaque 'Patient.Contact'() :: #'Patient.Contact'{}.
 
 -record('Patient.Communication', {
-    anyAttribs :: anyAttribs(),
-	id :: string() | undefined,
-	extension :: [extensios:'Extension'()] | undefined,
-	modifierExtension :: [extensions:'Extension'()] | undefined,
+      anyAttribs :: anyAttribs()
+	, id :: string() | undefined
+	, extension :: [extensios:'Extension'()] | undefined
+	, modifierExtension :: [extensions:'Extension'()] | undefined
     , language :: complex:'CodeableCOncept'()
     , preferred :: boolean()
     }).
 -opaque 'Patient.Communication'() :: #'Patient.Communication'{}.
 
 -record('Patient.Link', {
-    anyAttribs :: anyAttribs(),
-	id :: string() | undefined,
-	extension :: [extensios:'Extension'()] | undefined,
-	modifierExtension :: [extensions:'Extension'()] | undefined,
+      anyAttribs :: anyAttribs()
+	, id :: string() | undefined
+	, extension :: [extensios:'Extension'()] | undefined
+	, modifierExtension :: [extensions:'Extension'()] | undefined
     , other :: special:'Reference'()
     , type  :: code()
     }). 

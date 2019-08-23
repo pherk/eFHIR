@@ -1,5 +1,6 @@
 -module(special).
 -compile(export_all).
+-include("fhir.hrl").
 -include("primitives.hrl").
 %%
 %% API exports
@@ -13,14 +14,16 @@
 %%   - Special Datatypes
 %%
 -record('Narrative', {
-      extension     :: [extensions:'Extension'()]
+      anyAttribs  :: anyAttribs()
+    , extension     :: [extensions:'Extension'()]
     , status :: binary()
     , 'div' :: binary()
     }).
 -opaque 'Narrative'() :: #'Narrative'{}.
 
 -record('Meta', {
-      extension     :: [extensions:'Extension'()]
+      anyAttribs  :: anyAttribs()
+    , extension     :: [extensions:'Extension'()]
     , versionId = 0 :: positiveInt()
     , lastUpdated   :: dateTime()
     , source        :: binary()
@@ -31,9 +34,12 @@
 -opaque 'Meta'()   :: #'Meta'{}.
 
 -record('Reference', {
-       extension   :: [extensions:'Extension'()]
-     , 'reference' :: binary()
-     , display     :: binary()
+      anyAttribs  :: anyAttribs()
+    , extension   :: [extensions:'Extension'()]
+    , 'reference' :: binary()
+    , type        :: uri()
+    , 'identifier' :: complex:'Identifier'()
+    , display     :: binary()
 }).
 -opaque 'Reference'()    :: #'Reference'{}.
 
@@ -46,7 +52,8 @@ to_narrative(Props) ->
     DT = decode:xsd_info(<<"Narrative">>),
     io:format("~p~n~p~n",[Props,DT]),
     #'Narrative'{
-        extension = decode:value(<<"extension">>, Props, DT)
+        anyAttribs = decode:attrs(Props, DT)
+      , extension = decode:value(<<"extension">>, Props, DT)
       , status = decode:value(<<"status">>, Props, DT)
       , 'div'   = decode:value(<<"div">>, Props, DT)
       }.
@@ -56,7 +63,8 @@ to_meta(Props) ->
     DT = decode:xsd_info(<<"Meta">>),
     io:format("~p~n~p~n",[Props,DT]),
     #'Meta'{
-        extension    = decode:value(<<"extension">>, Props, DT)
+        anyAttribs = decode:attrs(Props, DT)
+      , extension    = decode:value(<<"extension">>, Props, DT)
       , versionId    = decode:value(<<"versionId">>, Props, DT)
       , lastUpdated  = decode:value(<<"lastUpdated">>, Props, DT)
       , source       = decode:value(<<"source">>, Props, DT)
@@ -68,11 +76,14 @@ to_meta(Props) ->
 to_reference({Props}) -> to_reference(Props);
 to_reference(Props) ->
     DT = decode:xsd_info(<<"Reference">>),
-    io:format("~p~n~p~n",[Props,DT]),
+    io:format("ref: ~p~n~p~n",[Props,DT]),
     #'Reference'{
-        extension  = decode:value(<<"extension">>, Props, DT)
+        anyAttribs  = decode:attrs(Props, DT)
+      , extension   = decode:value(<<"extension">>, Props, DT)
       , 'reference' = decode:value(<<"reference">>, Props, DT)
-      , display    = decode:value(<<"display">>, Props, DT)
+      , type        = decode:value(<<"type">>, Props, DT)
+      , 'identifier' =  decode:value(<<"identifier">>, Props, DT)
+      , display     = decode:value(<<"display">>, Props, DT)
       }.
 
 %%
@@ -103,11 +114,11 @@ complex_meta_test() ->
                                              {[{<<"reference">>, <<"metis/practitioners/u-vkr">>},
                                                {<<"display">>, <<"von Kleist-Retzow, JÃ¼rgen-Christoph">>}]}}]}]}
                              ]}),
-            {'Meta',
+            {'Meta', [],
                  [{'Extension',
                      <<"http://eNahar.org/nabu/extension#lastUpdatedBy">>,
                      {valueReference,
-                         {'Reference',[], <<"metis/practitioners/u-vkr">>, <<"von Kleist-Retzow, JÃ¼rgen-Christoph">>}}}],
+                         {'Reference',[], [], <<"metis/practitioners/u-vkr">>, undefined, undefined, <<"von Kleist-Retzow, JÃ¼rgen-Christoph">>}}}],
                  <<"999">>,<<"2019-07-14T09:10:10">>,undefined, [], [], 
                  [{'Coding', <<"http://eNahar.org/test">>,undefined,<<"hello">>,undefined,undefined}]
            }).

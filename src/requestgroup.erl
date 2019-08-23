@@ -52,7 +52,8 @@
 -type 'RequestGroup.Action'() :: #'RequestGroup.Action'{}.
 
 
--record('RequestGroup', {anyAttribs :: anyAttribs(),
+-record('RequestGroup', {
+    anyAttribs :: anyAttribs(),
 	id :: id() | undefined,
 	meta :: special:'Meta'() | undefined,
 	implicitRules :: uri() | undefined,
@@ -129,8 +130,8 @@ to_requestGroup(Props) ->
 %%====================================================================
 %% Internal functions
 %%====================================================================
-to_requestGroup.RelatedAction({Props}) -> to_requestGroup.RelatedAction(Props);
-to_requestGroup.RelatedAction(Props) ->
+to_requestGroup_relatedAction({Props}) -> to_requestGroup_relatedAction(Props);
+to_requestGroup_relatedAction(Props) ->
   DT = decode:xsd_info(<<"RequestGroup.RelatedAction">>),
   #'RequestGroup.RelatedAction'{ 
       anyAttribs  = decode:attrs(Props, DT)
@@ -143,8 +144,8 @@ to_requestGroup.RelatedAction(Props) ->
     }.
 
 
-to_requestGroup.Condition({Props}) -> to_requestGroup.Condition(Props);
-to_requestGroup.Condition(Props) ->
+to_requestGroup_condition({Props}) -> to_requestGroup_condition(Props);
+to_requestGroup_condition(Props) ->
   DT = decode:xsd_info(<<"RequestGroup.Condition">>),
   #'RequestGroup.Condition'{ 
       anyAttribs  = decode:attrs(Props, DT)
@@ -156,8 +157,8 @@ to_requestGroup.Condition(Props) ->
     }.
 
 
-to_requestGroup.Action({Props}) -> to_requestGroup.Action(Props);
-to_requestGroup.Action(Props) ->
+to_requestGroup_action({Props}) -> to_requestGroup_action(Props);
+to_requestGroup_action(Props) ->
   DT = decode:xsd_info(<<"RequestGroup.Action">>),
   #'RequestGroup.Action'{ 
       anyAttribs  = decode:attrs(Props, DT)
@@ -197,25 +198,26 @@ text(#'RequestGroup'{text=N}) ->
 
 -include_lib("eunit/include/eunit.hrl").
 
--define(asrtto(A, B), ?assertEqual(B, requestGroup:to_requestGroup(A))).
+-define(asrtto(A, B), ?assertEqual(B, requestgroup:to_requestGroup(A))).
 -define(asrtp(A, B), ?assertEqual(B, encode:to_proplist(A))).
 -define(asrtjson(A, B), ?assertEqual(B, jiffy:encode(encode:to_proplist(A)))).
 
 requestGroup_to_test() ->
-    ?asrtto([{<<"id">>, <<"p-21666">>}],
-         {'RequestGroup',<<"p-21666">>,undefined,undefined, undefined, 
-                  undefined,[], [], [],
-                          [],undefined,[],[],undefined,undefined,
-                          undefined,undefined,[],undefined,undefined,
-                          undefined,[],[],[],[],undefined,[]}).
+    ?asrtto([{<<"id">>, <<"p-21666">>},{<<"status">>,<<"requested">>},{<<"intent">>,<<"order">>}],
+         {'RequestGroup',[],<<"p-21666">>,undefined,undefined, undefined,undefined,[],[],[],[],
+          [],[],[],[], undefined,<<"requested">>,<<"order">>,undefined,undefined,
+                                 undefined,undefined,undefined,undefined,[],
+                                 [],[],[]}).
 requestGroup_toprop_test() ->
-    ?asrtp({'RequestGroup',<<"p-21666">>,undefined,undefined,undefined, 
-                  undefined, [],[], [],
-                          [],undefined,[],[],undefined,undefined,
-                          undefined,undefined,[],undefined,undefined,
-                          undefined,[],[],[],[],undefined, []},
+    ?asrtp(
+         {'RequestGroup',[],<<"p-21666">>,undefined,undefined, undefined,undefined,[],[],[],[],
+          [],[],[],[], undefined,<<"requested">>,<<"order">>,undefined,undefined,
+                                 undefined,undefined,undefined,undefined,[],
+                                 [],[],[]},
            {[{<<"resourceType">>,<<"RequestGroup">>},
-              {<<"id">>,<<"p-21666">>}
+              {<<"id">>,<<"p-21666">>},
+              {<<"status">>,<<"requested">>},
+              {<<"intent">>,<<"order">>}
             ]}).
 
 requestGroup_json_test() ->

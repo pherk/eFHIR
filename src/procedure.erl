@@ -26,7 +26,8 @@
 -type 'Procedure.Performer'() :: #'Procedure.Performer'{}.
 
 
--record('Procedure', {anyAttribs :: anyAttribs(),
+-record('Procedure', {
+    anyAttribs :: anyAttribs(),
 	id :: id() | undefined,
 	meta :: special:'Meta'() | undefined,
 	implicitRules :: uri() | undefined,
@@ -46,7 +47,7 @@
 	code :: complex:'CodeableConcept'() | undefined,
 	subject :: special:'Reference'(),
 	encounter :: special:'Reference'() | undefined,
-	choice :: string() | complex:'Range'() | complex:'Period'() | dateTime() | complex:'Age'() | undefined,
+	performed :: string() | complex:'Range'() | complex:'Period'() | dateTime() | complex:'Age'() | undefined,
 	recorder :: special:'Reference'() | undefined,
 	asserter :: special:'Reference'() | undefined,
 	performer :: [complex:'Procedure.Performer'()] | undefined,
@@ -74,13 +75,11 @@
 %%====================================================================
 %% API functions
 %%====================================================================
-
-
 to_procedure({Props}) -> to_procedure(Props);
 to_procedure(Props) ->
   DT = decode:xsd_info(<<"Procedure">>),
   #'Procedure'{ 
-      anyAttrs         = decode:attrs(Props, DT)
+      anyAttribs       = decode:attrs(Props, DT)
     , id               = decode:value(<<"id">>, Props, DT)
     , meta             = decode:value(<<"meta">>, Props, DT)
     , implicitRules    = decode:value(<<"implicitRules">>, Props, DT)
@@ -100,7 +99,7 @@ to_procedure(Props) ->
     , code  = decode:value(<<"code">>, Props, DT)
     , subject  = decode:value(<<"subject">>, Props, DT)
     , encounter  = decode:value(<<"encounter">>, Props, DT)
-    , choice  = decode:value(<<"choice">>, Props, DT)
+    , performed  = decode:value(<<"performed">>, Props, DT)
     , recorder  = decode:value(<<"recorder">>, Props, DT)
     , asserter  = decode:value(<<"asserter">>, Props, DT)
     , performer  = decode:value(<<"performer">>, Props, DT)
@@ -123,8 +122,8 @@ to_procedure(Props) ->
 %%====================================================================
 %% Internal functions
 %%====================================================================
-to_procedure.FocalDevice({Props}) -> to_procedure.FocalDevice(Props);
-to_procedure.FocalDevice(Props) ->
+to_procedure_focalDevice({Props}) -> to_procedure_focalDevice(Props);
+to_procedure_focalDevice(Props) ->
   DT = decode:xsd_info(<<"Procedure.FocalDevice">>),
   #'Procedure.FocalDevice'{ 
       anyAttribs  = decode:attrs(Props, DT)
@@ -135,8 +134,8 @@ to_procedure.FocalDevice(Props) ->
     , manipulated  = decode:value(<<"manipulated">>, Props, DT)
     }.
 
-to_procedure.Performer({Props}) -> to_procedure.Performer(Props);
-to_procedure.Performer(Props) ->
+to_procedure_performer({Props}) -> to_procedure_performer(Props);
+to_procedure_performer(Props) ->
   DT = decode:xsd_info(<<"Procedure.Performer">>),
   #'Procedure.Performer'{ 
       anyAttribs  = decode:attrs(Props, DT)
@@ -149,7 +148,7 @@ to_procedure.Performer(Props) ->
     }.
 
 
-text(#'ActivityDefinition'{text=N}) -> 
+text(#'Procedure'{text=N}) -> 
     special:narrative(N).
 
 %%
@@ -164,20 +163,26 @@ text(#'ActivityDefinition'{text=N}) ->
 -define(asrtjson(A, B), ?assertEqual(B, jiffy:encode(encode:to_proplist(A)))).
 
 procedure_to_test() ->
-    ?asrtto([{<<"id">>, <<"p-21666">>}],
-         {'ActivityDefinition',<<"p-21666">>,undefined,undefined, undefined, 
-                  undefined,[], [], [],
-                          [],undefined,[],[],undefined,undefined,
-                          undefined,undefined,[],undefined,undefined,
-                          undefined,[],[],[],[],undefined,[]}).
+    ?asrtto([{<<"id">>, <<"p-21666">>},{<<"status">>, <<"completed">>},{<<"subject">>,{[{<<"reference">>,<<"nabu/Patient/p-21666">>}]}}],
+             {'Procedure',[],<<"p-21666">>,undefined,undefined,undefined, undefined,[],[],[],
+              [],[],[],[],[],<<"completed">>, undefined,undefined,undefined,
+              {'Reference',[],[],<<"nabu/Patient/p-21666">>,undefined, undefined,undefined},
+                     undefined,undefined,undefined,undefined,[],undefined,[],
+                     [],[],undefined,[],[],[],[],[],[],[],[]}).
+
+
 procedure_toprop_test() ->
-    ?asrtp({'ActivityDefinition',<<"p-21666">>,undefined,undefined,undefined, 
-                  undefined, [],[], [],
-                          [],undefined,[],[],undefined,undefined,
-                          undefined,undefined,[],undefined,undefined,
-                          undefined,[],[],[],[],undefined, []},
-           {[{<<"resourceType">>,<<"ActivityDefinition">>},
-              {<<"id">>,<<"p-21666">>}
+    ?asrtp(
+           {'Procedure',[],<<"p-21666">>,undefined,undefined,undefined, undefined,[],[],[],
+              [],[],[],[],[],<<"completed">>, undefined,undefined,undefined,
+              {'Reference',[],[],<<"nabu/Patient/p-21666">>,undefined, undefined,undefined},
+                     undefined,undefined,undefined,undefined,[],undefined,[],
+                     [],[],undefined,[],[],[],[],[],[],[],[]},
+           {[{<<"resourceType">>,<<"Procedure">>},
+              {<<"id">>,<<"p-21666">>},
+              {<<"status">>, <<"completed">>},
+              {<<"subject">>,
+                  {[{<<"reference">>,<<"nabu/Patient/p-21666">>}]}}
             ]}).
 
 procedure_json_test() ->
