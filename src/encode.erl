@@ -13,10 +13,12 @@
 resolve_base(Base) -> 
     resolve_base(Base,[]).
 resolve_base(<<>>, L) -> L;
-resolve_base(<<"BackboneElement">>, L) -> L;
+resolve_base(<<"BackboneElement">>, L) ->
+    {NewBase, BI, Attrs, Restrictions} = xsd_info(<<"BackboneElement">>),
+    resolve_base(NewBase, Attrs++BI++L);
 resolve_base(Base, L) -> 
     {NewBase, BI, Attrs, Restrictions} = xsd_info(Base),
-    resolve_base(NewBase, BI++L).
+    resolve_base(NewBase, Attrs++BI++L).
 
 erlang_to_fhir(<<"when_">>) -> <<"when">>;
 erlang_to_fhir(Key) -> Key.
@@ -40,7 +42,7 @@ get_type(ResourceName) ->
 rec_info(XSDType) -> 
     {Base,FI,Attrs,Restrictions} = xsd_info(XSDType), 
     BFI = resolve_base(Base,FI),
-    % io:format("r_i: ~p~n",[BFI]),
+    io:format("r_i: ~p~n",[BFI]),
     keys(BFI).
 
 -spec keys(Props :: list()) -> list(). 

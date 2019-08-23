@@ -5,7 +5,7 @@
 -include("codes.hrl").
 
 -record('Provenance.Entity', {anyAttribs :: anyAttribs(),
-	id :: string() | undefined,
+	id :: id() | undefined,
 	extension :: [extensions:'Extension'()] | undefined,
 	modifierExtension :: [extensions:'Extension'()] | undefined,
 	role :: complex:'ProvenanceEntityRole'(),
@@ -16,7 +16,7 @@
 
 
 -record('Provenance.Agent', {anyAttribs :: anyAttribs(),
-	id :: string() | undefined,
+	id :: id() | undefined,
 	extension :: [extensions:'Extension'()] | undefined,
 	modifierExtension :: [extensions:'Extension'()] | undefined,
 	type :: complex:'CodeableConcept'() | undefined,
@@ -37,7 +37,7 @@
 	extension :: [extensions:'Extension'()] | undefined,
 	modifierExtension :: [extensions:'Extension'()] | undefined,
 	target :: [special:'Reference'()],
-	choice :: complex:'Period'() | dateTime() | undefined,
+	occurred :: complex:'Period'() | dateTime() | undefined,
 	recorded :: instant(),
 	policy :: [uri()] | undefined,
 	location :: special:'Reference'() | undefined,
@@ -72,7 +72,7 @@ to_provenance(Props) ->
     , extension        = decode:value(<<"extension">>, Props, DT)
     , modifierExtension = decode:value(<<"modifierExtension">>, Props, DT)
     , target  = decode:value(<<"target">>, Props, DT)
-    , choice  = decode:value(<<"choice">>, Props, DT)
+    , occurred  = decode:value(<<"occurred">>, Props, DT)
     , recorded  = decode:value(<<"recorded">>, Props, DT)
     , policy  = decode:value(<<"policy">>, Props, DT)
     , location  = decode:value(<<"location">>, Props, DT)
@@ -92,7 +92,7 @@ to_provenance_entity(Props) ->
   DT = decode:xsd_info(<<"Provenance.Entity">>),
   #'Provenance.Entity'{ 
       anyAttribs  = decode:attrs(Props, DT)
-    , id  = decode:value(<<"id">>, Props, DT)
+    , id               = decode:value(<<"id">>, Props, DT)
     , extension  = decode:value(<<"extension">>, Props, DT)
     , modifierExtension  = decode:value(<<"modifierExtension">>, Props, DT)
     , role  = decode:value(<<"role">>, Props, DT)
@@ -104,9 +104,10 @@ to_provenance_entity(Props) ->
 to_provenance_agent({Props}) -> to_provenance_agent(Props);
 to_provenance_agent(Props) ->
   DT = decode:xsd_info(<<"Provenance.Agent">>),
+  io:format("to_pa: ~p~n~p~n",[Props,DT]),
   #'Provenance.Agent'{ 
       anyAttribs  = decode:attrs(Props, DT)
-    , id  = decode:value(<<"id">>, Props, DT)
+    , id               = decode:value(<<"id">>, Props, DT)
     , extension  = decode:value(<<"extension">>, Props, DT)
     , modifierExtension  = decode:value(<<"modifierExtension">>, Props, DT)
     , type  = decode:value(<<"type">>, Props, DT)
@@ -131,20 +132,33 @@ text(#'Provenance'{text=N}) ->
 -define(asrtjson(A, B), ?assertEqual(B, jiffy:encode(encode:to_proplist(A)))).
 
 provenance_to_test() ->
-    ?asrtto([{<<"id">>, <<"p-21666">>}],
-         {'Provenance',<<"p-21666">>,undefined,undefined, undefined, 
-                  undefined,[], [], [],
-                          [],undefined,[],[],undefined,undefined,
-                          undefined,undefined,[],undefined,undefined,
-                          undefined,[],[],[],[],undefined,[]}).
+    ?asrtto([{<<"id">>, <<"p-21666">>}, {<<"target">>, [{[{<<"reference">>,<<"nabu/Patient/p-21666">>}]}]},
+             {<<"recorded">>, <<"2019-01-01T12:00:00">>},
+             {<<"agent">>, [{[{<<"who">>, {[{<<"reference">>,<<"metis/Pratitioner/u-admin">>}]}}]}]}],
+             {'Provenance',[],<<"p-21666">>,undefined,undefined, undefined,undefined,[],[],[],
+                     [{'Reference',[],[],<<"nabu/Patient/p-21666">>, undefined,undefined,undefined}],
+                     undefined,<<"2019-01-01T12:00:00">>,[],undefined,[],
+                     undefined,
+                     [{'Provenance.Agent',[],undefined,[],[],undefined,[],
+                          {'Reference',[],[],<<"metis/Pratitioner/u-admin">>, undefined,undefined,undefined},
+                          undefined}],
+                     [],[]}).
+
 provenance_toprop_test() ->
-    ?asrtp({'Provenance',<<"p-21666">>,undefined,undefined,undefined, 
-                  undefined, [],[], [],
-                          [],undefined,[],[],undefined,undefined,
-                          undefined,undefined,[],undefined,undefined,
-                          undefined,[],[],[],[],undefined, []},
+    ?asrtp(
+           {'Provenance',[],<<"p-21666">>,undefined,undefined, undefined,undefined,[],[],[],
+                     [{'Reference',[],[],<<"nabu/Patient/p-21666">>, undefined,undefined,undefined}],
+                     undefined,<<"2019-01-01T12:00:00">>,[],undefined,[],
+                     undefined,
+                     [{'Provenance.Agent',[],undefined,[],[],undefined,[],
+                          {'Reference',[],[],<<"metis/Pratitioner/u-admin">>, undefined,undefined,undefined},
+                          undefined}],
+                     [],[]},
            {[{<<"resourceType">>,<<"Provenance">>},
-              {<<"id">>,<<"p-21666">>}
+             {<<"id">>,<<"p-21666">>},
+             {<<"target">>, [{[{<<"reference">>,<<"nabu/Patient/p-21666">>}]}]},
+             {<<"recorded">>, <<"2019-01-01T12:00:00">>},
+             {<<"agent">>, [{[{<<"who">>, {[{<<"reference">>,<<"metis/Pratitioner/u-admin">>}]}}]}]}
             ]}).
 
 provenance_json_test() ->

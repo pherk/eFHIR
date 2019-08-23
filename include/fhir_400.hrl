@@ -114,7 +114,7 @@
             [
             {<<"extension">>, {{special, <<"Extension">>}, list}}
             ],
-            [{<<"id">>, <<"string">>}],
+            [{<<"id">>, {{<<"primitive">>, <<"string">>}, optional}}],
             []
 } 
 %%
@@ -9591,8 +9591,8 @@
     , <<"Provenance">> => {<<"DomainResource">>,
             [
             {<<"target">>, {{special, <<"Reference">>}, non_empty_list}},
-            {<<"occurredPeriod">>, {{complex, <<"Period">>}, optional}},
-            {<<"occurredDateTime">>, {{primitive, <<"dateTime">>}, optional}},
+            {<<"occurred">>, [ {<<"occurredPeriod">>, {{complex, <<"Period">>}, optional}},
+                               {<<"occurredDateTime">>, {{primitive, <<"dateTime">>}, optional}}]},
             {<<"recorded">>, {{primitive, <<"instant">>}, required}},
             {<<"policy">>, {{primitive, <<"uri">>}, list}},
             {<<"location">>, {{special, <<"Reference">>}, optional}},

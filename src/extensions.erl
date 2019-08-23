@@ -115,13 +115,15 @@
 %%]
 
 %%====================================================================
-to_extension_list({List}) -> to_extension(List);
+to_extension_list({List}) -> to_extension_list(List);
 to_extension_list(List) ->
-    [ to_extension(P) || P <- List].
+    io:format("el: ~p~n",[List]),
+    [ to_extension(E) || E <- List].
 
 to_extension({Props}) ->    to_extension(Props);
 to_extension(Props) ->
     % DT = ?ext_info,
+    io:format("e: ~p~n",[Props]),
     Keys = proplists:get_keys(Props),
     [ValueType] = lists:delete(<<"url">>,Keys),
     Value = proplists:get_value(ValueType,Props),

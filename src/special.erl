@@ -73,6 +73,10 @@ to_meta(Props) ->
       , tag          = decode:value(<<"tag">>, Props, DT)
       }.
 
+to_reference_list({List}) -> to_reference_list(List);
+to_reference_list(List) ->
+     [ to_reference(P) || P <- List].
+
 to_reference({Props}) -> to_reference(Props);
 to_reference(Props) ->
     DT = decode:xsd_info(<<"Reference">>),

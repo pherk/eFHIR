@@ -52,7 +52,7 @@ value(Key, Props, {Base,FI,Attrs,Restriction}=DT) ->
     throw(<<"proplists error, input malformat">>).
 
 analyse_propinfo(Choice, Key, Props) when is_list(Choice) ->
-    io:format("api1: ~p~n",[Choice]),
+    % io:format("api1: ~p~n",[Choice]),
     ChoiceKeys = proplists:get_keys(Choice),
     CVs = check_choices(ChoiceKeys, Props),
     io:format("api4: ~p~n",[CVs]),
@@ -65,6 +65,7 @@ analyse_propinfo(Choice, Key, Props) when is_list(Choice) ->
             throw(<<"error in fhir:decode(): more than one of a choice type in resource">>)
     end;
 analyse_propinfo({Type, Occurs}, Key, Props) ->
+    % io:format("api5: ~pi : ~p~n~p:~p~n",[Key, Props, Type, Occurs]),
     Value = proplists:get_value(erlang_to_fhir(Key), Props),
     match_propinfo(Type, Occurs, Value).
 
@@ -83,8 +84,10 @@ match_propinfo(Type, Occurs, Value) ->
                 {Value,     optional}       -> validate(Type,Value);
                 {Value,     required}       -> 
             io:format("mpi_required: ~p : ~p~n",[Type, Value]), validate(Type,Value);
-                {Value,     list}           -> Fun = get_fun(Type), lists:map(Fun, Value);
-                {Value,     non_empty_list} -> Fun = get_fun(Type), lists:map(Fun, Value)
+                {Value,     list}           -> 
+            io:format("mpi_list: ~p : ~p~n", [Type, Value]), Fun = get_fun(Type), lists:map(Fun, Value);
+                {Value,     non_empty_list} -> 
+            io:format("mpi_nel: ~p : ~p~n", [Type, Value]), Fun = get_fun(Type), lists:map(Fun, Value)
     end.
 
 resourceType({EJson}) -> resourceType(EJson);
@@ -103,10 +106,10 @@ resolve_base(Base) ->
 resolve_base(<<>>, L) -> L;
 resolve_base(<<"BackboneElement">>, L) ->
     {NewBase, BI, Attrs, Restrictions} = xsd_info(<<"BackboneElement">>),
-    resolve_base(NewBase, BI++L);
+    resolve_base(NewBase, Attrs++BI++L);
 resolve_base(Base, L) -> 
     {NewBase, BI, Attrs, Restrictions} = xsd_info(Base),
-    resolve_base(NewBase, BI++L).
+    resolve_base(NewBase, Attrs++BI++L).
 
 validate({primitive, <<"base64Binary">>},   Value) -> Value;
 validate({primitive, <<"boolean">>},   Value) -> Value; % utils:binary_to_boolean(Value,error);
@@ -202,15 +205,17 @@ get_fun({complex, <<"RelatedArtifact">>}) -> fun complex:to_related_artifiact/1;
 get_fun({complex, <<"TriggerDefinition">>}) -> fun complex:to_trigger_definition/1;
 get_fun({complex, <<"UsageContext">>}) -> fun complex:to_usage_context/1;
 get_fun({complex, <<"Dosage">>}) -> fun complex:to_dosage/1;
-get_fun({special,   <<"Extension">>})  -> fun extensions:to_extension_list/1;
+get_fun({special,   <<"Extension">>})  -> fun extensions:to_extension/1;
+get_fun({special,   <<"Reference">>})  -> fun special:to_reference/1;
 get_fun({bbelement, <<"Bundle.Entry">>}) -> fun bundle:to_bundle_entry/1;
 get_fun({bbelement, <<"Bundle.Link">>})  -> fun bundle:to_bundle_link/1;
 get_fun({bbelement, Resource}) ->
      R = string:lowercase(Resource),
      Mod = hd(binary:split(R, <<".">>)),
      Fun = list_to_binary([<<"to_">>,binary:replace(R,<<".">>,<<"_">>)]),
-%    io:format("validate: apply: ~s:~s(~p)~n",[Mod,Fun]),
-     fun(V) -> apply(binary_to_atom(Mod,utf8),binary_to_atom(Fun,utf8),[V]) end.
+     fun(V) ->
+            io:format("get_fun: bbe apply: ~s:~s(~p)~n",[Mod,Fun,V]),
+            apply(binary_to_atom(Mod,utf8),binary_to_atom(Fun,utf8),[V]) end.
 
 erlang_to_fhir(<<"reference_">>) -> <<"reference">>;
 erlang_to_fhir(<<"when_">>) -> <<"when">>;
