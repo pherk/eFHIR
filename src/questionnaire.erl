@@ -245,12 +245,14 @@ questionnaire_toprop_test() ->
             ]}).
 
 questionnaire_json_test() ->
-    ?asrtjson({'Questionnaire',<<"p-21666">>,undefined,undefined,undefined, 
-                  undefined, [],[], [],
-                          [],undefined,[],[],undefined,undefined,
-                          undefined,undefined,[],undefined,undefined,
-                          undefined,[],[],[],[],undefined, []},
-           <<"{\"resourceType\":\"Questionnaire\",\"id\":\"p-21666\"}">>).
+    ?asrtjson(
+            {'Questionnaire',[],<<"p-21666">>,undefined,undefined, undefined,undefined,[],[],[],
+              undefined,[], undefined,undefined,undefined,[],<<"active">>,
+                                  undefined,[],undefined,undefined,[],
+                                  undefined,[],[],undefined,undefined,
+                                  undefined,undefined,undefined,[],[]},
+             <<"{\"resourceType\":\"Questionnaire\",\"id\":\"p-21666\",\"status\":\"active\"}">>
+           ).
 
 -endif.
 

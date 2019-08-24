@@ -7,7 +7,7 @@
 	id :: string() | undefined,
 	extension :: [extensions:'Extension'()] | undefined,
 	modifierExtension :: [extensions:'Extension'()] | undefined,
-	daysOfWeek :: [complex:'DaysOfWeek'()] | undefined,
+	daysOfWeek :: [code()] | undefined,
 	allDay :: boolean() | undefined,
 	openingTime :: time() | undefined,
 	closingTime :: time() | undefined}).
@@ -32,24 +32,24 @@
 	implicitRules :: uri() | undefined,
 	language :: code() | undefined,
 	text :: special:'Narrative'() | undefined,
-	contained :: [complex:'ResourceContainer'()] | undefined,
+	contained :: [resource:'ResourceContainer'()] | undefined,
 	extension :: [extensions:'Extension'()] | undefined,
 	modifierExtension :: [extensions:'Extension'()] | undefined,
 	identifier :: [complex:'Identifier'()] | undefined,
-	status :: complex:'LocationStatus'() | undefined,
+	status :: code() | undefined,
 	operationalStatus :: complex:'Coding'() | undefined,
 	name :: string() | undefined,
 	alias :: [string()] | undefined,
 	description :: string() | undefined,
-	mode :: complex:'LocationMode'() | undefined,
+	mode :: code() | undefined,
 	type :: [complex:'CodeableConcept'()] | undefined,
 	telecom :: [complex:'ContactPoint'()] | undefined,
 	address :: complex:'Address'() | undefined,
 	physicalType :: complex:'CodeableConcept'() | undefined,
-	position :: complex:'Location.Position'() | undefined,
+	position :: 'Location.Position'() | undefined,
 	managingOrganization :: special:'Reference'() | undefined,
 	partOf :: special:'Reference'() | undefined,
-	hoursOfOperation :: [complex:'Location.HoursOfOperation'()] | undefined,
+	hoursOfOperation :: ['Location.HoursOfOperation'()] | undefined,
 	availabilityExceptions :: string() | undefined,
 	endpoint :: [special:'Reference'()] | undefined}).
 
@@ -145,27 +145,25 @@ text(#'Location'{text=N}) ->
 
 location_to_test() ->
     ?asrtto([{<<"id">>, <<"p-21666">>}],
-         {'Location',<<"p-21666">>,undefined,undefined, undefined, 
-                  undefined,[], [], [],
-                          [],undefined,[],[],undefined,undefined,
-                          undefined,undefined,[],undefined,undefined,
-                          undefined,[],[],[],[],undefined,[]}).
+            {'Location',[],<<"p-21666">>,undefined,undefined,undefined, undefined,[],[],[],
+             [],undefined,undefined, undefined,[],undefined,undefined,[],[],undefined,
+             undefined,undefined,undefined,undefined,[], undefined,[]}
+           ).
+
 location_toprop_test() ->
-    ?asrtp({'Location',<<"p-21666">>,undefined,undefined,undefined, 
-                  undefined, [],[], [],
-                          [],undefined,[],[],undefined,undefined,
-                          undefined,undefined,[],undefined,undefined,
-                          undefined,[],[],[],[],undefined, []},
+    ?asrtp(
+            {'Location',[],<<"p-21666">>,undefined,undefined,undefined, undefined,[],[],[],
+             [],undefined,undefined, undefined,[],undefined,undefined,[],[],undefined,
+             undefined,undefined,undefined,undefined,[], undefined,[]},
            {[{<<"resourceType">>,<<"Location">>},
               {<<"id">>,<<"p-21666">>}
             ]}).
 
 location_json_test() ->
-    ?asrtjson({'Location',<<"p-21666">>,undefined,undefined,undefined, 
-                  undefined, [],[], [],
-                          [],undefined,[],[],undefined,undefined,
-                          undefined,undefined,[],undefined,undefined,
-                          undefined,[],[],[],[],undefined, []},
+    ?asrtjson(
+            {'Location',[],<<"p-21666">>,undefined,undefined,undefined, undefined,[],[],[],
+             [],undefined,undefined, undefined,[],undefined,undefined,[],[],undefined,
+             undefined,undefined,undefined,undefined,[], undefined,[]},
            <<"{\"resourceType\":\"Location\",\"id\":\"p-21666\"}">>).
 
 -endif.

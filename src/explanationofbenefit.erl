@@ -9,8 +9,8 @@
 	extension :: [extensions:'Extension'()] | undefined,
 	modifierExtension :: [extensions:'Extension'()] | undefined,
 	type :: complex:'CodeableConcept'(),
-	choice :: unsignedInt() | string() | complex:'Money'() | undefined,
-	choice1 :: unsignedInt() | complex:'Money'() | undefined}).
+	allowed :: unsignedInt() | string() | complex:'Money'() | undefined,
+	used :: unsignedInt() | complex:'Money'() | undefined}).
 
 -type 'ExplanationOfBenefit.Financial'() :: #'ExplanationOfBenefit.Financial'{}.
 
@@ -26,7 +26,7 @@
 	network :: complex:'CodeableConcept'() | undefined,
 	unit :: complex:'CodeableConcept'() | undefined,
 	term :: complex:'CodeableConcept'() | undefined,
-	financial :: [complex:'ExplanationOfBenefit.Financial'()] | undefined}).
+	financial :: ['ExplanationOfBenefit.Financial'()] | undefined}).
 
 -type 'ExplanationOfBenefit.BenefitBalance'() :: #'ExplanationOfBenefit.BenefitBalance'{}.
 
@@ -78,7 +78,7 @@
 	factor :: decimal() | undefined,
 	net :: complex:'Money'() | undefined,
 	noteNumber :: [positiveInt()] | undefined,
-	adjudication :: [complex:'ExplanationOfBenefit.Adjudication'()] | undefined}).
+	adjudication :: ['ExplanationOfBenefit.Adjudication'()] | undefined}).
 
 -type 'ExplanationOfBenefit.SubDetail1'() :: #'ExplanationOfBenefit.SubDetail1'{}.
 
@@ -94,8 +94,8 @@
 	factor :: decimal() | undefined,
 	net :: complex:'Money'() | undefined,
 	noteNumber :: [positiveInt()] | undefined,
-	adjudication :: [complex:'ExplanationOfBenefit.Adjudication'()] | undefined,
-	subDetail :: [complex:'ExplanationOfBenefit.SubDetail1'()] | undefined}).
+	adjudication :: ['ExplanationOfBenefit.Adjudication'()] | undefined,
+	subDetail :: ['ExplanationOfBenefit.SubDetail1'()] | undefined}).
 
 -type 'ExplanationOfBenefit.Detail1'() :: #'ExplanationOfBenefit.Detail1'{}.
 
@@ -111,8 +111,8 @@
 	productOrService :: complex:'CodeableConcept'(),
 	modifier :: [complex:'CodeableConcept'()] | undefined,
 	programCode :: [complex:'CodeableConcept'()] | undefined,
-	choice :: complex:'Period'() | date() | undefined,
-	choice1 :: special:'Reference'() | complex:'CodeableConcept'() | complex:'Address'() | undefined,
+	serviced :: complex:'Period'() | date() | undefined,
+	location :: special:'Reference'() | complex:'CodeableConcept'() | complex:'Address'() | undefined,
 	quantity :: complex:'Quantity'() | complex:'Duration'() | complex:'Age'() | complex:'Distance'() | complex:'Count'() | undefined,
 	unitPrice :: complex:'Money'() | undefined,
 	factor :: decimal() | undefined,
@@ -120,8 +120,8 @@
 	bodySite :: complex:'CodeableConcept'() | undefined,
 	subSite :: [complex:'CodeableConcept'()] | undefined,
 	noteNumber :: [positiveInt()] | undefined,
-	adjudication :: [complex:'ExplanationOfBenefit.Adjudication'()] | undefined,
-	detail :: [complex:'ExplanationOfBenefit.Detail1'()] | undefined}).
+	adjudication :: ['ExplanationOfBenefit.Adjudication'()] | undefined,
+	detail :: ['ExplanationOfBenefit.Detail1'()] | undefined}).
 
 -type 'ExplanationOfBenefit.AddItem'() :: #'ExplanationOfBenefit.AddItem'{}.
 
@@ -142,7 +142,7 @@
 	net :: complex:'Money'() | undefined,
 	udi :: [special:'Reference'()] | undefined,
 	noteNumber :: [positiveInt()] | undefined,
-	adjudication :: [complex:'ExplanationOfBenefit.Adjudication'()] | undefined}).
+	adjudication :: ['ExplanationOfBenefit.Adjudication'()] | undefined}).
 
 -type 'ExplanationOfBenefit.SubDetail'() :: #'ExplanationOfBenefit.SubDetail'{}.
 
@@ -163,8 +163,8 @@
 	net :: complex:'Money'() | undefined,
 	udi :: [special:'Reference'()] | undefined,
 	noteNumber :: [positiveInt()] | undefined,
-	adjudication :: [complex:'ExplanationOfBenefit.Adjudication'()] | undefined,
-	subDetail :: [complex:'ExplanationOfBenefit.SubDetail'()] | undefined}).
+	adjudication :: ['ExplanationOfBenefit.Adjudication'()] | undefined,
+	subDetail :: ['ExplanationOfBenefit.SubDetail'()] | undefined}).
 
 -type 'ExplanationOfBenefit.Detail'() :: #'ExplanationOfBenefit.Detail'{}.
 
@@ -194,8 +194,8 @@
 	productOrService :: complex:'CodeableConcept'(),
 	modifier :: [complex:'CodeableConcept'()] | undefined,
 	programCode :: [complex:'CodeableConcept'()] | undefined,
-	choice :: complex:'Period'() | date() | undefined,
-	choice1 :: special:'Reference'() | complex:'CodeableConcept'() | complex:'Address'() | undefined,
+	serviced :: complex:'Period'() | date() | undefined,
+	location :: special:'Reference'() | complex:'CodeableConcept'() | complex:'Address'() | undefined,
 	quantity :: complex:'Quantity'() | complex:'Duration'() | complex:'Age'() | complex:'Distance'() | complex:'Count'() | undefined,
 	unitPrice :: complex:'Money'() | undefined,
 	factor :: decimal() | undefined,
@@ -205,8 +205,8 @@
 	subSite :: [complex:'CodeableConcept'()] | undefined,
 	encounter :: [special:'Reference'()] | undefined,
 	noteNumber :: [positiveInt()] | undefined,
-	adjudication :: [complex:'ExplanationOfBenefit.Adjudication'()] | undefined,
-	detail :: [complex:'ExplanationOfBenefit.Detail'()] | undefined}).
+	adjudication :: ['ExplanationOfBenefit.Adjudication'()] | undefined,
+	detail :: ['ExplanationOfBenefit.Detail'()] | undefined}).
 
 -type 'ExplanationOfBenefit.Item'() :: #'ExplanationOfBenefit.Item'{}.
 
@@ -217,7 +217,7 @@
 	modifierExtension :: [extensions:'Extension'()] | undefined,
 	date :: date() | undefined,
 	type :: complex:'CodeableConcept'() | undefined,
-	choice :: special:'Reference'() | complex:'Address'() | undefined}).
+	location :: special:'Reference'() | complex:'Address'() | undefined}).
 
 -type 'ExplanationOfBenefit.Accident'() :: #'ExplanationOfBenefit.Accident'{}.
 
@@ -240,7 +240,7 @@
 	sequence :: positiveInt(),
 	type :: [complex:'CodeableConcept'()] | undefined,
 	date :: dateTime() | undefined,
-	choice :: special:'Reference'() | complex:'CodeableConcept'(),
+	procedure :: special:'Reference'() | complex:'CodeableConcept'(),
 	udi :: [special:'Reference'()] | undefined}).
 
 -type 'ExplanationOfBenefit.Procedure'() :: #'ExplanationOfBenefit.Procedure'{}.
@@ -251,7 +251,7 @@
 	extension :: [extensions:'Extension'()] | undefined,
 	modifierExtension :: [extensions:'Extension'()] | undefined,
 	sequence :: positiveInt(),
-	choice :: special:'Reference'() | complex:'CodeableConcept'(),
+	diagnosis :: special:'Reference'() | complex:'CodeableConcept'(),
 	type :: [complex:'CodeableConcept'()] | undefined,
 	onAdmission :: complex:'CodeableConcept'() | undefined,
 	packageCode :: complex:'CodeableConcept'() | undefined}).
@@ -266,8 +266,8 @@
 	sequence :: positiveInt(),
 	category :: complex:'CodeableConcept'(),
 	code :: complex:'CodeableConcept'() | undefined,
-	choice :: complex:'Period'() | date() | undefined,
-	choice1 :: string() | complex:'Reference'() | complex:'Quantity'() | complex:'Duration'() | complex:'Age'() | complex:'Distance'() | complex:'Count'() | boolean() | complex:'Attachment'() | undefined,
+	timing :: complex:'Period'() | date() | undefined,
+	value :: string() | complex:'Reference'() | complex:'Quantity'() | complex:'Duration'() | complex:'Age'() | complex:'Distance'() | complex:'Count'() | boolean() | complex:'Attachment'() | undefined,
 	reason :: complex:'Coding'() | undefined}).
 
 -type 'ExplanationOfBenefit.SupportingInfo'() :: #'ExplanationOfBenefit.SupportingInfo'{}.
@@ -312,11 +312,11 @@
 	implicitRules :: uri() | undefined,
 	language :: code() | undefined,
 	text :: special:'Narrative'() | undefined,
-	contained :: [complex:'ResourceContainer'()] | undefined,
+	contained :: [resource:'ResourceContainer'()] | undefined,
 	extension :: [extensions:'Extension'()] | undefined,
 	modifierExtension :: [extensions:'Extension'()] | undefined,
 	identifier :: [complex:'Identifier'()] | undefined,
-	status :: complex:'ExplanationOfBenefitStatus'(),
+	status :: code(),
 	type :: complex:'CodeableConcept'(),
 	subType :: complex:'CodeableConcept'() | undefined,
 	use :: complex:'Use'(),
@@ -329,35 +329,35 @@
 	priority :: complex:'CodeableConcept'() | undefined,
 	fundsReserveRequested :: complex:'CodeableConcept'() | undefined,
 	fundsReserve :: complex:'CodeableConcept'() | undefined,
-	related :: [complex:'ExplanationOfBenefit.Related'()] | undefined,
+	related :: ['ExplanationOfBenefit.Related'()] | undefined,
 	prescription :: special:'Reference'() | undefined,
 	originalPrescription :: special:'Reference'() | undefined,
-	payee :: complex:'ExplanationOfBenefit.Payee'() | undefined,
+	payee :: 'ExplanationOfBenefit.Payee'() | undefined,
 	referral :: special:'Reference'() | undefined,
 	facility :: special:'Reference'() | undefined,
 	claim :: special:'Reference'() | undefined,
 	claimResponse :: special:'Reference'() | undefined,
-	outcome :: complex:'ClaimProcessingCodes'(),
+	outcome :: code(),
 	disposition :: string() | undefined,
 	preAuthRef :: [string()] | undefined,
 	preAuthRefPeriod :: [complex:'Period'()] | undefined,
-	careTeam :: [complex:'ExplanationOfBenefit.CareTeam'()] | undefined,
+	careTeam :: ['ExplanationOfBenefit.CareTeam'()] | undefined,
 	supportingInfo :: [complex:'ExplanationOfBenefit.SupportingInfo'()] | undefined,
-	diagnosis :: [complex:'ExplanationOfBenefit.Diagnosis'()] | undefined,
-	procedure :: [complex:'ExplanationOfBenefit.Procedure'()] | undefined,
+	diagnosis :: ['ExplanationOfBenefit.Diagnosis'()] | undefined,
+	procedure :: ['ExplanationOfBenefit.Procedure'()] | undefined,
 	precedence :: positiveInt() | undefined,
-	insurance :: [complex:'ExplanationOfBenefit.Insurance'()],
-	accident :: complex:'ExplanationOfBenefit.Accident'() | undefined,
-	item :: [complex:'ExplanationOfBenefit.Item'()] | undefined,
-	addItem :: [complex:'ExplanationOfBenefit.AddItem'()] | undefined,
-	adjudication :: [complex:'ExplanationOfBenefit.Adjudication'()] | undefined,
-	total :: [complex:'ExplanationOfBenefit.Total'()] | undefined,
-	payment :: complex:'ExplanationOfBenefit.Payment'() | undefined,
+	insurance :: ['ExplanationOfBenefit.Insurance'()],
+	accident :: 'ExplanationOfBenefit.Accident'() | undefined,
+	item :: ['ExplanationOfBenefit.Item'()] | undefined,
+	addItem :: ['ExplanationOfBenefit.AddItem'()] | undefined,
+	adjudication :: ['ExplanationOfBenefit.Adjudication'()] | undefined,
+	total :: ['ExplanationOfBenefit.Total'()] | undefined,
+	payment :: 'ExplanationOfBenefit.Payment'() | undefined,
 	formCode :: complex:'CodeableConcept'() | undefined,
 	form :: complex:'Attachment'() | undefined,
-	processNote :: [complex:'ExplanationOfBenefit.ProcessNote'()] | undefined,
+	processNote :: ['ExplanationOfBenefit.ProcessNote'()] | undefined,
 	benefitPeriod :: complex:'Period'() | undefined,
-	benefitBalance :: [complex:'ExplanationOfBenefit.BenefitBalance'()] | undefined}).
+	benefitBalance :: ['ExplanationOfBenefit.BenefitBalance'()] | undefined}).
 
 -type 'ExplanationOfBenefit'() :: #'ExplanationOfBenefit'{}.
 
@@ -439,8 +439,8 @@ to_explanationOfBenefit_financial(Props) ->
     , extension  = decode:value(<<"extension">>, Props, DT)
     , modifierExtension  = decode:value(<<"modifierExtension">>, Props, DT)
     , type  = decode:value(<<"type">>, Props, DT)
-    , choice  = decode:value(<<"choice">>, Props, DT)
-    , choice1  = decode:value(<<"choice1">>, Props, DT)
+    , allowed  = decode:value(<<"allowed">>, Props, DT)
+    , used  = decode:value(<<"used">>, Props, DT)
     }.
 
 
@@ -562,8 +562,8 @@ to_explanationOfBenefit_addItem(Props) ->
     , productOrService  = decode:value(<<"productOrService">>, Props, DT)
     , modifier  = decode:value(<<"modifier">>, Props, DT)
     , programCode  = decode:value(<<"programCode">>, Props, DT)
-    , choice  = decode:value(<<"choice">>, Props, DT)
-    , choice1  = decode:value(<<"choice1">>, Props, DT)
+    , serviced  = decode:value(<<"serviced">>, Props, DT)
+    , location  = decode:value(<<"location">>, Props, DT)
     , quantity  = decode:value(<<"quantity">>, Props, DT)
     , unitPrice  = decode:value(<<"unitPrice">>, Props, DT)
     , factor  = decode:value(<<"factor">>, Props, DT)
@@ -658,8 +658,8 @@ to_explanationOfBenefit_item(Props) ->
     , productOrService  = decode:value(<<"productOrService">>, Props, DT)
     , modifier  = decode:value(<<"modifier">>, Props, DT)
     , programCode  = decode:value(<<"programCode">>, Props, DT)
-    , choice  = decode:value(<<"choice">>, Props, DT)
-    , choice1  = decode:value(<<"choice1">>, Props, DT)
+    , serviced  = decode:value(<<"serviced">>, Props, DT)
+    , location  = decode:value(<<"location">>, Props, DT)
     , quantity  = decode:value(<<"quantity">>, Props, DT)
     , unitPrice  = decode:value(<<"unitPrice">>, Props, DT)
     , factor  = decode:value(<<"factor">>, Props, DT)
@@ -684,7 +684,7 @@ to_explanationOfBenefit_accident(Props) ->
     , modifierExtension  = decode:value(<<"modifierExtension">>, Props, DT)
     , date  = decode:value(<<"date">>, Props, DT)
     , type  = decode:value(<<"type">>, Props, DT)
-    , choice  = decode:value(<<"choice">>, Props, DT)
+    , location  = decode:value(<<"location">>, Props, DT)
     }.
 
 
@@ -713,7 +713,7 @@ to_explanationOfBenefit_procedure(Props) ->
     , sequence  = decode:value(<<"sequence">>, Props, DT)
     , type  = decode:value(<<"type">>, Props, DT)
     , date  = decode:value(<<"date">>, Props, DT)
-    , choice  = decode:value(<<"choice">>, Props, DT)
+    , procedure  = decode:value(<<"procedure">>, Props, DT)
     , udi  = decode:value(<<"udi">>, Props, DT)
     }.
 
@@ -727,7 +727,7 @@ to_explanationOfBenefit_diagnosis(Props) ->
     , extension  = decode:value(<<"extension">>, Props, DT)
     , modifierExtension  = decode:value(<<"modifierExtension">>, Props, DT)
     , sequence  = decode:value(<<"sequence">>, Props, DT)
-    , choice  = decode:value(<<"choice">>, Props, DT)
+    , diagnosis  = decode:value(<<"diagnosis">>, Props, DT)
     , type  = decode:value(<<"type">>, Props, DT)
     , onAdmission  = decode:value(<<"onAdmission">>, Props, DT)
     , packageCode  = decode:value(<<"packageCode">>, Props, DT)
@@ -745,8 +745,8 @@ to_explanationOfBenefit_supportingInfo(Props) ->
     , sequence  = decode:value(<<"sequence">>, Props, DT)
     , category  = decode:value(<<"category">>, Props, DT)
     , code  = decode:value(<<"code">>, Props, DT)
-    , choice  = decode:value(<<"choice">>, Props, DT)
-    , choice1  = decode:value(<<"choice1">>, Props, DT)
+    , timing  = decode:value(<<"timing">>, Props, DT)
+    , value  = decode:value(<<"value">>, Props, DT)
     , reason  = decode:value(<<"reason">>, Props, DT)
     }.
 
@@ -805,34 +805,93 @@ text(#'ExplanationOfBenefit'{text=N}) ->
 
 -include_lib("eunit/include/eunit.hrl").
 
--define(asrtto(A, B), ?assertEqual(B, explanationOfBenefit:to_explanationOfBenefit(A))).
+-define(asrtto(A, B), ?assertEqual(B, explanationofbenefit:to_explanationOfBenefit(A))).
 -define(asrtp(A, B), ?assertEqual(B, encode:to_proplist(A))).
 -define(asrtjson(A, B), ?assertEqual(B, jiffy:encode(encode:to_proplist(A)))).
 
 explanationOfBenefit_to_test() ->
-    ?asrtto([{<<"id">>, <<"p-21666">>}],
-         {'ExplanationOfBenefit',<<"p-21666">>,undefined,undefined, undefined, 
-                  undefined,[], [], [],
-                          [],undefined,[],[],undefined,undefined,
-                          undefined,undefined,[],undefined,undefined,
-                          undefined,[],[],[],[],undefined,[]}).
+    ?asrtto([{<<"id">>, <<"p-21666">>}, {<<"status">>, <<"active">>}, 
+             {<<"type">>, {[{<<"coding">>, [{[{<<"code">>, <<"amb">>}]}]}]}},
+             {<<"use">>, <<"claim">>},
+             {<<"patient">>, {[{<<"reference">>, <<"nabu/Patient/p-21666">>}]}},
+             {<<"created">>, <<"2019-01-01T12:00:00">>},
+             {<<"insurer">>, {[{<<"reference">>, <<"nabu/Organization/o-21666">>}]}},
+             {<<"provider">>, {[{<<"reference">>, <<"nabu/Practitioner/p-21666">>}]}},
+             {<<"outcome">>, <<"queued">>},
+             {<<"insurance">>, [{[{<<"focal">>, true}, {<<"coverage">>, {[{<<"reference">>, <<"nabu/Coverage/c-21666">>}]}}]}]}
+            ],
+            {'ExplanationOfBenefit',[],<<"p-21666">>,undefined, undefined,undefined,undefined,[],[],[],
+             [],<<"active">>,
+             {'CodeableConcept',[],undefined,[],
+                 [{'Coding',[],undefined,[],undefined,undefined, <<"amb">>,undefined,undefined}],
+                 undefined},
+             undefined,<<"claim">>,
+             {'Reference',[],undefined,[],<<"nabu/Patient/p-21666">>, undefined,undefined,undefined},
+             undefined,<<"2019-01-01T12:00:00">>,undefined,
+             {'Reference',[],undefined,[], <<"nabu/Organization/o-21666">>,undefined,undefined, undefined},
+             {'Reference',[],undefined,[], <<"nabu/Practitioner/p-21666">>,undefined,undefined, undefined},
+             undefined,undefined,undefined,[],undefined,undefined, undefined,undefined,undefined,undefined,undefined,
+             <<"queued">>,undefined,[],[],[],[],[],[],undefined,
+             [{'ExplanationOfBenefit.Insurance',[],undefined,[],[], true,
+                 {'Reference',[],undefined,[], <<"nabu/Coverage/c-21666">>,undefined,undefined, undefined},
+                 []}],
+             undefined,[],[],[],[],undefined,undefined,undefined,[], undefined,[]}
+           ).
+
 explanationOfBenefit_toprop_test() ->
-    ?asrtp({'ExplanationOfBenefit',<<"p-21666">>,undefined,undefined,undefined, 
-                  undefined, [],[], [],
-                          [],undefined,[],[],undefined,undefined,
-                          undefined,undefined,[],undefined,undefined,
-                          undefined,[],[],[],[],undefined, []},
-           {[{<<"resourceType">>,<<"ExplanationOfBenefit">>},
-              {<<"id">>,<<"p-21666">>}
-            ]}).
+    ?asrtp(
+            {'ExplanationOfBenefit',[],<<"p-21666">>,undefined, undefined,undefined,undefined,[],[],[],
+             [],<<"active">>,
+             {'CodeableConcept',[],undefined,[],
+                 [{'Coding',[],undefined,[],undefined,undefined, <<"amb">>,undefined,undefined}],
+                 undefined},
+             undefined,<<"claim">>,
+             {'Reference',[],undefined,[],<<"nabu/Patient/p-21666">>, undefined,undefined,undefined},
+             undefined,<<"2019-01-01T12:00:00">>,undefined,
+             {'Reference',[],undefined,[], <<"nabu/Organization/o-21666">>,undefined,undefined, undefined},
+             {'Reference',[],undefined,[], <<"nabu/Practitioner/p-21666">>,undefined,undefined, undefined},
+             undefined,undefined,undefined,[],undefined,undefined, undefined,undefined,undefined,undefined,undefined,
+             <<"queued">>,undefined,[],[],[],[],[],[],undefined,
+             [{'ExplanationOfBenefit.Insurance',[],undefined,[],[], true,
+                 {'Reference',[],undefined,[], <<"nabu/Coverage/c-21666">>,undefined,undefined, undefined},
+                 []}],
+             undefined,[],[],[],[],undefined,undefined,undefined,[], undefined,[]},
+            {[{<<"resourceType">>,<<"ExplanationOfBenefit">>},
+                   {<<"id">>,<<"p-21666">>},
+                   {<<"status">>,<<"active">>},
+                   {<<"type">>,
+                    {[{<<"coding">>,[{[{<<"code">>,<<"amb">>}]}]}]}},
+                   {<<"use">>,<<"claim">>},
+                   {<<"patient">>, {[{<<"reference">>,<<"nabu/Patient/p-21666">>}]}},
+                   {<<"created">>,<<"2019-01-01T12:00:00">>},
+                   {<<"insurer">>, {[{<<"reference">>,<<"nabu/Organization/o-21666">>}]}},
+                   {<<"provider">>, {[{<<"reference">>,<<"nabu/Practitioner/p-21666">>}]}},
+                   {<<"outcome">>,<<"queued">>},
+                   {<<"insurance">>,
+                    [{[{<<"focal">>,true},
+                       {<<"coverage">>, {[{<<"reference">>, <<"nabu/Coverage/c-21666">>}]}}]}]}]}
+            ).
 
 explanationOfBenefit_json_test() ->
-    ?asrtjson({'ExplanationOfBenefit',<<"p-21666">>,undefined,undefined,undefined, 
-                  undefined, [],[], [],
-                          [],undefined,[],[],undefined,undefined,
-                          undefined,undefined,[],undefined,undefined,
-                          undefined,[],[],[],[],undefined, []},
-           <<"{\"resourceType\":\"ExplanationOfBenefit\",\"id\":\"p-21666\"}">>).
+    ?asrtjson(
+            {'ExplanationOfBenefit',[],<<"p-21666">>,undefined, undefined,undefined,undefined,[],[],[],
+             [],<<"active">>,
+             {'CodeableConcept',[],undefined,[],
+                 [{'Coding',[],undefined,[],undefined,undefined, <<"amb">>,undefined,undefined}],
+                 undefined},
+             undefined,<<"claim">>,
+             {'Reference',[],undefined,[],<<"nabu/Patient/p-21666">>, undefined,undefined,undefined},
+             undefined,<<"2019-01-01T12:00:00">>,undefined,
+             {'Reference',[],undefined,[], <<"nabu/Organization/o-21666">>,undefined,undefined, undefined},
+             {'Reference',[],undefined,[], <<"nabu/Practitioner/p-21666">>,undefined,undefined, undefined},
+             undefined,undefined,undefined,[],undefined,undefined, undefined,undefined,undefined,undefined,undefined,
+             <<"queued">>,undefined,[],[],[],[],[],[],undefined,
+             [{'ExplanationOfBenefit.Insurance',[],undefined,[],[], true,
+                 {'Reference',[],undefined,[], <<"nabu/Coverage/c-21666">>,undefined,undefined, undefined},
+                 []}],
+             undefined,[],[],[],[],undefined,undefined,undefined,[], undefined,[]},
+            <<"{\"resourceType\":\"ExplanationOfBenefit\",\"id\":\"p-21666\",\"status\":\"active\",\"type\":{\"coding\":[{\"code\":\"amb\"}]},\"use\":\"claim\",\"patient\":{\"reference\":\"nabu/Patient/p-21666\"},\"created\":\"2019-01-01T12:00:00\",\"insurer\":{\"reference\":\"nabu/Organization/o-21666\"},\"provider\":{\"reference\":\"nabu/Practitioner/p-21666\"},\"outcome\":\"queued\",\"insurance\":[{\"focal\":true,\"coverage\":{\"reference\":\"nabu/Coverage/c-21666\"}}]}">>
+      ).
 
 -endif.
 

@@ -19,7 +19,7 @@
 	extension :: [extensions:'Extension'()] | undefined,
 	modifierExtension :: [extensions:'Extension'()] | undefined,
 	code :: complex:'CodeableConcept'(),
-	choice :: special:'Reference'() | complex:'Range'() | complex:'Quantity'() | complex:'Duration'() | complex:'Age'() | complex:'Distance'() | complex:'Count'() | complex:'CodeableConcept'() | boolean(),
+	value :: special:'Reference'() | complex:'Range'() | complex:'Quantity'() | complex:'Duration'() | complex:'Age'() | complex:'Distance'() | complex:'Count'() | complex:'CodeableConcept'() | boolean(),
 	exclude :: boolean(),
 	period :: complex:'Period'() | undefined}).
 
@@ -32,19 +32,19 @@
 	implicitRules :: uri() | undefined,
 	language :: code() | undefined,
 	text :: special:'Narrative'() | undefined,
-	contained :: [complex:'ResourceContainer'()] | undefined,
+	contained :: [resource:'ResourceContainer'()] | undefined,
 	extension :: [extensions:'Extension'()] | undefined,
 	modifierExtension :: [extensions:'Extension'()] | undefined,
 	identifier :: [complex:'Identifier'()] | undefined,
 	active :: boolean() | undefined,
-	type :: complex:'GroupType'(),
+	type :: code(),
 	actual :: boolean(),
 	code :: complex:'CodeableConcept'() | undefined,
 	name :: string() | undefined,
 	quantity :: unsignedInt() | undefined,
 	managingEntity :: special:'Reference'() | undefined,
-	characteristic :: [complex:'Group.Characteristic'()] | undefined,
-	member :: [complex:'Group.Member'()] | undefined}).
+	characteristic :: ['Group.Characteristic'()] | undefined,
+	member :: ['Group.Member'()] | undefined}).
 
 -type 'Group'() :: #'Group'{}.
 
@@ -108,7 +108,7 @@ to_group_characteristic(Props) ->
     , extension  = decode:value(<<"extension">>, Props, DT)
     , modifierExtension  = decode:value(<<"modifierExtension">>, Props, DT)
     , code  = decode:value(<<"code">>, Props, DT)
-    , choice  = decode:value(<<"choice">>, Props, DT)
+    , value  = decode:value(<<"value">>, Props, DT)
     , exclude  = decode:value(<<"exclude">>, Props, DT)
     , period  = decode:value(<<"period">>, Props, DT)
     }.
@@ -130,29 +130,29 @@ text(#'Group'{text=N}) ->
 -define(asrtjson(A, B), ?assertEqual(B, jiffy:encode(encode:to_proplist(A)))).
 
 group_to_test() ->
-    ?asrtto([{<<"id">>, <<"p-21666">>}],
-         {'Group',<<"p-21666">>,undefined,undefined, undefined, 
-                  undefined,[], [], [],
-                          [],undefined,[],[],undefined,undefined,
-                          undefined,undefined,[],undefined,undefined,
-                          undefined,[],[],[],[],undefined,[]}).
+    ?asrtto([{<<"id">>, <<"p-21666">>}, {<<"type">>, <<"practitioner">>},
+             {<<"actual">>, true}
+            ],
+            {'Group',[],<<"p-21666">>,undefined,undefined,undefined, undefined,[],[],[],
+             [],undefined,<<"practitioner">>, true,undefined,undefined,undefined,undefined,[],[]}
+           ).
+
 group_toprop_test() ->
-    ?asrtp({'Group',<<"p-21666">>,undefined,undefined,undefined, 
-                  undefined, [],[], [],
-                          [],undefined,[],[],undefined,undefined,
-                          undefined,undefined,[],undefined,undefined,
-                          undefined,[],[],[],[],undefined, []},
-           {[{<<"resourceType">>,<<"Group">>},
-              {<<"id">>,<<"p-21666">>}
-            ]}).
+    ?asrtp(
+            {'Group',[],<<"p-21666">>,undefined,undefined,undefined, undefined,[],[],[],
+             [],undefined,<<"practitioner">>, true,undefined,undefined,undefined,undefined,[],[]},
+            {[{<<"resourceType">>,<<"Group">>},
+                   {<<"id">>,<<"p-21666">>},
+                   {<<"type">>,<<"practitioner">>},
+                   {<<"actual">>,true}]}
+            ).
 
 group_json_test() ->
-    ?asrtjson({'Group',<<"p-21666">>,undefined,undefined,undefined, 
-                  undefined, [],[], [],
-                          [],undefined,[],[],undefined,undefined,
-                          undefined,undefined,[],undefined,undefined,
-                          undefined,[],[],[],[],undefined, []},
-           <<"{\"resourceType\":\"Group\",\"id\":\"p-21666\"}">>).
+    ?asrtjson(
+            {'Group',[],<<"p-21666">>,undefined,undefined,undefined, undefined,[],[],[],
+             [],undefined,<<"practitioner">>, true,undefined,undefined,undefined,undefined,[],[]},
+           <<"{\"resourceType\":\"Group\",\"id\":\"p-21666\",\"type\":\"practitioner\",\"actual\":true}">>
+      ). 
 
 -endif.
 

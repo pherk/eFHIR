@@ -1,10 +1,33 @@
 -module(utils).
 
--export([keys/1,binary_to_boolean/2,binary_to_boolean/3]).
+-export([type_to_fun/1, binary_join/2, 
+         keys/1,binary_to_boolean/2,binary_to_boolean/3]).
 
 %%
 %%-------------------------------------------------------------------------
 %%
+type_to_fun(S) ->
+    Parts = binary:split(S,<<".">>),
+    Mod = string:lowercase(hd(Parts)),
+    FPs = binary_join([decap(P) || P <- Parts],<<"_">>),
+    {binary_to_atom(Mod,latin1),binary_to_atom(<<"to_", FPs/binary>>,latin1)}.
+
+decap(B) -> <<H:1/binary, T/binary>> =B,
+            NH = string:lowercase(H),
+            <<NH/binary,T/binary>>.
+
+-spec binary_join([binary()], binary()) -> binary().
+binary_join([], _Sep) ->
+   <<>>;
+binary_join([Part], _Sep) ->
+   Part;
+binary_join(List, Sep) ->
+   lists:foldr(fun (A, B) ->
+     if
+       bit_size(B) > 0 -> <<A/binary, Sep/binary, B/binary>>;
+       true -> A
+     end
+   end, <<>>, List).
 
 -spec keys(Props :: list()) -> list(). 
 keys(Props) -> 

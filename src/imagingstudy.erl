@@ -187,34 +187,43 @@ text(#'ImagingStudy'{text=N}) ->
 
 -include_lib("eunit/include/eunit.hrl").
 
--define(asrtto(A, B), ?assertEqual(B, imagingStudy:to_imagingStudy(A))).
+-define(asrtto(A, B), ?assertEqual(B, imagingstudy:to_imagingStudy(A))).
 -define(asrtp(A, B), ?assertEqual(B, encode:to_proplist(A))).
 -define(asrtjson(A, B), ?assertEqual(B, jiffy:encode(encode:to_proplist(A)))).
 
 imagingStudy_to_test() ->
-    ?asrtto([{<<"id">>, <<"p-21666">>}],
-         {'ImagingStudy',<<"p-21666">>,undefined,undefined, undefined, 
-                  undefined,[], [], [],
-                          [],undefined,[],[],undefined,undefined,
-                          undefined,undefined,[],undefined,undefined,
-                          undefined,[],[],[],[],undefined,[]}).
+    ?asrtto([{<<"id">>, <<"p-21666">>}, {<<"status">>, <<"available">>},
+             {<<"subject">>, {[{<<"reference">>, <<"nabu/Patient/p-21666">>}]}}
+            ],
+            {'ImagingStudy',[],<<"p-21666">>,undefined,undefined, undefined,undefined,[],[],[],
+             [],<<"available">>,[],
+             {'Reference',[],undefined,[],<<"nabu/Patient/p-21666">>, undefined,undefined,undefined},
+             undefined,undefined,[],undefined,[],[],undefined,
+             undefined,undefined,[],undefined,[],[],[],undefined,[]}
+           ).
 imagingStudy_toprop_test() ->
-    ?asrtp({'ImagingStudy',<<"p-21666">>,undefined,undefined,undefined, 
-                  undefined, [],[], [],
-                          [],undefined,[],[],undefined,undefined,
-                          undefined,undefined,[],undefined,undefined,
-                          undefined,[],[],[],[],undefined, []},
+    ?asrtp(
+            {'ImagingStudy',[],<<"p-21666">>,undefined,undefined, undefined,undefined,[],[],[],
+             [],<<"available">>,[],
+             {'Reference',[],undefined,[],<<"nabu/Patient/p-21666">>, undefined,undefined,undefined},
+             undefined,undefined,[],undefined,[],[],undefined,
+             undefined,undefined,[],undefined,[],[],[],undefined,[]},
            {[{<<"resourceType">>,<<"ImagingStudy">>},
-              {<<"id">>,<<"p-21666">>}
-            ]}).
+              {<<"id">>,<<"p-21666">>},
+              {<<"status">>,<<"available">>},
+                   {<<"subject">>,
+                    {[{<<"reference">>,<<"nabu/Patient/p-21666">>}]}}]}
+      ).
 
 imagingStudy_json_test() ->
-    ?asrtjson({'ImagingStudy',<<"p-21666">>,undefined,undefined,undefined, 
-                  undefined, [],[], [],
-                          [],undefined,[],[],undefined,undefined,
-                          undefined,undefined,[],undefined,undefined,
-                          undefined,[],[],[],[],undefined, []},
-           <<"{\"resourceType\":\"ImagingStudy\",\"id\":\"p-21666\"}">>).
+    ?asrtjson(
+            {'ImagingStudy',[],<<"p-21666">>,undefined,undefined, undefined,undefined,[],[],[],
+             [],<<"available">>,[],
+             {'Reference',[],undefined,[],<<"nabu/Patient/p-21666">>, undefined,undefined,undefined},
+             undefined,undefined,[],undefined,[],[],undefined,
+             undefined,undefined,[],undefined,[],[],[],undefined,[]},
+            <<"{\"resourceType\":\"ImagingStudy\",\"id\":\"p-21666\",\"status\":\"available\",\"subject\":{\"reference\":\"nabu/Patient/p-21666\"}}">>
+      ).
 
 -endif.
 

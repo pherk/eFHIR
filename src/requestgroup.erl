@@ -221,12 +221,13 @@ requestGroup_toprop_test() ->
             ]}).
 
 requestGroup_json_test() ->
-    ?asrtjson({'RequestGroup',<<"p-21666">>,undefined,undefined,undefined, 
-                  undefined, [],[], [],
-                          [],undefined,[],[],undefined,undefined,
-                          undefined,undefined,[],undefined,undefined,
-                          undefined,[],[],[],[],undefined, []},
-           <<"{\"resourceType\":\"RequestGroup\",\"id\":\"p-21666\"}">>).
+    ?asrtjson(
+         {'RequestGroup',[],<<"p-21666">>,undefined,undefined, undefined,undefined,[],[],[],[],
+          [],[],[],[], undefined,<<"requested">>,<<"order">>,undefined,undefined,
+                                 undefined,undefined,undefined,undefined,[],
+                                 [],[],[]},
+         <<"{\"resourceType\":\"RequestGroup\",\"id\":\"p-21666\",\"status\":\"requested\",\"intent\":\"order\"}">>
+    ).
 
 -endif.
 

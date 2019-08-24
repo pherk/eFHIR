@@ -15,6 +15,7 @@
 %%
 -record('Narrative', {
       anyAttribs  :: anyAttribs()
+    , id          :: string()
     , extension     :: [extensions:'Extension'()]
     , status :: binary()
     , 'div' :: binary()
@@ -23,6 +24,7 @@
 
 -record('Meta', {
       anyAttribs  :: anyAttribs()
+    , id          :: string()
     , extension     :: [extensions:'Extension'()]
     , versionId = 0 :: positiveInt()
     , lastUpdated   :: dateTime()
@@ -35,6 +37,7 @@
 
 -record('Reference', {
       anyAttribs  :: anyAttribs()
+    , id          :: string()
     , extension   :: [extensions:'Extension'()]
     , 'reference' :: binary()
     , type        :: uri()
@@ -53,6 +56,7 @@ to_narrative(Props) ->
     io:format("~p~n~p~n",[Props,DT]),
     #'Narrative'{
         anyAttribs = decode:attrs(Props, DT)
+      , id          = decode:value(<<"id">>, Props, DT)
       , extension = decode:value(<<"extension">>, Props, DT)
       , status = decode:value(<<"status">>, Props, DT)
       , 'div'   = decode:value(<<"div">>, Props, DT)
@@ -64,6 +68,7 @@ to_meta(Props) ->
     io:format("~p~n~p~n",[Props,DT]),
     #'Meta'{
         anyAttribs = decode:attrs(Props, DT)
+      , id          = decode:value(<<"id">>, Props, DT)
       , extension    = decode:value(<<"extension">>, Props, DT)
       , versionId    = decode:value(<<"versionId">>, Props, DT)
       , lastUpdated  = decode:value(<<"lastUpdated">>, Props, DT)
@@ -83,6 +88,7 @@ to_reference(Props) ->
     io:format("ref: ~p~n~p~n",[Props,DT]),
     #'Reference'{
         anyAttribs  = decode:attrs(Props, DT)
+      , id          = decode:value(<<"id">>, Props, DT)
       , extension   = decode:value(<<"extension">>, Props, DT)
       , 'reference' = decode:value(<<"reference">>, Props, DT)
       , type        = decode:value(<<"type">>, Props, DT)
@@ -118,14 +124,17 @@ complex_meta_test() ->
                                              {[{<<"reference">>, <<"metis/practitioners/u-vkr">>},
                                                {<<"display">>, <<"von Kleist-Retzow, JÃ¼rgen-Christoph">>}]}}]}]}
                              ]}),
-            {'Meta', [],
-                 [{'Extension',
-                     <<"http://eNahar.org/nabu/extension#lastUpdatedBy">>,
-                     {valueReference,
-                         {'Reference',[], [], <<"metis/practitioners/u-vkr">>, undefined, undefined, <<"von Kleist-Retzow, JÃ¼rgen-Christoph">>}}}],
-                 <<"999">>,<<"2019-07-14T09:10:10">>,undefined, [], [], 
-                 [{'Coding', <<"http://eNahar.org/test">>,undefined,<<"hello">>,undefined,undefined}]
-           }).
+            {'Meta',[],undefined,
+                     [{'Extension',[],undefined,[],
+                          <<"http://eNahar.org/nabu/extension#lastUpdatedBy">>,
+                          {valueReference,
+                              {'Reference',[],undefined,[],
+                                  <<"metis/practitioners/u-vkr">>,undefined,
+                                  undefined,
+                                  <<"von Kleist-Retzow, JÃ¼rgen-Christoph">>}}}],
+                     <<"999">>,<<"2019-07-14T09:10:10">>,undefined,[],[],
+                     [{'Coding',[],undefined,[],<<"http://eNahar.org/test">>,
+                          undefined,<<"hello">>,undefined,undefined}]}).
 
 
 -endif.

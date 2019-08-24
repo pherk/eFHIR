@@ -8,10 +8,10 @@
 	extension :: [extensions:'Extension'()] | undefined,
 	modifierExtension :: [extensions:'Extension'()] | undefined,
 	code :: complex:'CodeableConcept'(),
-	choice :: time() | string() | complex:'SampledData'() | complex:'Ratio'() | complex:'Range'() | complex:'Quantity'() | complex:'Duration'() | complex:'Age'() | complex:'Distance'() | complex:'Count'() | complex:'Period'() | integer() | dateTime() | complex:'CodeableConcept'() | boolean() | undefined,
+	value :: time() | string() | complex:'SampledData'() | complex:'Ratio'() | complex:'Range'() | complex:'Quantity'() | complex:'Duration'() | complex:'Age'() | complex:'Distance'() | complex:'Count'() | complex:'Period'() | integer() | dateTime() | complex:'CodeableConcept'() | boolean() | undefined,
 	dataAbsentReason :: complex:'CodeableConcept'() | undefined,
 	interpretation :: [complex:'CodeableConcept'()] | undefined,
-	referenceRange :: [complex:'Observation.ReferenceRange'()] | undefined}).
+	referenceRange :: ['Observation.ReferenceRange'()] | undefined}).
 
 -type 'Observation.Component'() :: #'Observation.Component'{}.
 
@@ -20,8 +20,8 @@
 	id :: string() | undefined,
 	extension :: [extensions:'Extension'()] | undefined,
 	modifierExtension :: [extensions:'Extension'()] | undefined,
-	low :: complex:'Quantity'() | complex:'Duration'() | complex:'Age'() | complex:'Distance'() | complex:'Count'() | undefined,
-	high :: complex:'Quantity'() | complex:'Duration'() | complex:'Age'() | complex:'Distance'() | complex:'Count'() | undefined,
+	low :: complex:'Quantity'() | undefined,
+	high :: complex:'Quantity'()  | undefined,
 	type :: complex:'CodeableConcept'() | undefined,
 	appliesTo :: [complex:'CodeableConcept'()] | undefined,
 	age :: complex:'Range'() | undefined,
@@ -36,7 +36,7 @@
 	implicitRules :: uri() | undefined,
 	language :: code() | undefined,
 	text :: special:'Narrative'() | undefined,
-	contained :: [complex:'ResourceContainer'()] | undefined,
+	contained :: [resource:'ResourceContainer'()] | undefined,
 	extension :: [extensions:'Extension'()] | undefined,
 	modifierExtension :: [extensions:'Extension'()] | undefined,
 	identifier :: [complex:'Identifier'()] | undefined,
@@ -48,10 +48,10 @@
 	subject :: special:'Reference'() | undefined,
 	focus :: [special:'Reference'()] | undefined,
 	encounter :: special:'Reference'() | undefined,
-	choice :: complex:'Timing'() | complex:'Period'() | instant() | dateTime() | undefined,
+	effective :: complex:'Timing'() | complex:'Period'() | instant() | dateTime() | undefined,
 	issued :: instant() | undefined,
 	performer :: [special:'Reference'()] | undefined,
-	choice1 :: time() | string() | complex:'SampledData'() | complex:'Ratio'() | complex:'Range'() | complex:'Quantity'() | complex:'Duration'() | complex:'Age'() | complex:'Distance'() | complex:'Count'() | complex:'Period'() | integer() | dateTime() | complex:'CodeableConcept'() | boolean() | undefined,
+	value :: time() | string() | complex:'SampledData'() | complex:'Ratio'() | complex:'Range'() | complex:'Quantity'() | complex:'Duration'() | complex:'Age'() | complex:'Distance'() | complex:'Count'() | complex:'Period'() | integer() | dateTime() | complex:'CodeableConcept'() | boolean() | undefined,
 	dataAbsentReason :: complex:'CodeableConcept'() | undefined,
 	interpretation :: [complex:'CodeableConcept'()] | undefined,
 	note :: [complex:'Annotation'()] | undefined,
@@ -59,10 +59,10 @@
 	method :: complex:'CodeableConcept'() | undefined,
 	specimen :: special:'Reference'() | undefined,
 	device :: special:'Reference'() | undefined,
-	referenceRange :: [complex:'Observation.ReferenceRange'()] | undefined,
+	referenceRange :: ['Observation.ReferenceRange'()] | undefined,
 	hasMember :: [special:'Reference'()] | undefined,
 	derivedFrom :: [special:'Reference'()] | undefined,
-	component :: [complex:'Observation.Component'()] | undefined}).
+	component :: ['Observation.Component'()] | undefined}).
 
 -type 'Observation'() :: #'Observation'{}.
 
@@ -96,10 +96,10 @@ to_observation(Props) ->
     , subject  = decode:value(<<"subject">>, Props, DT)
     , focus  = decode:value(<<"focus">>, Props, DT)
     , encounter  = decode:value(<<"encounter">>, Props, DT)
-    , choice  = decode:value(<<"choice">>, Props, DT)
+    , effective  = decode:value(<<"effective">>, Props, DT)
     , issued  = decode:value(<<"issued">>, Props, DT)
     , performer  = decode:value(<<"performer">>, Props, DT)
-    , choice1  = decode:value(<<"choice1">>, Props, DT)
+    , value  = decode:value(<<"value">>, Props, DT)
     , dataAbsentReason  = decode:value(<<"dataAbsentReason">>, Props, DT)
     , interpretation  = decode:value(<<"interpretation">>, Props, DT)
     , note  = decode:value(<<"note">>, Props, DT)
@@ -126,7 +126,7 @@ to_observation_component(Props) ->
     , extension  = decode:value(<<"extension">>, Props, DT)
     , modifierExtension  = decode:value(<<"modifierExtension">>, Props, DT)
     , code  = decode:value(<<"code">>, Props, DT)
-    , choice  = decode:value(<<"choice">>, Props, DT)
+    , value  = decode:value(<<"value">>, Props, DT)
     , dataAbsentReason  = decode:value(<<"dataAbsentReason">>, Props, DT)
     , interpretation  = decode:value(<<"interpretation">>, Props, DT)
     , referenceRange  = decode:value(<<"referenceRange">>, Props, DT)
@@ -165,29 +165,57 @@ text(#'Observation'{text=N}) ->
 -define(asrtjson(A, B), ?assertEqual(B, jiffy:encode(encode:to_proplist(A)))).
 
 observation_to_test() ->
-    ?asrtto([{<<"id">>, <<"p-21666">>}],
-         {'Observation',<<"p-21666">>,undefined,undefined, undefined, 
-                  undefined,[], [], [],
-                          [],undefined,[],[],undefined,undefined,
-                          undefined,undefined,[],undefined,undefined,
-                          undefined,[],[],[],[],undefined,[]}).
+    ?asrtto([{<<"id">>, <<"p-21666">>}, {<<"status">>, <<"final">>},
+             {<<"code">>, {[{<<"coding">>, [
+                              {[{<<"system">>, <<"http://loinc.org">>},
+                                {<<"code">>, <<"15074-8">>},
+                                {<<"display">>, <<"Glucose [Moles/volume] in Blood">>}
+                               ]}]
+                            }]}}
+            ], 
+            {'Observation',[],<<"p-21666">>,undefined,undefined, undefined,undefined,[],[],[],
+             [],[],[],<<"final">>,[],
+             {'CodeableConcept',[],undefined,[],
+               [{'Coding',[],undefined,[],<<"http://loinc.org">>, undefined,<<"15074-8">>, <<"Glucose [Moles/volume] in Blood">>, undefined}],
+               undefined},
+             undefined,[],undefined,undefined,undefined,[],undefined,
+             undefined,[],[],undefined,undefined,undefined,undefined,
+             [],[],[],[]}
+           ).
+
 observation_toprop_test() ->
-    ?asrtp({'Observation',<<"p-21666">>,undefined,undefined,undefined, 
-                  undefined, [],[], [],
-                          [],undefined,[],[],undefined,undefined,
-                          undefined,undefined,[],undefined,undefined,
-                          undefined,[],[],[],[],undefined, []},
-           {[{<<"resourceType">>,<<"Observation">>},
-              {<<"id">>,<<"p-21666">>}
-            ]}).
+    ?asrtp(
+            {'Observation',[],<<"p-21666">>,undefined,undefined, undefined,undefined,[],[],[],
+             [],[],[],<<"final">>,[],
+             {'CodeableConcept',[],undefined,[],
+               [{'Coding',[],undefined,[],<<"http://loinc.org">>, undefined,<<"15074-8">>, <<"Glucose [Moles/volume] in Blood">>, undefined}],
+               undefined},
+             undefined,[],undefined,undefined,undefined,[],undefined,
+             undefined,[],[],undefined,undefined,undefined,undefined,
+             [],[],[],[]},
+            {[{<<"resourceType">>,<<"Observation">>},
+                   {<<"id">>,<<"p-21666">>},
+                   {<<"status">>,<<"final">>},
+                   {<<"code">>,
+                    {[{<<"coding">>,
+                       [{[{<<"system">>,<<"http://loinc.org">>},
+                          {<<"code">>,<<"15074-8">>},
+                          {<<"display">>,
+                           <<"Glucose [Moles/volume] in Blood">>}]}]}]}}]}
+            ).
 
 observation_json_test() ->
-    ?asrtjson({'Observation',<<"p-21666">>,undefined,undefined,undefined, 
-                  undefined, [],[], [],
-                          [],undefined,[],[],undefined,undefined,
-                          undefined,undefined,[],undefined,undefined,
-                          undefined,[],[],[],[],undefined, []},
-           <<"{\"resourceType\":\"Observation\",\"id\":\"p-21666\"}">>).
+    ?asrtjson(
+            {'Observation',[],<<"p-21666">>,undefined,undefined, undefined,undefined,[],[],[],
+             [],[],[],<<"final">>,[],
+             {'CodeableConcept',[],undefined,[],
+               [{'Coding',[],undefined,[],<<"http://loinc.org">>, undefined,<<"15074-8">>, <<"Glucose [Moles/volume] in Blood">>, undefined}],
+               undefined},
+             undefined,[],undefined,undefined,undefined,[],undefined,
+             undefined,[],[],undefined,undefined,undefined,undefined,
+             [],[],[],[]},
+            <<"{\"resourceType\":\"Observation\",\"id\":\"p-21666\",\"status\":\"final\",\"code\":{\"coding\":[{\"system\":\"http://loinc.org\",\"code\":\"15074-8\",\"display\":\"Glucose [Moles/volume] in Blood\"}]}}">>
+      ).
 
 -endif.
 

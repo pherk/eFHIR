@@ -135,23 +135,21 @@ provenance_to_test() ->
     ?asrtto([{<<"id">>, <<"p-21666">>}, {<<"target">>, [{[{<<"reference">>,<<"nabu/Patient/p-21666">>}]}]},
              {<<"recorded">>, <<"2019-01-01T12:00:00">>},
              {<<"agent">>, [{[{<<"who">>, {[{<<"reference">>,<<"metis/Pratitioner/u-admin">>}]}}]}]}],
-             {'Provenance',[],<<"p-21666">>,undefined,undefined, undefined,undefined,[],[],[],
-                     [{'Reference',[],[],<<"nabu/Patient/p-21666">>, undefined,undefined,undefined}],
-                     undefined,<<"2019-01-01T12:00:00">>,[],undefined,[],
-                     undefined,
+            {'Provenance',[],<<"p-21666">>,undefined,undefined, undefined,undefined,[],[],[],
+                     [{'Reference',[],undefined,[], <<"nabu/Patient/p-21666">>,undefined,undefined, undefined}],
+                     undefined,<<"2019-01-01T12:00:00">>,[],undefined,[], undefined,
                      [{'Provenance.Agent',[],undefined,[],[],undefined,[],
-                          {'Reference',[],[],<<"metis/Pratitioner/u-admin">>, undefined,undefined,undefined},
+                          {'Reference',[],undefined,[], <<"metis/Pratitioner/u-admin">>,undefined, undefined,undefined},
                           undefined}],
                      [],[]}).
 
 provenance_toprop_test() ->
     ?asrtp(
-           {'Provenance',[],<<"p-21666">>,undefined,undefined, undefined,undefined,[],[],[],
-                     [{'Reference',[],[],<<"nabu/Patient/p-21666">>, undefined,undefined,undefined}],
-                     undefined,<<"2019-01-01T12:00:00">>,[],undefined,[],
-                     undefined,
+            {'Provenance',[],<<"p-21666">>,undefined,undefined, undefined,undefined,[],[],[],
+                     [{'Reference',[],undefined,[], <<"nabu/Patient/p-21666">>,undefined,undefined, undefined}],
+                     undefined,<<"2019-01-01T12:00:00">>,[],undefined,[], undefined,
                      [{'Provenance.Agent',[],undefined,[],[],undefined,[],
-                          {'Reference',[],[],<<"metis/Pratitioner/u-admin">>, undefined,undefined,undefined},
+                          {'Reference',[],undefined,[], <<"metis/Pratitioner/u-admin">>,undefined, undefined,undefined},
                           undefined}],
                      [],[]},
            {[{<<"resourceType">>,<<"Provenance">>},
@@ -162,12 +160,16 @@ provenance_toprop_test() ->
             ]}).
 
 provenance_json_test() ->
-    ?asrtjson({'Provenance',<<"p-21666">>,undefined,undefined,undefined, 
-                  undefined, [],[], [],
-                          [],undefined,[],[],undefined,undefined,
-                          undefined,undefined,[],undefined,undefined,
-                          undefined,[],[],[],[],undefined, []},
-           <<"{\"resourceType\":\"Provenance\",\"id\":\"p-21666\"}">>).
+    ?asrtjson(
+            {'Provenance',[],<<"p-21666">>,undefined,undefined, undefined,undefined,[],[],[],
+                     [{'Reference',[],undefined,[], <<"nabu/Patient/p-21666">>,undefined,undefined, undefined}],
+                     undefined,<<"2019-01-01T12:00:00">>,[],undefined,[], undefined,
+                     [{'Provenance.Agent',[],undefined,[],[],undefined,[],
+                          {'Reference',[],undefined,[], <<"metis/Pratitioner/u-admin">>,undefined, undefined,undefined}
+                          , undefined}],
+                     [],[]},
+            <<"{\"resourceType\":\"Provenance\",\"id\":\"p-21666\",\"target\":[{\"reference\":\"nabu/Patient/p-21666\"}],\"recorded\":\"2019-01-01T12:00:00\",\"agent\":[{\"who\":{\"reference\":\"metis/Pratitioner/u-admin\"}}]}">>
+           ).
 
 -endif.
 

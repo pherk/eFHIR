@@ -30,7 +30,7 @@
 	modifierExtension :: [extensions:'Extension'()] | undefined,
 	actionId :: id(),
 	relationship :: complex:'ActionRelationshipType'(),
-	choice :: complex:'Range'() | complex:'Duration'() | undefined}).
+    offset :: complex:'Range'() | complex:'Duration'() | undefined}).
 
 -type 'PlanDefinition.RelatedAction'() :: #'PlanDefinition.RelatedAction'{}.
 
@@ -58,13 +58,13 @@
 	reason :: [complex:'CodeableConcept'()] | undefined,
 	documentation :: [complex:'RelatedArtifact'()] | undefined,
 	goalId :: [id()] | undefined,
-	choice :: special:'Reference'() | complex:'CodeableConcept'() | undefined,
+	subject :: special:'Reference'() | complex:'CodeableConcept'() | undefined,
 	trigger :: [complex:'TriggerDefinition'()] | undefined,
 	condition :: [complex:'PlanDefinition.Condition'()] | undefined,
 	input :: [complex:'DataRequirement'()] | undefined,
 	output :: [complex:'DataRequirement'()] | undefined,
 	relatedAction :: [complex:'PlanDefinition.RelatedAction'()] | undefined,
-	choice1 :: complex:'Timing'() | complex:'Range'() | complex:'Period'() | complex:'Duration'() | dateTime() | complex:'Age'() | undefined,
+	timing :: complex:'Timing'() | complex:'Range'() | complex:'Period'() | complex:'Duration'() | dateTime() | complex:'Age'() | undefined,
 	participant :: [complex:'PlanDefinition.Participant'()] | undefined,
 	type :: complex:'CodeableConcept'() | undefined,
 	groupingBehavior :: complex:'ActionGroupingBehavior'() | undefined,
@@ -72,7 +72,7 @@
 	requiredBehavior :: complex:'ActionRequiredBehavior'() | undefined,
 	precheckBehavior :: complex:'ActionPrecheckBehavior'() | undefined,
 	cardinalityBehavior :: complex:'ActionCardinalityBehavior'() | undefined,
-	choice2 :: uri() | canonical() | undefined,
+	definition :: uri() | canonical() | undefined,
 	transform :: canonical() | undefined,
 	dynamicValue :: [complex:'PlanDefinition.DynamicValue'()] | undefined,
 	action :: [complex:'PlanDefinition.Action'()] | undefined}).
@@ -85,7 +85,7 @@
 	extension :: [extensions:'Extension'()] | undefined,
 	modifierExtension :: [extensions:'Extension'()] | undefined,
 	measure :: complex:'CodeableConcept'() | undefined,
-	choice :: complex:'Range'() | complex:'Quantity'() | complex:'Duration'() | complex:'Age'() | complex:'Distance'() | complex:'Count'() | complex:'CodeableConcept'() | undefined,
+	detail :: complex:'Range'() | complex:'Quantity'() | complex:'Duration'() | complex:'Age'() | complex:'Distance'() | complex:'Count'() | complex:'CodeableConcept'() | undefined,
 	due :: complex:'Duration'() | undefined}).
 
 -type 'PlanDefinition.Target'() :: #'PlanDefinition.Target'{}.
@@ -124,7 +124,7 @@
 	type :: complex:'CodeableConcept'() | undefined,
 	status :: complex:'PublicationStatus'(),
 	experimental :: boolean() | undefined,
-	choice :: special:'Reference'() | complex:'CodeableConcept'() | undefined,
+	subject :: special:'Reference'() | complex:'CodeableConcept'() | undefined,
 	date :: dateTime() | undefined,
 	publisher :: string() | undefined,
 	contact :: [complex:'ContactDetail'()] | undefined,
@@ -180,7 +180,7 @@ to_planDefinition(Props) ->
     , type  = decode:value(<<"type">>, Props, DT)
     , status  = decode:value(<<"status">>, Props, DT)
     , experimental  = decode:value(<<"experimental">>, Props, DT)
-    , choice  = decode:value(<<"choice">>, Props, DT)
+    , subject  = decode:value(<<"subject">>, Props, DT)
     , date  = decode:value(<<"date">>, Props, DT)
     , publisher  = decode:value(<<"publisher">>, Props, DT)
     , contact  = decode:value(<<"contact">>, Props, DT)
@@ -244,7 +244,7 @@ to_planDefinition_relatedAction(Props) ->
     , modifierExtension  = decode:value(<<"modifierExtension">>, Props, DT)
     , actionId  = decode:value(<<"actionId">>, Props, DT)
     , relationship  = decode:value(<<"relationship">>, Props, DT)
-    , choice  = decode:value(<<"choice">>, Props, DT)
+    , offset  = decode:value(<<"offset">>, Props, DT)
     }.
 
 
@@ -278,13 +278,13 @@ to_planDefinition_action(Props) ->
     , reason  = decode:value(<<"reason">>, Props, DT)
     , documentation  = decode:value(<<"documentation">>, Props, DT)
     , goalId  = decode:value(<<"goalId">>, Props, DT)
-    , choice  = decode:value(<<"choice">>, Props, DT)
+    , subject  = decode:value(<<"subject">>, Props, DT)
     , trigger  = decode:value(<<"trigger">>, Props, DT)
     , condition  = decode:value(<<"condition">>, Props, DT)
     , input  = decode:value(<<"input">>, Props, DT)
     , output  = decode:value(<<"output">>, Props, DT)
     , relatedAction  = decode:value(<<"relatedAction">>, Props, DT)
-    , choice1  = decode:value(<<"choice1">>, Props, DT)
+    , timing  = decode:value(<<"timing">>, Props, DT)
     , participant  = decode:value(<<"participant">>, Props, DT)
     , type  = decode:value(<<"type">>, Props, DT)
     , groupingBehavior  = decode:value(<<"groupingBehavior">>, Props, DT)
@@ -292,7 +292,7 @@ to_planDefinition_action(Props) ->
     , requiredBehavior  = decode:value(<<"requiredBehavior">>, Props, DT)
     , precheckBehavior  = decode:value(<<"precheckBehavior">>, Props, DT)
     , cardinalityBehavior  = decode:value(<<"cardinalityBehavior">>, Props, DT)
-    , choice2  = decode:value(<<"choice2">>, Props, DT)
+    , definition  = decode:value(<<"definition">>, Props, DT)
     , transform  = decode:value(<<"transform">>, Props, DT)
     , dynamicValue  = decode:value(<<"dynamicValue">>, Props, DT)
     , action  = decode:value(<<"action">>, Props, DT)
@@ -308,7 +308,7 @@ to_planDefinition_target(Props) ->
     , extension  = decode:value(<<"extension">>, Props, DT)
     , modifierExtension  = decode:value(<<"modifierExtension">>, Props, DT)
     , measure  = decode:value(<<"measure">>, Props, DT)
-    , choice  = decode:value(<<"choice">>, Props, DT)
+    , detail  = decode:value(<<"detail">>, Props, DT)
     , due  = decode:value(<<"due">>, Props, DT)
     }.
 
@@ -342,35 +342,37 @@ text(#'PlanDefinition'{text=N}) ->
 
 -include_lib("eunit/include/eunit.hrl").
 
--define(asrtto(A, B), ?assertEqual(B, planDefinition:to_planDefinition(A))).
+-define(asrtto(A, B), ?assertEqual(B, plandefinition:to_planDefinition(A))).
 -define(asrtp(A, B), ?assertEqual(B, encode:to_proplist(A))).
 -define(asrtjson(A, B), ?assertEqual(B, jiffy:encode(encode:to_proplist(A)))).
 
 planDefinition_to_test() ->
-    ?asrtto([{<<"id">>, <<"p-21666">>}],
-         {'PlanDefinition',<<"p-21666">>,undefined,undefined, undefined, 
-                  undefined,[], [], [],
-                          [],undefined,[],[],undefined,undefined,
-                          undefined,undefined,[],undefined,undefined,
-                          undefined,[],[],[],[],undefined,[]}).
+    ?asrtto([{<<"id">>, <<"p-21666">>}, {<<"status">>, <<"active">>}],
+            {'PlanDefinition',[],<<"p-21666">>,undefined,undefined, undefined,undefined,[],[],[],
+             undefined,[], undefined,undefined,undefined,undefined, undefined,<<"active">>,undefined,undefined,
+             undefined,undefined,[],undefined,[],[], undefined,undefined,undefined,undefined,
+             undefined,undefined,[],[],[],[],[],[],[], [],[]}
+           ).
+
 planDefinition_toprop_test() ->
-    ?asrtp({'PlanDefinition',<<"p-21666">>,undefined,undefined,undefined, 
-                  undefined, [],[], [],
-                          [],undefined,[],[],undefined,undefined,
-                          undefined,undefined,[],undefined,undefined,
-                          undefined,[],[],[],[],undefined, []},
+    ?asrtp(
+            {'PlanDefinition',[],<<"p-21666">>,undefined,undefined, undefined,undefined,[],[],[],
+             undefined,[], undefined,undefined,undefined,undefined, undefined,<<"active">>,undefined,undefined,
+             undefined,undefined,[],undefined,[],[], undefined,undefined,undefined,undefined,
+             undefined,undefined,[],[],[],[],[],[],[], [],[]},
            {[{<<"resourceType">>,<<"PlanDefinition">>},
-              {<<"id">>,<<"p-21666">>}
+              {<<"id">>,<<"p-21666">>},
+              {<<"status">>, <<"active">>}
             ]}).
 
 planDefinition_json_test() ->
-    ?asrtjson({'PlanDefinition',<<"p-21666">>,undefined,undefined,undefined, 
-                  undefined, [],[], [],
-                          [],undefined,[],[],undefined,undefined,
-                          undefined,undefined,[],undefined,undefined,
-                          undefined,[],[],[],[],undefined, []},
-           <<"{\"resourceType\":\"PlanDefinition\",\"id\":\"p-21666\"}">>).
-
+    ?asrtjson(
+            {'PlanDefinition',[],<<"p-21666">>,undefined,undefined, undefined,undefined,[],[],[],
+             undefined,[], undefined,undefined,undefined,undefined, undefined,<<"active">>,undefined,undefined,
+             undefined,undefined,[],undefined,[],[], undefined,undefined,undefined,undefined,
+             undefined,undefined,[],[],[],[],[],[],[], [],[]},
+            <<"{\"resourceType\":\"PlanDefinition\",\"id\":\"p-21666\",\"status\":\"active\"}">>
+            ).
 -endif.
 
 

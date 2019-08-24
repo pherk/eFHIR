@@ -8,8 +8,8 @@
 	extension :: [extensions:'Extension'()] | undefined,
 	modifierExtension :: [extensions:'Extension'()] | undefined,
 	measure :: complex:'CodeableConcept'() | undefined,
-	choice :: string() | complex:'Ratio'() | complex:'Range'() | complex:'Quantity'() | complex:'Duration'() | complex:'Age'() | complex:'Distance'() | complex:'Count'() | integer() | complex:'CodeableConcept'() | boolean() | undefined,
-	choice1 :: complex:'Duration'() | date() | undefined}).
+	detail :: string() | complex:'Ratio'() | complex:'Range'() | complex:'Quantity'() | complex:'Duration'() | complex:'Age'() | complex:'Distance'() | complex:'Count'() | integer() | complex:'CodeableConcept'() | boolean() | undefined,
+	due :: complex:'Duration'() | date() | undefined}).
 
 -type 'Goal.Target'() :: #'Goal.Target'{}.
 
@@ -20,18 +20,18 @@
 	implicitRules :: uri() | undefined,
 	language :: code() | undefined,
 	text :: special:'Narrative'() | undefined,
-	contained :: [complex:'ResourceContainer'()] | undefined,
+	contained :: [resource:'ResourceContainer'()] | undefined,
 	extension :: [extensions:'Extension'()] | undefined,
 	modifierExtension :: [extensions:'Extension'()] | undefined,
 	identifier :: [complex:'Identifier'()] | undefined,
-	lifecycleStatus :: complex:'GoalLifecycleStatus'(),
+	lifecycleStatus :: code(),
 	achievementStatus :: complex:'CodeableConcept'() | undefined,
 	category :: [complex:'CodeableConcept'()] | undefined,
 	priority :: complex:'CodeableConcept'() | undefined,
 	description :: complex:'CodeableConcept'(),
 	subject :: special:'Reference'(),
-	choice :: date() | complex:'CodeableConcept'() | undefined,
-	target :: [complex:'Goal.Target'()] | undefined,
+	start :: date() | complex:'CodeableConcept'() | undefined,
+	target :: ['Goal.Target'()] | undefined,
 	statusDate :: date() | undefined,
 	statusReason :: string() | undefined,
 	expressedBy :: special:'Reference'() | undefined,
@@ -72,7 +72,7 @@ to_goal(Props) ->
     , priority  = decode:value(<<"priority">>, Props, DT)
     , description  = decode:value(<<"description">>, Props, DT)
     , subject  = decode:value(<<"subject">>, Props, DT)
-    , choice  = decode:value(<<"choice">>, Props, DT)
+    , start  = decode:value(<<"start">>, Props, DT)
     , target  = decode:value(<<"target">>, Props, DT)
     , statusDate  = decode:value(<<"statusDate">>, Props, DT)
     , statusReason  = decode:value(<<"statusReason">>, Props, DT)
@@ -96,8 +96,8 @@ to_goal_target(Props) ->
     , extension  = decode:value(<<"extension">>, Props, DT)
     , modifierExtension  = decode:value(<<"modifierExtension">>, Props, DT)
     , measure  = decode:value(<<"measure">>, Props, DT)
-    , choice  = decode:value(<<"choice">>, Props, DT)
-    , choice1  = decode:value(<<"choice1">>, Props, DT)
+    , detail  = decode:value(<<"detail">>, Props, DT)
+    , due  = decode:value(<<"due">>, Props, DT)
     }.
 
 
@@ -117,29 +117,49 @@ text(#'Goal'{text=N}) ->
 -define(asrtjson(A, B), ?assertEqual(B, jiffy:encode(encode:to_proplist(A)))).
 
 goal_to_test() ->
-    ?asrtto([{<<"id">>, <<"p-21666">>}],
-         {'Goal',<<"p-21666">>,undefined,undefined, undefined, 
-                  undefined,[], [], [],
-                          [],undefined,[],[],undefined,undefined,
-                          undefined,undefined,[],undefined,undefined,
-                          undefined,[],[],[],[],undefined,[]}).
+    ?asrtto([{<<"id">>, <<"p-21666">>},
+             {<<"lifecycleStatus">>, <<"accepted">>},
+             {<<"description">>, {[{<<"coding">>,[{[{<<"code">>, <<"blablabla">>}]}]}]}},
+             {<<"subject">>, {[{<<"reference">>, <<"nabu/Patient/p-21666">>}]}}
+            ],
+            {'Goal',[],<<"p-21666">>,undefined,undefined,undefined, undefined,[],[],[],
+             [],<<"accepted">>,undefined,[], undefined,
+             {'CodeableConcept',[],undefined,[],
+                  [{'Coding',[],undefined,[],undefined,undefined, <<"blablabla">>,undefined,undefined}],
+                  undefined},
+             {'Reference',[],undefined,[],<<"nabu/Patient/p-21666">>, undefined,undefined,undefined},
+             undefined,[],undefined,undefined,undefined,[],[],[],[]}
+           ).
+
 goal_toprop_test() ->
-    ?asrtp({'Goal',<<"p-21666">>,undefined,undefined,undefined, 
-                  undefined, [],[], [],
-                          [],undefined,[],[],undefined,undefined,
-                          undefined,undefined,[],undefined,undefined,
-                          undefined,[],[],[],[],undefined, []},
-           {[{<<"resourceType">>,<<"Goal">>},
-              {<<"id">>,<<"p-21666">>}
-            ]}).
+    ?asrtp(
+            {'Goal',[],<<"p-21666">>,undefined,undefined,undefined, undefined,[],[],[],
+             [],<<"accepted">>,undefined,[], undefined,
+             {'CodeableConcept',[],undefined,[],
+                  [{'Coding',[],undefined,[],undefined,undefined, <<"blablabla">>,undefined,undefined}],
+                  undefined},
+             {'Reference',[],undefined,[],<<"nabu/Patient/p-21666">>, undefined,undefined,undefined},
+             undefined,[],undefined,undefined,undefined,[],[],[],[]},
+            {[{<<"resourceType">>,<<"Goal">>},
+                   {<<"id">>,<<"p-21666">>},
+                   {<<"lifecycleStatus">>,<<"accepted">>},
+                   {<<"description">>,
+                    {[{<<"coding">>,[{[{<<"code">>,<<"blablabla">>}]}]}]}},
+                   {<<"subject">>,
+                    {[{<<"reference">>,<<"nabu/Patient/p-21666">>}]}}]}
+      ).
 
 goal_json_test() ->
-    ?asrtjson({'Goal',<<"p-21666">>,undefined,undefined,undefined, 
-                  undefined, [],[], [],
-                          [],undefined,[],[],undefined,undefined,
-                          undefined,undefined,[],undefined,undefined,
-                          undefined,[],[],[],[],undefined, []},
-           <<"{\"resourceType\":\"Goal\",\"id\":\"p-21666\"}">>).
+    ?asrtjson(
+            {'Goal',[],<<"p-21666">>,undefined,undefined,undefined, undefined,[],[],[],
+             [],<<"accepted">>,undefined,[], undefined,
+             {'CodeableConcept',[],undefined,[],
+                  [{'Coding',[],undefined,[],undefined,undefined, <<"blablabla">>,undefined,undefined}],
+                  undefined},
+             {'Reference',[],undefined,[],<<"nabu/Patient/p-21666">>, undefined,undefined,undefined},
+             undefined,[],undefined,undefined,undefined,[],[],[],[]},
+            <<"{\"resourceType\":\"Goal\",\"id\":\"p-21666\",\"lifecycleStatus\":\"accepted\",\"description\":{\"coding\":[{\"code\":\"blablabla\"}]},\"subject\":{\"reference\":\"nabu/Patient/p-21666\"}}">>
+      ).
 
 -endif.
 

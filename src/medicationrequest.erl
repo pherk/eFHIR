@@ -7,7 +7,7 @@
 	id :: string() | undefined,
 	extension :: [extensions:'Extension'()] | undefined,
 	modifierExtension :: [extensions:'Extension'()] | undefined,
-	choice :: complex:'CodeableConcept'() | boolean(),
+	allowed :: complex:'CodeableConcept'() | boolean(),
 	reason :: complex:'CodeableConcept'() | undefined}).
 
 -type 'MedicationRequest.Substitution'() :: #'MedicationRequest.Substitution'{}.
@@ -17,7 +17,7 @@
 	id :: string() | undefined,
 	extension :: [extensions:'Extension'()] | undefined,
 	modifierExtension :: [extensions:'Extension'()] | undefined,
-	quantity :: complex:'Quantity'() | complex:'Duration'() | complex:'Age'() | complex:'Distance'() | complex:'Count'() | undefined,
+	quantity :: complex:'Quantity'() | undefined,
 	duration :: complex:'Duration'() | undefined}).
 
 -type 'MedicationRequest.InitialFill'() :: #'MedicationRequest.InitialFill'{}.
@@ -27,11 +27,11 @@
 	id :: string() | undefined,
 	extension :: [extensions:'Extension'()] | undefined,
 	modifierExtension :: [extensions:'Extension'()] | undefined,
-	initialFill :: complex:'MedicationRequest.InitialFill'() | undefined,
+	initialFill :: 'MedicationRequest.InitialFill'() | undefined,
 	dispenseInterval :: complex:'Duration'() | undefined,
 	validityPeriod :: complex:'Period'() | undefined,
 	numberOfRepeatsAllowed :: unsignedInt() | undefined,
-	quantity :: complex:'Quantity'() | complex:'Duration'() | complex:'Age'() | complex:'Distance'() | complex:'Count'() | undefined,
+	quantity :: complex:'Quantity'() | undefined,
 	expectedSupplyDuration :: complex:'Duration'() | undefined,
 	performer :: special:'Reference'() | undefined}).
 
@@ -44,7 +44,7 @@
 	implicitRules :: uri() | undefined,
 	language :: code() | undefined,
 	text :: special:'Narrative'() | undefined,
-	contained :: [complex:'ResourceContainer'()] | undefined,
+	contained :: [resource:'ResourceContainer'()] | undefined,
 	extension :: [extensions:'Extension'()] | undefined,
 	modifierExtension :: [extensions:'Extension'()] | undefined,
 	identifier :: [complex:'Identifier'()] | undefined,
@@ -54,8 +54,8 @@
 	category :: [complex:'CodeableConcept'()] | undefined,
 	priority :: complex:'RequestPriority'() | undefined,
 	doNotPerform :: boolean() | undefined,
-	choice :: special:'Reference'() | boolean() | undefined,
-	choice1 :: special:'Reference'() | complex:'CodeableConcept'(),
+	reported :: special:'Reference'() | boolean() | undefined,
+	medication :: special:'Reference'() | complex:'CodeableConcept'(),
 	subject :: special:'Reference'(),
 	encounter :: special:'Reference'() | undefined,
 	supportingInformation :: [special:'Reference'()] | undefined,
@@ -74,8 +74,8 @@
 	insurance :: [special:'Reference'()] | undefined,
 	note :: [complex:'Annotation'()] | undefined,
 	dosageInstruction :: [complex:'Dosage'()] | undefined,
-	dispenseRequest :: complex:'MedicationRequest.DispenseRequest'() | undefined,
-	substitution :: complex:'MedicationRequest.Substitution'() | undefined,
+	dispenseRequest :: 'MedicationRequest.DispenseRequest'() | undefined,
+	substitution :: 'MedicationRequest.Substitution'() | undefined,
 	priorPrescription :: special:'Reference'() | undefined,
 	detectedIssue :: [special:'Reference'()] | undefined,
 	eventHistory :: [special:'Reference'()] | undefined}).
@@ -110,8 +110,8 @@ to_medicationRequest(Props) ->
     , category  = decode:value(<<"category">>, Props, DT)
     , priority  = decode:value(<<"priority">>, Props, DT)
     , doNotPerform  = decode:value(<<"doNotPerform">>, Props, DT)
-    , choice  = decode:value(<<"choice">>, Props, DT)
-    , choice1  = decode:value(<<"choice1">>, Props, DT)
+    , reported  = decode:value(<<"reported">>, Props, DT)
+    , medication  = decode:value(<<"medication">>, Props, DT)
     , subject  = decode:value(<<"subject">>, Props, DT)
     , encounter  = decode:value(<<"encounter">>, Props, DT)
     , supportingInformation  = decode:value(<<"supportingInformation">>, Props, DT)
@@ -149,7 +149,7 @@ to_medicationRequest_substitution(Props) ->
     , id  = decode:value(<<"id">>, Props, DT)
     , extension  = decode:value(<<"extension">>, Props, DT)
     , modifierExtension  = decode:value(<<"modifierExtension">>, Props, DT)
-    , choice  = decode:value(<<"choice">>, Props, DT)
+    , allowed  = decode:value(<<"allowed">>, Props, DT)
     , reason  = decode:value(<<"reason">>, Props, DT)
     }.
 
@@ -197,34 +197,49 @@ text(#'MedicationRequest'{text=N}) ->
 
 -include_lib("eunit/include/eunit.hrl").
 
--define(asrtto(A, B), ?assertEqual(B, medicationRequest:to_medicationRequest(A))).
+-define(asrtto(A, B), ?assertEqual(B, medicationrequest:to_medicationRequest(A))).
 -define(asrtp(A, B), ?assertEqual(B, encode:to_proplist(A))).
 -define(asrtjson(A, B), ?assertEqual(B, jiffy:encode(encode:to_proplist(A)))).
 
 medicationRequest_to_test() ->
-    ?asrtto([{<<"id">>, <<"p-21666">>}],
-         {'MedicationRequest',<<"p-21666">>,undefined,undefined, undefined, 
-                  undefined,[], [], [],
-                          [],undefined,[],[],undefined,undefined,
-                          undefined,undefined,[],undefined,undefined,
-                          undefined,[],[],[],[],undefined,[]}).
+    ?asrtto([{<<"id">>, <<"p-21666">>},{<<"status">>, <<"active">>},{<<"intent">>,<<"order">>},
+             {<<"medication">>, {[{<<"coding">>, {[{<<"code">>, <<"ibu">>}]}}]}},
+             {<<"subject">>, {[{<<"reference">>, <<"nabu/Patient/p-21666">>}]}}
+            ],
+            {'MedicationRequest',[],<<"p-21666">>,undefined,undefined, undefined,undefined,[],[],[],
+             [],<<"active">>,undefined, <<"order">>,[],undefined,undefined,undefined,undefined,
+             {'Reference',[],undefined,[],<<"nabu/Patient/p-21666">>, undefined,undefined,undefined},
+             undefined,[],undefined,undefined,undefined,undefined,
+             undefined,[],[],[],[],[],undefined,undefined,[],[],[],
+             undefined,undefined,undefined,[],[]}
+           ).
+
 medicationRequest_toprop_test() ->
-    ?asrtp({'MedicationRequest',<<"p-21666">>,undefined,undefined,undefined, 
-                  undefined, [],[], [],
-                          [],undefined,[],[],undefined,undefined,
-                          undefined,undefined,[],undefined,undefined,
-                          undefined,[],[],[],[],undefined, []},
+    ?asrtp(
+            {'MedicationRequest',[],<<"p-21666">>,undefined,undefined, undefined,undefined,[],[],[],
+             [],<<"active">>,undefined, <<"order">>,[],undefined,undefined,undefined,undefined,
+             {'Reference',[],undefined,[],<<"nabu/Patient/p-21666">>, undefined,undefined,undefined},
+             undefined,[],undefined,undefined,undefined,undefined,
+             undefined,[],[],[],[],[],undefined,undefined,[],[],[],
+             undefined,undefined,undefined,[],[]},
            {[{<<"resourceType">>,<<"MedicationRequest">>},
-              {<<"id">>,<<"p-21666">>}
-            ]}).
+             {<<"id">>,<<"p-21666">>},
+             {<<"status">>,<<"active">>},
+             {<<"intent">>,<<"order">>},
+             {<<"subject">>,
+                    {[{<<"reference">>,<<"nabu/Patient/p-21666">>}]}}]}
+          ).
 
 medicationRequest_json_test() ->
-    ?asrtjson({'MedicationRequest',<<"p-21666">>,undefined,undefined,undefined, 
-                  undefined, [],[], [],
-                          [],undefined,[],[],undefined,undefined,
-                          undefined,undefined,[],undefined,undefined,
-                          undefined,[],[],[],[],undefined, []},
-           <<"{\"resourceType\":\"MedicationRequest\",\"id\":\"p-21666\"}">>).
+    ?asrtjson(
+            {'MedicationRequest',[],<<"p-21666">>,undefined,undefined, undefined,undefined,[],[],[],
+             [],<<"active">>,undefined, <<"order">>,[],undefined,undefined,undefined,undefined,
+             {'Reference',[],undefined,[],<<"nabu/Patient/p-21666">>, undefined,undefined,undefined},
+             undefined,[],undefined,undefined,undefined,undefined,
+             undefined,[],[],[],[],[],undefined,undefined,[],[],[],
+             undefined,undefined,undefined,[],[]},
+            <<"{\"resourceType\":\"MedicationRequest\",\"id\":\"p-21666\",\"status\":\"active\",\"intent\":\"order\",\"subject\":{\"reference\":\"nabu/Patient/p-21666\"}}">>
+      ).
 
 -endif.
 

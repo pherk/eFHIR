@@ -171,28 +171,28 @@ text(#'Patient'{text=N}) ->
 -define(asrtjson(A, B), ?assertEqual(B, jiffy:encode(encode:to_proplist(A)))).
 
 patient_to_test() ->
-    ?asrtto([{<<"id">>, <<"p-21666">>}],
-         {'Patient',<<"p-21666">>,undefined,undefined, undefined, 
-                  undefined,[], [], [],
-                          [],undefined,[],[],undefined,undefined,
-                          undefined,undefined,[],undefined,undefined,
-                          undefined,[],[],[],[],undefined,[]}).
+   ?asrtto([{<<"id">>, <<"p-21666">>}],
+           {'Patient',[],<<"p-21666">>,undefined,undefined,undefined,
+                            undefined,[],[],[],[],undefined,[],[],undefined,
+                            undefined,undefined,undefined,[],undefined,
+                            undefined,undefined,[],[],[],[],undefined,[]}
+          ).
 patient_toprop_test() ->
-    ?asrtp({'Patient',<<"p-21666">>,undefined,undefined,undefined, 
-                  undefined, [],[], [],
-                          [],undefined,[],[],undefined,undefined,
-                          undefined,undefined,[],undefined,undefined,
-                          undefined,[],[],[],[],undefined, []},
+    ?asrtp(
+           {'Patient',[],<<"p-21666">>,undefined,undefined,undefined,
+                            undefined,[],[],[],[],undefined,[],[],undefined,
+                            undefined,undefined,undefined,[],undefined,
+                            undefined,undefined,[],[],[],[],undefined,[]},
            {[{<<"resourceType">>,<<"Patient">>},
               {<<"id">>,<<"p-21666">>}
             ]}).
 
 patient_json_test() ->
-    ?asrtjson({'Patient',<<"p-21666">>,undefined,undefined,undefined, 
-                  undefined, [],[], [],
-                          [],undefined,[],[],undefined,undefined,
-                          undefined,undefined,[],undefined,undefined,
-                          undefined,[],[],[],[],undefined, []},
+    ?asrtjson(
+           {'Patient',[],<<"p-21666">>,undefined,undefined,undefined,
+                            undefined,[],[],[],[],undefined,[],[],undefined,
+                            undefined,undefined,undefined,[],undefined,
+                            undefined,undefined,[],[],[],[],undefined,[]},
            <<"{\"resourceType\":\"Patient\",\"id\":\"p-21666\"}">>).
 
 -endif.

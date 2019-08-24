@@ -10,8 +10,8 @@
 	series :: string() | undefined,
 	authority :: special:'Reference'() | undefined,
 	targetDisease :: [complex:'CodeableConcept'()] | undefined,
-	choice :: string() | positiveInt(),
-	choice1 :: string() | positiveInt() | undefined}).
+	doseNumber :: string() | positiveInt(),
+	seriesDoses :: string() | positiveInt() | undefined}).
 
 -type 'Immunization.ProtocolApplied'() :: #'Immunization.ProtocolApplied'{}.
 
@@ -64,7 +64,7 @@
 	vaccineCode :: complex:'CodeableConcept'(),
 	patient :: special:'Reference'(),
 	encounter :: special:'Reference'() | undefined,
-	choice :: string() | dateTime(),
+	occurrence :: string() | dateTime(),
 	recorded :: dateTime() | undefined,
 	primarySource :: boolean() | undefined,
 	reportOrigin :: complex:'CodeableConcept'() | undefined,
@@ -74,7 +74,7 @@
 	expirationDate :: date() | undefined,
 	site :: complex:'CodeableConcept'() | undefined,
 	route :: complex:'CodeableConcept'() | undefined,
-	doseQuantity :: complex:'Quantity'() | complex:'Duration'() | complex:'Age'() | complex:'Distance'() | complex:'Count'() | undefined,
+	doseQuantity :: complex:'Quantity'() | undefined,
 	performer :: [complex:'Immunization.Performer'()] | undefined,
 	note :: [complex:'Annotation'()] | undefined,
 	reasonCode :: [complex:'CodeableConcept'()] | undefined,
@@ -116,7 +116,7 @@ to_immunization(Props) ->
     , vaccineCode  = decode:value(<<"vaccineCode">>, Props, DT)
     , patient  = decode:value(<<"patient">>, Props, DT)
     , encounter  = decode:value(<<"encounter">>, Props, DT)
-    , choice  = decode:value(<<"choice">>, Props, DT)
+    , occurrence  = decode:value(<<"occurrence">>, Props, DT)
     , recorded  = decode:value(<<"recorded">>, Props, DT)
     , primarySource  = decode:value(<<"primarySource">>, Props, DT)
     , reportOrigin  = decode:value(<<"reportOrigin">>, Props, DT)
@@ -155,8 +155,8 @@ to_immunization_protocolApplied(Props) ->
     , series  = decode:value(<<"series">>, Props, DT)
     , authority  = decode:value(<<"authority">>, Props, DT)
     , targetDisease  = decode:value(<<"targetDisease">>, Props, DT)
-    , choice  = decode:value(<<"choice">>, Props, DT)
-    , choice1  = decode:value(<<"choice1">>, Props, DT)
+    , doseNumber  = decode:value(<<"doseNumber">>, Props, DT)
+    , seriesDoses  = decode:value(<<"seriesDoses">>, Props, DT)
     }.
 
 
@@ -215,29 +215,54 @@ text(#'Immunization'{text=N}) ->
 -define(asrtjson(A, B), ?assertEqual(B, jiffy:encode(encode:to_proplist(A)))).
 
 immunization_to_test() ->
-    ?asrtto([{<<"id">>, <<"p-21666">>}],
-         {'Immunization',<<"p-21666">>,undefined,undefined, undefined, 
-                  undefined,[], [], [],
-                          [],undefined,[],[],undefined,undefined,
-                          undefined,undefined,[],undefined,undefined,
-                          undefined,[],[],[],[],undefined,[]}).
+    ?asrtto([{<<"id">>, <<"p-21666">>}, {<<"status">>, <<"completed">>},
+             {<<"vaccineCode">>, {[{<<"coding">>, [{[{<<"code">>, <<"HPV">>}]}]}]}},
+             {<<"patient">>, {[{<<"reference">>, <<"nabu/Patient/p-21666">>}]}}
+            ],
+            {'Immunization',[],<<"p-21666">>,undefined,undefined, undefined,undefined,[],[],[],
+             [],<<"completed">>, undefined,
+             {'CodeableConcept',[],undefined,[],
+                 [{'Coding',[],undefined,[],undefined,undefined, <<"HPV">>,undefined,undefined}],
+                 undefined},
+             {'Reference',[],undefined,[],<<"nabu/Patient/p-21666">>,undefined, undefined,undefined},
+             undefined,undefined,undefined,undefined,undefined, undefined,undefined,undefined,undefined,undefined,
+             undefined,undefined,[],[],[],[],undefined,[],[],[],
+             undefined,[],[]}
+           ).
+
 immunization_toprop_test() ->
-    ?asrtp({'Immunization',<<"p-21666">>,undefined,undefined,undefined, 
-                  undefined, [],[], [],
-                          [],undefined,[],[],undefined,undefined,
-                          undefined,undefined,[],undefined,undefined,
-                          undefined,[],[],[],[],undefined, []},
-           {[{<<"resourceType">>,<<"Immunization">>},
-              {<<"id">>,<<"p-21666">>}
-            ]}).
+    ?asrtp(
+            {'Immunization',[],<<"p-21666">>,undefined,undefined, undefined,undefined,[],[],[],
+             [],<<"completed">>, undefined,
+             {'CodeableConcept',[],undefined,[],
+                 [{'Coding',[],undefined,[],undefined,undefined, <<"HPV">>,undefined,undefined}],
+                 undefined},
+             {'Reference',[],undefined,[],<<"nabu/Patient/p-21666">>,undefined, undefined,undefined},
+             undefined,undefined,undefined,undefined,undefined, undefined,undefined,undefined,undefined,undefined,
+             undefined,undefined,[],[],[],[],undefined,[],[],[],
+             undefined,[],[]},
+            {[{<<"resourceType">>,<<"Immunization">>},
+                   {<<"id">>,<<"p-21666">>},
+                   {<<"status">>,<<"completed">>},
+                   {<<"vaccineCode">>,
+                    {[{<<"coding">>,[{[{<<"code">>,<<"HPV">>}]}]}]}},
+                   {<<"patient">>,
+                    {[{<<"reference">>,<<"nabu/Patient/p-21666">>}]}}]}
+      ).
 
 immunization_json_test() ->
-    ?asrtjson({'Immunization',<<"p-21666">>,undefined,undefined,undefined, 
-                  undefined, [],[], [],
-                          [],undefined,[],[],undefined,undefined,
-                          undefined,undefined,[],undefined,undefined,
-                          undefined,[],[],[],[],undefined, []},
-           <<"{\"resourceType\":\"Immunization\",\"id\":\"p-21666\"}">>).
+    ?asrtjson(
+            {'Immunization',[],<<"p-21666">>,undefined,undefined, undefined,undefined,[],[],[],
+             [],<<"completed">>, undefined,
+             {'CodeableConcept',[],undefined,[],
+                 [{'Coding',[],undefined,[],undefined,undefined, <<"HPV">>,undefined,undefined}],
+                 undefined},
+             {'Reference',[],undefined,[],<<"nabu/Patient/p-21666">>,undefined, undefined,undefined},
+             undefined,undefined,undefined,undefined,undefined, undefined,undefined,undefined,undefined,undefined,
+             undefined,undefined,[],[],[],[],undefined,[],[],[],
+             undefined,[],[]},
+            <<"{\"resourceType\":\"Immunization\",\"id\":\"p-21666\",\"status\":\"completed\",\"vaccineCode\":{\"coding\":[{\"code\":\"HPV\"}]},\"patient\":{\"reference\":\"nabu/Patient/p-21666\"}}">>
+      ).
 
 -endif.
 

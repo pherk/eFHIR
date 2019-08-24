@@ -14,7 +14,10 @@
                   [] }).
 
 -record('Extension', {
-      url :: binary()
+      anyAttribs = [] :: anyAttrib()
+    , id  :: binary()
+    , extension :: ['Extension'()]
+    , url :: binary()
     , value :: extensionValue()
     }).
 -opaque 'Extension'() :: #'Extension'{}.
@@ -22,6 +25,7 @@
 
 -record(valueBase64Binary, {value :: base64Binary()}).
 -record(valueBoolean,  {value :: boolean()}).
+-record(valueCanonical, {value :: binary()}).
 -record(valueCode,     {value :: binary()}).
 -record(valueDate,     {value :: date()}). 
 -record(valueDateTime, {value :: dateTime()}). 
@@ -45,9 +49,9 @@
 -record(valueReference,       {value :: special:'Reference'()}).
 
 -type extensionValue() :: 
-      'Extension'()
-    | #valueBase64Binary{}
+      #valueBase64Binary{}
     | #valueBoolean{}
+    | #valueCanonical{}
     | #valueCode{}
     | #valueDate{}
     | #valueDateTime{}
@@ -125,15 +129,23 @@ to_extension(Props) ->
     % DT = ?ext_info,
     io:format("e: ~p~n",[Props]),
     Keys = proplists:get_keys(Props),
-    [ValueType] = lists:delete(<<"url">>,Keys),
-    Value = proplists:get_value(ValueType,Props),
-    case Value of
-      {Val} ->   % Object
-          #'Extension'{ url    = proplists:get_value(<<"url">>, Props),
-                        value  = to_extensionValue(ValueType,Value)};
-      Val ->     % simple value
-          #'Extension'{ url    = proplists:get_value(<<"url">>, Props),
-                        value  = to_extensionValue(ValueType,Value)}
+    Content = lists:delete(<<"url">>,Keys),
+    io:format("e: ~p~n",[Content]),
+    case Content of
+      []      -> throw(<<"error: to_extension: shall contain either extension or  value[x]">>);
+      [_,_|_] -> throw(<<"error: to_extension: shall contain either extension or  value[x]">>);
+      [<<"extension">>|_] ->     % extension
+          Exts  = proplists:get_value(<<"extension">>,Props),
+          #'Extension'{ id = proplists:get_value(<<"id">>, Props),
+                        extension = to_extension_list(Exts),
+                        url    = proplists:get_value(<<"url">>, Props),
+                        value  = undefined};
+      [VT|_]             ->   % Object or simple value
+          Value = proplists:get_value(VT,Props),
+          #'Extension'{ id = proplists:get_value(<<"id">>, Props),
+                        extension = [],
+                        url    = proplists:get_value(<<"url">>, Props),
+                        value  = to_extensionValue(VT,Value)}
     end.
 
 %% TODO replace by makeTuple
@@ -141,12 +153,12 @@ to_extension(Props) ->
 %% Internal functions
 %%====================================================================
 
-to_extensionValue(<<"extension">>, Value) ->
-    to_extension_list(Value);
 to_extensionValue(<<"valueBase64Binary">>, Value) ->
     #valueBase64Binary{ value = Value };
 to_extensionValue(<<"valueBoolean">>, Value ) ->
     #valueBoolean{ value = Value };
+to_extensionValue(<<"valueCanonical">>, Value ) ->
+    #valueCanonical{ value = Value };
 to_extensionValue(<<"valueCode">>, Value ) ->
     #valueCode{ value = Value };
 to_extensionValue(<<"valueDate">>, Value ) ->
@@ -204,7 +216,7 @@ to_extensionValue(<<"valueReference">>, Props) ->
 extensions_type_test() ->
     ?asrte({[{<<"url">>,<<"text">>},
              {<<"valueString">>,<<"Black or African American">>}]},
-           {'Extension',<<"text">>,
+           {'Extension',[],undefined,[],<<"text">>,
                         {valueString,<<"Black or African American">>}}
           ),
     ?asrte({[{<<"url">>,<<"ombCategory">>},
@@ -213,9 +225,9 @@ extensions_type_test() ->
                    {<<"code">>,<<"2054-5">>},
                    {<<"display">>, <<"Black or African American">>}]}
                  }]},
-           {'Extension',<<"ombCategory">>,
+           {'Extension',[],undefined,[],<<"ombCategory">>,
                         {valueCoding, 
-                            {'Coding',<<"urn:oid:2.16.840.1.113883.6.238">>, undefined,<<"2054-5">>, <<"Black or African American">>,undefined}}}
+                            {'Coding',[],undefined,[],<<"urn:oid:2.16.840.1.113883.6.238">>, undefined,<<"2054-5">>, <<"Black or African American">>,undefined}}}
           ).
 
 
@@ -229,15 +241,15 @@ extensions_list_test() ->
                 {[{<<"url">>,<<"text">>},
                   {<<"valueString">>,<<"Black or African American">>}]}
                ], 
-               [{'Extension',<<"ombCategory">>,
+               [{'Extension',[],undefined,[],<<"ombCategory">>,
                       {valueCoding,
-                          {'Coding',<<"urn:oid:2.16.840.1.113883.6.238">>, undefined,<<"2054-5">>, <<"Black or African American">>,undefined}}},
-                {'Extension',<<"text">>,
+                          {'Coding',[],undefined,[],<<"urn:oid:2.16.840.1.113883.6.238">>, undefined,<<"2054-5">>, <<"Black or African American">>,undefined}}},
+                {'Extension',[],undefined,[],<<"text">>,
                       {valueString,<<"Black or African American">>}}
                ]).
 
 extension_recursive_test() ->
-    ?asrtelist({[{<<"url">>, <<"http://hl7.org/fhir/us/core/StructureDefinition/us-core-race">>},
+    ?asrtelist([{[{<<"url">>, <<"http://hl7.org/fhir/us/core/StructureDefinition/us-core-race">>},
                    {<<"extension">>,
                      [{[{<<"url">>, <<"ombCategory">>},
                         {<<"valueCoding">>,
@@ -245,16 +257,19 @@ extension_recursive_test() ->
                             {<<"code">>, <<"2054-5">>},
                             {<<"display">>, <<"Black or African American">>}]}}]},
                       {[{<<"url">>, <<"text">>},
-                        {<<"valueString">>, <<"Black or African American">>}]}]}]},
-              {'Extension', <<"http://hl7.org/fhir/us/core/StructureDefinition/us-core-race">>,
-                     [{'Extension',<<"ombCategory">>,
-                          {valueCoding,
-                              {'Coding',
-                                  <<"urn:oid:2.16.840.1.113883.6.238">>,
-                                  undefined,<<"2054-5">>,
-                                  <<"Black or African American">>,undefined}}},
-                      {'Extension',<<"text">>,
-                          {valueString,<<"Black or African American">>}}]}).
+                        {<<"valueString">>, <<"Black or African American">>}]}]}]}],
+               [{'Extension',[],undefined,
+                      [{'Extension',[],undefined,[],<<"ombCategory">>,
+                           {valueCoding,
+                               {'Coding',[],undefined,[],
+                                   <<"urn:oid:2.16.840.1.113883.6.238">>,
+                                   undefined,<<"2054-5">>,
+                                   <<"Black or African American">>,
+                                   undefined}}},
+                       {'Extension',[],undefined,[],<<"text">>,
+                           {valueString,<<"Black or African American">>}}],
+                      <<"http://hl7.org/fhir/us/core/StructureDefinition/us-core-race">>,
+                      undefined}]).
 
 
 -endif.

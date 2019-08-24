@@ -155,11 +155,11 @@ practitionerRole_toprop_test() ->
             ]}).
 
 practitionerRole_json_test() ->
-    ?asrtjson({'PractitionerRole',<<"p-21666">>,undefined,undefined,undefined, 
-                  undefined, [],[], [],
-                          [],undefined,[],[],undefined,undefined,
-                          undefined,undefined,[],undefined,undefined,
-                          undefined,[],[],[],[],undefined, []},
+    ?asrtjson(
+            {'PractitionerRole',[],<<"p-21666">>,undefined,undefined,
+                                     undefined,undefined,[],[],[],[],
+                                     undefined,undefined,undefined,undefined,
+                                     [],[],[],[],[],[],[],undefined,[]},
            <<"{\"resourceType\":\"PractitionerRole\",\"id\":\"p-21666\"}">>).
 
 -endif.

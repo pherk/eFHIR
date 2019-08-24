@@ -60,14 +60,14 @@ analyse_propinfo(Choice, Key, Props) when is_list(Choice) ->
         []         -> undefined;
         [{K, V}|_] ->
             {Type,optional} = proplists:get_value(K, Choice),
-            match_propinfo(Type, optional, V);
+            match_propinfo(Type, optional, V, fun validate_tag/2);
         [_,_|_]    ->
             throw(<<"error in fhir:decode(): more than one of a choice type in resource">>)
     end;
 analyse_propinfo({Type, Occurs}, Key, Props) ->
     % io:format("api5: ~pi : ~p~n~p:~p~n",[Key, Props, Type, Occurs]),
     Value = proplists:get_value(erlang_to_fhir(Key), Props),
-    match_propinfo(Type, Occurs, Value).
+    match_propinfo(Type, Occurs, Value, fun validate/2).
 
 check_choices(Keys, Props) ->
     lists:filtermap(fun(K) -> case proplists:get_value(K, Props) of
@@ -75,15 +75,15 @@ check_choices(Keys, Props) ->
                                   V         -> {true, {K, V}}
                               end end, Keys).
 
-match_propinfo(Type, Occurs, Value) ->
+match_propinfo(Type, Occurs, Value, Validate) ->
     case {Value,Occurs} of
                 {undefined, optional}       -> undefined;
                 {undefined, required}       -> error;
                 {undefined, list}           -> [];
                 {undefined, non_empty_list} -> error;
-                {Value,     optional}       -> validate(Type,Value);
+                {Value,     optional}       -> Validate(Type,Value);
                 {Value,     required}       -> 
-            io:format("mpi_required: ~p : ~p~n",[Type, Value]), validate(Type,Value);
+            io:format("mpi_required: ~p : ~p~n",[Type, Value]), Validate(Type,Value);
                 {Value,     list}           -> 
             io:format("mpi_list: ~p : ~p~n", [Type, Value]), Fun = get_fun(Type), lists:map(Fun, Value);
                 {Value,     non_empty_list} -> 
@@ -111,26 +111,64 @@ resolve_base(Base, L) ->
     {NewBase, BI, Attrs, Restrictions} = xsd_info(Base),
     resolve_base(NewBase, Attrs++BI++L).
 
-validate({primitive, <<"base64Binary">>},   Value) -> Value;
-validate({primitive, <<"boolean">>},   Value) -> Value; % utils:binary_to_boolean(Value,error);
-validate({primitive, <<"canonical">>},   Value) -> Value;
-validate({primitive, <<"code">>},   Value) -> Value;
-validate({primitive, <<"date">>},   Value) -> Value;
-validate({primitive, <<"dateTime">>},   Value) -> Value;
-validate({primitive, <<"decimal">>},   Value) -> Value;
-validate({primitive, <<"id">>},   Value) -> Value;
-validate({primitive, <<"instant">>},   Value) -> Value;
-validate({primitive, <<"integer">>},   Value) -> Value;
-validate({primitive, <<"makdown">>},   Value) -> Value;
-validate({primitive, <<"oid">>},   Value) -> Value;
-validate({primitive, <<"positiveInt">>},   Value) -> Value;
-validate({primitive, <<"string">>},   Value) -> Value;
-validate({primitive, <<"time">>},   Value) -> Value;
-validate({primitive, <<"uuid">>},   Value) -> Value;
-validate({primitive, <<"unsignedInt">>},   Value) -> Value;
-validate({primitive, <<"uri">>},   Value) -> Value;
-validate({primitive, <<"url">>},   Value) -> Value;
-validate({primitive, <<"xhtml">>},   Value) -> Value;
+validate_tag({primitive, T}=Type, Value) ->
+    Tag = type_to_tag(T),
+    case validate(Type,Value) of
+        undefined -> undefined;
+        error     -> error;
+        V         -> {Tag, V}
+    end;
+validate_tag({code, T}=Type, Value) ->
+    case validate(Type,Value) of
+        undefined -> undefined;
+        error     -> error;
+        V         -> {<<"Code">>, V}
+    end;
+validate_tag(Type, V) ->
+    validate(Type,V).
+
+type_to_tag(<<"base64Binary">>) -> <<"Base64Binary">>;
+type_to_tag(<<"boolean">>) -> <<"Boolean">>;
+type_to_tag(<<"canonical">>) -> <<"Canonical">>;
+type_to_tag(<<"code">>) -> <<"Code">>;
+type_to_tag(<<"date">>) -> <<"Date">>;
+type_to_tag(<<"dateTime">>) -> <<"DateTime">>;
+type_to_tag(<<"decimal">>) -> <<"Decimal">>;
+type_to_tag(<<"id">>) -> <<"Id">>;
+type_to_tag(<<"instant">>) -> <<"Instant">>;
+type_to_tag(<<"integer">>) -> <<"Integer">>;
+type_to_tag(<<"markdown">>) -> <<"Markdown">>;
+type_to_tag(<<"oid">>) -> <<"Oid">>;
+type_to_tag(<<"positiveInt">>) -> <<"PositiveInt">>;
+type_to_tag(<<"string">>) -> <<"String">>;
+type_to_tag(<<"time">>) -> <<"Time">>;
+type_to_tag(<<"unsignedInt">>) -> <<"UnsignedInt">>;
+type_to_tag(<<"uri">>) -> <<"Uri">>;
+type_to_tag(<<"url">>) -> <<"Url">>;
+type_to_tag(<<"uuid">>) -> <<"Uuid">>;
+type_to_tag(<<"xhtml">>) -> <<"Xhtml">>.
+
+
+validate({primitive, <<"base64Binary">>}, Value) -> Value;
+validate({primitive, <<"boolean">>}, Value) -> Value; % utils:binary_to_boolean(Value,error);
+validate({primitive, <<"canonical">>}, Value) -> Value;
+validate({primitive, <<"code">>}, Value) -> Value;
+validate({primitive, <<"date">>}, Value) -> Value;
+validate({primitive, <<"dateTime">>}, Value) -> Value;
+validate({primitive, <<"decimal">>}, Value) -> Value;
+validate({primitive, <<"id">>}, Value) -> Value;
+validate({primitive, <<"instant">>}, Value) -> Value;
+validate({primitive, <<"integer">>}, Value) -> Value;
+validate({primitive, <<"markdown">>}, Value) -> Value;
+validate({primitive, <<"oid">>}, Value) -> Value;
+validate({primitive, <<"positiveInt">>}, Value) -> Value;
+validate({primitive, <<"string">>}, Value) -> Value;
+validate({primitive, <<"time">>}, Value) -> Value;
+validate({primitive, <<"unsignedInt">>}, Value) -> Value;
+validate({primitive, <<"uri">>}, Value) -> Value;
+validate({primitive, <<"url">>}, Value) -> Value;
+validate({primitive, <<"uuid">>}, Value) -> Value;
+validate({primitive, <<"xhtml">>}, Value) -> Value;
 validate({code, Type},   Value) -> 
     List = maps:get(Type,?fhir_codes),
 %    io:format("code: ~s in ~p~n",[Value,List]),
@@ -165,11 +203,9 @@ validate({special, <<"Meta">>},           Value) -> special:to_meta(Value);
 validate({special, <<"Narrative">>},      Value) -> special:to_narrative(Value);
 validate({special, <<"Reference">>},      Value) -> special:to_reference(Value);
 validate({bbelement, Resource},   Value) ->
-    R = string:lowercase(Resource),
-    Mod = hd(binary:split(R, <<".">>)),
-    Fun = list_to_binary([<<"to_">>,binary:replace(R,<<".">>,<<"_">>)]),
-%    io:format("validate: apply: ~s:~s(~p)~n",[Mod,Fun,Value]),
-    apply(binary_to_atom(Mod,utf8),binary_to_atom(Fun,utf8),[Value]).
+    {Mod, Fun} = utils:type_to_fun(Resource),
+    io:format("validate: apply: ~s:~s(~p)~n",[Mod,Fun,Value]),
+    apply(Mod, Fun,[Value]).
 
 
 get_fun({primitive, <<"binary">>})     -> fun to_binary/1; % not used?!
@@ -210,12 +246,10 @@ get_fun({special,   <<"Reference">>})  -> fun special:to_reference/1;
 get_fun({bbelement, <<"Bundle.Entry">>}) -> fun bundle:to_bundle_entry/1;
 get_fun({bbelement, <<"Bundle.Link">>})  -> fun bundle:to_bundle_link/1;
 get_fun({bbelement, Resource}) ->
-     R = string:lowercase(Resource),
-     Mod = hd(binary:split(R, <<".">>)),
-     Fun = list_to_binary([<<"to_">>,binary:replace(R,<<".">>,<<"_">>)]),
-     fun(V) ->
+    {Mod, Fun} = utils:type_to_fun(Resource),
+    fun(V) ->
             io:format("get_fun: bbe apply: ~s:~s(~p)~n",[Mod,Fun,V]),
-            apply(binary_to_atom(Mod,utf8),binary_to_atom(Fun,utf8),[V]) end.
+            apply(Mod,Fun,[V]) end.
 
 erlang_to_fhir(<<"reference_">>) -> <<"reference">>;
 erlang_to_fhir(<<"when_">>) -> <<"when">>;

@@ -1,5 +1,7 @@
 -module(complex).
 -compile(export_all).
+
+-include("fhir.hrl").
 -include("primitives.hrl").
 %%
 %% API exports
@@ -14,7 +16,10 @@
 
 
 -record('Address', {
-       use                    :: code()     %% home | work | temp | old
+      anyAttribs  :: anyAttribs()
+    , id          :: string()
+    , extension     :: [extensions:'Extension'()]
+    ,  use                    :: code()     %% home | work | temp | old
      , type                   :: code()     %% postal | physical | both
      , text                   :: binary()
      , line                   :: [binary()]
@@ -28,14 +33,20 @@
 -opaque 'Address'() :: #'Address'{}.
 
 -record('Annotation', {
-      authorReference :: special:'Reference'()
+      anyAttribs  :: anyAttribs()
+    , id          :: string()
+    , extension     :: [extensions:'Extension'()]
+    , authorReference :: special:'Reference'()
     , time :: date()
     , text :: binary()
     }).
 -type 'Annotation'() :: #'Annotation'{}.
 
 -record('Attachment', { 
-      contentType :: code()
+      anyAttribs  :: anyAttribs()
+    , id          :: string()
+    , extension     :: [extensions:'Extension'()]
+    , contentType :: code()
     , language :: code()
     , data :: base64Binary()
     , url :: binary()
@@ -47,7 +58,10 @@
 -opaque 'Attachment'() :: #'Attachment'{}.
 
 -record('Coding', {
-      system       :: uri()
+      anyAttribs  :: anyAttribs()
+    , id          :: string()
+    , extension     :: [extensions:'Extension'()]
+    , system       :: uri()
     , version      :: binary()
     , code         :: binary()
     , display      :: binary()
@@ -57,13 +71,19 @@
 
 
 -record('CodeableConcept', {
-      coding       :: ['Coding'()]      %% Coding Code defined by a terminology system
+      anyAttribs  :: anyAttribs()
+    , id          :: string()
+    , extension     :: [extensions:'Extension'()]
+    , coding       :: ['Coding'()]      %% Coding Code defined by a terminology system
     , text         :: binary()        %% Plain text representation of the concept
 }).
 -opaque 'CodeableConcept'() :: #'CodeableConcept'{}.
 
 -record('ContactPoint', {
-      use                    :: code()     %% home | work | temp | old | mobile
+      anyAttribs  :: anyAttribs()
+    , id          :: string()
+    , extension     :: [extensions:'Extension'()]
+    , use                    :: code()     %% home | work | temp | old | mobile
     , system                 :: code()     %% phone | fax | email | pager | other
     , value                  :: binary()
     , rank                   :: non_neg_integer()
@@ -72,7 +92,10 @@
 -opaque 'ContactPoint'() :: #'ContactPoint'{}.
 
 -record('HumanName', {
-       use       = <<"official">>   :: code()  %% usual | official | temp | nickname | anonymous | old | maiden
+      anyAttribs  :: anyAttribs()
+    , id          :: string()
+    , extension     :: [extensions:'Extension'()]
+    ,  use       = <<"official">>   :: code()  %% usual | official | temp | nickname | anonymous | old | maiden
      , text                   :: binary()
      , family                 :: [binary()]
      , given                  :: [binary()]
@@ -83,7 +106,10 @@
 -opaque 'HumanName'() :: #'HumanName'{}.
 
 -record('Identifier', {
-       use = <<"official">> :: code()    %% usual | official | temp | secondary 
+      anyAttribs  :: anyAttribs()
+    , id          :: string()
+    , extension     :: [extensions:'Extension'()]
+    ,  use = <<"official">> :: code()    %% usual | official | temp | secondary 
      , type           :: 'CodeableConcept'() %% Description of 'Identifier'
      , system         :: uri()             %% The namespace for the 'Identifier'
      , value          :: binary()          %% The value that is unique
@@ -93,13 +119,19 @@
 -opaque 'Identifier'()   :: #'Identifier'{}.
 
 -record('Period', {
-       'start'      :: dateTime()
+      anyAttribs  :: anyAttribs()
+    , id          :: string()
+    , extension     :: [extensions:'Extension'()]
+    ,  'start'      :: dateTime()
      , 'end'        :: dateTime()
 }).
 -opaque 'Period'() :: #'Period'{}.
 
 -record('Quantity', {
-      value :: float()
+      anyAttribs  :: anyAttribs()
+    , id          :: string()
+    , extension     :: [extensions:'Extension'()]
+    , value :: float()
     , comparator :: binary()
     , unit :: binary()
     , system :: binary()
@@ -108,19 +140,28 @@
 -opaque 'Quantity'() :: #'Quantity'{}.
 
 -record('Range', {
-      low :: 'Quantity'()
+      anyAttribs  :: anyAttribs()
+    , id          :: string()
+    , extension     :: [extensions:'Extension'()]
+    , low :: 'Quantity'()
     , high :: 'Quantity'()
     }).
 -opaque 'Range'() :: #'Range'{}.
 
 -record('Ratio', {
-      numerator :: 'Quantity'()
+      anyAttribs  :: anyAttribs()
+    , id          :: string()
+    , extension     :: [extensions:'Extension'()]
+    , numerator :: 'Quantity'()
     , denominator :: 'Quantity'()
     }).
 -opaque 'Ratio'() :: #'Ratio'{}.
 
 -record('Repeat', {
-      boundsPeriod :: 'Period'()
+      anyAttribs  :: anyAttribs()
+    , id          :: string()
+    , extension     :: [extensions:'Extension'()]
+    , boundsPeriod :: 'Period'()
     , count :: integer()
     , countMax :: integer()
     , duration :: float()
@@ -139,7 +180,10 @@
 -opaque 'Repeat'() :: #'Repeat'{}.
 
 -record('Signature', {
-      type :: ['Coding']
+      anyAttribs  :: anyAttribs()
+    , id          :: string()
+    , extension     :: [extensions:'Extension'()]
+    , type :: ['Coding']
     , when_ :: binary()
     , whoReference :: special:'Reference'()
     , onBehalfOfReference :: special:'Reference'()
@@ -149,7 +193,10 @@
 -opaque 'Signature'() :: #'Signature'{}.
 
 -record('Timing', {
-      event :: [binary()]
+      anyAttribs  :: anyAttribs()
+    , id          :: string()
+    , extension     :: [extensions:'Extension'()]
+    , event :: [binary()]
     , repeat :: 'Repeat'()
     , code :: 'CodeableConcept'()
     }).
@@ -163,7 +210,10 @@ to_address(Props) ->
     DT = decode:xsd_info(<<"Address">>),
     % io:format("~p~n~p~n",[Props,DT]),
     #'Address'{
-      use        = decode:value(<<"use">>, Props, DT)
+        anyAttribs = decode:attrs(Props, DT)
+      , id          = decode:value(<<"id">>, Props, DT)
+      , extension    = decode:value(<<"extension">>, Props, DT)
+    , use        = decode:value(<<"use">>, Props, DT)
     , type       = decode:value(<<"type">>, Props, DT) 
     , text       = decode:value(<<"text">>, Props, DT)
     , line       = decode:value(<<"line">>, Props, DT)
@@ -180,7 +230,10 @@ to_annotation(Props) ->
     DT = decode:xsd_info(<<"Annotation">>),
     % io:format("~p~n~p~n",[Props,DT]),
     #'Annotation'{
-      authorReference = decode:value(<<"authorReference">>, Props, DT)
+        anyAttribs = decode:attrs(Props, DT)
+      , id          = decode:value(<<"id">>, Props, DT)
+      , extension    = decode:value(<<"extension">>, Props, DT)
+    , authorReference = decode:value(<<"authorReference">>, Props, DT)
     , time = decode:value(<<"time">>, Props, DT)
     , text = decode:value(<<"text">>, Props, DT)
     }.
@@ -190,7 +243,10 @@ to_attachment(Props) ->
     DT = decode:xsd_info(<<"Attachment">>),
     % io:format("~p~n~p~n",[Props,DT]),
     #'Attachment'{
-      contentType = decode:value(<<"contentType">>, Props, DT)
+        anyAttribs = decode:attrs(Props, DT)
+      , id          = decode:value(<<"id">>, Props, DT)
+      , extension    = decode:value(<<"extension">>, Props, DT)
+    , contentType = decode:value(<<"contentType">>, Props, DT)
     , language    = decode:value(<<"language">>, Props, DT)
     , data        = decode:value(<<"data">>, Props, DT)
     , url         = decode:value(<<"url">>, Props, DT)
@@ -205,7 +261,10 @@ to_coding(Props) ->
     DT = decode:xsd_info(<<"Coding">>),
     % io:format("~p~n~p~n",[Props,DT]),
     #'Coding'{
-        system  = decode:value(<<"system">>, Props, DT)
+        anyAttribs = decode:attrs(Props, DT)
+      , id          = decode:value(<<"id">>, Props, DT)
+      , extension    = decode:value(<<"extension">>, Props, DT)
+      , system  = decode:value(<<"system">>, Props, DT)
       , version = decode:value(<<"version">>, Props, DT)
       , code    = decode:value(<<"code">>, Props, DT)
       , display = decode:value(<<"display">>, Props, DT)
@@ -217,7 +276,10 @@ to_codeableConcept(Props) ->
     DT = decode:xsd_info(<<"CodeableConcept">>),
     % io:format("~p~n~p~n",[Props,DT]),
     #'CodeableConcept'{
-        coding  = decode:value(<<"coding">>, Props, DT)
+        anyAttribs = decode:attrs(Props, DT)
+      , id          = decode:value(<<"id">>, Props, DT)
+      , extension    = decode:value(<<"extension">>, Props, DT)
+      , coding  = decode:value(<<"coding">>, Props, DT)
       , text = decode:value(<<"text">>, Props, DT)
       }.
 
@@ -226,7 +288,10 @@ to_contactPoint(Props) ->
     DT = decode:xsd_info(<<"ContactPoint">>),
     % io:format("~p~n~p~n",[Props,DT]),
     #'ContactPoint'{
-      use    = decode:value(<<"use">>, Props, DT)
+        anyAttribs = decode:attrs(Props, DT)
+      , id          = decode:value(<<"id">>, Props, DT)
+      , extension    = decode:value(<<"extension">>, Props, DT)
+    , use    = decode:value(<<"use">>, Props, DT)
     , system = decode:value(<<"system">>, Props, DT)
     , value  = decode:value(<<"value">>, Props, DT)
     , rank   = decode:value(<<"rank">>, Props, DT)
@@ -237,7 +302,10 @@ to_humanName({Props}) -> to_humanName(Props);
 to_humanName(Props) ->
     DT = decode:xsd_info(<<"HumanName">>),
     #'HumanName'{
-       use     = decode:value(<<"use">>, Props, DT) 
+        anyAttribs = decode:attrs(Props, DT)
+      , id          = decode:value(<<"id">>, Props, DT)
+      , extension    = decode:value(<<"extension">>, Props, DT)
+     , use     = decode:value(<<"use">>, Props, DT) 
      , text    = decode:value(<<"text">>, Props, DT) 
      , family  = decode:value(<<"family">>, Props, DT) 
      , given   = decode:value(<<"given">>, Props, DT) 
@@ -250,7 +318,10 @@ to_identifier({Props}) -> to_identifier(Props);
 to_identifier(Props) ->
     DT = decode:xsd_info(<<"Identifier">>),
     #'Identifier'{
-        use  = decode:value(<<"use">>, Props, DT)
+        anyAttribs = decode:attrs(Props, DT)
+      , id          = decode:value(<<"id">>, Props, DT)
+      , extension    = decode:value(<<"extension">>, Props, DT)
+      , use  = decode:value(<<"use">>, Props, DT)
       , type = decode:value(<<"type">>, Props, DT)
       , system = decode:value(<<"system">>, Props, DT)
       , value  = decode:value(<<"value">>, Props, DT)
@@ -262,7 +333,10 @@ to_period({Props}) -> to_period(Props);
 to_period(Props) ->
     DT = decode:xsd_info(<<"Period">>),
     #'Period'{
-        'start'  = decode:value(<<"start">>, Props, DT)
+        anyAttribs = decode:attrs(Props, DT)
+      , id          = decode:value(<<"id">>, Props, DT)
+      , extension    = decode:value(<<"extension">>, Props, DT)
+      , 'start'  = decode:value(<<"start">>, Props, DT)
       , 'end'    = decode:value(<<"end">>, Props, DT)
       }.
 
@@ -270,7 +344,10 @@ to_quantity({Props}) -> to_quantity(Props);
 to_quantity(Props) ->
     DT = decode:xsd_info(<<"Quantity">>),
     #'Quantity'{
-        value = decode:value(<<"value">>, Props, DT)
+        anyAttribs = decode:attrs(Props, DT)
+      , id          = decode:value(<<"id">>, Props, DT)
+      , extension    = decode:value(<<"extension">>, Props, DT)
+      , value = decode:value(<<"value">>, Props, DT)
       , comparator = decode:value(<<"comparator">>, Props, DT)
       , unit = decode:value(<<"unit">>, Props, DT)
       , system = decode:value(<<"system">>, Props, DT)
@@ -281,7 +358,10 @@ to_range({Props}) -> to_range(Props);
 to_range(Props) ->
     DT = decode:xsd_info(<<"Range">>),
     #'Range'{
-      low = decode:value(<<"low">>, Props, DT)
+        anyAttribs = decode:attrs(Props, DT)
+      , id          = decode:value(<<"id">>, Props, DT)
+      , extension    = decode:value(<<"extension">>, Props, DT)
+    , low = decode:value(<<"low">>, Props, DT)
     , high = decode:value(<<"high">>, Props, DT)
     }.
 
@@ -289,7 +369,10 @@ to_ratio({Props}) -> to_ratio(Props);
 to_ratio(Props) ->
     DT = decode:xsd_info(<<"Ratio">>),
     #'Ratio'{
-      numerator = decode:value(<<"numerator">>, Props, DT)
+        anyAttribs = decode:attrs(Props, DT)
+      , id          = decode:value(<<"id">>, Props, DT)
+      , extension    = decode:value(<<"extension">>, Props, DT)
+    , numerator = decode:value(<<"numerator">>, Props, DT)
     , denominator = decode:value(<<"denominator">>, Props, DT)
     }.
 
@@ -297,7 +380,10 @@ to_repeat({Props}) -> to_repeat(Props);
 to_repeat(Props) ->
     DT = decode:xsd_info(<<"Repeat">>),
     #'Repeat'{
-      boundsPeriod = decode:value(<<"boundsPeriod">>, Props, DT)
+        anyAttribs = decode:attrs(Props, DT)
+      , id          = decode:value(<<"id">>, Props, DT)
+      , extension    = decode:value(<<"extension">>, Props, DT)
+    , boundsPeriod = decode:value(<<"boundsPeriod">>, Props, DT)
     , count = decode:value(<<"count">>, Props, DT)
     , countMax = decode:value(<<"countMax">>, Props, DT)
     , duration = decode:value(<<"duration">>, Props, DT)
@@ -318,7 +404,10 @@ to_signature({Props}) -> to_signature(Props);
 to_signature(Props) ->
     DT = decode:xsd_info(<<"Signature">>),
     #'Signature'{
-      type = decode:value(<<"type">>, Props, DT)
+        anyAttribs = decode:attrs(Props, DT)
+      , id          = decode:value(<<"id">>, Props, DT)
+      , extension    = decode:value(<<"extension">>, Props, DT)
+    , type = decode:value(<<"type">>, Props, DT)
     , when_ = decode:value(<<"when_">>, Props, DT)
     , whoReference = decode:value(<<"whoReference">>, Props, DT)
     , onBehalfOfReference = decode:value(<<"onBehalfOfReference">>, Props, DT)
@@ -330,7 +419,10 @@ to_timing({Props}) -> to_timing(Props);
 to_timing(Props) ->
     DT = decode:xsd_info(<<"Timing">>),
     #'Timing'{
-      event = decode:value(<<"event">>, Props, DT)
+        anyAttribs = decode:attrs(Props, DT)
+      , id          = decode:value(<<"id">>, Props, DT)
+      , extension    = decode:value(<<"extension">>, Props, DT)
+    , event = decode:value(<<"event">>, Props, DT)
     , repeat = decode:value(<<"repeat">>, Props, DT)
     , code = decode:value(<<"code">>, Props, DT)
     }.
@@ -348,19 +440,19 @@ to_timing(Props) ->
 
 complex_to_test() ->
     ?asrtto(complex:to_coding({[{<<"code">>, <<"test">>}]}),
-            {'Coding',undefined,undefined,<<"test">>,undefined,undefined}),
-    ?asrtto(complex:to_coding({[{<<"userSelected">>, <<"false">>}]}),
-            {'Coding',undefined,undefined,undefined,undefined, false}),
+            {'Coding',[], undefined, [], undefined,undefined,<<"test">>,undefined,undefined}),
+    ?asrtto(complex:to_coding({[{<<"userSelected">>, false}]}),
+            {'Coding',[], undefined, [], undefined,undefined,undefined,undefined, false}),
     ?asrtto(complex:to_coding({[{<<"system">>,<<"http://eNahar.org/test">>}, {<<"code">>, <<"test">>},{<<"display">>,<<"test">>}]}),
-            {'Coding',<<"http://eNahar.org/test">>,undefined,<<"test">>,<<"test">>,undefined}),
+            {'Coding',[],undefined,[],<<"http://eNahar.org/test">>,undefined,<<"test">>,<<"test">>,undefined}),
     ?asrtto(complex:to_humanName({[{<<"use">>, <<"official">>}]}),
-            {'HumanName',<<"official">>,undefined,undefined,[],[],[],undefined}),
+            {'HumanName',[],undefined,[],<<"official">>,undefined,undefined,[],[],[],undefined}),
     ?asrtto(complex:to_humanName({[{<<"use">>, <<"official">>},{<<"family">>,<<"Sokolow">>},{<<"given">>,[<<"Nicolai">>]}]}),
-            {'HumanName',<<"official">>,undefined,<<"Sokolow">>,[<<"Nicolai">>],[],[],undefined}).
+            {'HumanName',[],undefined,[],<<"official">>,undefined,<<"Sokolow">>,[<<"Nicolai">>],[],[],undefined}).
 
 complex_timing_test() ->
     ?asrtto(complex:to_timing({[{<<"event">>, [<<"2019-07-15T12:00:00">>]}]}),
-            {'Timing',[<<"2019-07-15T12:00:00">>], undefined, undefined}).
+            {'Timing',[],undefined,[],[<<"2019-07-15T12:00:00">>], undefined, undefined}).
 
 -endif.
 

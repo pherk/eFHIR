@@ -104,27 +104,22 @@ text(#'Organization'{text=N}) ->
 
 organization_to_test() ->
     ?asrtto([{<<"id">>, <<"p-21666">>}],
-         {'Organization',<<"p-21666">>,undefined,undefined, undefined, 
-                  undefined,[], [], [],
-                          [],undefined,[],[],undefined,undefined,
-                          undefined,undefined,[],undefined,undefined,
-                          undefined,[],[],[],[],undefined,[]}).
+            {'Organization',[],<<"p-21666">>,undefined,undefined, undefined,undefined,[],[],[],
+             [],undefined,[], undefined,[],[],[],undefined,[],[]}
+           ).
+
 organization_toprop_test() ->
-    ?asrtp({'Organization',<<"p-21666">>,undefined,undefined,undefined, 
-                  undefined, [],[], [],
-                          [],undefined,[],[],undefined,undefined,
-                          undefined,undefined,[],undefined,undefined,
-                          undefined,[],[],[],[],undefined, []},
+    ?asrtp(
+            {'Organization',[],<<"p-21666">>,undefined,undefined, undefined,undefined,[],[],[],
+             [],undefined,[], undefined,[],[],[],undefined,[],[]},
            {[{<<"resourceType">>,<<"Organization">>},
               {<<"id">>,<<"p-21666">>}
             ]}).
 
 organization_json_test() ->
-    ?asrtjson({'Organization',<<"p-21666">>,undefined,undefined,undefined, 
-                  undefined, [],[], [],
-                          [],undefined,[],[],undefined,undefined,
-                          undefined,undefined,[],undefined,undefined,
-                          undefined,[],[],[],[],undefined, []},
+    ?asrtjson(
+            {'Organization',[],<<"p-21666">>,undefined,undefined, undefined,undefined,[],[],[],
+             [],undefined,[], undefined,[],[],[],undefined,[],[]},
            <<"{\"resourceType\":\"Organization\",\"id\":\"p-21666\"}">>).
 
 -endif.

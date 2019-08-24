@@ -7,8 +7,8 @@
 	id :: string() | undefined,
 	extension :: [extensions:'Extension'()] | undefined,
 	modifierExtension :: [extensions:'Extension'()] | undefined,
-	severity :: complex:'IssueSeverity'(),
-	code :: complex:'IssueType'(),
+	severity :: code(),
+	code :: code(),
 	details :: complex:'CodeableConcept'() | undefined,
 	diagnostics :: string() | undefined,
 	location :: [string()] | undefined,
@@ -23,10 +23,10 @@
 	implicitRules :: uri() | undefined,
 	language :: code() | undefined,
 	text :: special:'Narrative'() | undefined,
-	contained :: [complex:'ResourceContainer'()] | undefined,
+	contained :: [resource:'ResourceContainer'()] | undefined,
 	extension :: [extensions:'Extension'()] | undefined,
 	modifierExtension :: [extensions:'Extension'()] | undefined,
-	issue :: [complex:'OperationOutcome.Issue'()]}).
+	issue :: ['OperationOutcome.Issue'()]}).
 
 -type 'OperationOutcome'() :: #'OperationOutcome'{}.
 
@@ -86,34 +86,45 @@ text(#'OperationOutcome'{text=N}) ->
 
 -include_lib("eunit/include/eunit.hrl").
 
--define(asrtto(A, B), ?assertEqual(B, operationOutcome:to_operationOutcome(A))).
+-define(asrtto(A, B), ?assertEqual(B, operationoutcome:to_operationOutcome(A))).
 -define(asrtp(A, B), ?assertEqual(B, encode:to_proplist(A))).
 -define(asrtjson(A, B), ?assertEqual(B, jiffy:encode(encode:to_proplist(A)))).
 
 operationOutcome_to_test() ->
-    ?asrtto([{<<"id">>, <<"p-21666">>}],
-         {'OperationOutcome',<<"p-21666">>,undefined,undefined, undefined, 
-                  undefined,[], [], [],
-                          [],undefined,[],[],undefined,undefined,
-                          undefined,undefined,[],undefined,undefined,
-                          undefined,[],[],[],[],undefined,[]}).
+    ?asrtto([{<<"id">>, <<"p-21666">>}, 
+             {<<"issue">>, [{[{<<"severity">>, <<"fatal">>},
+                             {<<"code">>, <<"Rest API">>}]}]} 
+            ],
+            {'OperationOutcome',[],<<"p-21666">>,undefined,undefined,
+                     undefined,undefined,[],[],[],
+                     [{'OperationOutcome.Issue',[],undefined,[],[],
+                          <<"fatal">>,<<"Rest API">>,undefined,undefined,[],
+                          []}]}
+           ).
+
 operationOutcome_toprop_test() ->
-    ?asrtp({'OperationOutcome',<<"p-21666">>,undefined,undefined,undefined, 
-                  undefined, [],[], [],
-                          [],undefined,[],[],undefined,undefined,
-                          undefined,undefined,[],undefined,undefined,
-                          undefined,[],[],[],[],undefined, []},
-           {[{<<"resourceType">>,<<"OperationOutcome">>},
-              {<<"id">>,<<"p-21666">>}
-            ]}).
+    ?asrtp(
+            {'OperationOutcome',[],<<"p-21666">>,undefined,undefined,
+                     undefined,undefined,[],[],[],
+                     [{'OperationOutcome.Issue',[],undefined,[],[],
+                          <<"fatal">>,<<"Rest API">>,undefined,undefined,[],
+                          []}]},
+            {[{<<"resourceType">>,<<"OperationOutcome">>},
+                   {<<"id">>,<<"p-21666">>},
+                   {<<"issue">>,
+                    [{[{<<"severity">>,<<"fatal">>},
+                       {<<"code">>,<<"Rest API">>}]}]}]}
+      ).
 
 operationOutcome_json_test() ->
-    ?asrtjson({'OperationOutcome',<<"p-21666">>,undefined,undefined,undefined, 
-                  undefined, [],[], [],
-                          [],undefined,[],[],undefined,undefined,
-                          undefined,undefined,[],undefined,undefined,
-                          undefined,[],[],[],[],undefined, []},
-           <<"{\"resourceType\":\"OperationOutcome\",\"id\":\"p-21666\"}">>).
+    ?asrtjson(
+            {'OperationOutcome',[],<<"p-21666">>,undefined,undefined,
+                     undefined,undefined,[],[],[],
+                     [{'OperationOutcome.Issue',[],undefined,[],[],
+                          <<"fatal">>,<<"Rest API">>,undefined,undefined,[],
+                          []}]},
+            <<"{\"resourceType\":\"OperationOutcome\",\"id\":\"p-21666\",\"issue\":[{\"severity\":\"fatal\",\"code\":\"Rest API\"}]}">>
+      ).
 
 -endif.
 

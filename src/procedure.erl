@@ -163,21 +163,22 @@ text(#'Procedure'{text=N}) ->
 -define(asrtjson(A, B), ?assertEqual(B, jiffy:encode(encode:to_proplist(A)))).
 
 procedure_to_test() ->
-    ?asrtto([{<<"id">>, <<"p-21666">>},{<<"status">>, <<"completed">>},{<<"subject">>,{[{<<"reference">>,<<"nabu/Patient/p-21666">>}]}}],
-             {'Procedure',[],<<"p-21666">>,undefined,undefined,undefined, undefined,[],[],[],
-              [],[],[],[],[],<<"completed">>, undefined,undefined,undefined,
-              {'Reference',[],[],<<"nabu/Patient/p-21666">>,undefined, undefined,undefined},
-                     undefined,undefined,undefined,undefined,[],undefined,[],
-                     [],[],undefined,[],[],[],[],[],[],[],[]}).
-
+    ?asrtto([{<<"id">>, <<"p-21666">>},{<<"status">>, <<"completed">>},
+             {<<"subject">>,{[{<<"reference">>,<<"nabu/Patient/p-21666">>}]}}],
+            {'Procedure',[],<<"p-21666">>,undefined,undefined,undefined, undefined,[],[],[],
+             [],[],[],[],[],<<"completed">>, undefined,undefined,undefined,
+             {'Reference',[],undefined,[],<<"nabu/Patient/p-21666">>, undefined,undefined,undefined},
+             undefined,undefined,undefined,undefined,[],undefined,[],
+             [],[],undefined,[],[],[],[],[],[],[],[]}
+            ).
 
 procedure_toprop_test() ->
     ?asrtp(
-           {'Procedure',[],<<"p-21666">>,undefined,undefined,undefined, undefined,[],[],[],
-              [],[],[],[],[],<<"completed">>, undefined,undefined,undefined,
-              {'Reference',[],[],<<"nabu/Patient/p-21666">>,undefined, undefined,undefined},
-                     undefined,undefined,undefined,undefined,[],undefined,[],
-                     [],[],undefined,[],[],[],[],[],[],[],[]},
+            {'Procedure',[],<<"p-21666">>,undefined,undefined,undefined, undefined,[],[],[],
+             [],[],[],[],[],<<"completed">>, undefined,undefined,undefined,
+             {'Reference',[],undefined,[],<<"nabu/Patient/p-21666">>, undefined,undefined,undefined},
+             undefined,undefined,undefined,undefined,[],undefined,[],
+             [],[],undefined,[],[],[],[],[],[],[],[]},
            {[{<<"resourceType">>,<<"Procedure">>},
               {<<"id">>,<<"p-21666">>},
               {<<"status">>, <<"completed">>},
@@ -186,12 +187,14 @@ procedure_toprop_test() ->
             ]}).
 
 procedure_json_test() ->
-    ?asrtjson({'Procedure',<<"p-21666">>,undefined,undefined,undefined, 
-                  undefined, [],[], [],
-                          [],undefined,[],[],undefined,undefined,
-                          undefined,undefined,[],undefined,undefined,
-                          undefined,[],[],[],[],undefined, []},
-           <<"{\"resourceType\":\"Procedure\",\"id\":\"p-21666\"}">>).
+    ?asrtjson(
+            {'Procedure',[],<<"p-21666">>,undefined,undefined,undefined, undefined,[],[],[],
+             [],[],[],[],[],<<"completed">>, undefined,undefined,undefined,
+             {'Reference',[],undefined,[],<<"nabu/Patient/p-21666">>, undefined,undefined,undefined},
+             undefined,undefined,undefined,undefined,[],undefined,[],
+             [],[],undefined,[],[],[],[],[],[],[],[]},
+            <<"{\"resourceType\":\"Procedure\",\"id\":\"p-21666\",\"status\":\"completed\",\"subject\":{\"reference\":\"nabu/Patient/p-21666\"}}">>
+      ).
 
 -endif.
 

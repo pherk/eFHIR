@@ -153,12 +153,13 @@ questionnaireResponse_toprop_test() ->
             ]}).
 
 questionnaireResponse_json_test() ->
-    ?asrtjson({'QuestionnaireResponse',<<"p-21666">>,undefined,undefined,undefined, 
-                  undefined, [],[], [],
-                          [],undefined,[],[],undefined,undefined,
-                          undefined,undefined,[],undefined,undefined,
-                          undefined,[],[],[],[],undefined, []},
-           <<"{\"resourceType\":\"QuestionnaireResponse\",\"id\":\"p-21666\"}">>).
+    ?asrtjson(
+        {'QuestionnaireResponse',[],<<"p-21666">>,undefined,
+                     undefined,undefined,undefined,[],[],[],undefined,[],[],
+                     undefined,<<"completed">>,undefined,undefined,undefined,undefined,
+                     undefined,[]},
+        <<"{\"resourceType\":\"QuestionnaireResponse\",\"id\":\"p-21666\",\"status\":\"completed\"}">>
+      ).
 
 -endif.
 

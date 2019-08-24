@@ -135,8 +135,9 @@ servicerequest_to_test() ->
             ],
 {'ServiceRequest',[],<<"p-21666">>,undefined,undefined, undefined,undefined,[],[],[],
      [],[],[],[],[],undefined, <<"active">>,<<"order">>,[],undefined,
-     undefined,undefined,[],undefined, {'Reference',[],[],<<"nabu/Patient/p-21666">>,undefined, undefined, undefined},
-                     undefined,undefined,true,undefined,undefined,
+     undefined,undefined,[],undefined,
+     {'Reference',[],undefined,[],<<"nabu/Patient/p-21666">>,undefined, undefined, undefined},
+                     undefined,undefined,{<<"Boolean">>,true},undefined,undefined,
     undefined,[], [],[],[],[],[],[],[],[],
     [],undefined,[]}).
 
@@ -145,24 +146,28 @@ servicerequest_toprop_test() ->
 
     ?asrtp(
 {'ServiceRequest',[],<<"p-21666">>,undefined,undefined, undefined,undefined,[],[],[],
-     [],[],[],[],[],undefined, <<"active">>,<<"order">>,[],undefined,undefined,undefined,[],undefined,
-                     {'Reference',[],[],<<"nabu/Patient/p-21666">>,undefined, undefined, undefined},
-                     undefined,undefined,undefined,undefined,undefined,undefined,[],
+     [],[],[],[],[],undefined, <<"active">>,<<"order">>,[],undefined,
+     undefined,undefined,[],undefined, {'Reference',[],undefined,[],<<"nabu/Patient/p-21666">>,undefined, undefined, undefined},
+                     undefined,undefined,{<<"Boolean">>,true},undefined,undefined, undefined,[],
                      [],[],[],[],[],[],[],[],[],undefined,[]},
            {[{<<"resourceType">>,<<"ServiceRequest">>},
              {<<"id">>,<<"p-21666">>},
              {<<"status">>, <<"active">>},
              {<<"intent">>,<<"order">>},
-             {<<"subject">>, {[{<<"reference">>,<<"nabu/Patient/p-21666">>}]}}
+             {<<"subject">>, {[{<<"reference">>,<<"nabu/Patient/p-21666">>}]}},
+             {<<"asNeededBoolean">>, true}
             ]}).
 
 servicerequest_json_test() ->
-    ?asrtjson({'ServiceRequest',<<"p-21666">>,undefined,undefined,undefined, 
-                  undefined, [],[], [],
-                          [],undefined,[],[],undefined,undefined,
-                          undefined,undefined,[],undefined,undefined,
-                          undefined,[],[],[],[],undefined, []},
-           <<"{\"resourceType\":\"ServiceRequest\",\"id\":\"p-21666\"}">>).
+    ?asrtjson(
+           {'ServiceRequest',[],<<"p-21666">>,undefined,undefined, undefined,undefined,[],[],[],
+             [],[],[],[],[],undefined, <<"active">>,<<"order">>,[],undefined,
+             undefined,undefined,[],undefined,
+             {'Reference',[],undefined,[],<<"nabu/Patient/p-21666">>,undefined, undefined, undefined},
+             undefined,undefined,{<<"Boolean">>,true},undefined,undefined, undefined,[],
+             [],[],[],[],[],[],[],[],[],undefined,[]},
+           <<"{\"resourceType\":\"ServiceRequest\",\"id\":\"p-21666\",\"status\":\"active\",\"intent\":\"order\",\"subject\":{\"reference\":\"nabu/Patient/p-21666\"},\"asNeededBoolean\":true}">>
+      ).
 
 -endif.
 
