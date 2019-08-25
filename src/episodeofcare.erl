@@ -31,14 +31,14 @@
 	implicitRules :: uri() | undefined,
 	language :: code() | undefined,
 	text :: special:'Narrative'() | undefined,
-	contained :: [complex:'ResourceContainer'()] | undefined,
+	contained :: [resource:'ResourceContainer'()] | undefined,
 	extension :: [extensions:'Extension'()] | undefined,
 	modifierExtension :: [extensions:'Extension'()] | undefined,
 	identifier :: [complex:'Identifier'()] | undefined,
-	status :: complex:'EpisodeOfCareStatus'(),
-	statusHistory :: [complex:'EpisodeOfCare.StatusHistory'()] | undefined,
+	status :: code(),
+	statusHistory :: ['EpisodeOfCare.StatusHistory'()] | undefined,
 	type :: [complex:'CodeableConcept'()] | undefined,
-	diagnosis :: [complex:'EpisodeOfCare.Diagnosis'()] | undefined,
+	diagnosis :: ['EpisodeOfCare.Diagnosis'()] | undefined,
 	patient :: special:'Reference'(),
 	managingOrganization :: special:'Reference'() | undefined,
 	period :: complex:'Period'() | undefined,
@@ -128,34 +128,41 @@ text(#'EpisodeOfCare'{text=N}) ->
 
 -include_lib("eunit/include/eunit.hrl").
 
--define(asrtto(A, B), ?assertEqual(B, episodeOfCare:to_episodeOfCare(A))).
+-define(asrtto(A, B), ?assertEqual(B, episodeofcare:to_episodeOfCare(A))).
 -define(asrtp(A, B), ?assertEqual(B, encode:to_proplist(A))).
 -define(asrtjson(A, B), ?assertEqual(B, jiffy:encode(encode:to_proplist(A)))).
 
 episodeOfCare_to_test() ->
-    ?asrtto([{<<"id">>, <<"p-21666">>}],
-         {'EpisodeOfCare',<<"p-21666">>,undefined,undefined, undefined, 
-                  undefined,[], [], [],
-                          [],undefined,[],[],undefined,undefined,
-                          undefined,undefined,[],undefined,undefined,
-                          undefined,[],[],[],[],undefined,[]}).
+    ?asrtto([{<<"id">>, <<"p-21666">>}, {<<"status">>, <<"active">>},
+             {<<"patient">>, {[{<<"reference">>, <<"nabu/Patient/p-21666">>}]}}
+            ],
+            {'EpisodeOfCare',[],<<"p-21666">>,undefined,undefined, undefined,undefined,[],[],[],
+             [],<<"active">>,[],[],[],
+             {'Reference',[],undefined,[],<<"nabu/Patient/p-21666">>, undefined,undefined,undefined},
+             undefined,undefined,[],undefined,[],[]}
+           ).
+
 episodeOfCare_toprop_test() ->
-    ?asrtp({'EpisodeOfCare',<<"p-21666">>,undefined,undefined,undefined, 
-                  undefined, [],[], [],
-                          [],undefined,[],[],undefined,undefined,
-                          undefined,undefined,[],undefined,undefined,
-                          undefined,[],[],[],[],undefined, []},
+    ?asrtp(
+            {'EpisodeOfCare',[],<<"p-21666">>,undefined,undefined, undefined,undefined,[],[],[],
+             [],<<"active">>,[],[],[],
+             {'Reference',[],undefined,[],<<"nabu/Patient/p-21666">>, undefined,undefined,undefined},
+             undefined,undefined,[],undefined,[],[]},
            {[{<<"resourceType">>,<<"EpisodeOfCare">>},
-              {<<"id">>,<<"p-21666">>}
-            ]}).
+              {<<"id">>,<<"p-21666">>},
+              {<<"status">>,<<"active">>},
+                   {<<"patient">>,
+                    {[{<<"reference">>,<<"nabu/Patient/p-21666">>}]}}]}
+            ).
 
 episodeOfCare_json_test() ->
-    ?asrtjson({'EpisodeOfCare',<<"p-21666">>,undefined,undefined,undefined, 
-                  undefined, [],[], [],
-                          [],undefined,[],[],undefined,undefined,
-                          undefined,undefined,[],undefined,undefined,
-                          undefined,[],[],[],[],undefined, []},
-           <<"{\"resourceType\":\"EpisodeOfCare\",\"id\":\"p-21666\"}">>).
+    ?asrtjson(
+            {'EpisodeOfCare',[],<<"p-21666">>,undefined,undefined, undefined,undefined,[],[],[],
+             [],<<"active">>,[],[],[],
+             {'Reference',[],undefined,[],<<"nabu/Patient/p-21666">>, undefined,undefined,undefined},
+             undefined,undefined,[],undefined,[],[]},
+            <<"{\"resourceType\":\"EpisodeOfCare\",\"id\":\"p-21666\",\"status\":\"active\",\"patient\":{\"reference\":\"nabu/Patient/p-21666\"}}">>
+      ).
 
 -endif.
 

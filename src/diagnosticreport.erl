@@ -20,24 +20,24 @@
 	implicitRules :: uri() | undefined,
 	language :: code() | undefined,
 	text :: special:'Narrative'() | undefined,
-	contained :: [complex:'ResourceContainer'()] | undefined,
+	contained :: [resource:'ResourceContainer'()] | undefined,
 	extension :: [extensions:'Extension'()] | undefined,
 	modifierExtension :: [extensions:'Extension'()] | undefined,
 	identifier :: [complex:'Identifier'()] | undefined,
 	basedOn :: [special:'Reference'()] | undefined,
-	status :: complex:'DiagnosticReportStatus'(),
+	status :: code(),
 	category :: [complex:'CodeableConcept'()] | undefined,
 	code :: complex:'CodeableConcept'(),
 	subject :: special:'Reference'() | undefined,
 	encounter :: special:'Reference'() | undefined,
-	choice :: complex:'Period'() | dateTime() | undefined,
+	effective :: complex:'Period'() | dateTime() | undefined,
 	issued :: instant() | undefined,
 	performer :: [special:'Reference'()] | undefined,
 	resultsInterpreter :: [special:'Reference'()] | undefined,
 	specimen :: [special:'Reference'()] | undefined,
 	result :: [special:'Reference'()] | undefined,
 	imagingStudy :: [special:'Reference'()] | undefined,
-	media :: [complex:'DiagnosticReport.Media'()] | undefined,
+	media :: ['DiagnosticReport.Media'()] | undefined,
 	conclusion :: string() | undefined,
 	conclusionCode :: [complex:'CodeableConcept'()] | undefined,
 	presentedForm :: [complex:'Attachment'()] | undefined}).
@@ -73,7 +73,7 @@ to_diagnosticReport(Props) ->
     , code  = decode:value(<<"code">>, Props, DT)
     , subject  = decode:value(<<"subject">>, Props, DT)
     , encounter  = decode:value(<<"encounter">>, Props, DT)
-    , choice  = decode:value(<<"choice">>, Props, DT)
+    , effective  = decode:value(<<"effective">>, Props, DT)
     , issued  = decode:value(<<"issued">>, Props, DT)
     , performer  = decode:value(<<"performer">>, Props, DT)
     , resultsInterpreter  = decode:value(<<"resultsInterpreter">>, Props, DT)
@@ -113,34 +113,50 @@ text(#'DiagnosticReport'{text=N}) ->
 
 -include_lib("eunit/include/eunit.hrl").
 
--define(asrtto(A, B), ?assertEqual(B, diagnosticReport:to_diagnosticReport(A))).
+-define(asrtto(A, B), ?assertEqual(B, diagnosticreport:to_diagnosticReport(A))).
 -define(asrtp(A, B), ?assertEqual(B, encode:to_proplist(A))).
 -define(asrtjson(A, B), ?assertEqual(B, jiffy:encode(encode:to_proplist(A)))).
 
 diagnosticReport_to_test() ->
-    ?asrtto([{<<"id">>, <<"p-21666">>}],
-         {'DiagnosticReport',<<"p-21666">>,undefined,undefined, undefined, 
-                  undefined,[], [], [],
-                          [],undefined,[],[],undefined,undefined,
-                          undefined,undefined,[],undefined,undefined,
-                          undefined,[],[],[],[],undefined,[]}).
+    ?asrtto([{<<"id">>, <<"p-21666">>}, {<<"status">>, <<"final">>},
+             {<<"code">>, {[{<<"coding">>, [{[{<<"code">>, <<"amb">>}]}]}]}}
+            ],
+            {'DiagnosticReport',[],<<"p-21666">>,undefined,undefined, undefined,undefined,[],[],[],
+             [],[],<<"final">>,[],
+             {'CodeableConcept',[],undefined,[],
+                 [{'Coding',[],undefined,[],undefined,undefined, <<"amb">>,undefined,undefined}],
+                 undefined},
+             undefined,undefined,undefined,undefined,[],[],[],[],[],
+             [],undefined,[],[]}
+           ).
+
 diagnosticReport_toprop_test() ->
-    ?asrtp({'DiagnosticReport',<<"p-21666">>,undefined,undefined,undefined, 
-                  undefined, [],[], [],
-                          [],undefined,[],[],undefined,undefined,
-                          undefined,undefined,[],undefined,undefined,
-                          undefined,[],[],[],[],undefined, []},
+    ?asrtp(
+            {'DiagnosticReport',[],<<"p-21666">>,undefined,undefined, undefined,undefined,[],[],[],
+             [],[],<<"final">>,[],
+             {'CodeableConcept',[],undefined,[],
+                 [{'Coding',[],undefined,[],undefined,undefined, <<"amb">>,undefined,undefined}],
+                 undefined},
+             undefined,undefined,undefined,undefined,[],[],[],[],[],
+             [],undefined,[],[]},
            {[{<<"resourceType">>,<<"DiagnosticReport">>},
-              {<<"id">>,<<"p-21666">>}
-            ]}).
+              {<<"id">>,<<"p-21666">>},
+              {<<"status">>,<<"final">>},
+              {<<"code">>,
+                    {[{<<"coding">>,[{[{<<"code">>,<<"amb">>}]}]}]}}]}
+            ).
 
 diagnosticReport_json_test() ->
-    ?asrtjson({'DiagnosticReport',<<"p-21666">>,undefined,undefined,undefined, 
-                  undefined, [],[], [],
-                          [],undefined,[],[],undefined,undefined,
-                          undefined,undefined,[],undefined,undefined,
-                          undefined,[],[],[],[],undefined, []},
-           <<"{\"resourceType\":\"DiagnosticReport\",\"id\":\"p-21666\"}">>).
+    ?asrtjson(
+            {'DiagnosticReport',[],<<"p-21666">>,undefined,undefined, undefined,undefined,[],[],[],
+             [],[],<<"final">>,[],
+             {'CodeableConcept',[],undefined,[],
+                 [{'Coding',[],undefined,[],undefined,undefined, <<"amb">>,undefined,undefined}],
+                 undefined},
+             undefined,undefined,undefined,undefined,[],[],[],[],[],
+             [],undefined,[],[]},
+            <<"{\"resourceType\":\"DiagnosticReport\",\"id\":\"p-21666\",\"status\":\"final\",\"code\":{\"coding\":[{\"code\":\"amb\"}]}}">>
+      ).
 
 -endif.
 

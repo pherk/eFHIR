@@ -16,7 +16,7 @@
 	orderedBy :: complex:'CodeableConcept'() | undefined,
 	entry :: [special:'Reference'()] | undefined,
 	emptyReason :: complex:'CodeableConcept'() | undefined,
-	section :: [complex:'Composition.Section'()] | undefined}).
+	section :: ['Composition.Section'()] | undefined}).
 
 -type 'Composition.Section'() :: #'Composition.Section'{}.
 
@@ -36,8 +36,8 @@
 	id :: string() | undefined,
 	extension :: [extensions:'Extension'()] | undefined,
 	modifierExtension :: [extensions:'Extension'()] | undefined,
-	code :: complex:'DocumentRelationshipType'(),
-	choice :: special:'Reference'() | complex:'Identifier'()}).
+	code :: code(),
+	target :: special:'Reference'() | complex:'Identifier'()}).
 
 -type 'Composition.RelatesTo'() :: #'Composition.RelatesTo'{}.
 
@@ -46,7 +46,7 @@
 	id :: string() | undefined,
 	extension :: [extensions:'Extension'()] | undefined,
 	modifierExtension :: [extensions:'Extension'()] | undefined,
-	mode :: complex:'CompositionAttestationMode'(),
+	mode :: code(),
 	time :: dateTime() | undefined,
 	party :: special:'Reference'() | undefined}).
 
@@ -59,11 +59,11 @@
 	implicitRules :: uri() | undefined,
 	language :: code() | undefined,
 	text :: special:'Narrative'() | undefined,
-	contained :: [complex:'ResourceContainer'()] | undefined,
+	contained :: [resource:'ResourceContainer'()] | undefined,
 	extension :: [extensions:'Extension'()] | undefined,
 	modifierExtension :: [extensions:'Extension'()] | undefined,
 	identifier :: complex:'Identifier'() | undefined,
-	status :: complex:'CompositionStatus'(),
+	status :: code(),
 	type :: complex:'CodeableConcept'(),
 	category :: [complex:'CodeableConcept'()] | undefined,
 	subject :: special:'Reference'() | undefined,
@@ -71,12 +71,12 @@
 	date :: dateTime(),
 	author :: [special:'Reference'()],
 	title :: string(),
-	confidentiality :: complex:'ConfidentialityClassification'() | undefined,
-	attester :: [complex:'Composition.Attester'()] | undefined,
+	confidentiality :: code() | undefined,
+	attester :: ['Composition.Attester'()] | undefined,
 	custodian :: special:'Reference'() | undefined,
-	relatesTo :: [complex:'Composition.RelatesTo'()] | undefined,
-	event :: [complex:'Composition.Event'()] | undefined,
-	section :: [complex:'Composition.Section'()] | undefined}).
+	relatesTo :: ['Composition.RelatesTo'()] | undefined,
+	event :: ['Composition.Event'()] | undefined,
+	section :: ['Composition.Section'()] | undefined}).
 
 -type 'Composition'() :: #'Composition'{}.
 
@@ -166,7 +166,7 @@ to_composition_relatesTo(Props) ->
     , extension  = decode:value(<<"extension">>, Props, DT)
     , modifierExtension  = decode:value(<<"modifierExtension">>, Props, DT)
     , code  = decode:value(<<"code">>, Props, DT)
-    , choice  = decode:value(<<"choice">>, Props, DT)
+    , target  = decode:value(<<"target">>, Props, DT)
     }.
 
 
@@ -200,29 +200,55 @@ text(#'Composition'{text=N}) ->
 -define(asrtjson(A, B), ?assertEqual(B, jiffy:encode(encode:to_proplist(A)))).
 
 composition_to_test() ->
-    ?asrtto([{<<"id">>, <<"p-21666">>}],
-         {'Composition',<<"p-21666">>,undefined,undefined, undefined, 
-                  undefined,[], [], [],
-                          [],undefined,[],[],undefined,undefined,
-                          undefined,undefined,[],undefined,undefined,
-                          undefined,[],[],[],[],undefined,[]}).
+    ?asrtto([{<<"id">>, <<"p-21666">>}, {<<"status">>, <<"final">>},
+             {<<"type">>, {[{<<"coding">>, [{[{<<"code">>, <<"11503-0">>}]}]}]}},
+             {<<"date">>, <<"2019-01-01T12:00:00">>},
+             {<<"author">>, [{[{<<"reference">>, <<"nabu/Practitioner/u-admin">>}]}]},
+             {<<"title">>, <<"Composition Test">>}
+            ],
+            {'Composition',[],<<"p-21666">>,undefined,undefined, undefined,undefined,[],[],[],
+             undefined,<<"final">>,
+             {'CodeableConcept',[],undefined,[],
+                 [{'Coding',[],undefined,[],undefined,undefined, <<"11503-0">>,undefined,undefined}],
+                 undefined},
+             [],undefined,undefined,<<"2019-01-01T12:00:00">>,
+             [{'Reference',[],undefined,[], <<"nabu/Practitioner/u-admin">>,undefined,undefined, undefined}],
+             <<"Composition Test">>,undefined,[],undefined,[],[],[]}
+           ).
+
 composition_toprop_test() ->
-    ?asrtp({'Composition',<<"p-21666">>,undefined,undefined,undefined, 
-                  undefined, [],[], [],
-                          [],undefined,[],[],undefined,undefined,
-                          undefined,undefined,[],undefined,undefined,
-                          undefined,[],[],[],[],undefined, []},
-           {[{<<"resourceType">>,<<"Composition">>},
-              {<<"id">>,<<"p-21666">>}
-            ]}).
+    ?asrtp(
+            {'Composition',[],<<"p-21666">>,undefined,undefined, undefined,undefined,[],[],[],
+             undefined,<<"final">>,
+             {'CodeableConcept',[],undefined,[],
+                 [{'Coding',[],undefined,[],undefined,undefined, <<"11503-0">>,undefined,undefined}],
+                 undefined},
+             [],undefined,undefined,<<"2019-01-01T12:00:00">>,
+             [{'Reference',[],undefined,[], <<"nabu/Practitioner/u-admin">>,undefined,undefined, undefined}],
+             <<"Composition Test">>,undefined,[],undefined,[],[],[]},
+            {[{<<"resourceType">>,<<"Composition">>},
+              {<<"id">>,<<"p-21666">>},
+              {<<"status">>,<<"final">>},
+              {<<"type">>,
+                    {[{<<"coding">>,[{[{<<"code">>,<<"11503-0">>}]}]}]}},
+              {<<"date">>,<<"2019-01-01T12:00:00">>},
+              {<<"author">>,
+                    [{[{<<"reference">>,<<"nabu/Practitioner/u-admin">>}]}]},
+              {<<"title">>,<<"Composition Test">>}]}
+            ).
 
 composition_json_test() ->
-    ?asrtjson({'Composition',<<"p-21666">>,undefined,undefined,undefined, 
-                  undefined, [],[], [],
-                          [],undefined,[],[],undefined,undefined,
-                          undefined,undefined,[],undefined,undefined,
-                          undefined,[],[],[],[],undefined, []},
-           <<"{\"resourceType\":\"Composition\",\"id\":\"p-21666\"}">>).
+    ?asrtjson(
+            {'Composition',[],<<"p-21666">>,undefined,undefined, undefined,undefined,[],[],[],
+             undefined,<<"final">>,
+             {'CodeableConcept',[],undefined,[],
+                 [{'Coding',[],undefined,[],undefined,undefined, <<"11503-0">>,undefined,undefined}],
+                 undefined},
+             [],undefined,undefined,<<"2019-01-01T12:00:00">>,
+             [{'Reference',[],undefined,[], <<"nabu/Practitioner/u-admin">>,undefined,undefined, undefined}],
+             <<"Composition Test">>,undefined,[],undefined,[],[],[]},
+            <<"{\"resourceType\":\"Composition\",\"id\":\"p-21666\",\"status\":\"final\",\"type\":{\"coding\":[{\"code\":\"11503-0\"}]},\"date\":\"2019-01-01T12:00:00\",\"author\":[{\"reference\":\"nabu/Practitioner/u-admin\"}],\"title\":\"Composition Test\"}">>
+      ).
 
 -endif.
 

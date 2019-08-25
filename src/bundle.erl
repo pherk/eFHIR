@@ -222,33 +222,40 @@ bundle_to_test() ->
                                              ]}}]
                            }]}
             ],
-         {'Bundle',<<"p-21666">>,undefined,undefined, undefined, 
-                  undefined,<<"searchset">>, undefined, undefined,
-                          [],
-                          [{'Bundle.Entry',
-                               [],
-                               <<"http://eNahar.org/nabu/patient-test">>,
-                               {'Patient',<<"p-21666">>,undefined,undefined,
-                                   undefined,undefined,[],[],[],[],undefined,[],[],
-                                   undefined,undefined,undefined,undefined,[],
-                                   undefined,undefined,undefined,[],[],[],[],
-                                   undefined,[]},
-                                undefined,undefined,undefined}],
-                          undefined}).
+            {'Bundle',<<"p-21666">>,undefined,undefined,undefined, undefined,<<"searchset">>,undefined,undefined,[],
+                     [{'Bundle.Entry',[],
+                          <<"http://eNahar.org/nabu/patient-test">>,
+                          {'Patient',[],<<"p-21666">>,undefined,undefined, undefined,undefined,[],[],[],
+                           [],undefined,[],[], undefined,undefined,undefined,undefined,[],
+                           undefined,undefined,undefined,[],[],[],[], undefined,[]},
+                          undefined,undefined,undefined}],
+                     undefined}
+           ).
+
 bundle_toprop_test() ->
     ?asrtp(
-         {'Bundle',<<"p-21666">>,undefined,undefined, undefined, 
-                  undefined,undefined, undefined, undefined,
-                          [],[],undefined},
+            {'Bundle',<<"p-21666">>,undefined,undefined,undefined, undefined,<<"searchset">>,undefined,undefined,[],
+                     [{'Bundle.Entry',[],
+                          <<"http://eNahar.org/nabu/patient-test">>,
+                          {'Patient',[],<<"p-21666">>,undefined,undefined, undefined,undefined,[],[],[],
+                           [],undefined,[],[], undefined,undefined,undefined,undefined,[],
+                           undefined,undefined,undefined,[],[],[],[], undefined,[]},
+                          undefined,undefined,undefined}],
+                     undefined},
          {[{<<"resourceType">>,<<"Bundle">>},
               {<<"id">>,<<"p-21666">>}
             ]}).
 
 bundle_json_test() ->
     ?asrtjson(
-         {'Bundle',<<"p-21666">>,undefined,undefined, undefined, 
-                  undefined,undefined, undefined, undefined,
-                          [],[],undefined},
+            {'Bundle',<<"p-21666">>,undefined,undefined,undefined, undefined,<<"searchset">>,undefined,undefined,[],
+                     [{'Bundle.Entry',[],
+                          <<"http://eNahar.org/nabu/patient-test">>,
+                          {'Patient',[],<<"p-21666">>,undefined,undefined, undefined,undefined,[],[],[],
+                           [],undefined,[],[], undefined,undefined,undefined,undefined,[],
+                           undefined,undefined,undefined,[],[],[],[], undefined,[]},
+                          undefined,undefined,undefined}],
+                     undefined},
            <<"{\"resourceType\":\"Bundle\",\"id\":\"p-21666\"}">>).
 
 -endif.

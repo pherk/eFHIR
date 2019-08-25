@@ -13,7 +13,7 @@
 	productOrService :: complex:'CodeableConcept'(),
 	modifier :: [complex:'CodeableConcept'()] | undefined,
 	programCode :: [complex:'CodeableConcept'()] | undefined,
-	quantity :: complex:'Quantity'() | complex:'Duration'() | complex:'Age'() | complex:'Distance'() | complex:'Count'() | undefined,
+	quantity :: complex:'Quantity'() | undefined,
 	unitPrice :: complex:'Money'() | undefined,
 	factor :: decimal() | undefined,
 	net :: complex:'Money'() | undefined,
@@ -32,12 +32,12 @@
 	productOrService :: complex:'CodeableConcept'(),
 	modifier :: [complex:'CodeableConcept'()] | undefined,
 	programCode :: [complex:'CodeableConcept'()] | undefined,
-	quantity :: complex:'Quantity'() | complex:'Duration'() | complex:'Age'() | complex:'Distance'() | complex:'Count'() | undefined,
+	quantity :: complex:'Quantity'() | undefined,
 	unitPrice :: complex:'Money'() | undefined,
 	factor :: decimal() | undefined,
 	net :: complex:'Money'() | undefined,
 	udi :: [special:'Reference'()] | undefined,
-	subDetail :: [complex:'Claim.SubDetail'()] | undefined}).
+	subDetail :: ['Claim.SubDetail'()] | undefined}).
 
 -type 'Claim.Detail'() :: #'Claim.Detail'{}.
 
@@ -56,9 +56,9 @@
 	productOrService :: complex:'CodeableConcept'(),
 	modifier :: [complex:'CodeableConcept'()] | undefined,
 	programCode :: [complex:'CodeableConcept'()] | undefined,
-	choice :: complex:'Period'() | date() | undefined,
-	choice1 :: special:'Reference'() | complex:'CodeableConcept'() | complex:'Address'() | undefined,
-	quantity :: complex:'Quantity'() | complex:'Duration'() | complex:'Age'() | complex:'Distance'() | complex:'Count'() | undefined,
+	serviced :: complex:'Period'() | date() | undefined,
+	location :: special:'Reference'() | complex:'CodeableConcept'() | complex:'Address'() | undefined,
+	quantity :: complex:'Quantity'() | undefined,
 	unitPrice :: complex:'Money'() | undefined,
 	factor :: decimal() | undefined,
 	net :: complex:'Money'() | undefined,
@@ -77,7 +77,7 @@
 	modifierExtension :: [extensions:'Extension'()] | undefined,
 	date :: date(),
 	type :: complex:'CodeableConcept'() | undefined,
-	choice :: special:'Reference'() | complex:'Address'() | undefined}).
+	location :: special:'Reference'() | complex:'Address'() | undefined}).
 
 -type 'Claim.Accident'() :: #'Claim.Accident'{}.
 
@@ -104,7 +104,7 @@
 	sequence :: positiveInt(),
 	type :: [complex:'CodeableConcept'()] | undefined,
 	date :: dateTime() | undefined,
-	choice :: special:'Reference'() | complex:'CodeableConcept'(),
+	procedure :: special:'Reference'() | complex:'CodeableConcept'(),
 	udi :: [special:'Reference'()] | undefined}).
 
 -type 'Claim.Procedure'() :: #'Claim.Procedure'{}.
@@ -115,7 +115,7 @@
 	extension :: [extensions:'Extension'()] | undefined,
 	modifierExtension :: [extensions:'Extension'()] | undefined,
 	sequence :: positiveInt(),
-	choice :: special:'Reference'() | complex:'CodeableConcept'(),
+	diagnosis :: special:'Reference'() | complex:'CodeableConcept'(),
 	type :: [complex:'CodeableConcept'()] | undefined,
 	onAdmission :: complex:'CodeableConcept'() | undefined,
 	packageCode :: complex:'CodeableConcept'() | undefined}).
@@ -130,8 +130,8 @@
 	sequence :: positiveInt(),
 	category :: complex:'CodeableConcept'(),
 	code :: complex:'CodeableConcept'() | undefined,
-	choice :: complex:'Period'() | date() | undefined,
-	choice1 :: string() | complex:'Reference'() | complex:'Quantity'() | complex:'Duration'() | complex:'Age'() | complex:'Distance'() | complex:'Count'() | boolean() | complex:'Attachment'() | undefined,
+	timing :: complex:'Period'() | date() | undefined,
+	value :: string() | complex:'Reference'() | complex:'Quantity'() | complex:'Duration'() | complex:'Age'() | complex:'Distance'() | complex:'Count'() | boolean() | complex:'Attachment'() | undefined,
 	reason :: complex:'CodeableConcept'() | undefined}).
 
 -type 'Claim.SupportingInfo'() :: #'Claim.SupportingInfo'{}.
@@ -177,11 +177,11 @@
 	implicitRules :: uri() | undefined,
 	language :: code() | undefined,
 	text :: special:'Narrative'() | undefined,
-	contained :: [complex:'ResourceContainer'()] | undefined,
+	contained :: [resource:'ResourceContainer'()] | undefined,
 	extension :: [extensions:'Extension'()] | undefined,
 	modifierExtension :: [extensions:'Extension'()] | undefined,
 	identifier :: [complex:'Identifier'()] | undefined,
-	status :: complex:'FinancialResourceStatusCodes'(),
+	status :: code(),
 	type :: complex:'CodeableConcept'(),
 	subType :: complex:'CodeableConcept'() | undefined,
 	use :: complex:'Use'(),
@@ -193,19 +193,19 @@
 	provider :: special:'Reference'(),
 	priority :: complex:'CodeableConcept'(),
 	fundsReserve :: complex:'CodeableConcept'() | undefined,
-	related :: [complex:'Claim.Related'()] | undefined,
+	related :: ['Claim.Related'()] | undefined,
 	prescription :: special:'Reference'() | undefined,
 	originalPrescription :: special:'Reference'() | undefined,
-	payee :: complex:'Claim.Payee'() | undefined,
+	payee :: 'Claim.Payee'() | undefined,
 	referral :: special:'Reference'() | undefined,
 	facility :: special:'Reference'() | undefined,
-	careTeam :: [complex:'Claim.CareTeam'()] | undefined,
-	supportingInfo :: [complex:'Claim.SupportingInfo'()] | undefined,
-	diagnosis :: [complex:'Claim.Diagnosis'()] | undefined,
-	procedure :: [complex:'Claim.Procedure'()] | undefined,
-	insurance :: [complex:'Claim.Insurance'()],
-	accident :: complex:'Claim.Accident'() | undefined,
-	item :: [complex:'Claim.Item'()] | undefined,
+	careTeam :: ['Claim.CareTeam'()] | undefined,
+	supportingInfo :: ['Claim.SupportingInfo'()] | undefined,
+	diagnosis :: ['Claim.Diagnosis'()] | undefined,
+	procedure :: ['Claim.Procedure'()] | undefined,
+	insurance :: ['Claim.Insurance'()],
+	accident :: 'Claim.Accident'() | undefined,
+	item :: ['Claim.Item'()] | undefined,
 	total :: complex:'Money'() | undefined}).
 
 -type 'Claim'() :: #'Claim'{}.
@@ -329,8 +329,8 @@ to_claim_item(Props) ->
     , productOrService  = decode:value(<<"productOrService">>, Props, DT)
     , modifier  = decode:value(<<"modifier">>, Props, DT)
     , programCode  = decode:value(<<"programCode">>, Props, DT)
-    , choice  = decode:value(<<"choice">>, Props, DT)
-    , choice1  = decode:value(<<"choice1">>, Props, DT)
+    , serviced  = decode:value(<<"serviced">>, Props, DT)
+    , location  = decode:value(<<"location">>, Props, DT)
     , quantity  = decode:value(<<"quantity">>, Props, DT)
     , unitPrice  = decode:value(<<"unitPrice">>, Props, DT)
     , factor  = decode:value(<<"factor">>, Props, DT)
@@ -353,7 +353,7 @@ to_claim_accident(Props) ->
     , modifierExtension  = decode:value(<<"modifierExtension">>, Props, DT)
     , date  = decode:value(<<"date">>, Props, DT)
     , type  = decode:value(<<"type">>, Props, DT)
-    , choice  = decode:value(<<"choice">>, Props, DT)
+    , location  = decode:value(<<"location">>, Props, DT)
     }.
 
 to_claim_insurance({Props}) ->  to_claim_insurance(Props);
@@ -386,7 +386,7 @@ to_claim_procedure(Props) ->
     , sequence  = decode:value(<<"sequence">>, Props, DT)
     , type  = decode:value(<<"type">>, Props, DT)
     , date  = decode:value(<<"date">>, Props, DT)
-    , choice  = decode:value(<<"choice">>, Props, DT)
+    , procedure  = decode:value(<<"procedure">>, Props, DT)
     , udi  = decode:value(<<"udi">>, Props, DT)
     }.
 
@@ -400,7 +400,7 @@ to_claim_diagnosis(Props) ->
     , extension  = decode:value(<<"extension">>, Props, DT)
     , modifierExtension  = decode:value(<<"modifierExtension">>, Props, DT)
     , sequence  = decode:value(<<"sequence">>, Props, DT)
-    , choice  = decode:value(<<"choice">>, Props, DT)
+    , diagnosis  = decode:value(<<"diagnosis">>, Props, DT)
     , type  = decode:value(<<"type">>, Props, DT)
     , onAdmission  = decode:value(<<"onAdmission">>, Props, DT)
     , packageCode  = decode:value(<<"packageCode">>, Props, DT)
@@ -418,8 +418,8 @@ to_claim_supportingInfo(Props) ->
     , sequence  = decode:value(<<"sequence">>, Props, DT)
     , category  = decode:value(<<"category">>, Props, DT)
     , code  = decode:value(<<"code">>, Props, DT)
-    , choice  = decode:value(<<"choice">>, Props, DT)
-    , choice1  = decode:value(<<"choice1">>, Props, DT)
+    , timing  = decode:value(<<"timing">>, Props, DT)
+    , value  = decode:value(<<"value">>, Props, DT)
     , reason  = decode:value(<<"reason">>, Props, DT)
     }.
 
@@ -485,29 +485,93 @@ text(#'Claim'{text=N}) ->
 -define(asrtjson(A, B), ?assertEqual(B, jiffy:encode(encode:to_proplist(A)))).
 
 claim_to_test() ->
-    ?asrtto([{<<"id">>, <<"p-21666">>}],
-         {'Claim',<<"p-21666">>,undefined,undefined, undefined, 
-                  undefined,[], [], [],
-                          [],undefined,[],[],undefined,undefined,
-                          undefined,undefined,[],undefined,undefined,
-                          undefined,[],[],[],[],undefined,[]}).
+    ?asrtto([{<<"id">>, <<"p-21666">>},
+            {<<"status">>, <<"active">>},
+            {<<"type">>, {[{<<"coding">>, [{[{<<"code">>, <<"amb">>}]}]}]}},
+            {<<"use">>, <<"claim">>},
+            {<<"patient">>, {[{<<"reference">>, <<"nabu/Patient/p-21666">>}]}},
+            {<<"created">>, <<"2019-01-01T12:00:00">>},
+            {<<"provider">>, {[{<<"reference">>, <<"nabu/Practitioner/p-21666">>}]}},
+            {<<"priority">>, {[{<<"coding">>, [{[{<<"code">>, <<"normal">>}]}]}]}},
+            {<<"insurance">>, [{[{<<"sequence">>, 12345},
+                                 {<<"focal">>, true},
+                                 {<<"coverage">>, {[{<<"reference">>, <<"nabu/Coverage/c-21666">>}]}}]}]}],
+            {'Claim',[],<<"p-21666">>,undefined,undefined,undefined, undefined,[],[],[],
+             [],<<"active">>,
+             {'CodeableConcept',[],undefined,[],
+                 [{'Coding',[],undefined,[],undefined,undefined, <<"amb">>,undefined,undefined}],
+                 undefined},
+             undefined,<<"claim">>,
+             {'Reference',[],undefined,[],<<"nabu/Patient/p-21666">>, undefined,undefined,undefined},
+             undefined,<<"2019-01-01T12:00:00">>,undefined,undefined,
+             {'Reference',[],undefined,[], <<"nabu/Practitioner/p-21666">>,undefined,undefined, undefined},
+             {'CodeableConcept',[],undefined,[],
+                 [{'Coding',[],undefined,[],undefined,undefined, <<"normal">>,undefined,undefined}],
+                 undefined},
+             undefined,[],undefined,undefined,undefined,undefined, undefined,[],[],[],[],
+             [{'Claim.Insurance',[],undefined,[],[],12345,true, undefined,
+                 {'Reference',[],undefined,[], <<"nabu/Coverage/c-21666">>,undefined,undefined, undefined},
+                 undefined,[],undefined}],
+             undefined,[],undefined}
+           ).
+
+
 claim_toprop_test() ->
-    ?asrtp({'Claim',<<"p-21666">>,undefined,undefined,undefined, 
-                  undefined, [],[], [],
-                          [],undefined,[],[],undefined,undefined,
-                          undefined,undefined,[],undefined,undefined,
-                          undefined,[],[],[],[],undefined, []},
+    ?asrtp(
+            {'Claim',[],<<"p-21666">>,undefined,undefined,undefined, undefined,[],[],[],
+             [],<<"active">>,
+             {'CodeableConcept',[],undefined,[],
+                 [{'Coding',[],undefined,[],undefined,undefined, <<"amb">>,undefined,undefined}],
+                 undefined},
+             undefined,<<"claim">>,
+             {'Reference',[],undefined,[],<<"nabu/Patient/p-21666">>, undefined,undefined,undefined},
+             undefined,<<"2019-01-01T12:00:00">>,undefined,undefined,
+             {'Reference',[],undefined,[], <<"nabu/Practitioner/p-21666">>,undefined,undefined, undefined},
+             {'CodeableConcept',[],undefined,[],
+                 [{'Coding',[],undefined,[],undefined,undefined, <<"normal">>,undefined,undefined}],
+                 undefined},
+             undefined,[],undefined,undefined,undefined,undefined, undefined,[],[],[],[],
+             [{'Claim.Insurance',[],undefined,[],[],12345,true, undefined,
+                 {'Reference',[],undefined,[], <<"nabu/Coverage/c-21666">>,undefined,undefined, undefined},
+                 undefined,[],undefined}],
+             undefined,[],undefined},
            {[{<<"resourceType">>,<<"Claim">>},
-              {<<"id">>,<<"p-21666">>}
-            ]}).
+              {<<"id">>,<<"p-21666">>},
+              {<<"status">>,<<"active">>},
+              {<<"type">>, {[{<<"coding">>,[{[{<<"code">>,<<"amb">>}]}]}]}},
+              {<<"use">>,<<"claim">>},
+              {<<"patient">>, {[{<<"reference">>,<<"nabu/Patient/p-21666">>}]}},
+              {<<"created">>,<<"2019-01-01T12:00:00">>},
+              {<<"provider">>, {[{<<"reference">>,<<"nabu/Practitioner/p-21666">>}]}},
+              {<<"priority">>, {[{<<"coding">>,[{[{<<"code">>,<<"normal">>}]}]}]}},
+              {<<"insurance">>,
+                    [{[{<<"sequence">>,12345},
+                       {<<"focal">>,true},
+                       {<<"coverage">>,
+                       {[{<<"reference">>, <<"nabu/Coverage/c-21666">>}]}}]}]}]}
+            ).
 
 claim_json_test() ->
-    ?asrtjson({'Claim',<<"p-21666">>,undefined,undefined,undefined, 
-                  undefined, [],[], [],
-                          [],undefined,[],[],undefined,undefined,
-                          undefined,undefined,[],undefined,undefined,
-                          undefined,[],[],[],[],undefined, []},
-           <<"{\"resourceType\":\"Claim\",\"id\":\"p-21666\"}">>).
+    ?asrtjson(
+            {'Claim',[],<<"p-21666">>,undefined,undefined,undefined, undefined,[],[],[],
+             [],<<"active">>,
+             {'CodeableConcept',[],undefined,[],
+                 [{'Coding',[],undefined,[],undefined,undefined, <<"amb">>,undefined,undefined}],
+                 undefined},
+             undefined,<<"claim">>,
+             {'Reference',[],undefined,[],<<"nabu/Patient/p-21666">>, undefined,undefined,undefined},
+             undefined,<<"2019-01-01T12:00:00">>,undefined,undefined,
+             {'Reference',[],undefined,[], <<"nabu/Practitioner/p-21666">>,undefined,undefined, undefined},
+             {'CodeableConcept',[],undefined,[],
+                 [{'Coding',[],undefined,[],undefined,undefined, <<"normal">>,undefined,undefined}],
+                 undefined},
+             undefined,[],undefined,undefined,undefined,undefined, undefined,[],[],[],[],
+             [{'Claim.Insurance',[],undefined,[],[],12345,true, undefined,
+                 {'Reference',[],undefined,[], <<"nabu/Coverage/c-21666">>,undefined,undefined, undefined},
+                 undefined,[],undefined}],
+             undefined,[],undefined},
+            <<"{\"resourceType\":\"Claim\",\"id\":\"p-21666\",\"status\":\"active\",\"type\":{\"coding\":[{\"code\":\"amb\"}]},\"use\":\"claim\",\"patient\":{\"reference\":\"nabu/Patient/p-21666\"},\"created\":\"2019-01-01T12:00:00\",\"provider\":{\"reference\":\"nabu/Practitioner/p-21666\"},\"priority\":{\"coding\":[{\"code\":\"normal\"}]},\"insurance\":[{\"sequence\":12345,\"focal\":true,\"coverage\":{\"reference\":\"nabu/Coverage/c-21666\"}}]}">>
+      ).
 
 -endif.
 

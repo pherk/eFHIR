@@ -31,7 +31,7 @@
 	id :: string() | undefined,
 	extension :: [extensions:'Extension'()] | undefined,
 	modifierExtension :: [extensions:'Extension'()] | undefined,
-	meaning :: complex:'ConsentDataMeaning'(),
+	meaning :: 'ConsentDataMeaning'(),
 	reference :: special:'Reference'()}).
 
 -type 'Consent.Data'() :: #'Consent.Data'{}.
@@ -51,17 +51,17 @@
 	id :: string() | undefined,
 	extension :: [extensions:'Extension'()] | undefined,
 	modifierExtension :: [extensions:'Extension'()] | undefined,
-	type :: complex:'ConsentProvisionType'() | undefined,
+	type :: code() | undefined,
 	period :: complex:'Period'() | undefined,
-	actor :: [complex:'Consent.Actor'()] | undefined,
+	actor :: ['Consent.Actor'()] | undefined,
 	action :: [complex:'CodeableConcept'()] | undefined,
 	securityLabel :: [complex:'Coding'()] | undefined,
 	purpose :: [complex:'Coding'()] | undefined,
 	class :: [complex:'Coding'()] | undefined,
 	code :: [complex:'CodeableConcept'()] | undefined,
 	dataPeriod :: complex:'Period'() | undefined,
-	data :: [complex:'Consent.Data'()] | undefined,
-	provision :: [complex:'Consent.Provision'()] | undefined}).
+	data :: ['Consent.Data'()] | undefined,
+	provision :: ['Consent.Provision'()] | undefined}).
 
 -type 'Consent.Provision'() :: #'Consent.Provision'{}.
 
@@ -93,22 +93,22 @@
 	implicitRules :: uri() | undefined,
 	language :: code() | undefined,
 	text :: special:'Narrative'() | undefined,
-	contained :: [complex:'ResourceContainer'()] | undefined,
+	contained :: [resource:'ResourceContainer'()] | undefined,
 	extension :: [extensions:'Extension'()] | undefined,
 	modifierExtension :: [extensions:'Extension'()] | undefined,
 	identifier :: [complex:'Identifier'()] | undefined,
-	status :: complex:'ConsentState'(),
+	status :: code(),
 	scope :: complex:'CodeableConcept'(),
 	category :: [complex:'CodeableConcept'()],
 	patient :: special:'Reference'() | undefined,
 	dateTime :: dateTime() | undefined,
 	performer :: [special:'Reference'()] | undefined,
 	organization :: [special:'Reference'()] | undefined,
-	choice :: special:'Reference'() | complex:'Attachment'() | undefined,
-	policy :: [complex:'Consent.Policy'()] | undefined,
+	source :: special:'Reference'() | complex:'Attachment'() | undefined,
+	policy :: ['Consent.Policy'()] | undefined,
 	policyRule :: complex:'CodeableConcept'() | undefined,
-	verification :: [complex:'Consent.Verification'()] | undefined,
-	provision :: complex:'Consent.Provision'() | undefined}).
+	verification :: ['Consent.Verification'()] | undefined,
+	provision :: 'Consent.Provision'() | undefined}).
 
 -type 'Consent'() :: #'Consent'{}.
 
@@ -143,7 +143,7 @@ to_consent(Props) ->
     , dateTime  = decode:value(<<"dateTime">>, Props, DT)
     , performer  = decode:value(<<"performer">>, Props, DT)
     , organization  = decode:value(<<"organization">>, Props, DT)
-    , choice  = decode:value(<<"choice">>, Props, DT)
+    , source  = decode:value(<<"source">>, Props, DT)
     , policy  = decode:value(<<"policy">>, Props, DT)
     , policyRule  = decode:value(<<"policyRule">>, Props, DT)
     , verification  = decode:value(<<"verification">>, Props, DT)
@@ -242,29 +242,54 @@ text(#'Consent'{text=N}) ->
 -define(asrtjson(A, B), ?assertEqual(B, jiffy:encode(encode:to_proplist(A)))).
 
 consent_to_test() ->
-    ?asrtto([{<<"id">>, <<"p-21666">>}],
-         {'Consent',<<"p-21666">>,undefined,undefined, undefined, 
-                  undefined,[], [], [],
-                          [],undefined,[],[],undefined,undefined,
-                          undefined,undefined,[],undefined,undefined,
-                          undefined,[],[],[],[],undefined,[]}).
+    ?asrtto([{<<"id">>, <<"p-21666">>}, {<<"status">>, <<"active">>},
+             {<<"scope">>, {[{<<"coding">>, [{[{<<"code">>, <<"treatment">>}]}]}]}},
+             {<<"category">>, [{[{<<"coding">>, [{[{<<"code">>, <<"ICOL">>}]}]}]}]}
+            ],
+            {'Consent',[],<<"p-21666">>,undefined,undefined,undefined, undefined,[],[],[],
+             [],<<"active">>,
+             {'CodeableConcept',[],undefined,[],
+                 [{'Coding',[],undefined,[],undefined,undefined, <<"treatment">>,undefined,undefined}],
+                 undefined},
+             [{'CodeableConcept',[],undefined,[],
+                 [{'Coding',[],undefined,[],undefined,undefined, <<"ICOL">>,undefined,undefined}],
+                 undefined}],
+             undefined,undefined,[],[],undefined,[],undefined,[], undefined}
+           ).
+
 consent_toprop_test() ->
-    ?asrtp({'Consent',<<"p-21666">>,undefined,undefined,undefined, 
-                  undefined, [],[], [],
-                          [],undefined,[],[],undefined,undefined,
-                          undefined,undefined,[],undefined,undefined,
-                          undefined,[],[],[],[],undefined, []},
-           {[{<<"resourceType">>,<<"Consent">>},
-              {<<"id">>,<<"p-21666">>}
-            ]}).
+    ?asrtp(
+            {'Consent',[],<<"p-21666">>,undefined,undefined,undefined, undefined,[],[],[],
+             [],<<"active">>,
+             {'CodeableConcept',[],undefined,[],
+                 [{'Coding',[],undefined,[],undefined,undefined, <<"treatment">>,undefined,undefined}],
+                 undefined},
+             [{'CodeableConcept',[],undefined,[],
+                 [{'Coding',[],undefined,[],undefined,undefined, <<"ICOL">>,undefined,undefined}],
+                 undefined}],
+             undefined,undefined,[],[],undefined,[],undefined,[], undefined},
+            {[{<<"resourceType">>,<<"Consent">>},
+              {<<"id">>,<<"p-21666">>},
+              {<<"status">>,<<"active">>},
+              {<<"scope">>,
+                    {[{<<"coding">>,[{[{<<"code">>,<<"treatment">>}]}]}]}},
+              {<<"category">>,
+                    [{[{<<"coding">>,[{[{<<"code">>,<<"ICOL">>}]}]}]}]}]}
+            ).
 
 consent_json_test() ->
-    ?asrtjson({'Consent',<<"p-21666">>,undefined,undefined,undefined, 
-                  undefined, [],[], [],
-                          [],undefined,[],[],undefined,undefined,
-                          undefined,undefined,[],undefined,undefined,
-                          undefined,[],[],[],[],undefined, []},
-           <<"{\"resourceType\":\"Consent\",\"id\":\"p-21666\"}">>).
+    ?asrtjson(
+            {'Consent',[],<<"p-21666">>,undefined,undefined,undefined, undefined,[],[],[],
+             [],<<"active">>,
+             {'CodeableConcept',[],undefined,[],
+                 [{'Coding',[],undefined,[],undefined,undefined, <<"treatment">>,undefined,undefined}],
+                 undefined},
+             [{'CodeableConcept',[],undefined,[],
+                 [{'Coding',[],undefined,[],undefined,undefined, <<"ICOL">>,undefined,undefined}],
+                 undefined}],
+             undefined,undefined,[],[],undefined,[],undefined,[], undefined},
+            <<"{\"resourceType\":\"Consent\",\"id\":\"p-21666\",\"status\":\"active\",\"scope\":{\"coding\":[{\"code\":\"treatment\"}]},\"category\":[{\"coding\":[{\"code\":\"ICOL\"}]}]}">>
+      ).
 
 -endif.
 

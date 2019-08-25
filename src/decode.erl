@@ -51,6 +51,8 @@ value(Key, Props, {Base,FI,Attrs,Restriction}=DT) when is_list(Props)->
 value(Key, Props, {Base,FI,Attrs,Restriction}=DT) ->
     throw(<<"proplists error, input malformat">>).
 
+analyse_propinfo(undefined, Key, Props) ->
+    throw(<<"analyze_propinfo: probably choice def missing">>);
 analyse_propinfo(Choice, Key, Props) when is_list(Choice) ->
     % io:format("api1: ~p~n",[Choice]),
     ChoiceKeys = proplists:get_keys(Choice),
@@ -218,6 +220,7 @@ get_fun({complex, <<"Address">>}) -> fun complex:to_address/1;
 get_fun({complex, <<"Age">>}) -> fun complex:to_age/1;
 get_fun({complex, <<"Attachment">>}) -> fun complex:to_attachment/1;
 get_fun({complex, <<"Coding">>})     -> fun complex:to_coding/1;
+get_fun({complex, <<"CodeableConcept">>})     -> fun complex:to_codeableConcept/1;
 get_fun({complex, <<"ContactPoint">>}) -> fun complex:to_contactPoint/1;
 get_fun({complex, <<"Count">>}) -> fun complex:to_count/1;
 get_fun({complex, <<"Distance">>}) -> fun complex:to_distance/1;

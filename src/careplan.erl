@@ -21,8 +21,8 @@
 	location :: special:'Reference'() | undefined,
 	performer :: [special:'Reference'()] | undefined,
 	choice1 :: special:'Reference'() | complex:'CodeableConcept'() | undefined,
-	dailyAmount :: complex:'Quantity'() | complex:'Duration'() | complex:'Age'() | complex:'Distance'() | complex:'Count'() | undefined,
-	quantity :: complex:'Quantity'() | complex:'Duration'() | complex:'Age'() | complex:'Distance'() | complex:'Count'() | undefined,
+	dailyAmount :: complex:'Quantity'() | undefined,
+	quantity :: complex:'Quantity'() | undefined,
 	description :: string() | undefined}).
 
 -type 'CarePlan.Detail'() :: #'CarePlan.Detail'{}.
@@ -36,7 +36,7 @@
 	outcomeReference :: [special:'Reference'()] | undefined,
 	progress :: [complex:'Annotation'()] | undefined,
 	reference :: special:'Reference'() | undefined,
-	detail :: complex:'CarePlan.Detail'() | undefined}).
+	detail :: 'CarePlan.Detail'() | undefined}).
 
 -type 'CarePlan.Activity'() :: #'CarePlan.Activity'{}.
 
@@ -47,7 +47,7 @@
 	implicitRules :: uri() | undefined,
 	language :: code() | undefined,
 	text :: special:'Narrative'() | undefined,
-	contained :: [complex:'ResourceContainer'()] | undefined,
+	contained :: [resource:'ResourceContainer'()] | undefined,
 	extension :: [extensions:'Extension'()] | undefined,
 	modifierExtension :: [extensions:'Extension'()] | undefined,
 	identifier :: [complex:'Identifier'()] | undefined,
@@ -56,8 +56,8 @@
 	basedOn :: [special:'Reference'()] | undefined,
 	replaces :: [special:'Reference'()] | undefined,
 	partOf :: [special:'Reference'()] | undefined,
-	status :: complex:'RequestStatus'(),
-	intent :: complex:'CarePlanIntent'(),
+	status :: code(),
+	intent :: code(),
 	category :: [complex:'CodeableConcept'()] | undefined,
 	title :: string() | undefined,
 	description :: string() | undefined,
@@ -71,7 +71,7 @@
 	addresses :: [special:'Reference'()] | undefined,
 	supportingInfo :: [special:'Reference'()] | undefined,
 	goal :: [special:'Reference'()] | undefined,
-	activity :: [complex:'CarePlan.Activity'()] | undefined,
+	activity :: ['CarePlan.Activity'()] | undefined,
 	note :: [complex:'Annotation'()] | undefined}).
 
 -type 'CarePlan'() :: #'CarePlan'{}.
@@ -180,34 +180,42 @@ text(#'CarePlan'{text=N}) ->
 
 -include_lib("eunit/include/eunit.hrl").
 
--define(asrtto(A, B), ?assertEqual(B, carePlan:to_carePlan(A))).
+-define(asrtto(A, B), ?assertEqual(B, careplan:to_carePlan(A))).
 -define(asrtp(A, B), ?assertEqual(B, encode:to_proplist(A))).
 -define(asrtjson(A, B), ?assertEqual(B, jiffy:encode(encode:to_proplist(A)))).
 
 carePlan_to_test() ->
-    ?asrtto([{<<"id">>, <<"p-21666">>}],
-         {'CarePlan',<<"p-21666">>,undefined,undefined, undefined, 
-                  undefined,[], [], [],
-                          [],undefined,[],[],undefined,undefined,
-                          undefined,undefined,[],undefined,undefined,
-                          undefined,[],[],[],[],undefined,[]}).
+    ?asrtto([{<<"id">>, <<"p-21666">>}, {<<"status">>, <<"active">>},
+             {<<"intent">>, <<"plan">>},
+             {<<"subject">>, {[{<<"reference">>, <<"nabu/Patient/p-21666">>}]}}
+            ],
+            {'CarePlan',undefined,<<"p-21666">>,undefined,undefined, undefined,undefined,[],[],[],
+             [],[],[],[],[],[], <<"active">>,<<"plan">>,[],undefined,undefined,
+             {'Reference',[],undefined,[],<<"nabu/Patient/p-21666">>, undefined,undefined,undefined},
+             undefined,undefined,undefined,undefined,[],[],[],[],[], [],[]}
+           ).
+
 carePlan_toprop_test() ->
-    ?asrtp({'CarePlan',<<"p-21666">>,undefined,undefined,undefined, 
-                  undefined, [],[], [],
-                          [],undefined,[],[],undefined,undefined,
-                          undefined,undefined,[],undefined,undefined,
-                          undefined,[],[],[],[],undefined, []},
+    ?asrtp(
+            {'CarePlan',undefined,<<"p-21666">>,undefined,undefined, undefined,undefined,[],[],[],
+             [],[],[],[],[],[], <<"active">>,<<"plan">>,[],undefined,undefined,
+             {'Reference',[],undefined,[],<<"nabu/Patient/p-21666">>, undefined,undefined,undefined},
+             undefined,undefined,undefined,undefined,[],[],[],[],[], [],[]},
            {[{<<"resourceType">>,<<"CarePlan">>},
-              {<<"id">>,<<"p-21666">>}
-            ]}).
+              {<<"id">>,<<"p-21666">>},
+              {<<"status">>,<<"active">>},
+              {<<"intent">>,<<"plan">>},
+              {<<"subject">>, {[{<<"reference">>,<<"nabu/Patient/p-21666">>}]}}]}
+            ).
 
 carePlan_json_test() ->
-    ?asrtjson({'CarePlan',<<"p-21666">>,undefined,undefined,undefined, 
-                  undefined, [],[], [],
-                          [],undefined,[],[],undefined,undefined,
-                          undefined,undefined,[],undefined,undefined,
-                          undefined,[],[],[],[],undefined, []},
-           <<"{\"resourceType\":\"CarePlan\",\"id\":\"p-21666\"}">>).
+    ?asrtjson(
+            {'CarePlan',undefined,<<"p-21666">>,undefined,undefined, undefined,undefined,[],[],[],
+             [],[],[],[],[],[], <<"active">>,<<"plan">>,[],undefined,undefined,
+             {'Reference',[],undefined,[],<<"nabu/Patient/p-21666">>, undefined,undefined,undefined},
+             undefined,undefined,undefined,undefined,[],[],[],[],[], [],[]},
+            <<"{\"resourceType\":\"CarePlan\",\"id\":\"p-21666\",\"status\":\"active\",\"intent\":\"plan\",\"subject\":{\"reference\":\"nabu/Patient/p-21666\"}}">>
+      ).
 
 -endif.
 

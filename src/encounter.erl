@@ -9,7 +9,7 @@
 	extension :: [extensions:'Extension'()] | undefined,
 	modifierExtension :: [extensions:'Extension'()] | undefined,
 	location :: special:'Reference'(),
-	status :: complex:'EncounterLocationStatus'() | undefined,
+	status :: code() | undefined,
 	physicalType :: complex:'CodeableConcept'() | undefined,
 	period :: complex:'Period'() | undefined}).
 
@@ -81,29 +81,29 @@
 	implicitRules :: uri() | undefined,
 	language :: code() | undefined,
 	text :: special:'Narrative'() | undefined,
-	contained :: [complex:'ResourceContainer'()] | undefined,
+	contained :: [resource:'ResourceContainer'()] | undefined,
 	extension :: [extensions:'Extension'()] | undefined,
 	modifierExtension :: [extensions:'Extension'()] | undefined,
 	identifier :: [complex:'Identifier'()] | undefined,
-	status :: complex:'EncounterStatus'(),
-	statusHistory :: [complex:'Encounter.StatusHistory'()] | undefined,
+	status :: code(),
+	statusHistory :: ['Encounter.StatusHistory'()] | undefined,
 	class :: complex:'Coding'(),
-	classHistory :: [complex:'Encounter.ClassHistory'()] | undefined,
+	classHistory :: ['Encounter.ClassHistory'()] | undefined,
 	type :: [complex:'CodeableConcept'()] | undefined,
 	serviceType :: complex:'CodeableConcept'() | undefined,
 	priority :: complex:'CodeableConcept'() | undefined,
 	subject :: special:'Reference'() | undefined,
 	episodeOfCare :: [special:'Reference'()] | undefined,
 	basedOn :: [special:'Reference'()] | undefined,
-	participant :: [complex:'Encounter.Participant'()] | undefined,
+	participant :: ['Encounter.Participant'()] | undefined,
 	appointment :: [special:'Reference'()] | undefined,
 	period :: complex:'Period'() | undefined,
 	length :: complex:'Duration'() | undefined,
 	reasonCode :: [complex:'CodeableConcept'()] | undefined,
 	reasonReference :: [special:'Reference'()] | undefined,
-	diagnosis :: [complex:'Encounter.Diagnosis'()] | undefined,
+	diagnosis :: ['Encounter.Diagnosis'()] | undefined,
 	account :: [special:'Reference'()] | undefined,
-	hospitalization :: complex:'Encounter.Hospitalization'() | undefined,
+	hospitalization :: 'Encounter.Hospitalization'() | undefined,
 	location :: ['Encounter.Location'()] | undefined,
 	serviceProvider :: special:'Reference'() | undefined,
 	partOf :: special:'Reference'() | undefined}).
@@ -256,29 +256,38 @@ text(#'Encounter'{text=N}) ->
 -define(asrtjson(A, B), ?assertEqual(B, jiffy:encode(encode:to_proplist(A)))).
 
 encounter_to_test() ->
-    ?asrtto([{<<"id">>, <<"p-21666">>}],
-         {'Encounter',<<"p-21666">>,undefined,undefined, undefined, 
-                  undefined,[], [], [],
-                          [],undefined,[],[],undefined,undefined,
-                          undefined,undefined,[],undefined,undefined,
-                          undefined,[],[],[],[],undefined,[]}).
+    ?asrtto([{<<"id">>, <<"p-21666">>}, {<<"status">>, <<"finished">>},
+             {<<"class">>, {[{<<"code">>, <<"amb">>}]}}
+            ],
+          {'Encounter',[],<<"p-21666">>,undefined,undefined,undefined, undefined,[],[],[],
+            [],<<"finished">>,[],
+            {'Coding',[],undefined,[],undefined,undefined,<<"amb">>, undefined,undefined},
+            [],[],undefined,undefined,undefined,[],[],[],[],
+            undefined,undefined,[],[],[],[],undefined,undefined, undefined,undefined}
+          ).
+
 encounter_toprop_test() ->
-    ?asrtp({'Encounter',<<"p-21666">>,undefined,undefined,undefined, 
-                  undefined, [],[], [],
-                          [],undefined,[],[],undefined,undefined,
-                          undefined,undefined,[],undefined,undefined,
-                          undefined,[],[],[],[],undefined, []},
+    ?asrtp(
+       {'Encounter',[],<<"p-21666">>,undefined,undefined,undefined, undefined,[],[],[],
+            [],<<"finished">>,[],
+            {'Coding',[],undefined,[],undefined,undefined,<<"amb">>, undefined,undefined},
+            [],[],undefined,undefined,undefined,[],[],[],[],
+            undefined,undefined,[],[],[],[],undefined,undefined, undefined,undefined},
            {[{<<"resourceType">>,<<"Encounter">>},
-              {<<"id">>,<<"p-21666">>}
-            ]}).
+             {<<"id">>,<<"p-21666">>},
+             {<<"status">>,<<"finished">>},
+             {<<"class">>,{[{<<"code">>,<<"amb">>}]}}]}
+            ).
 
 encounter_json_test() ->
-    ?asrtjson({'Encounter',<<"p-21666">>,undefined,undefined,undefined, 
-                  undefined, [],[], [],
-                          [],undefined,[],[],undefined,undefined,
-                          undefined,undefined,[],undefined,undefined,
-                          undefined,[],[],[],[],undefined, []},
-           <<"{\"resourceType\":\"Encounter\",\"id\":\"p-21666\"}">>).
+    ?asrtjson(
+       {'Encounter',[],<<"p-21666">>,undefined,undefined,undefined, undefined,[],[],[],
+            [],<<"finished">>,[],
+            {'Coding',[],undefined,[],undefined,undefined,<<"amb">>, undefined,undefined},
+            [],[],undefined,undefined,undefined,[],[],[],[],
+            undefined,undefined,[],[],[],[],undefined,undefined, undefined,undefined},
+           <<"{\"resourceType\":\"Encounter\",\"id\":\"p-21666\",\"status\":\"finished\",\"class\":{\"code\":\"amb\"}}">>
+      ).
 
 -endif.
 

@@ -9,7 +9,7 @@
 	extension :: [extensions:'Extension'()] | undefined,
 	modifierExtension :: [extensions:'Extension'()] | undefined,
 	type :: complex:'CodeableConcept'(),
-	valueQuantity :: [complex:'Quantity'() | complex:'Duration'() | complex:'Age'() | complex:'Distance'() | complex:'Count'()] | undefined,
+	valueQuantity :: [complex:'Quantity'()] | undefined,
 	valueCode :: [complex:'CodeableConcept'()] | undefined}).
 
 -type 'Device.Property'() :: #'Device.Property'{}.
@@ -41,7 +41,7 @@
 	extension :: [extensions:'Extension'()] | undefined,
 	modifierExtension :: [extensions:'Extension'()] | undefined,
 	name :: string(),
-	type :: complex:'DeviceNameType'()}).
+	type :: code()}).
 
 -type 'Device.DeviceName'() :: #'Device.DeviceName'{}.
 
@@ -55,7 +55,7 @@
 	jurisdiction :: uri() | undefined,
 	carrierAIDC :: base64Binary() | undefined,
 	carrierHRF :: string() | undefined,
-	entryType :: complex:'UDIEntryType'() | undefined}).
+	entryType :: code() | undefined}).
 
 -type 'Device.UdiCarrier'() :: #'Device.UdiCarrier'{}.
 
@@ -66,13 +66,13 @@
 	implicitRules :: uri() | undefined,
 	language :: code() | undefined,
 	text :: special:'Narrative'() | undefined,
-	contained :: [complex:'ResourceContainer'()] | undefined,
+	contained :: [resource:'ResourceContainer'()] | undefined,
 	extension :: [extensions:'Extension'()] | undefined,
 	modifierExtension :: [extensions:'Extension'()] | undefined,
 	identifier :: [complex:'Identifier'()] | undefined,
 	definition :: special:'Reference'() | undefined,
-	udiCarrier :: [complex:'Device.UdiCarrier'()] | undefined,
-	status :: complex:'FHIRDeviceStatus'() | undefined,
+	udiCarrier :: ['Device.UdiCarrier'()] | undefined,
+	status :: code() | undefined,
 	statusReason :: [complex:'CodeableConcept'()] | undefined,
 	distinctIdentifier :: string() | undefined,
 	manufacturer :: string() | undefined,
@@ -80,13 +80,13 @@
 	expirationDate :: dateTime() | undefined,
 	lotNumber :: string() | undefined,
 	serialNumber :: string() | undefined,
-	deviceName :: [complex:'Device.DeviceName'()] | undefined,
+	deviceName :: ['Device.DeviceName'()] | undefined,
 	modelNumber :: string() | undefined,
 	partNumber :: string() | undefined,
 	type :: complex:'CodeableConcept'() | undefined,
-	specialization :: [complex:'Device.Specialization'()] | undefined,
-	version :: [complex:'Device.Version'()] | undefined,
-	property :: [complex:'Device.Property'()] | undefined,
+	specialization :: ['Device.Specialization'()] | undefined,
+	version :: ['Device.Version'()] | undefined,
+	property :: ['Device.Property'()] | undefined,
 	patient :: special:'Reference'() | undefined,
 	owner :: special:'Reference'() | undefined,
 	contact :: [complex:'ContactPoint'()] | undefined,
@@ -240,27 +240,28 @@ text(#'Device'{text=N}) ->
 
 device_to_test() ->
     ?asrtto([{<<"id">>, <<"p-21666">>}],
-         {'Device',<<"p-21666">>,undefined,undefined, undefined, 
-                  undefined,[], [], [],
-                          [],undefined,[],[],undefined,undefined,
-                          undefined,undefined,[],undefined,undefined,
-                          undefined,[],[],[],[],undefined,[]}).
+            {'Device',[],<<"p-21666">>,undefined,undefined,undefined, undefined,[],[],[],
+             [],undefined,[],undefined,[], undefined,undefined,undefined,undefined,undefined,
+             undefined,[],undefined,undefined,undefined,[],[],
+             [],undefined,undefined,[],undefined,undefined,[], [],undefined}
+           ).
+
 device_toprop_test() ->
-    ?asrtp({'Device',<<"p-21666">>,undefined,undefined,undefined, 
-                  undefined, [],[], [],
-                          [],undefined,[],[],undefined,undefined,
-                          undefined,undefined,[],undefined,undefined,
-                          undefined,[],[],[],[],undefined, []},
+    ?asrtp(
+            {'Device',[],<<"p-21666">>,undefined,undefined,undefined, undefined,[],[],[],
+             [],undefined,[],undefined,[], undefined,undefined,undefined,undefined,undefined,
+             undefined,[],undefined,undefined,undefined,[],[],
+             [],undefined,undefined,[],undefined,undefined,[], [],undefined},
            {[{<<"resourceType">>,<<"Device">>},
               {<<"id">>,<<"p-21666">>}
             ]}).
 
 device_json_test() ->
-    ?asrtjson({'Device',<<"p-21666">>,undefined,undefined,undefined, 
-                  undefined, [],[], [],
-                          [],undefined,[],[],undefined,undefined,
-                          undefined,undefined,[],undefined,undefined,
-                          undefined,[],[],[],[],undefined, []},
+    ?asrtjson(
+            {'Device',[],<<"p-21666">>,undefined,undefined,undefined, undefined,[],[],[],
+             [],undefined,[],undefined,[], undefined,undefined,undefined,undefined,undefined,
+             undefined,[],undefined,undefined,undefined,[],[],
+             [],undefined,undefined,[],undefined,undefined,[], [],undefined},
            <<"{\"resourceType\":\"Device\",\"id\":\"p-21666\"}">>).
 
 -endif.

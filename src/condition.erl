@@ -30,7 +30,7 @@
 	implicitRules :: uri() | undefined,
 	language :: code() | undefined,
 	text :: special:'Narrative'() | undefined,
-	contained :: [complex:'ResourceContainer'()] | undefined,
+	contained :: [resource:'ResourceContainer'()] | undefined,
 	extension :: [extensions:'Extension'()] | undefined,
 	modifierExtension :: [extensions:'Extension'()] | undefined,
 	identifier :: [complex:'Identifier'()] | undefined,
@@ -42,13 +42,13 @@
 	bodySite :: [complex:'CodeableConcept'()] | undefined,
 	subject :: special:'Reference'(),
 	encounter :: special:'Reference'() | undefined,
-	choice :: string() | complex:'Range'() | complex:'Period'() | dateTime() | complex:'Age'() | undefined,
-	choice1 :: string() | complex:'Range'() | complex:'Period'() | dateTime() | complex:'Age'() | undefined,
+	onset :: string() | complex:'Range'() | complex:'Period'() | dateTime() | complex:'Age'() | undefined,
+	abatement :: string() | complex:'Range'() | complex:'Period'() | dateTime() | complex:'Age'() | undefined,
 	recordedDate :: dateTime() | undefined,
 	recorder :: special:'Reference'() | undefined,
 	asserter :: special:'Reference'() | undefined,
-	stage :: [complex:'Condition.Stage'()] | undefined,
-	evidence :: [complex:'Condition.Evidence'()] | undefined,
+	stage :: ['Condition.Stage'()] | undefined,
+	evidence :: ['Condition.Evidence'()] | undefined,
 	note :: [complex:'Annotation'()] | undefined}).
 
 -type 'Condition'() :: #'Condition'{}.
@@ -85,8 +85,8 @@ to_condition(Props) ->
     , bodySite  = decode:value(<<"bodySite">>, Props, DT)
     , subject  = decode:value(<<"subject">>, Props, DT)
     , encounter  = decode:value(<<"encounter">>, Props, DT)
-    , choice  = decode:value(<<"choice">>, Props, DT)
-    , choice1  = decode:value(<<"choice1">>, Props, DT)
+    , onset  = decode:value(<<"onset">>, Props, DT)
+    , abatement  = decode:value(<<"abatement">>, Props, DT)
     , recordedDate  = decode:value(<<"recordedDate">>, Props, DT)
     , recorder  = decode:value(<<"recorder">>, Props, DT)
     , asserter  = decode:value(<<"asserter">>, Props, DT)
@@ -139,29 +139,33 @@ text(#'Condition'{text=N}) ->
 -define(asrtjson(A, B), ?assertEqual(B, jiffy:encode(encode:to_proplist(A)))).
 
 condition_to_test() ->
-    ?asrtto([{<<"id">>, <<"p-21666">>}],
-         {'Condition',<<"p-21666">>,undefined,undefined, undefined, 
-                  undefined,[], [], [],
-                          [],undefined,[],[],undefined,undefined,
-                          undefined,undefined,[],undefined,undefined,
-                          undefined,[],[],[],[],undefined,[]}).
+    ?asrtto([{<<"id">>, <<"p-21666">>},
+             {<<"subject">>, {[{<<"reference">>, <<"nabu/Patient/p-21666">>}]}}],
+            {'Condition',[],<<"p-21666">>,undefined,undefined,undefined, undefined,[],[],[],
+             [],undefined,undefined,[],undefined, undefined,[],
+             {'Reference',[],undefined,[],<<"nabu/Patient/p-21666">>, undefined,undefined,undefined},
+             undefined,undefined,undefined,undefined,undefined, undefined,[],[],[]}
+           ).
+
 condition_toprop_test() ->
-    ?asrtp({'Condition',<<"p-21666">>,undefined,undefined,undefined, 
-                  undefined, [],[], [],
-                          [],undefined,[],[],undefined,undefined,
-                          undefined,undefined,[],undefined,undefined,
-                          undefined,[],[],[],[],undefined, []},
+    ?asrtp(
+            {'Condition',[],<<"p-21666">>,undefined,undefined,undefined, undefined,[],[],[],
+             [],undefined,undefined,[],undefined, undefined,[],
+             {'Reference',[],undefined,[],<<"nabu/Patient/p-21666">>, undefined,undefined,undefined},
+             undefined,undefined,undefined,undefined,undefined, undefined,[],[],[]},
            {[{<<"resourceType">>,<<"Condition">>},
-              {<<"id">>,<<"p-21666">>}
-            ]}).
+             {<<"id">>,<<"p-21666">>},
+             {<<"subject">>, {[{<<"reference">>,<<"nabu/Patient/p-21666">>}]}}]}
+            ).
 
 condition_json_test() ->
-    ?asrtjson({'Condition',<<"p-21666">>,undefined,undefined,undefined, 
-                  undefined, [],[], [],
-                          [],undefined,[],[],undefined,undefined,
-                          undefined,undefined,[],undefined,undefined,
-                          undefined,[],[],[],[],undefined, []},
-           <<"{\"resourceType\":\"Condition\",\"id\":\"p-21666\"}">>).
+    ?asrtjson(
+            {'Condition',[],<<"p-21666">>,undefined,undefined,undefined, undefined,[],[],[],
+             [],undefined,undefined,[],undefined, undefined,[],
+             {'Reference',[],undefined,[],<<"nabu/Patient/p-21666">>, undefined,undefined,undefined},
+             undefined,undefined,undefined,undefined,undefined, undefined,[],[],[]},
+            <<"{\"resourceType\":\"Condition\",\"id\":\"p-21666\",\"subject\":{\"reference\":\"nabu/Patient/p-21666\"}}">>
+      ).
 
 -endif.
 

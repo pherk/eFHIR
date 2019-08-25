@@ -20,17 +20,17 @@
 	implicitRules :: uri() | undefined,
 	language :: code() | undefined,
 	text :: special:'Narrative'() | undefined,
-	contained :: [complex:'ResourceContainer'()] | undefined,
+	contained :: [resource:'ResourceContainer'()] | undefined,
 	extension :: [extensions:'Extension'()] | undefined,
 	modifierExtension :: [extensions:'Extension'()] | undefined,
 	identifier :: [complex:'Identifier'()] | undefined,
-	status :: complex:'CareTeamStatus'() | undefined,
+	status :: code() | undefined,
 	category :: [complex:'CodeableConcept'()] | undefined,
 	name :: string() | undefined,
 	subject :: special:'Reference'() | undefined,
 	encounter :: special:'Reference'() | undefined,
 	period :: complex:'Period'() | undefined,
-	participant :: [complex:'CareTeam.Participant'()] | undefined,
+	participant :: ['CareTeam.Participant'()] | undefined,
 	reasonCode :: [complex:'CodeableConcept'()] | undefined,
 	reasonReference :: [special:'Reference'()] | undefined,
 	managingOrganization :: [special:'Reference'()] | undefined,
@@ -106,33 +106,31 @@ text(#'CareTeam'{text=N}) ->
 
 -include_lib("eunit/include/eunit.hrl").
 
--define(asrtto(A, B), ?assertEqual(B, careTeam:to_careTeam(A))).
+-define(asrtto(A, B), ?assertEqual(B, careteam:to_careTeam(A))).
 -define(asrtp(A, B), ?assertEqual(B, encode:to_proplist(A))).
 -define(asrtjson(A, B), ?assertEqual(B, jiffy:encode(encode:to_proplist(A)))).
 
 careTeam_to_test() ->
     ?asrtto([{<<"id">>, <<"p-21666">>}],
-         {'CareTeam',<<"p-21666">>,undefined,undefined, undefined, 
-                  undefined,[], [], [],
-                          [],undefined,[],[],undefined,undefined,
-                          undefined,undefined,[],undefined,undefined,
-                          undefined,[],[],[],[],undefined,[]}).
+            {'CareTeam',[],<<"p-21666">>,undefined,undefined,undefined, undefined,[],[],[],
+             [],undefined,[],undefined, undefined,undefined,undefined,
+             [],[],[],[],[],[]}
+           ).
+
 careTeam_toprop_test() ->
-    ?asrtp({'CareTeam',<<"p-21666">>,undefined,undefined,undefined, 
-                  undefined, [],[], [],
-                          [],undefined,[],[],undefined,undefined,
-                          undefined,undefined,[],undefined,undefined,
-                          undefined,[],[],[],[],undefined, []},
+    ?asrtp(
+            {'CareTeam',[],<<"p-21666">>,undefined,undefined,undefined, undefined,[],[],[],
+             [],undefined,[],undefined, undefined,undefined,undefined,
+             [],[],[],[],[],[]},
            {[{<<"resourceType">>,<<"CareTeam">>},
               {<<"id">>,<<"p-21666">>}
             ]}).
 
 careTeam_json_test() ->
-    ?asrtjson({'CareTeam',<<"p-21666">>,undefined,undefined,undefined, 
-                  undefined, [],[], [],
-                          [],undefined,[],[],undefined,undefined,
-                          undefined,undefined,[],undefined,undefined,
-                          undefined,[],[],[],[],undefined, []},
+    ?asrtjson(
+            {'CareTeam',[],<<"p-21666">>,undefined,undefined,undefined, undefined,[],[],[],
+             [],undefined,[],undefined, undefined,undefined,undefined,
+             [],[],[],[],[],[]},
            <<"{\"resourceType\":\"CareTeam\",\"id\":\"p-21666\"}">>).
 
 -endif.

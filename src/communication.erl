@@ -10,7 +10,7 @@
 	implicitRules :: uri() | undefined,
 	language :: code() | undefined,
 	text :: special:'Narrative'() | undefined,
-	contained :: [complex:'ResourceContainer'()] | undefined,
+	contained :: [resource:'ResourceContainer'()] | undefined,
 	extension :: [extensions:'Extension'()] | undefined,
 	modifierExtension :: [extensions:'Extension'()] | undefined,
 	identifier :: [complex:'Identifier'()] | undefined,
@@ -19,10 +19,10 @@
 	basedOn :: [special:'Reference'()] | undefined,
 	partOf :: [special:'Reference'()] | undefined,
 	inResponseTo :: [special:'Reference'()] | undefined,
-	status :: complex:'EventStatus'(),
+	status :: code(),
 	statusReason :: complex:'CodeableConcept'() | undefined,
 	category :: [complex:'CodeableConcept'()] | undefined,
-	priority :: complex:'RequestPriority'() | undefined,
+	priority :: code() | undefined,
 	medium :: [complex:'CodeableConcept'()] | undefined,
 	subject :: special:'Reference'() | undefined,
 	topic :: complex:'CodeableConcept'() | undefined,
@@ -110,29 +110,32 @@ text(#'Communication'{text=N}) ->
 -define(asrtjson(A, B), ?assertEqual(B, jiffy:encode(encode:to_proplist(A)))).
 
 communication_to_test() ->
-    ?asrtto([{<<"id">>, <<"p-21666">>}],
-         {'Communication',<<"p-21666">>,undefined,undefined, undefined, 
-                  undefined,[], [], [],
-                          [],undefined,[],[],undefined,undefined,
-                          undefined,undefined,[],undefined,undefined,
-                          undefined,[],[],[],[],undefined,[]}).
+    ?asrtto([{<<"id">>, <<"p-21666">>}, {<<"status">>, <<"completed">>}],
+            {'Communication',[],<<"p-21666">>,undefined,undefined, undefined,undefined,[],[],[],
+             [],[],[],[],[],[],<<"completed">>,undefined,[],undefined,
+             [],undefined,undefined,[],undefined, undefined,undefined,[],undefined,
+             [],[],[],[]}
+           ).
+
 communication_toprop_test() ->
-    ?asrtp({'Communication',<<"p-21666">>,undefined,undefined,undefined, 
-                  undefined, [],[], [],
-                          [],undefined,[],[],undefined,undefined,
-                          undefined,undefined,[],undefined,undefined,
-                          undefined,[],[],[],[],undefined, []},
+    ?asrtp(
+            {'Communication',[],<<"p-21666">>,undefined,undefined, undefined,undefined,[],[],[],
+             [],[],[],[],[],[],<<"completed">>,undefined,[],undefined,
+             [],undefined,undefined,[],undefined, undefined,undefined,[],undefined,
+             [],[],[],[]},
            {[{<<"resourceType">>,<<"Communication">>},
-              {<<"id">>,<<"p-21666">>}
+              {<<"id">>,<<"p-21666">>},
+              {<<"status">>, <<"completed">>}
             ]}).
 
 communication_json_test() ->
-    ?asrtjson({'Communication',<<"p-21666">>,undefined,undefined,undefined, 
-                  undefined, [],[], [],
-                          [],undefined,[],[],undefined,undefined,
-                          undefined,undefined,[],undefined,undefined,
-                          undefined,[],[],[],[],undefined, []},
-           <<"{\"resourceType\":\"Communication\",\"id\":\"p-21666\"}">>).
+    ?asrtjson(
+            {'Communication',[],<<"p-21666">>,undefined,undefined, undefined,undefined,[],[],[],
+             [],[],[],[],[],[],<<"completed">>,undefined,[],undefined,
+             [],undefined,undefined,[],undefined, undefined,undefined,[],undefined,
+             [],[],[],[]},
+            <<"{\"resourceType\":\"Communication\",\"id\":\"p-21666\",\"status\":\"completed\"}">>
+      ).
 
 -endif.
 

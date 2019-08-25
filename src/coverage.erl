@@ -19,8 +19,8 @@
 	extension :: [extensions:'Extension'()] | undefined,
 	modifierExtension :: [extensions:'Extension'()] | undefined,
 	type :: complex:'CodeableConcept'() | undefined,
-	choice :: complex:'Quantity'() | complex:'Duration'() | complex:'Age'() | complex:'Distance'() | complex:'Count'() | complex:'Money'(),
-	exception :: [complex:'Coverage.Exception'()] | undefined}).
+	value :: complex:'Quantity'() | complex:'Money'(),
+	exception :: ['Coverage.Exception'()] | undefined}).
 
 -type 'Coverage.CostToBeneficiary'() :: #'Coverage.CostToBeneficiary'{}.
 
@@ -42,11 +42,11 @@
 	implicitRules :: uri() | undefined,
 	language :: code() | undefined,
 	text :: special:'Narrative'() | undefined,
-	contained :: [complex:'ResourceContainer'()] | undefined,
+	contained :: [resource:'ResourceContainer'()] | undefined,
 	extension :: [extensions:'Extension'()] | undefined,
 	modifierExtension :: [extensions:'Extension'()] | undefined,
 	identifier :: [complex:'Identifier'()] | undefined,
-	status :: complex:'FinancialResourceStatusCodes'(),
+	status :: code(),
 	type :: complex:'CodeableConcept'() | undefined,
 	policyHolder :: special:'Reference'() | undefined,
 	subscriber :: special:'Reference'() | undefined,
@@ -56,10 +56,10 @@
 	relationship :: complex:'CodeableConcept'() | undefined,
 	period :: complex:'Period'() | undefined,
 	payor :: [special:'Reference'()],
-	class :: [complex:'Coverage.Class'()] | undefined,
+	class :: ['Coverage.Class'()] | undefined,
 	order :: positiveInt() | undefined,
 	network :: string() | undefined,
-	costToBeneficiary :: [complex:'Coverage.CostToBeneficiary'()] | undefined,
+	costToBeneficiary :: ['Coverage.CostToBeneficiary'()] | undefined,
 	subrogation :: boolean() | undefined,
 	contract :: [special:'Reference'()] | undefined}).
 
@@ -131,7 +131,7 @@ to_coverage_costToBeneficiary(Props) ->
     , extension  = decode:value(<<"extension">>, Props, DT)
     , modifierExtension  = decode:value(<<"modifierExtension">>, Props, DT)
     , type  = decode:value(<<"type">>, Props, DT)
-    , choice  = decode:value(<<"choice">>, Props, DT)
+    , value  = decode:value(<<"value">>, Props, DT)
     , exception  = decode:value(<<"exception">>, Props, DT)
     }.
 
@@ -166,29 +166,45 @@ text(#'Coverage'{text=N}) ->
 -define(asrtjson(A, B), ?assertEqual(B, jiffy:encode(encode:to_proplist(A)))).
 
 coverage_to_test() ->
-    ?asrtto([{<<"id">>, <<"p-21666">>}],
-         {'Coverage',<<"p-21666">>,undefined,undefined, undefined, 
-                  undefined,[], [], [],
-                          [],undefined,[],[],undefined,undefined,
-                          undefined,undefined,[],undefined,undefined,
-                          undefined,[],[],[],[],undefined,[]}).
+    ?asrtto([{<<"id">>, <<"p-21666">>}, {<<"status">>, <<"active">>},
+             {<<"beneficiary">>, {[{<<"reference">>, <<"nabu/Patient/p-21666">>}]}},
+             {<<"payor">>, [{[{<<"reference">>, <<"nabu/Patient/p-21666">>}]}]}
+            ],
+            {'Coverage',[],<<"p-21666">>,undefined,undefined,undefined, undefined,[],[],[],
+             [],<<"active">>,undefined,undefined, undefined,undefined,
+             {'Reference',[],undefined,[],<<"nabu/Patient/p-21666">>, undefined,undefined,undefined},
+             undefined,undefined,undefined,
+             [{'Reference',[],undefined,[], <<"nabu/Patient/p-21666">>,undefined,undefined, undefined}],
+             [],undefined,undefined,[],undefined,[]}
+           ).
+
 coverage_toprop_test() ->
-    ?asrtp({'Coverage',<<"p-21666">>,undefined,undefined,undefined, 
-                  undefined, [],[], [],
-                          [],undefined,[],[],undefined,undefined,
-                          undefined,undefined,[],undefined,undefined,
-                          undefined,[],[],[],[],undefined, []},
+    ?asrtp(
+            {'Coverage',[],<<"p-21666">>,undefined,undefined,undefined, undefined,[],[],[],
+             [],<<"active">>,undefined,undefined, undefined,undefined,
+             {'Reference',[],undefined,[],<<"nabu/Patient/p-21666">>, undefined,undefined,undefined},
+             undefined,undefined,undefined,
+             [{'Reference',[],undefined,[], <<"nabu/Patient/p-21666">>,undefined,undefined, undefined}],
+             [],undefined,undefined,[],undefined,[]},
            {[{<<"resourceType">>,<<"Coverage">>},
-              {<<"id">>,<<"p-21666">>}
-            ]}).
+              {<<"id">>,<<"p-21666">>},
+              {<<"status">>,<<"active">>},
+              {<<"beneficiary">>,
+                    {[{<<"reference">>,<<"nabu/Patient/p-21666">>}]}},
+              {<<"payor">>,
+                    [{[{<<"reference">>,<<"nabu/Patient/p-21666">>}]}]}]}
+            ).
 
 coverage_json_test() ->
-    ?asrtjson({'Coverage',<<"p-21666">>,undefined,undefined,undefined, 
-                  undefined, [],[], [],
-                          [],undefined,[],[],undefined,undefined,
-                          undefined,undefined,[],undefined,undefined,
-                          undefined,[],[],[],[],undefined, []},
-           <<"{\"resourceType\":\"Coverage\",\"id\":\"p-21666\"}">>).
+    ?asrtjson(
+            {'Coverage',[],<<"p-21666">>,undefined,undefined,undefined, undefined,[],[],[],
+             [],<<"active">>,undefined,undefined, undefined,undefined,
+             {'Reference',[],undefined,[],<<"nabu/Patient/p-21666">>, undefined,undefined,undefined},
+             undefined,undefined,undefined,
+             [{'Reference',[],undefined,[], <<"nabu/Patient/p-21666">>,undefined,undefined, undefined}],
+             [],undefined,undefined,[],undefined,[]},
+            <<"{\"resourceType\":\"Coverage\",\"id\":\"p-21666\",\"status\":\"active\",\"beneficiary\":{\"reference\":\"nabu/Patient/p-21666\"},\"payor\":[{\"reference\":\"nabu/Patient/p-21666\"}]}">>
+      ).
 
 -endif.
 
