@@ -8,7 +8,7 @@
 	extension :: [extensions:'Extension'()] | undefined,
 	modifierExtension :: [extensions:'Extension'()] | undefined,
 	path :: string(),
-	expression :: complex:'Expression'()}).
+	expression :: metadata:'Expression'()}).
 
 -type 'ActivityDefinition.DynamicValue'() :: #'ActivityDefinition.DynamicValue'{}.
 
@@ -17,7 +17,7 @@
 	id :: string() | undefined,
 	extension :: [extensions:'Extension'()] | undefined,
 	modifierExtension :: [extensions:'Extension'()] | undefined,
-	type :: complex:'ActionParticipantType'(),
+	type :: code(),
 	role :: complex:'CodeableConcept'() | undefined}).
 
 -type 'ActivityDefinition.Participant'() :: #'ActivityDefinition.Participant'{}.
@@ -29,23 +29,23 @@
 	implicitRules :: uri() | undefined,
 	language :: code() | undefined,
 	text :: special:'Narrative'() | undefined,
-	contained :: [complex:'ResourceContainer'()] | undefined,
+	contained :: [resource:'ResourceContainer'()] | undefined,
 	extension :: [extensions:'Extension'()] | undefined,
 	modifierExtension :: [extensions:'Extension'()] | undefined,
 	url :: uri() | undefined,
-	identifier :: [complex:'Identifier'()] | undefined,
+	'identifier' :: [complex:'Identifier'()] | undefined,
 	version :: string() | undefined,
 	name :: string() | undefined,
 	title :: string() | undefined,
 	subtitle :: string() | undefined,
-	status :: complex:'PublicationStatus'(),
+	status :: code(),
 	experimental :: boolean() | undefined,
-	choice :: special:'Reference'() | complex:'CodeableConcept'() | undefined,
+	subject :: special:'Reference'() | complex:'CodeableConcept'() | undefined,
 	date :: dateTime() | undefined,
 	publisher :: string() | undefined,
-	contact :: [complex:'ContactDetail'()] | undefined,
+	contact :: [metadata:'ContactDetail'()] | undefined,
 	description :: markdown() | undefined,
-	useContext :: [complex:'UsageContext'()] | undefined,
+	useContext :: [metadata:'UsageContext'()] | undefined,
 	jurisdiction :: [complex:'CodeableConcept'()] | undefined,
 	purpose :: markdown() | undefined,
 	usage :: string() | undefined,
@@ -54,30 +54,30 @@
 	lastReviewDate :: date() | undefined,
 	effectivePeriod :: complex:'Period'() | undefined,
 	topic :: [complex:'CodeableConcept'()] | undefined,
-	author :: [complex:'ContactDetail'()] | undefined,
-	editor :: [complex:'ContactDetail'()] | undefined,
-	reviewer :: [complex:'ContactDetail'()] | undefined,
-	endorser :: [complex:'ContactDetail'()] | undefined,
-	relatedArtifact :: [complex:'RelatedArtifact'()] | undefined,
+	author :: [metadata:'ContactDetail'()] | undefined,
+	editor :: [metadata:'ContactDetail'()] | undefined,
+	reviewer :: [metadata:'ContactDetail'()] | undefined,
+	endorser :: [metadata:'ContactDetail'()] | undefined,
+	relatedArtifact :: [metadata:'RelatedArtifact'()] | undefined,
 	library :: [canonical()] | undefined,
-	kind :: complex:'RequestResourceType'() | undefined,
+	kind :: code() | undefined,
 	profile :: canonical() | undefined,
 	code :: complex:'CodeableConcept'() | undefined,
-	intent :: complex:'RequestIntent'() | undefined,
-	priority :: complex:'RequestPriority'() | undefined,
+	intent :: code() | undefined,
+	priority :: code() | undefined,
 	doNotPerform :: boolean() | undefined,
-	choice1 :: complex:'Timing'() | complex:'Range'() | complex:'Period'() | complex:'Duration'() | dateTime() | complex:'Age'() | undefined,
+	timing :: complex:'Timing'() | complex:'Range'() | complex:'Period'() | complex:'Duration'() | dateTime() | complex:'Age'() | undefined,
 	location :: special:'Reference'() | undefined,
-	participant :: [complex:'ActivityDefinition.Participant'()] | undefined,
-	choice2 :: special:'Reference'() | complex:'CodeableConcept'() | undefined,
-	quantity :: complex:'Quantity'() | complex:'Duration'() | complex:'Age'() | complex:'Distance'() | complex:'Count'() | undefined,
+	participant :: ['ActivityDefinition.Participant'()] | undefined,
+	product :: special:'Reference'() | complex:'CodeableConcept'() | undefined,
+	quantity :: complex:'Quantity'() | undefined,
 	dosage :: [complex:'Dosage'()] | undefined,
 	bodySite :: [complex:'CodeableConcept'()] | undefined,
 	specimenRequirement :: [special:'Reference'()] | undefined,
 	observationRequirement :: [special:'Reference'()] | undefined,
 	observationResultRequirement :: [special:'Reference'()] | undefined,
 	transform :: canonical() | undefined,
-	dynamicValue :: [complex:'ActivityDefinition.DynamicValue'()] | undefined}).
+	dynamicValue :: ['ActivityDefinition.DynamicValue'()] | undefined}).
 
 -type 'ActivityDefinition'() :: #'ActivityDefinition'{}.
 
@@ -89,8 +89,6 @@
 %%====================================================================
 %% API functions
 %%====================================================================
-
-
 to_activityDefinition({Props}) -> to_activityDefinition(Props);
 to_activityDefinition(Props) ->
   DT = decode:xsd_info(<<"ActivityDefinition">>),
@@ -112,7 +110,7 @@ to_activityDefinition(Props) ->
     , subtitle = decode:value(<<"subtitle">>, Props, DT)
     , status = decode:value(<<"status">>, Props, DT)
     , experimental = decode:value(<<"experimental">>, Props, DT)
-    , choice = decode:value(<<"choice">>, Props, DT)
+    , subject = decode:value(<<"subject">>, Props, DT)
     , date = decode:value(<<"date">>, Props, DT)
     , publisher = decode:value(<<"publisher">>, Props, DT)
     , contact = decode:value(<<"contact">>, Props, DT)
@@ -138,10 +136,10 @@ to_activityDefinition(Props) ->
     , intent = decode:value(<<"intent">>, Props, DT)
     , priority = decode:value(<<"priority">>, Props, DT)
     , doNotPerform = decode:value(<<"doNotPerform">>, Props, DT)
-    , choice1 = decode:value(<<"choice1">>, Props, DT)
+    , timing = decode:value(<<"timing">>, Props, DT)
     , location = decode:value(<<"location">>, Props, DT)
     , participant = decode:value(<<"participant">>, Props, DT)
-    , choice2 = decode:value(<<"choice2">>, Props, DT)
+    , product = decode:value(<<"product">>, Props, DT)
     , quantity = decode:value(<<"quantity">>, Props, DT)
     , dosage = decode:value(<<"dosage">>, Props, DT)
     , bodySite = decode:value(<<"bodySite">>, Props, DT)
@@ -160,7 +158,7 @@ to_activityDefinition_dynamicValue({Props}) -> to_activityDefinition_dynamicValu
 to_activityDefinition_dynamicValue(Props) ->
   DT = decode:xsd_info(<<"ActivityDefinition.DynamicValue">>),
   #'ActivityDefinition.DynamicValue'{ 
-     anyAttribs = decode:attrs(Props, DT)
+      anyAttribs = decode:attrs(Props, DT)
     , id = decode:value(<<"id">>, Props, DT)
     , extension = decode:value(<<"extension">>, Props, DT)
     , modifierExtension = decode:value(<<"modifierExtension">>, Props, DT)
@@ -173,7 +171,7 @@ to_activityDefinition_participant({Props}) -> to_activityDefinition_participant(
 to_activityDefinition_participant(Props) ->
   DT = decode:xsd_info(<<"ActivityDefinition.Participant">>),
   #'ActivityDefinition.Participant'{ 
-       anyAttribs = decode:attrs(Props, DT)
+      anyAttribs = decode:attrs(Props, DT)
     , id = decode:value(<<"id">>, Props, DT)
     , extension = decode:value(<<"extension">>, Props, DT)
     , modifierExtension = decode:value(<<"modifierExtension">>, Props, DT)
@@ -193,34 +191,43 @@ text(#'ActivityDefinition'{text=N}) ->
 
 -include_lib("eunit/include/eunit.hrl").
 
--define(asrtto(A, B), ?assertEqual(B, activitydefinition:to_activitydefinition(A))).
+-define(asrtto(A, B), ?assertEqual(B, activitydefinition:to_activityDefinition(A))).
 -define(asrtp(A, B), ?assertEqual(B, encode:to_proplist(A))).
 -define(asrtjson(A, B), ?assertEqual(B, jiffy:encode(encode:to_proplist(A)))).
 
 activitydefinition_to_test() ->
-    ?asrtto([{<<"id">>, <<"p-21666">>}],
-         {'ActivityDefinition',<<"p-21666">>,undefined,undefined, undefined, 
-                  undefined,[], [], [],
-                          [],undefined,[],[],undefined,undefined,
-                          undefined,undefined,[],undefined,undefined,
-                          undefined,[],[],[],[],undefined,[]}).
+    ?asrtto([{<<"id">>, <<"p-21666">>},{<<"status">>, <<"active">>}],
+             {'ActivityDefinition',[],<<"p-21666">>,undefined,undefined, undefined,undefined,[],[],[],
+              undefined,[],undefined, undefined,undefined,undefined,<<"active">>,undefined,undefined,
+              undefined,undefined,[],undefined,[],[],undefined, undefined,undefined,undefined,
+              undefined,undefined,[],[], [],[],[],[],[],
+              undefined,undefined,undefined,undefined, undefined,undefined,undefined,undefined,[],undefined,
+              undefined,[],[],[],[],[],undefined,[]}
+           ).
+
 activitydefinition_toprop_test() ->
-    ?asrtp({'ActivityDefinition',<<"p-21666">>,undefined,undefined,undefined, 
-                  undefined, [],[], [],
-                          [],undefined,[],[],undefined,undefined,
-                          undefined,undefined,[],undefined,undefined,
-                          undefined,[],[],[],[],undefined, []},
+    ?asrtp(
+             {'ActivityDefinition',[],<<"p-21666">>,undefined,undefined, undefined,undefined,[],[],[],
+              undefined,[],undefined, undefined,undefined,undefined,<<"active">>,undefined,undefined,
+              undefined,undefined,[],undefined,[],[],undefined, undefined,undefined,undefined,
+              undefined,undefined,[],[], [],[],[],[],[],
+              undefined,undefined,undefined,undefined, undefined,undefined,undefined,undefined,[],undefined,
+              undefined,[],[],[],[],[],undefined,[]},
            {[{<<"resourceType">>,<<"ActivityDefinition">>},
-              {<<"id">>,<<"p-21666">>}
-            ]}).
+              {<<"id">>,<<"p-21666">>},
+              {<<"status">>,<<"active">>}]}
+            ).
 
 activitydefinition_json_test() ->
-    ?asrtjson({'ActivityDefinition',<<"p-21666">>,undefined,undefined,undefined, 
-                  undefined, [],[], [],
-                          [],undefined,[],[],undefined,undefined,
-                          undefined,undefined,[],undefined,undefined,
-                          undefined,[],[],[],[],undefined, []},
-           <<"{\"resourceType\":\"ActivityDefinition\",\"id\":\"p-21666\"}">>).
+    ?asrtjson(
+             {'ActivityDefinition',[],<<"p-21666">>,undefined,undefined, undefined,undefined,[],[],[],
+              undefined,[],undefined, undefined,undefined,undefined,<<"active">>,undefined,undefined,
+              undefined,undefined,[],undefined,[],[],undefined, undefined,undefined,undefined,
+              undefined,undefined,[],[], [],[],[],[],[],
+              undefined,undefined,undefined,undefined, undefined,undefined,undefined,undefined,[],undefined,
+              undefined,[],[],[],[],[],undefined,[]},
+             <<"{\"resourceType\":\"ActivityDefinition\",\"id\":\"p-21666\",\"status\":\"active\"}">>
+      ).
 
 -endif.
 

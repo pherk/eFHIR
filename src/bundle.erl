@@ -16,61 +16,81 @@
 %% Rule: A document must have a Composition as the first resource
 %% Rule: A message must have a MessageHeader as the first resource
 
--record('Bundle', {
-      id          :: id()
-    , meta        :: special:'Meta'()
-    , implicitRules :: uri()
-    , language    :: code()
-    , 'identifier' :: complex:'Identifier'()
-    , type        :: code() 
-    , timestamp   :: instant()
-    , total       :: unsignedInt()
-    , link        :: ['Bundle.Link'()]
-    , entry       :: ['Bundle.Entry'()]
-    , signature   :: complex:'Signature'()
-    }).
--type 'Bundle'() :: #'Bundle'{}.
+-record('Bundle.Response', {anyAttribs :: anyAttribs(),
+	id :: string() | undefined,
+	extension :: [extensions:'Extension'()] | undefined,
+	modifierExtension :: [extensions:'Extension'()] | undefined,
+	status :: string(),
+	location :: uri() | undefined,
+	etag :: string() | undefined,
+	lastModified :: instant() | undefined,
+	outcome :: resource:'ResourceContainer'() | undefined}).
 
--record('Bundle.Link', {
-           relation :: binary()
-         , url :: uri()
-         }).
--type 'Bundle.Link'() :: #'Bundle.Link'{}.
+-type 'Bundle.Response'() :: #'Bundle.Response'{}.
 
--record('Bundle.Entry', {
-           link :: ['Bundle.Link'()]
-         , fullUrl :: uri()
-         , resource :: resource:'ResourceContainer'()
-         , search   :: 'Bundle.Search'()
-         , request  :: 'Bundle.Request'()
-         , response  :: 'Bundle.Response'()
-         }).
--type 'Bundle.Entry'() :: #'Bundle.Entry'{}.
 
--record('Bundle.Search', {
-           mode :: code()
-         , score :: decimal()
-         }).
--type 'Bundle.Search'() :: #'Bundle.Search'{}.
+-record('Bundle.Request', {anyAttribs :: anyAttribs(),
+	id :: string() | undefined,
+	extension :: [extensions:'Extension'()] | undefined,
+	modifierExtension :: [extensions:'Extension'()] | undefined,
+	method :: code(),
+	url :: uri(),
+	ifNoneMatch :: string() | undefined,
+	ifModifiedSince :: instant() | undefined,
+	ifMatch :: string() | undefined,
+	ifNoneExist :: string() | undefined}).
 
--record('Bundle.Request', {
-           method :: code() 
-         , url    :: uri()
-         , ifNoneMatch :: binary()
-         , ifModifiedSince :: instant()
-         , ifMatch :: binary()
-         , ifNoneExist :: binary()
-         }).
 -type 'Bundle.Request'() :: #'Bundle.Request'{}.
 
--record('Bundle.Response', {
-           status :: binary()
-         , location :: uri()
-         , etag :: binary()
-         , lastModified :: instant()
-         , outcome :: resource:resourceContainer()
-         }).
--type 'Bundle.Response'() :: #'Bundle.Response'{}.
+
+-record('Bundle.Search', {anyAttribs :: anyAttribs(),
+	id :: string() | undefined,
+	extension :: [extensions:'Extension'()] | undefined,
+	modifierExtension :: [extensions:'Extension'()] | undefined,
+	mode :: code() | undefined,
+	score :: decimal() | undefined}).
+
+-type 'Bundle.Search'() :: #'Bundle.Search'{}.
+
+
+-record('Bundle.Entry', {anyAttribs :: anyAttribs(),
+	id :: string() | undefined,
+	extension :: [extensions:'Extension'()] | undefined,
+	modifierExtension :: [extensions:'Extension'()] | undefined,
+	link :: ['Bundle.Link'()] | undefined,
+	fullUrl :: uri() | undefined,
+	resource :: resource:'ResourceContainer'() | undefined,
+	search :: 'Bundle.Search'() | undefined,
+	request :: 'Bundle.Request'() | undefined,
+	response :: 'Bundle.Response'() | undefined}).
+
+-type 'Bundle.Entry'() :: #'Bundle.Entry'{}.
+
+
+-record('Bundle.Link', {anyAttribs :: anyAttribs(),
+	id :: string() | undefined,
+	extension :: [extensions:'Extension'()] | undefined,
+	modifierExtension :: [extensions:'Extension'()] | undefined,
+	relation :: string(),
+	url :: uri()}).
+
+-type 'Bundle.Link'() :: #'Bundle.Link'{}.
+
+
+-record('Bundle', {anyAttribs :: anyAttribs(),
+	id :: id() | undefined,
+	meta :: special:'Meta'() | undefined,
+	implicitRules :: uri() | undefined,
+	language :: code() | undefined,
+	identifier :: complex:'Identifier'() | undefined,
+	type :: code(),
+	timestamp :: instant() | undefined,
+	total :: unsignedInt() | undefined,
+	link :: ['Bundle.Link'()] | undefined,
+	entry :: ['Bundle.Entry'()] | undefined,
+	signature :: complex:'Signature'() | undefined}).
+
+-type 'Bundle'() :: #'Bundle'{}.
 
 
 
@@ -104,7 +124,8 @@ to_bundle({Props}) -> to_bundle(Props);
 to_bundle(Props) ->
   DT = decode:xsd_info(<<"Bundle">>),
   #'Bundle'{
-      id          = decode:value(<<"id">>, Props, DT)
+      anyAttribs  = decode:attrs(Props, DT)
+    , id          = decode:value(<<"id">>, Props, DT)
     , meta        = decode:value(<<"meta">>, Props, DT)
     , implicitRules = decode:value(<<"implicitRules">>, Props, DT)
     , language    = decode:value(<<"language">>, Props, DT)
@@ -117,58 +138,78 @@ to_bundle(Props) ->
     , signature   = decode:value(<<"signature">>, Props, DT)
     }.
 
+%%====================================================================
+%% Internal functions
+%%====================================================================
 to_bundle_link({Props}) -> to_bundle_link(Props);
 to_bundle_link(Props) ->
-  DT = decode:xsd_info(<<"Bundle.Link">>),
-  #'Bundle.Link'{
-      relation = decode:value(<<"relation">>, Props, DT)
-    , url  = decode:value(<<"url">>, Props, DT)
+    DT = decode:xsd_info(<<"Bundle.Link">>),
+    #'Bundle.Link'{
+        anyAttribs  = decode:attrs(Props, DT)
+      , id          = decode:value(<<"id">>, Props, DT)
+      , extension   = decode:value(<<"extension">>, Props, DT)
+      , modifierExtension   = decode:value(<<"modifierExtension">>, Props, DT)
+      , relation = decode:value(<<"relation">>, Props, DT)
+      , url  = decode:value(<<"url">>, Props, DT)
     }.
 
 to_bundle_entry({Props}) -> to_bundle_entry(Props);
 to_bundle_entry(Props) ->
-  DT = decode:xsd_info(<<"Bundle.Entry">>),
-  #'Bundle.Entry'{
-      link      = decode:value(<<"link">>,Props, DT)
-    , fullUrl   = decode:value(<<"fullUrl">>, Props, DT)
-    , resource  = decode:value(<<"resource">>,Props, DT)
-    , search    = decode:value(<<"search">>,Props, DT)
-    , request   = decode:value(<<"request">>, Props, DT)
-    , response  = decode:value(<<"response">>, Props, DT)
+    DT = decode:xsd_info(<<"Bundle.Entry">>),
+    #'Bundle.Entry'{
+        anyAttribs  = decode:attrs(Props, DT)
+      , id          = decode:value(<<"id">>, Props, DT)
+      , extension   = decode:value(<<"extension">>, Props, DT)
+      , modifierExtension   = decode:value(<<"modifierExtension">>, Props, DT)
+      , link      = decode:value(<<"link">>,Props, DT)
+      , fullUrl   = decode:value(<<"fullUrl">>, Props, DT)
+      , resource  = decode:value(<<"resource">>,Props, DT)
+      , search    = decode:value(<<"search">>,Props, DT)
+      , request   = decode:value(<<"request">>, Props, DT)
+      , response  = decode:value(<<"response">>, Props, DT)
     }.
 
-%%====================================================================
-%% Internal functions
-%%====================================================================
 to_bundle_search({Props}) -> to_bundle_search(Props);
 to_bundle_search(Props) ->
     DT = decode:xsd_info(<<"Bundle.Search">>),
 	#'Bundle.Search'{
-       mode = decode:value(<<"mode">>, Props, DT)
-     , score = decode:value(<<"score">>, Props, DT)
+        anyAttribs  = decode:attrs(Props, DT)
+      , id          = decode:value(<<"id">>, Props, DT)
+      , extension   = decode:value(<<"extension">>, Props, DT)
+      , modifierExtension   = decode:value(<<"modifierExtension">>, Props, DT)
+      , mode = decode:value(<<"mode">>, Props, DT)
+      , score = decode:value(<<"score">>, Props, DT)
 	 }.
 
 to_bundle_request({Props}) -> to_bundle_request(Props);
 to_bundle_request(Props) ->
     DT = decode:xsd_info(<<"Bundle.Request">>),
     #'Bundle.Request'{
-           method        = decode:value(<<"method">>, Props, DT)
-         , url           = decode:value(<<"url">>, Props, DT)
-         , ifNoneMatch   = decode:value(<<"ifNoneMatch">>, Props, DT)
-         , ifModifiedSince = decode:value(<<"ifModifiedSince">>, Props, DT)
-         , ifMatch       = decode:value(<<"ifMatch">>, Props, DT)
-         , ifNoneExist   = decode:value(<<"ifNoneExist">>, Props, DT)
+        anyAttribs  = decode:attrs(Props, DT)
+      , id          = decode:value(<<"id">>, Props, DT)
+      , extension   = decode:value(<<"extension">>, Props, DT)
+      , modifierExtension   = decode:value(<<"modifierExtension">>, Props, DT)
+      , method        = decode:value(<<"method">>, Props, DT)
+      , url           = decode:value(<<"url">>, Props, DT)
+      , ifNoneMatch   = decode:value(<<"ifNoneMatch">>, Props, DT)
+      , ifModifiedSince = decode:value(<<"ifModifiedSince">>, Props, DT)
+      , ifMatch       = decode:value(<<"ifMatch">>, Props, DT)
+      , ifNoneExist   = decode:value(<<"ifNoneExist">>, Props, DT)
 		}.
 
 to_bundle_response({Props}) -> to_bundle_response(Props);
 to_bundle_response(Props) ->
     DT = decode:xsd_info(<<"Bundle.Response">>),
     #'Bundle.Response'{
-           status        = decode:value(<<"status">>, Props, DT)
-         , location      = decode:value(<<"location">>, Props, DT)
-         , etag          = decode:value(<<"etag">>, Props, DT)
-         , lastModified  = decode:value(<<"lastModified">>, Props, DT)
-         , outcome       = decode:value(<<"outcome">>, Props, DT)
+        anyAttribs  = decode:attrs(Props, DT)
+      , id          = decode:value(<<"id">>, Props, DT)
+      , extension   = decode:value(<<"extension">>, Props, DT)
+      , modifierExtension   = decode:value(<<"modifierExtension">>, Props, DT)
+      , status        = decode:value(<<"status">>, Props, DT)
+      , location      = decode:value(<<"location">>, Props, DT)
+      , etag          = decode:value(<<"etag">>, Props, DT)
+      , lastModified  = decode:value(<<"lastModified">>, Props, DT)
+      , outcome       = decode:value(<<"outcome">>, Props, DT)
 	}.
 %%
 %%
@@ -222,8 +263,8 @@ bundle_to_test() ->
                                              ]}}]
                            }]}
             ],
-            {'Bundle',<<"p-21666">>,undefined,undefined,undefined, undefined,<<"searchset">>,undefined,undefined,[],
-                     [{'Bundle.Entry',[],
+            {'Bundle',[],<<"p-21666">>,undefined,undefined,undefined, undefined,<<"searchset">>,undefined,undefined,[],
+                     [{'Bundle.Entry',[],undefined,[],[],[],
                           <<"http://eNahar.org/nabu/patient-test">>,
                           {'Patient',[],<<"p-21666">>,undefined,undefined, undefined,undefined,[],[],[],
                            [],undefined,[],[], undefined,undefined,undefined,undefined,[],
@@ -234,8 +275,8 @@ bundle_to_test() ->
 
 bundle_toprop_test() ->
     ?asrtp(
-            {'Bundle',<<"p-21666">>,undefined,undefined,undefined, undefined,<<"searchset">>,undefined,undefined,[],
-                     [{'Bundle.Entry',[],
+            {'Bundle',[],<<"p-21666">>,undefined,undefined,undefined, undefined,<<"searchset">>,undefined,undefined,[],
+                     [{'Bundle.Entry',[],undefined,[],[],[],
                           <<"http://eNahar.org/nabu/patient-test">>,
                           {'Patient',[],<<"p-21666">>,undefined,undefined, undefined,undefined,[],[],[],
                            [],undefined,[],[], undefined,undefined,undefined,undefined,[],
@@ -243,19 +284,26 @@ bundle_toprop_test() ->
                           undefined,undefined,undefined}],
                      undefined},
          {[{<<"resourceType">>,<<"Bundle">>},
-              {<<"id">>,<<"p-21666">>}
-            ]}).
+           {<<"id">>,<<"p-21666">>},
+           {<<"type">>,<<"searchset">>},
+           {<<"entry">>,
+               [{[{<<"fullUrl">>, <<"http://eNahar.org/nabu/patient-test">>},
+                  {<<"resource">>,
+                        {[{<<"resourceType">>,<<"Patient">>},
+                          {<<"id">>,<<"p-21666">>}]}}]}]}]}
+            ).
 
 bundle_json_test() ->
     ?asrtjson(
-            {'Bundle',<<"p-21666">>,undefined,undefined,undefined, undefined,<<"searchset">>,undefined,undefined,[],
-                     [{'Bundle.Entry',[],
+            {'Bundle',[],<<"p-21666">>,undefined,undefined,undefined, undefined,<<"searchset">>,undefined,undefined,[],
+                     [{'Bundle.Entry',[],undefined,[],[],[],
                           <<"http://eNahar.org/nabu/patient-test">>,
                           {'Patient',[],<<"p-21666">>,undefined,undefined, undefined,undefined,[],[],[],
                            [],undefined,[],[], undefined,undefined,undefined,undefined,[],
                            undefined,undefined,undefined,[],[],[],[], undefined,[]},
                           undefined,undefined,undefined}],
                      undefined},
-           <<"{\"resourceType\":\"Bundle\",\"id\":\"p-21666\"}">>).
+            <<"{\"resourceType\":\"Bundle\",\"id\":\"p-21666\",\"type\":\"searchset\",\"entry\":[{\"fullUrl\":\"http://eNahar.org/nabu/patient-test\",\"resource\":{\"resourceType\":\"Patient\",\"id\":\"p-21666\"}}]}">>
+      ).
 
 -endif.

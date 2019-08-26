@@ -207,8 +207,8 @@
             [
             {<<"type">>, {{primitive, <<"code">>}, required}},
             {<<"profile">>, {{primitive, <<"canonical">>}, list}},
-            {<<"subjectCodeableConcept">>, {{complex, <<"CodeableConcept">>}, optional}},
-            {<<"subjectReference">>, {{special, <<"Reference">>}, optional}},
+            {<<"subject">>, [ {<<"subjectCodeableConcept">>, {{complex, <<"CodeableConcept">>}, optional}},
+                              {<<"subjectReference">>, {{special, <<"Reference">>}, optional}}]},
             {<<"mustSupport">>, {{primitive, <<"string">>}, list}},
             {<<"codeFilter">>, {{complex, <<"DataRequirement.CodeFilter">>}, list}},
             {<<"dateFilter">>, {{complex, <<"DataRequirement.DateFilter">>}, list}},
@@ -244,9 +244,9 @@
             [
             {<<"path">>, {{primitive, <<"string">>}, optional}},
             {<<"searchParam">>, {{primitive, <<"string">>}, optional}},
-            {<<"valueDateTime">>, {{primitive, <<"dateTime">>}, optional}},
-            {<<"valuePeriod">>, {{complex, <<"Period">>}, optional}},
-            {<<"valueDuration">>, {{complex, <<"Duration">>}, optional}}
+            {<<"value">>, [ {<<"valueDateTime">>, {{primitive, <<"dateTime">>}, optional}},
+                            {<<"valuePeriod">>, {{complex, <<"Period">>}, optional}},
+                            {<<"valueDuration">>, {{complex, <<"Duration">>}, optional}}]}
             ],
             [],
             [
@@ -301,11 +301,11 @@
     , <<"Dosage.DoseAndRate">> => {<<"BackboneElement">>,
             [
             {<<"type">>, {{complex, <<"CodeableConcept">>}, optional}},
-            {<<"doseRange">>, {{complex, <<"Range">>}, optional}},
-            {<<"doseQuantity">>, {{complex, <<"Quantity">>}, optional}},
-            {<<"rateRatio">>, {{complex, <<"Ratio">>}, optional}},
-            {<<"rateRange">>, {{complex, <<"Range">>}, optional}},
-            {<<"rateQuantity">>, {{complex, <<"Quantity">>}, optional}}
+            {<<"dose">>, [ {<<"doseRange">>, {{complex, <<"Range">>}, optional}},
+                           {<<"doseQuantity">>, {{complex, <<"Quantity">>}, optional}}]},
+            {<<"rate">>, [ {<<"rateRatio">>, {{complex, <<"Ratio">>}, optional}},
+                           {<<"rateRange">>, {{complex, <<"Range">>}, optional}},
+                           {<<"rateQuantity">>, {{complex, <<"Quantity">>}, optional}}]}
             ],
             [],
             [
@@ -400,11 +400,11 @@
 %%
     , <<"SubstanceAmount">> => {<<"BackboneElement">>,
             [
-            {<<"amountQuantity">>, {{complex, <<"Quantity">>}, optional}},
-            {<<"amountRange">>, {{complex, <<"Range">>}, optional}},
-            {<<"amountString">>, {{primitive, <<"string">>}, optional}},
-            {<<"amountType">>, {{complex, <<"CodeableConcept">>}, optional}},
-            {<<"amountText">>, {{primitive, <<"string">>}, optional}},
+            {<<"amount">>, [ {<<"amountQuantity">>, {{complex, <<"Quantity">>}, optional}},
+                             {<<"amountRange">>, {{complex, <<"Range">>}, optional}},
+                             {<<"amountString">>, {{primitive, <<"string">>}, optional}},
+                             {<<"amountType">>, {{complex, <<"CodeableConcept">>}, optional}},
+                             {<<"amountText">>, {{primitive, <<"string">>}, optional}}]},
             {<<"referenceRange">>, {{bbelement, <<"SubstanceAmount.ReferenceRange">>}, optional}}
             ],
             [],
@@ -466,8 +466,8 @@
 %%
     , <<"Population">> => {<<"BackboneElement">>,
             [
-            {<<"ageRange">>, {{complex, <<"Range">>}, optional}},
-            {<<"ageCodeableConcept">>, {{complex, <<"CodeableConcept">>}, optional}},
+            {<<"age">>, [ {<<"ageRange">>, {{complex, <<"Range">>}, optional}},
+                          {<<"ageCodeableConcept">>, {{complex, <<"CodeableConcept">>}, optional}}]},
             {<<"gender">>, {{complex, <<"CodeableConcept">>}, optional}},
             {<<"race">>, {{complex, <<"CodeableConcept">>}, optional}},
             {<<"physiologicalCondition">>, {{complex, <<"CodeableConcept">>}, optional}}
@@ -534,10 +534,10 @@
             [
             {<<"type">>, {{code, <<"triggertype">>}, required}},
             {<<"name">>, {{primitive, <<"string">>}, optional}},
-            {<<"timingTiming">>, {{bbelement, <<"Timing">>}, optional}},
-            {<<"timingReference">>, {{special, <<"Reference">>}, optional}},
-            {<<"timingDate">>, {{primitive, <<"date">>}, optional}},
-            {<<"timingDateTime">>, {{primitive, <<"dateTime">>}, optional}},
+            {<<"timing">>, [ {<<"timingTiming">>, {{bbelement, <<"Timing">>}, optional}},
+                             {<<"timingReference">>, {{special, <<"Reference">>}, optional}},
+                             {<<"timingDate">>, {{primitive, <<"date">>}, optional}},
+                             {<<"timingDateTime">>, {{primitive, <<"dateTime">>}, optional}}]},
             {<<"data">>, {{complex, <<"DataRequirement">>}, list}},
             {<<"condition">>, {{complex, <<"Expression">>}, optional}}
             ],
@@ -623,8 +623,8 @@
 %%
     , <<"Annotation">> => {<<"Element">>,
             [
-            {<<"authorReference">>, {{special, <<"Reference">>}, optional}},
-            {<<"authorString">>, {{primitive, <<"string">>}, optional}},
+            {<<"author">>, [ {<<"authorReference">>, {{special, <<"Reference">>}, optional}},
+                             {<<"authorString">>, {{primitive, <<"string">>}, optional}}]},
             {<<"time">>, {{primitive, <<"dateTime">>}, optional}},
             {<<"text">>, {{primitive, <<"markdown">>}, required}}
             ],
@@ -669,10 +669,10 @@
     , <<"UsageContext">> => {<<"Element">>,
             [
             {<<"code">>, {{complex, <<"Coding">>}, required}},
-            {<<"valueCodeableConcept">>, {{complex, <<"CodeableConcept">>}, required}},
-            {<<"valueQuantity">>, {{complex, <<"Quantity">>}, required}},
-            {<<"valueRange">>, {{complex, <<"Range">>}, required}},
-            {<<"valueReference">>, {{special, <<"Reference">>}, required}}
+            {<<"valueCodeableConcept">>, [ {<<"valueCodeableConcept">>, {{complex, <<"CodeableConcept">>}, required}},
+                                           {<<"valueQuantity">>, {{complex, <<"Quantity">>}, required}},
+                                           {<<"valueRange">>, {{complex, <<"Range">>}, required}},
+                                           {<<"valueReference">>, {{special, <<"Reference">>}, required}}]}
             ],
             [],
             [
@@ -734,9 +734,9 @@
 %%
     , <<"Timing.Repeat">> => {<<"BackboneElement">>,
             [
-            {<<"boundsDuration">>, {{complex, <<"Duration">>}, optional}},
-            {<<"boundsRange">>, {{complex, <<"Range">>}, optional}},
-            {<<"boundsPeriod">>, {{complex, <<"Period">>}, optional}},
+            {<<"bounds">>, [ {<<"boundsDuration">>, {{complex, <<"Duration">>}, optional}},
+                             {<<"boundsRange">>, {{complex, <<"Range">>}, optional}},
+                             {<<"boundsPeriod">>, {{complex, <<"Period">>}, optional}}]},
             {<<"count">>, {{primitive, <<"positiveInt">>}, optional}},
             {<<"countMax">>, {{primitive, <<"positiveInt">>}, optional}},
             {<<"duration">>, {{primitive, <<"decimal">>}, optional}},
@@ -1279,8 +1279,8 @@
             {<<"subtitle">>, {{primitive, <<"string">>}, optional}},
             {<<"status">>, {{code, <<"publicationstatus">>}, required}},
             {<<"experimental">>, {{primitive, <<"boolean">>}, optional}},
-            {<<"subjectCodeableConcept">>, {{complex, <<"CodeableConcept">>}, optional}},
-            {<<"subjectReference">>, {{special, <<"Reference">>}, optional}},
+            {<<"subject">>, [ {<<"subjectCodeableConcept">>, {{complex, <<"CodeableConcept">>}, optional}},
+                              {<<"subjectReference">>, {{special, <<"Reference">>}, optional}}]},
             {<<"date">>, {{primitive, <<"dateTime">>}, optional}},
             {<<"publisher">>, {{primitive, <<"string">>}, optional}},
             {<<"contact">>, {{complex, <<"ContactDetail">>}, list}},
@@ -1306,16 +1306,16 @@
             {<<"intent">>, {{code, <<"requestintent">>}, optional}},
             {<<"priority">>, {{code, <<"requestpriority">>}, optional}},
             {<<"doNotPerform">>, {{primitive, <<"boolean">>}, optional}},
-            {<<"timingTiming">>, {{bbelement, <<"Timing">>}, optional}},
-            {<<"timingDateTime">>, {{primitive, <<"dateTime">>}, optional}},
-            {<<"timingAge">>, {{complex, <<"Age">>}, optional}},
-            {<<"timingPeriod">>, {{complex, <<"Period">>}, optional}},
-            {<<"timingRange">>, {{complex, <<"Range">>}, optional}},
-            {<<"timingDuration">>, {{complex, <<"Duration">>}, optional}},
+            {<<"timing">>, [ {<<"timingTiming">>, {{bbelement, <<"Timing">>}, optional}},
+                             {<<"timingDateTime">>, {{primitive, <<"dateTime">>}, optional}},
+                             {<<"timingAge">>, {{complex, <<"Age">>}, optional}},
+                             {<<"timingPeriod">>, {{complex, <<"Period">>}, optional}},
+                             {<<"timingRange">>, {{complex, <<"Range">>}, optional}},
+                             {<<"timingDuration">>, {{complex, <<"Duration">>}, optional}}]},
             {<<"location">>, {{special, <<"Reference">>}, optional}},
             {<<"participant">>, {{bbelement, <<"ActivityDefinition.Participant">>}, list}},
-            {<<"productReference">>, {{special, <<"Reference">>}, optional}},
-            {<<"productCodeableConcept">>, {{complex, <<"CodeableConcept">>}, optional}},
+            {<<"product">>, [ {<<"productReference">>, {{special, <<"Reference">>}, optional}},
+                              {<<"productCodeableConcept">>, {{complex, <<"CodeableConcept">>}, optional}}]},
             {<<"quantity">>, {{complex, <<"Quantity">>}, optional}},
             {<<"dosage">>, {{bbelement, <<"Dosage">>}, list}},
             {<<"bodySite">>, {{complex, <<"CodeableConcept">>}, list}},
