@@ -10,8 +10,8 @@
 -export_type(['Coding'/0, 'CodeableConcept'/0]).
 -export_type(['Identifier'/0]).
 -export_type(['HumanName'/0, 'ContactPoint'/0]).
--export_type(['Quantity'/0, 'Range'/0, 'Ratio'/0]).
--export_type(['Period'/0, 'Repeat'/0, 'Timing'/0]).
+-export_type(['Quantity'/0, 'Duration'/0, 'Range'/0, 'Ratio'/0]).
+-export_type(['Period'/0, 'Timing'/0]).
 -export_type(['Signature'/0]).
 
 
@@ -36,8 +36,8 @@
       anyAttribs  :: anyAttribs()
     , id          :: string()
     , extension     :: [extensions:'Extension'()]
-    , authorReference :: special:'Reference'()
-    , time :: date()
+    , author :: special:'Reference'() | string() | undefined
+    , time :: date() | undefined
     , text :: binary()
     }).
 -type 'Annotation'() :: #'Annotation'{}.
@@ -139,6 +139,18 @@
     }).
 -opaque 'Quantity'() :: #'Quantity'{}.
 
+-record('Duration', {
+      anyAttribs  :: anyAttribs()
+    , id          :: string()
+    , extension     :: [extensions:'Extension'()]
+    , value :: float()
+    , comparator :: binary()
+    , unit :: binary()
+    , system :: binary()
+    , code :: binary()
+    }).
+-opaque 'Duration'() :: #'Duration'{}.
+
 -record('Range', {
       anyAttribs  :: anyAttribs()
     , id          :: string()
@@ -157,11 +169,12 @@
     }).
 -opaque 'Ratio'() :: #'Ratio'{}.
 
--record('Repeat', {
+-record('Timing.Repeat', {
       anyAttribs  :: anyAttribs()
     , id          :: string()
     , extension     :: [extensions:'Extension'()]
-    , boundsPeriod :: 'Period'()
+    , modifierExtension     :: [extensions:'Extension'()]
+    , bounds :: 'Period'() | 'Range'() | 'Duration'() | undefined
     , count :: integer()
     , countMax :: integer()
     , duration :: float()
@@ -177,7 +190,7 @@
     , when_ :: [binary()]
     , offset :: integer()
     }).
--opaque 'Repeat'() :: #'Repeat'{}.
+-opaque 'Timing.Repeat'() :: #'Timing.Repeat'{}.
 
 -record('Signature', {
       anyAttribs  :: anyAttribs()
@@ -196,8 +209,9 @@
       anyAttribs  :: anyAttribs()
     , id          :: string()
     , extension     :: [extensions:'Extension'()]
+    , modifierExtension     :: [extensions:'Extension'()]
     , event :: [binary()]
-    , repeat :: 'Repeat'()
+    , repeat :: 'Timing.Repeat'()
     , code :: 'CodeableConcept'()
     }).
 -opaque 'Timing'() :: #'Timing'{}.
@@ -233,7 +247,7 @@ to_annotation(Props) ->
         anyAttribs = decode:attrs(Props, DT)
       , id          = decode:value(<<"id">>, Props, DT)
       , extension    = decode:value(<<"extension">>, Props, DT)
-    , authorReference = decode:value(<<"authorReference">>, Props, DT)
+    , author = decode:value(<<"author">>, Props, DT)
     , time = decode:value(<<"time">>, Props, DT)
     , text = decode:value(<<"text">>, Props, DT)
     }.
@@ -376,14 +390,15 @@ to_ratio(Props) ->
     , denominator = decode:value(<<"denominator">>, Props, DT)
     }.
 
-to_repeat({Props}) -> to_repeat(Props);
-to_repeat(Props) ->
-    DT = decode:xsd_info(<<"Repeat">>),
-    #'Repeat'{
+to_timingRepeat({Props}) -> to_timingRepeat(Props);
+to_timingRepeat(Props) ->
+    DT = decode:xsd_info(<<"Timing.Repeat">>),
+    #'Timing.Repeat'{
         anyAttribs = decode:attrs(Props, DT)
-      , id          = decode:value(<<"id">>, Props, DT)
-      , extension    = decode:value(<<"extension">>, Props, DT)
-    , boundsPeriod = decode:value(<<"boundsPeriod">>, Props, DT)
+    ,   id          = decode:value(<<"id">>, Props, DT)
+    , extension    = decode:value(<<"extension">>, Props, DT)
+    , modifierExtension    = decode:value(<<"modifierExtension">>, Props, DT)
+    , bounds = decode:value(<<"bounds">>, Props, DT)
     , count = decode:value(<<"count">>, Props, DT)
     , countMax = decode:value(<<"countMax">>, Props, DT)
     , duration = decode:value(<<"duration">>, Props, DT)
@@ -420,8 +435,9 @@ to_timing(Props) ->
     DT = decode:xsd_info(<<"Timing">>),
     #'Timing'{
         anyAttribs = decode:attrs(Props, DT)
-      , id          = decode:value(<<"id">>, Props, DT)
+    ,   id          = decode:value(<<"id">>, Props, DT)
       , extension    = decode:value(<<"extension">>, Props, DT)
+    , modifierExtension    = decode:value(<<"modifierExtension">>, Props, DT)
     , event = decode:value(<<"event">>, Props, DT)
     , repeat = decode:value(<<"repeat">>, Props, DT)
     , code = decode:value(<<"code">>, Props, DT)
@@ -452,7 +468,7 @@ complex_to_test() ->
 
 complex_timing_test() ->
     ?asrtto(complex:to_timing({[{<<"event">>, [<<"2019-07-15T12:00:00">>]}]}),
-            {'Timing',[],undefined,[],[<<"2019-07-15T12:00:00">>], undefined, undefined}).
+            {'Timing',[],undefined,[],[], [<<"2019-07-15T12:00:00">>], undefined,undefined}).
 
 -endif.
 
