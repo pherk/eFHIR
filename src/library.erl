@@ -24,7 +24,7 @@
 	status :: code(),
 	experimental :: boolean() | undefined,
 	type :: complex:'CodeableConcept'(),
-	choice ::special:'Reference'() | complex:'CodeableConcept'() | undefined,
+	subject ::special:'Reference'() | complex:'CodeableConcept'() | undefined,
 	date :: dateTime() | undefined,
 	publisher :: string() | undefined,
 	contact :: [metadata:'ContactDetail'()] | undefined,
@@ -80,7 +80,7 @@ to_library(Props) ->
     , status = decode:value(<<"status">>, Props, DT)
     , experimental = decode:value(<<"experimental">>, Props, DT)
     , type = decode:value(<<"type">>, Props, DT)
-    , choice = decode:value(<<"choice">>, Props, DT)
+    , subject = decode:value(<<"subject">>, Props, DT)
     , date = decode:value(<<"date">>, Props, DT)
     , publisher = decode:value(<<"publisher">>, Props, DT)
     , contact = decode:value(<<"contact">>, Props, DT)
@@ -123,29 +123,45 @@ text(#'Library'{text=N}) ->
 -define(asrtjson(A, B), ?assertEqual(B, jiffy:encode(encode:to_proplist(A)))).
 
 library_to_test() ->
-    ?asrtto([{<<"id">>, <<"p-21666">>}],
-         {'Library',<<"p-21666">>,undefined,undefined, undefined, 
-                  undefined,[], [], [],
-                          [],undefined,[],[],undefined,undefined,
-                          undefined,undefined,[],undefined,undefined,
-                          undefined,[],[],[],[],undefined,[]}).
+    ?asrtto([{<<"id">>, <<"p-21666">>},
+             {<<"status">>, <<"active">>},
+             {<<"type">>, {[{<<"coding">>, [{[{<<"code">>, <<"logic-library">>}]}]}]}}
+            ],
+            {'Library',[],<<"p-21666">>,undefined,undefined,undefined, undefined,[],[],[],
+             undefined,[],undefined,undefined, undefined,undefined,<<"active">>,undefined,
+             {'CodeableConcept',[],undefined,[],
+                 [{'Coding',[],undefined,[],undefined,undefined, <<"logic-library">>,undefined,undefined}],
+                 undefined},
+             undefined,undefined,undefined,[],undefined,[],[], undefined,undefined,undefined,undefined,undefined,
+             undefined,[],[],[],[],[],[],[],[],[]}
+           ).
+
 library_toprop_test() ->
-    ?asrtp({'Library',<<"p-21666">>,undefined,undefined,undefined, 
-                  undefined, [],[], [],
-                          [],undefined,[],[],undefined,undefined,
-                          undefined,undefined,[],undefined,undefined,
-                          undefined,[],[],[],[],undefined, []},
+    ?asrtp(
+            {'Library',[],<<"p-21666">>,undefined,undefined,undefined, undefined,[],[],[],
+             undefined,[],undefined,undefined, undefined,undefined,<<"active">>,undefined,
+             {'CodeableConcept',[],undefined,[],
+                 [{'Coding',[],undefined,[],undefined,undefined, <<"logic-library">>,undefined,undefined}],
+                 undefined},
+             undefined,undefined,undefined,[],undefined,[],[], undefined,undefined,undefined,undefined,undefined,
+             undefined,[],[],[],[],[],[],[],[],[]},
            {[{<<"resourceType">>,<<"Library">>},
-              {<<"id">>,<<"p-21666">>}
-            ]}).
+              {<<"id">>,<<"p-21666">>},
+              {<<"status">>,<<"active">>},
+              {<<"type">>, {[{<<"coding">>, [{[{<<"code">>,<<"logic-library">>}]}]}]}}]}
+            ).
 
 library_json_test() ->
-    ?asrtjson({'Library',<<"p-21666">>,undefined,undefined,undefined, 
-                  undefined, [],[], [],
-                          [],undefined,[],[],undefined,undefined,
-                          undefined,undefined,[],undefined,undefined,
-                          undefined,[],[],[],[],undefined, []},
-           <<"{\"resourceType\":\"Library\",\"id\":\"p-21666\"}">>).
+    ?asrtjson(
+            {'Library',[],<<"p-21666">>,undefined,undefined,undefined, undefined,[],[],[],
+             undefined,[],undefined,undefined, undefined,undefined,<<"active">>,undefined,
+             {'CodeableConcept',[],undefined,[],
+                 [{'Coding',[],undefined,[],undefined,undefined, <<"logic-library">>,undefined,undefined}],
+                 undefined},
+             undefined,undefined,undefined,[],undefined,[],[], undefined,undefined,undefined,undefined,undefined,
+             undefined,[],[],[],[],[],[],[],[],[]},
+            <<"{\"resourceType\":\"Library\",\"id\":\"p-21666\",\"status\":\"active\",\"type\":{\"coding\":[{\"code\":\"logic-library\"}]}}">>
+      ).
 
 -endif.
 

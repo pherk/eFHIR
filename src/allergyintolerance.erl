@@ -11,7 +11,7 @@
 	manifestation :: [complex:'CodeableConcept'()],
 	description :: string() | undefined,
 	onset :: dateTime() | undefined,
-	severity :: complex:'AllergyIntoleranceSeverity'() | undefined,
+	severity :: code() | undefined,
 	exposureRoute :: complex:'CodeableConcept'() | undefined,
 	note :: [complex:'Annotation'()] | undefined}).
 
@@ -24,25 +24,25 @@
 	implicitRules :: uri() | undefined,
 	language :: code() | undefined,
 	text :: special:'Narrative'() | undefined,
-	contained :: [complex:'ResourceContainer'()] | undefined,
+	contained :: [resource:'ResourceContainer'()] | undefined,
 	extension :: [extensions:'Extension'()] | undefined,
 	modifierExtension :: [extensions:'Extension'()] | undefined,
 	identifier :: [complex:'Identifier'()] | undefined,
 	clinicalStatus :: complex:'CodeableConcept'() | undefined,
 	verificationStatus :: complex:'CodeableConcept'() | undefined,
-	type :: complex:'AllergyIntoleranceType'() | undefined,
-	category :: [complex:'AllergyIntoleranceCategory'()] | undefined,
-	criticality :: complex:'AllergyIntoleranceCriticality'() | undefined,
+	type :: code() | undefined,
+	category :: [code()] | undefined,
+	criticality :: code() | undefined,
 	code :: complex:'CodeableConcept'() | undefined,
 	patient :: special:'Reference'(),
 	encounter :: special:'Reference'() | undefined,
-	choice :: string() | complex:'Range'() | complex:'Period'() | dateTime() | complex:'Age'() | undefined,
+	onset :: string() | complex:'Range'() | complex:'Period'() | dateTime() | complex:'Age'() | undefined,
 	recordedDate :: dateTime() | undefined,
 	recorder :: special:'Reference'() | undefined,
 	asserter :: special:'Reference'() | undefined,
 	lastOccurrence :: dateTime() | undefined,
 	note :: [complex:'Annotation'()] | undefined,
-	reaction :: [complex:'AllergyIntolerance.Reaction'()] | undefined}).
+	reaction :: ['AllergyIntolerance.Reaction'()] | undefined}).
 
 %%====================================================================
 %% API functions
@@ -69,7 +69,7 @@ to_allergyIntolerance(Props) ->
     , code  = decode:value(<<"code">>, Props, DT) 
     , patient  = decode:value(<<"patient">>, Props, DT) 
     , encounter  = decode:value(<<"encounter">>, Props, DT) 
-    , choice  = decode:value(<<"choice">>, Props, DT) 
+    , onset  = decode:value(<<"onset">>, Props, DT) 
     , recordedDate  = decode:value(<<"recordedDate">>, Props, DT) 
     , recorder  = decode:value(<<"recorder">>, Props, DT) 
     , asserter  = decode:value(<<"asserter">>, Props, DT) 
@@ -113,34 +113,39 @@ text(#'AllergyIntolerance'{text=N}) ->
 
 -include_lib("eunit/include/eunit.hrl").
 
--define(asrtto(A, B), ?assertEqual(B, allergyintolerance:to_allergyintolerance(A))).
+-define(asrtto(A, B), ?assertEqual(B, allergyintolerance:to_allergyIntolerance(A))).
 -define(asrtp(A, B), ?assertEqual(B, encode:to_proplist(A))).
 -define(asrtjson(A, B), ?assertEqual(B, jiffy:encode(encode:to_proplist(A)))).
 
 allergyintolerance_to_test() ->
-    ?asrtto([{<<"id">>, <<"p-21666">>}],
-         {'AllergyIntolerance',<<"p-21666">>,undefined,undefined, undefined, 
-                  undefined,[], [], [],
-                          [],undefined,[],[],undefined,undefined,
-                          undefined,undefined,[],undefined,undefined,
-                          undefined,[],[],[],[],undefined,[]}).
+    ?asrtto([{<<"id">>, <<"p-21666">>},
+             {<<"patient">>, {[{<<"reference">>, <<"nabu/Patient/p-21666">>}]}}
+            ],
+            {'AllergyIntolerance',[],<<"p-21666">>,undefined,undefined, undefined,undefined,[],[],[],
+             [],undefined,undefined, undefined,[],undefined,undefined,
+             {'Reference',[],undefined,[],<<"nabu/Patient/p-21666">>, undefined,undefined,undefined},
+             undefined,undefined,undefined,undefined,undefined, undefined,[],[]}
+           ).
+
 allergyintolerance_toprop_test() ->
-    ?asrtp({'AllergyIntolerance',<<"p-21666">>,undefined,undefined,undefined, 
-                  undefined, [],[], [],
-                          [],undefined,[],[],undefined,undefined,
-                          undefined,undefined,[],undefined,undefined,
-                          undefined,[],[],[],[],undefined, []},
+    ?asrtp(
+            {'AllergyIntolerance',[],<<"p-21666">>,undefined,undefined, undefined,undefined,[],[],[],
+             [],undefined,undefined, undefined,[],undefined,undefined,
+             {'Reference',[],undefined,[],<<"nabu/Patient/p-21666">>, undefined,undefined,undefined},
+             undefined,undefined,undefined,undefined,undefined, undefined,[],[]},
            {[{<<"resourceType">>,<<"AllergyIntolerance">>},
-              {<<"id">>,<<"p-21666">>}
+              {<<"id">>,<<"p-21666">>},
+              {<<"patient">>, {[{<<"reference">>, <<"nabu/Patient/p-21666">>}]}}
             ]}).
 
 allergyintolerance_json_test() ->
-    ?asrtjson({'AllergyIntolerance',<<"p-21666">>,undefined,undefined,undefined, 
-                  undefined, [],[], [],
-                          [],undefined,[],[],undefined,undefined,
-                          undefined,undefined,[],undefined,undefined,
-                          undefined,[],[],[],[],undefined, []},
-           <<"{\"resourceType\":\"AllergyIntolerance\",\"id\":\"p-21666\"}">>).
+    ?asrtjson(
+            {'AllergyIntolerance',[],<<"p-21666">>,undefined,undefined, undefined,undefined,[],[],[],
+             [],undefined,undefined, undefined,[],undefined,undefined,
+             {'Reference',[],undefined,[],<<"nabu/Patient/p-21666">>, undefined,undefined,undefined},
+             undefined,undefined,undefined,undefined,undefined, undefined,[],[]},
+            <<"{\"resourceType\":\"AllergyIntolerance\",\"id\":\"p-21666\",\"patient\":{\"reference\":\"nabu/Patient/p-21666\"}}">>
+      ).
 
 -endif.
 

@@ -1,9 +1,11 @@
--module(capabilities).
+-module(capabilitystatement).
 
 -include("fhir.hrl").
 -include("primitives.hrl").
 -include("codes.hrl").
 -include("erlsom_types.hrl").
+
+-export([to_capabilityStatement/1]).
 
 -record('CapabilityStatement.Document', {anyAttribs :: anyAttribs(),
 	id :: string() | undefined,
@@ -40,10 +42,10 @@
 	id :: string() | undefined,
 	extension :: [extensions:'Extension'()] | undefined,
 	modifierExtension :: [extensions:'Extension'()] | undefined,
-	endpoint :: [complex:'CapabilityStatement.Endpoint'()] | undefined,
+	endpoint :: ['CapabilityStatement.Endpoint'()] | undefined,
 	reliableCache :: unsignedInt() | undefined,
 	documentation :: markdown() | undefined,
-	supportedMessage :: [complex:'CapabilityStatement.SupportedMessage'()] | undefined}).
+	supportedMessage :: ['CapabilityStatement.SupportedMessage'()] | undefined}).
 
 -type 'CapabilityStatement.Messaging'() :: #'CapabilityStatement.Messaging'{}.
 
@@ -99,7 +101,7 @@
 	profile :: canonical() | undefined,
 	supportedProfile :: [canonical()] | undefined,
 	documentation :: markdown() | undefined,
-	interaction :: [complex:'CapabilityStatement.Interaction'()] | undefined,
+	interaction :: ['CapabilityStatement.Interaction'()] | undefined,
 	versioning :: code() | undefined,
 	readHistory :: boolean() | undefined,
 	updateCreate :: boolean() | undefined,
@@ -110,8 +112,8 @@
 	referencePolicy :: [code()] | undefined,
 	searchInclude :: [string()] | undefined,
 	searchRevInclude :: [string()] | undefined,
-	searchParam :: [complex:'CapabilityStatement.SearchParam'()] | undefined,
-	operation :: [complex:'CapabilityStatement.Operation'()] | undefined}).
+	searchParam :: ['CapabilityStatement.SearchParam'()] | undefined,
+	operation :: ['CapabilityStatement.Operation'()] | undefined}).
 
 -type 'CapabilityStatement.Resource'() :: #'CapabilityStatement.Resource'{}.
 
@@ -133,11 +135,11 @@
 	modifierExtension :: [extensions:'Extension'()] | undefined,
 	mode :: code(),
 	documentation :: markdown() | undefined,
-	security :: complex:'CapabilityStatement.Security'() | undefined,
-	resource :: [complex:'CapabilityStatement.Resource'()] | undefined,
-	interaction :: [complex:'CapabilityStatement.Interaction1'()] | undefined,
-	searchParam :: [complex:'CapabilityStatement.SearchParam'()] | undefined,
-	operation :: [complex:'CapabilityStatement.Operation'()] | undefined,
+	security :: 'CapabilityStatement.Security'() | undefined,
+	resource :: ['CapabilityStatement.Resource'()] | undefined,
+	interaction :: ['CapabilityStatement.Interaction1'()] | undefined,
+	searchParam :: ['CapabilityStatement.SearchParam'()] | undefined,
+	operation :: ['CapabilityStatement.Operation'()] | undefined,
 	compartment :: [canonical()] | undefined}).
 
 -type 'CapabilityStatement.Rest'() :: #'CapabilityStatement.Rest'{}.
@@ -171,7 +173,7 @@
 	implicitRules :: uri() | undefined,
 	language :: code() | undefined,
 	text :: special:'Narrative'() | undefined,
-	contained :: [complex:'ResourceContainer'()] | undefined,
+	contained :: [resource:'ResourceContainer'()] | undefined,
 	extension :: [extensions:'Extension'()] | undefined,
 	modifierExtension :: [extensions:'Extension'()] | undefined,
 	url :: uri() | undefined,
@@ -191,15 +193,15 @@
 	kind :: code(),
 	instantiates :: [canonical()] | undefined,
 	imports :: [canonical()] | undefined,
-	software :: complex:'CapabilityStatement.Software'() | undefined,
-	implementation :: complex:'CapabilityStatement.Implementation'() | undefined,
+	software :: 'CapabilityStatement.Software'() | undefined,
+	implementation :: 'CapabilityStatement.Implementation'() | undefined,
 	fhirVersion :: code(),
 	format :: [code()],
 	patchFormat :: [code()] | undefined,
 	implementationGuide :: [canonical()] | undefined,
-	rest :: [complex:'CapabilityStatement.Rest'()] | undefined,
-	messaging :: [complex:'CapabilityStatement.Messaging'()] | undefined,
-	document :: [complex:'CapabilityStatement.Document'()] | undefined}).
+	rest :: ['CapabilityStatement.Rest'()] | undefined,
+	messaging :: ['CapabilityStatement.Messaging'()] | undefined,
+	document :: ['CapabilityStatement.Document'()] | undefined}).
 
 -type 'CapabilityStatement'() :: #'CapabilityStatement'{}.
 
@@ -480,34 +482,47 @@ text(#'CapabilityStatement'{text=N}) ->
 
 -include_lib("eunit/include/eunit.hrl").
 
--define(asrtto(A, B), ?assertEqual(B, capabilityStatement:to_capabilityStatement(A))).
+-define(asrtto(A, B), ?assertEqual(B, capabilitystatement:to_capabilityStatement(A))).
 -define(asrtp(A, B), ?assertEqual(B, encode:to_proplist(A))).
 -define(asrtjson(A, B), ?assertEqual(B, jiffy:encode(encode:to_proplist(A)))).
 
 capabilityStatement_to_test() ->
-    ?asrtto([{<<"id">>, <<"p-21666">>}],
-         {'CapabilityStatement',<<"p-21666">>,undefined,undefined, undefined, 
-                  undefined,[], [], [],
-                          [],undefined,[],[],undefined,undefined,
-                          undefined,undefined,[],undefined,undefined,
-                          undefined,[],[],[],[],undefined,[]}).
+    ?asrtto([{<<"id">>, <<"p-21666">>},
+             {<<"status">>, <<"active">>},
+             {<<"date">>, <<"2019-08-27T12:00:00">>},
+             {<<"kind">>, <<"instance">>},
+             {<<"fhirVersion">>, <<"4.0.0">>},
+             {<<"format">>, [<<"xml">>, <<"json">>]}
+            ],
+            {'CapabilityStatement',[],<<"p-21666">>,undefined,undefined, undefined,undefined,[],[],[],
+             undefined,undefined, undefined,undefined,<<"active">>,undefined, <<"2019-08-27T12:00:00">>,undefined,[],undefined,
+             [],[], undefined,undefined,<<"instance">>,[],[],undefined, undefined,<<"4.0.0">>,
+             [<<"xml">>,<<"json">>], [],[],[],[],[]}
+           ).
+
 capabilityStatement_toprop_test() ->
-    ?asrtp({'CapabilityStatement',<<"p-21666">>,undefined,undefined,undefined, 
-                  undefined, [],[], [],
-                          [],undefined,[],[],undefined,undefined,
-                          undefined,undefined,[],undefined,undefined,
-                          undefined,[],[],[],[],undefined, []},
+    ?asrtp(
+            {'CapabilityStatement',[],<<"p-21666">>,undefined,undefined, undefined,undefined,[],[],[],
+             undefined,undefined, undefined,undefined,<<"active">>,undefined, <<"2019-08-27T12:00:00">>,undefined,[],undefined,
+             [],[], undefined,undefined,<<"instance">>,[],[],undefined, undefined,<<"4.0.0">>,
+             [<<"xml">>,<<"json">>], [],[],[],[],[]},
            {[{<<"resourceType">>,<<"CapabilityStatement">>},
-              {<<"id">>,<<"p-21666">>}
-            ]}).
+              {<<"id">>,<<"p-21666">>},
+                   {<<"status">>,<<"active">>},
+                   {<<"date">>,<<"2019-08-27T12:00:00">>},
+                   {<<"kind">>,<<"instance">>},
+                   {<<"fhirVersion">>,<<"4.0.0">>},
+                   {<<"format">>,[<<"xml">>,<<"json">>]}]}
+            ).
 
 capabilityStatement_json_test() ->
-    ?asrtjson({'CapabilityStatement',<<"p-21666">>,undefined,undefined,undefined, 
-                  undefined, [],[], [],
-                          [],undefined,[],[],undefined,undefined,
-                          undefined,undefined,[],undefined,undefined,
-                          undefined,[],[],[],[],undefined, []},
-           <<"{\"resourceType\":\"CapabilityStatement\",\"id\":\"p-21666\"}">>).
+    ?asrtjson(
+            {'CapabilityStatement',[],<<"p-21666">>,undefined,undefined, undefined,undefined,[],[],[],
+             undefined,undefined, undefined,undefined,<<"active">>,undefined, <<"2019-08-27T12:00:00">>,undefined,[],undefined,
+             [],[], undefined,undefined,<<"instance">>,[],[],undefined, undefined,<<"4.0.0">>,
+             [<<"xml">>,<<"json">>], [],[],[],[],[]},
+            <<"{\"resourceType\":\"CapabilityStatement\",\"id\":\"p-21666\",\"status\":\"active\",\"date\":\"2019-08-27T12:00:00\",\"kind\":\"instance\",\"fhirVersion\":\"4.0.0\",\"format\":[\"xml\",\"json\"]}">>
+      ).
 
 -endif.
 
