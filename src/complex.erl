@@ -187,7 +187,7 @@
     , periodUnit :: binary()
     , dayOfWeek :: [binary()]
     , timeOfDay :: [binary()]
-    , when_ :: [binary()]
+    , 'when' :: [binary()]
     , offset :: integer()
     }).
 -opaque 'Timing.Repeat'() :: #'Timing.Repeat'{}.
@@ -197,11 +197,11 @@
     , id          :: string()
     , extension     :: [extensions:'Extension'()]
     , type :: ['Coding']
-    , when_ :: binary()
-    , whoReference :: special:'Reference'()
-    , onBehalfOfReference :: special:'Reference'()
-    , contentType :: binary()
-    , blob :: base64Binary()
+    , 'when' :: binary()
+    , who :: special:'Reference'() 
+    , targetFormat :: code() | undefined
+    , sigFormat :: code() | undefined
+    , data :: base64Binary() | undefined
     }).
 -opaque 'Signature'() :: #'Signature'{}.
 
@@ -411,7 +411,7 @@ to_timingRepeat(Props) ->
     , periodUnit = decode:value(<<"periodUnit">>, Props, DT)
     , dayOfWeek = decode:value(<<"dayOfWeek">>, Props, DT)
     , timeOfDay = decode:value(<<"timeOfDay">>, Props, DT)
-    , when_ = decode:value(<<"when_">>, Props, DT)
+    , 'when' = decode:value(<<"when_">>, Props, DT)
     , offset = decode:value(<<"offset">>, Props, DT)
     }.
 
@@ -423,11 +423,11 @@ to_signature(Props) ->
       , id          = decode:value(<<"id">>, Props, DT)
       , extension    = decode:value(<<"extension">>, Props, DT)
     , type = decode:value(<<"type">>, Props, DT)
-    , when_ = decode:value(<<"when_">>, Props, DT)
-    , whoReference = decode:value(<<"whoReference">>, Props, DT)
-    , onBehalfOfReference = decode:value(<<"onBehalfOfReference">>, Props, DT)
-    , contentType = decode:value(<<"contentType">>, Props, DT)
-    , blob = decode:value(<<"blob">>, Props, DT)
+    , 'when' = decode:value(<<"when">>, Props, DT)
+    , who = decode:value(<<"who">>, Props, DT)
+    , targetFormat = decode:value(<<"targetFormat">>, Props, DT)
+    , sigFormat = decode:value(<<"sigFormat">>, Props, DT)
+    , data = decode:value(<<"data">>, Props, DT)
     }.
 
 to_timing({Props}) -> to_timing(Props);
@@ -454,17 +454,53 @@ to_timing(Props) ->
 -define(asrtto(A, B), ?assertEqual(B, A)).
 -define(asrtpr(A, B), ?assertEqual(B, utils:rec_to_prop(A))).
 
-complex_to_test() ->
+complex_annotation_test() ->
+    ?asrtto(complex:to_annotation({[{<<"text">>, <<"test">>}]}),
+            {'Annotation',[],undefined,[],undefined,undefined,<<"test">>}),
+    ?asrtto(complex:to_annotation({[{<<"authorReference">>, {[{<<"reference">>, <<"u-admin">>}]}}, {<<"text">>, <<"test">>}]}),
+            {'Annotation',[],undefined,[],
+              {'Reference',[],undefined,[],<<"u-admin">>,undefined, undefined,undefined},
+              undefined,<<"test">>}),
+    ?asrtto(complex:to_annotation({[{<<"authorString">>, <<"u-admin">>}, {<<"text">>, <<"test">>}]}),
+            {'Annotation',[],undefined,[], {<<"String">>,<<"u-admin">>}, undefined,<<"test">>}),
+    ?asrtto(complex:to_annotation({[{<<"author">>, {[{<<"reference">>, <<"u-admin">>}]}}, {<<"text">>, <<"test">>}]}),
+            {'Annotation',[],undefined,[],undefined,undefined,<<"test">>}).
+
+complex_coding_test() ->
     ?asrtto(complex:to_coding({[{<<"code">>, <<"test">>}]}),
             {'Coding',[], undefined, [], undefined,undefined,<<"test">>,undefined,undefined}),
     ?asrtto(complex:to_coding({[{<<"userSelected">>, false}]}),
             {'Coding',[], undefined, [], undefined,undefined,undefined,undefined, false}),
     ?asrtto(complex:to_coding({[{<<"system">>,<<"http://eNahar.org/test">>}, {<<"code">>, <<"test">>},{<<"display">>,<<"test">>}]}),
-            {'Coding',[],undefined,[],<<"http://eNahar.org/test">>,undefined,<<"test">>,<<"test">>,undefined}),
+            {'Coding',[],undefined,[],<<"http://eNahar.org/test">>,undefined,<<"test">>,<<"test">>,undefined}).
+
+complex_humanName_test() ->
     ?asrtto(complex:to_humanName({[{<<"use">>, <<"official">>}]}),
             {'HumanName',[],undefined,[],<<"official">>,undefined,undefined,[],[],[],undefined}),
     ?asrtto(complex:to_humanName({[{<<"use">>, <<"official">>},{<<"family">>,<<"Sokolow">>},{<<"given">>,[<<"Nicolai">>]}]}),
             {'HumanName',[],undefined,[],<<"official">>,undefined,<<"Sokolow">>,[<<"Nicolai">>],[],[],undefined}).
+
+complex_signature_test() ->
+    ?asrtto(complex:to_signature({[{<<"type">>, [{[{<<"coding">>, {[{<<"code">>, <<"1.2.840.10065.1.12.1.1">>},
+                                                                    {<<"display">>, <<"Author's signature">>}
+                                                                   ]}
+                                                   }]},
+                                                 {[{<<"coding">>, {[{<<"code">>, <<"1.2.840.10065.1.12.1.2">>},
+                                                                    {<<"display">>, <<"Coauthor's signature">>}
+                                                                   ]}
+                                                   }]} ] },
+                                   {<<"when">>, <<"2019-01-01T12:00:00">>},
+                                   {<<"who">>, {[{<<"reference">>, <<"p-21666">>},
+                                                 {<<"type">>, <<"Practitioner">>}
+                                                ]}}
+                                  ]}),
+            {'Signature',[],undefined,[],
+                     [{'Coding',[],undefined,[],undefined,undefined, undefined,undefined,undefined},
+                      {'Coding',[],undefined,[],undefined,undefined, undefined,undefined,undefined}],
+                     <<"2019-01-01T12:00:00">>,
+                     {'Reference',[],undefined,[],<<"p-21666">>, <<"Practitioner">>,undefined,undefined},
+                     undefined,undefined,undefined}
+           ).
 
 complex_timing_test() ->
     ?asrtto(complex:to_timing({[{<<"event">>, [<<"2019-07-15T12:00:00">>]}]}),
