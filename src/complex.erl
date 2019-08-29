@@ -11,9 +11,10 @@
 -export_type(['Identifier'/0]).
 -export_type(['HumanName'/0, 'ContactPoint'/0]).
 -export_type(['Quantity'/0, 'Duration'/0, 'Range'/0, 'Ratio'/0]).
+-export_type(['Money'/0]).
 -export_type(['Period'/0, 'Timing'/0]).
 -export_type(['Signature'/0]).
-
+% Age, Distance, Count MoneyQ, SimpleQuantity 
 
 -record('Address', {
       anyAttribs  :: anyAttribs()
@@ -104,6 +105,14 @@
      , period                 :: 'Period'()
 }).
 -opaque 'HumanName'() :: #'HumanName'{}.
+
+-record('Money', {anyAttribs :: anyAttribs(),
+    id :: string() | undefined,
+    extension :: [extensions:'Extension'()] | undefined,
+    value :: decimal() | undefined,
+    currency :: code() | undefined}).
+
+-type 'Money'() :: #'Money'{}.
 
 -record('Identifier', {
       anyAttribs  :: anyAttribs()
@@ -328,6 +337,17 @@ to_humanName(Props) ->
      , period  = decode:value(<<"period">>, Props, DT)
     }.
 
+to_money({Props}) -> to_money(Props);
+to_money(Props) ->
+    DT = decode:xsd_info(<<"Money">>),
+    #'Money'{
+        anyAttribs = decode:attrs(Props, DT)
+      , id         = decode:value(<<"id">>, Props, DT)
+      , extension  = decode:value(<<"extension">>, Props, DT)
+      , value      = decode:value(<<"value">>, Props, DT) 
+      , currency   = decode:value(<<"currency">>, Props, DT) 
+    }.
+
 to_identifier({Props}) -> to_identifier(Props);
 to_identifier(Props) ->
     DT = decode:xsd_info(<<"Identifier">>),
@@ -452,7 +472,7 @@ to_timing(Props) ->
 -include_lib("eunit/include/eunit.hrl").
 
 -define(asrtto(A, B), ?assertEqual(B, A)).
--define(asrtpr(A, B), ?assertEqual(B, utils:rec_to_prop(A))).
+-define(asrtpr(A, B), ?assertEqual(B, fhir_utils:rec_to_prop(A))).
 
 complex_annotation_test() ->
     ?asrtto(complex:to_annotation({[{<<"text">>, <<"test">>}]}),

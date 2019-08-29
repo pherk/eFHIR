@@ -35,40 +35,48 @@ to_date(Bin) -> Bin.
 to_dateTime({Bin}) -> Bin;
 to_dateTime(Bin) -> Bin.
 
+to_positiveInt({Bin}) -> Bin;
+to_positiveInt(Bin) -> Bin.
+
 to_string({Bin}) -> Bin;
 to_string(Bin) -> Bin.
 
 to_time({Bin}) -> Bin;
 to_time(Bin) -> Bin.
 
+to_unsignedInt({Bin}) -> Bin;
+to_unsignedInt(Bin) -> Bin.
 
-value(Key, Props, {Base,FI,Attrs,Restriction}=DT) when is_list(Props)->
+xsd_info(Key) -> maps:get(Key,?fhir_xsd).
+
+
+value(Key, Props, {Base,FI,_Attrs,_Restriction}=_DT) when is_list(Props)->
     % io:format("value0: ~s~n",[Key]),
     BFI = resolve_base(Base,FI),
     % io:format("value1: ~p~n",[BFI]),
     PropInfo = proplists:get_value(Key, BFI),
     analyse_propinfo(PropInfo, Key, Props);
-value(Key, Props, {Base,FI,Attrs,Restriction}=DT) ->
+value(_Key, _Props, {_Base, _FI, _Attrs, _Restriction}=_DT) ->
     throw(<<"proplists error, input malformat">>).
 
-analyse_propinfo(undefined, Key, Props) ->
+analyse_propinfo(undefined, _Key, _Props) ->
     throw(<<"analyze_propinfo: probably choice def missing">>);
-analyse_propinfo(Choice, Key, Props) when is_list(Choice) ->
+analyse_propinfo(Choice, _Key, Props) when is_list(Choice) ->
     % io:format("api1: ~p~n",[Choice]),
     ChoiceKeys = proplists:get_keys(Choice),
     CVs = check_choices(ChoiceKeys, Props),
-    io:format("api4: ~p~n",[CVs]),
+    % io:format("api4: ~p~n",[CVs]),
     case CVs of
         []         -> undefined;
         [{K, V}|_] ->
-            {Type,optional} = proplists:get_value(K, Choice),
-            match_propinfo(Type, optional, V, fun validate_tag/2);
+            {Type,Occurs} = proplists:get_value(K, Choice),
+            match_propinfo(Type, Occurs, V, fun validate_tag/2);
         [_,_|_]    ->
             throw(<<"error in fhir:decode(): more than one of a choice type in resource">>)
     end;
 analyse_propinfo({Type, Occurs}, Key, Props) ->
     % io:format("api5: ~pi : ~p~n~p:~p~n",[Key, Props, Type, Occurs]),
-    Value = proplists:get_value(erlang_to_fhir(Key), Props),
+    Value = proplists:get_value(Key, Props),
     match_propinfo(Type, Occurs, Value, fun validate/2).
 
 check_choices(Keys, Props) ->
@@ -85,11 +93,14 @@ match_propinfo(Type, Occurs, Value, Validate) ->
                 {undefined, non_empty_list} -> error;
                 {Value,     optional}       -> Validate(Type,Value);
                 {Value,     required}       -> 
-            io:format("mpi_required: ~p : ~p~n",[Type, Value]), Validate(Type,Value);
+                % io:format("mpi_required: ~p : ~p~n",[Type, Value]),
+                Validate(Type,Value);
                 {Value,     list}           -> 
-            io:format("mpi_list: ~p : ~p~n", [Type, Value]), Fun = get_fun(Type), lists:map(Fun, Value);
+                % io:format("mpi_list: ~p : ~p~n", [Type, Value]),
+                Fun = get_fun(Type), lists:map(Fun, Value);
                 {Value,     non_empty_list} -> 
-            io:format("mpi_nel: ~p : ~p~n", [Type, Value]), Fun = get_fun(Type), lists:map(Fun, Value)
+                % io:format("mpi_nel: ~p : ~p~n", [Type, Value]),
+                Fun = get_fun(Type), lists:map(Fun, Value)
     end.
 
 resourceType({EJson}) -> resourceType(EJson);
@@ -107,10 +118,10 @@ resolve_base(Base) ->
     resolve_base(Base,[]).
 resolve_base(<<>>, L) -> L;
 resolve_base(<<"BackboneElement">>, L) ->
-    {NewBase, BI, Attrs, Restrictions} = xsd_info(<<"BackboneElement">>),
+    {NewBase, BI, Attrs, _Restrictions} = xsd_info(<<"BackboneElement">>),
     resolve_base(NewBase, Attrs++BI++L);
 resolve_base(Base, L) -> 
-    {NewBase, BI, Attrs, Restrictions} = xsd_info(Base),
+    {NewBase, BI, Attrs, _Restrictions} = xsd_info(Base),
     resolve_base(NewBase, Attrs++BI++L).
 
 validate_tag({primitive, T}=Type, Value) ->
@@ -120,7 +131,7 @@ validate_tag({primitive, T}=Type, Value) ->
         error     -> error;
         V         -> {Tag, V}
     end;
-validate_tag({code, T}=Type, Value) ->
+validate_tag({code, _T}=Type, Value) ->
     case validate(Type,Value) of
         undefined -> undefined;
         error     -> error;
@@ -152,7 +163,7 @@ type_to_tag(<<"xhtml">>) -> <<"Xhtml">>.
 
 
 validate({primitive, <<"base64Binary">>}, Value) -> Value;
-validate({primitive, <<"boolean">>}, Value) -> Value; % utils:binary_to_boolean(Value,error);
+validate({primitive, <<"boolean">>}, Value) -> Value; % fhir_utils:binary_to_boolean(Value,error);
 validate({primitive, <<"canonical">>}, Value) -> Value;
 validate({primitive, <<"code">>}, Value) -> Value;
 validate({primitive, <<"date">>}, Value) -> Value;
@@ -205,17 +216,19 @@ validate({special, <<"Meta">>},           Value) -> special:to_meta(Value);
 validate({special, <<"Narrative">>},      Value) -> special:to_narrative(Value);
 validate({special, <<"Reference">>},      Value) -> special:to_reference(Value);
 validate({bbelement, Resource},   Value) ->
-    {Mod, Fun} = utils:type_to_fun(Resource),
-    io:format("validate: apply: ~s:~s(~p)~n",[Mod,Fun,Value]),
+    {Mod, Fun} = fhir_utils:type_to_fun(Resource),
+    % io:format("validate: apply: ~s:~s(~p)~n",[Mod,Fun,Value]),
     apply(Mod, Fun,[Value]).
 
 
-get_fun({primitive, <<"binary">>})     -> fun to_binary/1; % not used?!
-get_fun({primitive, <<"code">>})       -> fun to_code/1;
-get_fun({primitive, <<"date">>})       -> fun to_date/1;
-get_fun({primitive, <<"dateTime">>})   -> fun to_dateTime/1;
-get_fun({primitive, <<"string">>})     -> fun to_string/1;
-get_fun({primitive, <<"time">>})       -> fun to_time/1;
+get_fun({primitive, <<"binary">>})      -> fun to_binary/1; % not used?!
+get_fun({primitive, <<"code">>})        -> fun to_code/1;
+get_fun({primitive, <<"date">>})        -> fun to_date/1;
+get_fun({primitive, <<"dateTime">>})    -> fun to_dateTime/1;
+get_fun({primitive, <<"positiveInt">>}) -> fun to_positiveInt/1;
+get_fun({primitive, <<"string">>})      -> fun to_string/1;
+get_fun({primitive, <<"time">>})        -> fun to_time/1;
+get_fun({primitive, <<"unsignedInt">>}) -> fun to_unsignedInt/1;
 get_fun({complex, <<"Address">>}) -> fun complex:to_address/1;
 get_fun({complex, <<"Age">>}) -> fun complex:to_age/1;
 get_fun({complex, <<"Attachment">>}) -> fun complex:to_attachment/1;
@@ -246,35 +259,21 @@ get_fun({complex, <<"UsageContext">>}) -> fun complex:to_usage_context/1;
 get_fun({complex, <<"Dosage">>}) -> fun complex:to_dosage/1;
 get_fun({special,   <<"Extension">>})  -> fun extensions:to_extension/1;
 get_fun({special,   <<"Reference">>})  -> fun special:to_reference/1;
+get_fun({special,   <<"ResourceContainer">>})  -> fun resource:to_resource/1;
 get_fun({bbelement, <<"Bundle.Entry">>}) -> fun bundle:to_bundle_entry/1;
 get_fun({bbelement, <<"Bundle.Link">>})  -> fun bundle:to_bundle_link/1;
 get_fun({bbelement, Resource}) ->
-    {Mod, Fun} = utils:type_to_fun(Resource),
+    {Mod, Fun} = fhir_utils:type_to_fun(Resource),
     fun(V) ->
-            io:format("get_fun: bbe apply: ~s:~s(~p)~n",[Mod,Fun,V]),
+            % io:format("get_fun: bbe apply: ~s:~s(~p)~n",[Mod,Fun,V]),
             apply(Mod,Fun,[V]) end.
 
-erlang_to_fhir(<<"reference_">>) -> <<"reference">>;
-erlang_to_fhir(<<"when_">>) -> <<"when">>;
-erlang_to_fhir(<<"start_">>) -> <<"start">>;
-erlang_to_fhir(<<"end_">>) -> <<"end">>;
-erlang_to_fhir(Key) -> Key.
-
-fhir_to_erlang(<<"reference">>) -> <<"reference_">>;
-fhir_to_erlang(<<"when">>) -> <<"when_">>;
-fhir_to_erlang(<<"start">>) -> <<"start_">>;
-fhir_to_erlang(<<"end">>) -> <<"end_">>;
-fhir_to_erlang(Key) -> Key.
-
-xsd_info(Key) -> maps:get(Key,?fhir_xsd).
-
-get_type(patient) -> <<"Patient">>.
 
 record_info(XSDType) -> 
-    {Base,FI,Attrs,Restrictions} = xsd_info(XSDType), 
+    {Base, FI, _Attrs, _Restrictions} = xsd_info(XSDType), 
     BFI = resolve_base(Base,FI),
 %    io:format("r_i: ~p~n",[BFI]),
-    utils:keys(BFI).
+    fhir_utils:keys(BFI).
 
 
 %%%

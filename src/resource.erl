@@ -44,13 +44,9 @@
 to_resource(Props) ->
     Type = resourceType(Props),
     io:format("resource: ~p~n",[Type]),
-     R = string:lowercase(Type),
-     Fun = list_to_binary([<<"to_">>,R]),
-     io:format("validate: apply: ~s:~s~n",[R,Fun]),
-     apply(binary_to_atom(R,utf8),binary_to_atom(Fun,utf8),[Props]).
-%    case Type of
-%        <<"Patient">> -> patient:to_patient(Props)
-%    end.
+    {Mod, Fun} = fhir_utils:type_to_fun(Type),
+    % io:format("validate: apply: ~s:~s~n",[Mod,Fun]),
+    apply(Mod, Fun,[Props]).
 
 
 resourceType({EJson}) -> resourceType(EJson);
@@ -58,6 +54,6 @@ resourceType(EJson) ->
     proplists:get_value(<<"resourceType">>, EJson).
 
 text(R) ->
-    Type = element(1,R),
-    apply(Type,text,[R]).
+    {Mod, _} = fhir_utils:type_to_fun(atom_to_binary(element(1,R),latin1)),
+    apply(Mod,text,[R]).
 

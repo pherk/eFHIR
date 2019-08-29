@@ -85,7 +85,6 @@ to_reference_list(List) ->
 to_reference({Props}) -> to_reference(Props);
 to_reference(Props) ->
     DT = decode:xsd_info(<<"Reference">>),
-    io:format("ref: ~p~n~p~n",[Props,DT]),
     #'Reference'{
         anyAttribs  = decode:attrs(Props, DT)
       , id          = decode:value(<<"id">>, Props, DT)
@@ -110,7 +109,7 @@ narrative(#'Narrative'{'div'=Text}) -> Text.
 -include_lib("eunit/include/eunit.hrl").
 
 -define(asrtto(A, B), ?assertEqual(B, A)).
--define(asrtpr(A, B), ?assertEqual(B, utils:rec_to_prop(A))).
+-define(asrtpr(A, B), ?assertEqual(B, fhir_utils:rec_to_prop(A))).
 
 complex_meta_test() ->
     ?asrtto(special:to_meta({[{<<"versionId">>, <<"999">>},

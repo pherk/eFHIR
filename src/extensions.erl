@@ -121,16 +121,16 @@
 %%====================================================================
 to_extension_list({List}) -> to_extension_list(List);
 to_extension_list(List) ->
-    io:format("el: ~p~n",[List]),
+    % io:format("el: ~p~n",[List]),
     [ to_extension(E) || E <- List].
 
 to_extension({Props}) ->    to_extension(Props);
 to_extension(Props) ->
     % DT = ?ext_info,
-    io:format("e: ~p~n",[Props]),
+    % io:format("e: ~p~n",[Props]),
     Keys = proplists:get_keys(Props),
     Content = lists:delete(<<"url">>,Keys),
-    io:format("e: ~p~n",[Content]),
+    % io:format("e: ~p~n",[Content]),
     case Content of
       []      -> throw(<<"error: to_extension: shall contain either extension or  value[x]">>);
       [_,_|_] -> throw(<<"error: to_extension: shall contain either extension or  value[x]">>);

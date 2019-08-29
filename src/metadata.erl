@@ -4,7 +4,29 @@
 -include("primitives.hrl").
 -include("codes.hrl").
 
--export_type(['RelatedArtifact'/0]).
+-export([
+         to_contactDetail/1,
+         to_dataRequirement/1,
+         to_dataRequirement_sort/1,
+         to_dataRequirement_codeFilter/1,
+         to_dataRequirement_dateFilter/1, 
+         to_expression/1, 
+         to_parameterDefinition/1,
+         to_productShelfLife/1,
+         to_relatedArtifact/1,
+         to_triggerDefinition/1,
+         to_usageContext/1
+        ]).
+-export_type([
+              'ContactDetail'/0,
+              'DataRequirement'/0,
+              'Expression'/0, 
+              'ParameterDefinition'/0,
+              'ProductShelfLife'/0,
+              'RelatedArtifact'/0,
+              'TriggerDefinition'/0,
+              'UsageContext'/0
+             ]).
 %%
 %% API exports
 %%
@@ -184,7 +206,7 @@ to_productShelfLife(Props) ->
   }.
 
 to_relatedArtifact({Props}) -> to_relatedArtifact(Props);
-to_relatedArtifact({Props}) ->
+to_relatedArtifact(Props) ->
     DT = xsd:get_info(<<"RelatedArtifact">>),
     #'RelatedArtifact'{
       anyAttribs = decode:attrs(<<"anyAttribs">>, Props, DT)
@@ -199,8 +221,8 @@ to_relatedArtifact({Props}) ->
     , resource = decode:value(<<"resource">>, Props, DT)
   }.
 
-to_triggerDefinition(Props) -> to_triggerDefinition(Props);
-to_triggerDefinition({Props}) ->
+to_triggerDefinition({Props}) -> to_triggerDefinition(Props);
+to_triggerDefinition(Props) ->
     DT = xsd:get_info(<<"TriggerDefinition">>),
     #'TriggerDefinition'{
       anyAttribs = decode:attrs(<<"anyAttribs">>, Props, DT)
@@ -214,8 +236,8 @@ to_triggerDefinition({Props}) ->
   }.
 
 
-to_dataRequirement(Props) -> to_dataRequirement(Props);
-to_dataRequirement({Props}) ->
+to_dataRequirement({Props}) -> to_dataRequirement(Props);
+to_dataRequirement(Props) ->
     DT = xsd:get_info(<<"DataRequirement">>),
     #'DataRequirement'{
       anyAttribs = decode:attrs(<<"anyAttribs">>, Props, DT)
@@ -232,8 +254,8 @@ to_dataRequirement({Props}) ->
   }.
 
 
-to_parameterDefinition(Props) -> to_parameterDefinition(Props);
-to_parameterDefinition({Props}) ->
+to_parameterDefinition({Props}) -> to_parameterDefinition(Props);
+to_parameterDefinition(Props) ->
     DT = xsd:get_info(<<"ParameterDefinition">>),
     #'ParameterDefinition'{
       anyAttribs = decode:attrs(<<"anyAttribs">>, Props, DT)
@@ -251,8 +273,8 @@ to_parameterDefinition({Props}) ->
 %%
 %% Internal
 %%
-to_dataRequirement_sort(Props) -> to_dataRequirement_sort(Props);
-to_dataRequirement_sort({Props}) ->
+to_dataRequirement_sort({Props}) -> to_dataRequirement_sort(Props);
+to_dataRequirement_sort(Props) ->
     DT = xsd:get_info(<<"DataRequirement.Sort">>),
     #'DataRequirement.Sort'{
       id = decode:value(<<"id">>, Props, DT)
@@ -262,8 +284,8 @@ to_dataRequirement_sort({Props}) ->
   }.
 
 
-to_dataRequirement_dateFilter(Props) -> to_dataRequirement_dateFilter(Props);
-to_dataRequirement_dateFilter({Props}) ->
+to_dataRequirement_dateFilter({Props}) -> to_dataRequirement_dateFilter(Props);
+to_dataRequirement_dateFilter(Props) ->
     DT = xsd:get_info(<<"DataRequirement.DateFilter">>),
     #'DataRequirement.DateFilter'{
       id = decode:value(<<"id">>, Props, DT)
@@ -273,8 +295,8 @@ to_dataRequirement_dateFilter({Props}) ->
     , value = decode:value(<<"value">>, Props, DT)
   }.
 
-to_dataRequirement_codeFilter(Props) -> to_dataRequirement_codeFilter(Props);
-to_dataRequirement_codeFilter({Props}) ->
+to_dataRequirement_codeFilter({Props}) -> to_dataRequirement_codeFilter(Props);
+to_dataRequirement_codeFilter(Props) ->
     DT = xsd:get_info(<<"DataRequirement.CodeFilter">>),
     #'DataRequirement.CodeFilter'{
       id = decode:value(<<"id">>, Props, DT)
@@ -293,7 +315,7 @@ to_dataRequirement_codeFilter({Props}) ->
 -include_lib("eunit/include/eunit.hrl").
 
 -define(asrtto(A, B), ?assertEqual(B, A)).
--define(asrtpr(A, B), ?assertEqual(B, utils:rec_to_prop(A))).
+-define(asrtpr(A, B), ?assertEqual(B, fhir_utils:rec_to_prop(A))).
 
 -endif.
 
