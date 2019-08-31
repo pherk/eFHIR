@@ -208,10 +208,20 @@ validate({complex, <<"Quantity">>},       Value) -> complex:to_quantity(Value);
 validate({complex, <<"ResourceContainer">>}, Value) -> resource:to_resource(Value); 
 validate({complex, <<"Signature">>},      Value) -> complex:to_signature(Value);
 validate({complex, <<"SimpleQuantity">>}, Value) -> complex:to_simpleQuantity(Value);
-validate({complex, <<"Timing">>}, Value)         -> complex:to_timing(Value);
-validate({metadata, <<"RelatedArtifakt">>}, Value) -> metadata:to_relatedArtifakt(Value);
+validate({complex, <<"Timing">>},         Value) -> complex:to_timing(Value);
+validate({metadata, <<"ContactDetail">>}, Value) -> metadata:to_contactDetail(Value);
+validate({metadata, <<"Contributor">>},   Value) -> metadata:to_contributor(Value);
+validate({metadata, <<"DataRequirement">>}, Value) -> metadata:to_dataRequirement(Value);
+validate({metadata, <<"Expression">>},      Value) -> metadata:to_expression(Value);
+validate({metadata, <<"ParameterDefinition">>}, Value) -> metadata:to_parameterDefinition(Value);
+validate({metadata, <<"RelatedArtifakt">>},   Value) -> metadata:to_relatedArtifakt(Value);
+validate({metadata, <<"TriggerDefinition">>}, Value) -> metadata:to_triggerDefinition(Value);
+validate({metadata, <<"UsageContext">>},      Value) -> metadata:to_usageContext(Value);
+validate({resource, <<"ResourceContainer">>}, Value) -> resource:to_resource(Value);
 validate({special, <<"xhtml">>},          Value) -> Value;
-validate({special, <<"Extension">>},      Value) -> extensions:to_extension_list(Value);
+validate({special, <<"Dosage">>},         Value) -> special:to_dosage(Value);
+validate({special, <<"ElementDefinition">>}, Value) -> special:to_elementDefinition(Value);
+validate({special, <<"Extension">>},      Value) -> extensions:to_extension(Value);
 validate({special, <<"Meta">>},           Value) -> special:to_meta(Value);
 validate({special, <<"Narrative">>},      Value) -> special:to_narrative(Value);
 validate({special, <<"Reference">>},      Value) -> special:to_reference(Value);
@@ -220,7 +230,9 @@ validate({bbelement, Resource},   Value) ->
     % io:format("validate: apply: ~s:~s(~p)~n",[Mod,Fun,Value]),
     apply(Mod, Fun,[Value]).
 
-
+%%
+%% get_fun is needed for mapping list of types
+%%
 get_fun({primitive, <<"binary">>})      -> fun to_binary/1; % not used?!
 get_fun({primitive, <<"code">>})        -> fun to_code/1;
 get_fun({primitive, <<"date">>})        -> fun to_date/1;
@@ -257,7 +269,8 @@ get_fun({complex, <<"RelatedArtifact">>}) -> fun complex:to_related_artifiact/1;
 get_fun({complex, <<"TriggerDefinition">>}) -> fun complex:to_trigger_definition/1;
 get_fun({complex, <<"UsageContext">>}) -> fun complex:to_usage_context/1;
 get_fun({complex, <<"Dosage">>}) -> fun complex:to_dosage/1;
-get_fun({special,   <<"Extension">>})  -> fun extensions:to_extension/1;
+% get_fun({special,   <<"Extension">>})  -> fun extensions:to_extension/1;
+get_fun({extension, <<"Extension">>})  -> fun extensions:to_extension/1;
 get_fun({special,   <<"Reference">>})  -> fun special:to_reference/1;
 get_fun({special,   <<"ResourceContainer">>})  -> fun resource:to_resource/1;
 get_fun({bbelement, <<"Bundle.Entry">>}) -> fun bundle:to_bundle_entry/1;

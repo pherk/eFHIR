@@ -40,6 +40,15 @@ declare function local:type($e,$xsd)
         else if ($ct/xs:complexContent/xs:extension/@base='BackboneElement')
         then
                 concat('{bbelement, <<"', $e/@type, '">>}')
+        else if ($e/@type='ResourceContainer')
+        then
+                concat('{container, <<"', $e/@type, '">>}')
+        else if ($e/@type=('Extension','ModifierExtension'))
+        then
+                concat('{extension, <<"', $e/@type, '">>}')
+        else if ($e/@type=('ContactDetail','DataRequirement','Expression','ParameterDefinition','ProductShelfLife','RelatedArtifact','TriggerDefinition','UsageContext'))
+        then
+                concat('{metadata, <<"', $e/@type, '">>}')
         else
                 concat('{complex, <<"', $e/@type, '">>}')
 };
