@@ -2,16 +2,17 @@
 -author("pmh").
 -vsn("0.0.1").
 
--include("ecal.hrl").
 -include_lib("fhir/include/fhir.hrl").
 -include_lib("fhir/include/primitives.hrl").
 
 -export([
           new_agenda/3
+        , to_schedule_agenda/1
         ]).
 -export([
-          new_event/5
-        , to_event/1
+          new_event/3
+        , to_schedule_agenda_event/1
+        , to_schedule_agenda_event_rRule/1
         , add_rrule/4
         , add_rdates/2
         , add_exdates/2
@@ -19,10 +20,23 @@
         ]).
 -export([
           new_schedule/0
+        , to_schedule/1
+        , to_schedule_cSS/1
+        , to_schedule_timing/1
+        ]).
+-export([
+          new_icalendar/0
+        , to_iCalendar/1
+        , to_iCalendar_schedule/1
         ]).
 
--export_type([agenda/0]).
--export_type([event/0]).
+
+-export_type(['ICalendar'/0]).
+-export_type(['Schedule'/0]).
+-export_type(['Schedule.Agenda'/0]).
+-export_type(['Schedule.Agenda.Event'/0]).
+-export_type(['Schedule.Agenda.Event.RRule'/0]).
+
 
 %%%
 %%% Agendas
@@ -54,10 +68,13 @@
 -type orderby()      :: start | updated.
 -type access_role()  :: none | freebusy_read | read | write | owner.
 -type type()   :: official | traditional | religious_rk | worktime | service | meeting.
--type rdate()  :: [interval()].
--type exdate() :: [interval()].
+-type rdate()  :: [date()].
+-type exdate() :: [date()].
+-type weekno() :: 1..52.
+-type weekday() :: mo | di | mi | do | fr | sa | so.
 -type byweek() :: none | odd | even | weekno().
--type byday()  :: {nth, -52..366} | {wd, weekday()}. %% 0: means all weekdays in period
+-type byday()  :: -52..366 | weekday(). %% 0: means all weekdays in period
+-type timezone() :: mez.
 
 -record('Schedule.Agenda.Event.RRule', {
       anyAttribs :: anyAttribs()
@@ -94,15 +111,15 @@
     }).
 -opaque 'Schedule.Agenda.Event'() :: #'Schedule.Agenda.Event'{}.
 
--record('Icalendar.Schedule', {
-      anyAttribs :: anyAttribs()
-    , id         :: id()
-    , extension  :: [extensions:'Extension'()]
+-record('ICalendar.Schedule', {
+      anyAttribs  :: anyAttribs()
+    , id          :: id()
+    , extension   :: [extensions:'Extension'()]
     , global      :: special:'Reference'()
-    , timing = #'Schedule.Timing'{overbookable = true} :: 'Schedule.Timing'()
+    , timing      :: 'Schedule.Timing'()
     , agenda = [] :: ['Schedule.Agenda'()]
     }).
--opaque schedule() :: #schedule{}.
+-opaque 'ICalendar.Schedule'() :: #'ICalendar.Schedule'{}.
 
 -record('Schedule.Timing', {
       anyAttribs :: anyAttribs()
@@ -156,12 +173,12 @@
 -type cal_type()   :: primary | secondary.
 
 -record('ICalendar', {
-      anayAttribs :: anyAtrribs()
+      anyAttribs  :: anyAttribs()
     , id          :: string()
     , meta        :: complex:'Meta'() | undefined
     , implicitRules :: uri() | undefined
     , language    :: code() | undefined
-    , text        :: special'Narrative'() | undefined
+    , text        :: special:'Narrative'() | undefined
     , contained   :: [resource:'ResourceContainer'()]
     , extension   :: [extensions:'Extension'()]
     , modifierExtension :: [extensions:'Extension'()]
@@ -182,10 +199,10 @@
 %%
 %% Agenda API
 %%
--spec new_agenda(complex:'Period'(), boolean(), string(),[event()]) -> agenda().
+-spec new_agenda(complex:'Period'(), string(),['Schedule.Agenda.Event'()]) -> 'Schedule.Agenda'().
 new_agenda(Period,Note,Events) -> 
-    #'Scheule.Agenda'{
-    , period   = Period
+    #'Schedule.Agenda'{
+      period   = Period
     , blocking = true
     , note     = Note
     , event    = Events
@@ -195,30 +212,30 @@ new_agenda(Period,Note,Events) ->
 %% Event API
 %%
 
--spec new_event(string(),string(),type()) -> event().
+-spec new_event(string(),string(),type()) -> 'Schedule.Agenda.Event'().
 new_event(Name,Description,Type) ->
-    #event{
+    #'Schedule.Agenda.Event'{
         name = Name
       , description = Description
       , type = Type
     }.
 
--spec add_rrule(event(), freq(),event_byweek(),[byday()]) -> event().
+-spec add_rrule('Schedule.Agenda.Event'(), freq(),byweek(),[byday()]) -> 'Schedule.Agenda.Event'().
 add_rrule(Event, Freq, Byweekno, Bydays) -> 
     Ret = check_bys(Freq,Byweekno,Bydays),
     case Ret of
-      {error,_}  -> {error, #rrule{frequency=Freq,byweekno=Byweekno,byday=Bydays}};
-      {ok,Byday} -> Rrule = #rrule{frequency=Freq,byweekno=Byweekno,byday=Byday},
-                    Event#event{rrule=Rrule}
+      {error,_}  -> {error, #'Schedule.Agenda.Event.RRule'{frequency=Freq,byweekno=Byweekno,byday=Bydays}};
+      {ok,Byday} -> Rrule = #'Schedule.Agenda.Event.RRule'{frequency=Freq,byweekno=Byweekno,byday=Byday},
+                    Event#'Schedule.Agenda.Event'{rrule=Rrule}
     end.
 
--spec add_rdates(event(), [rdate()]) -> event().
-add_rdates(Event, Rdates) -> Event#event{rdate=Rdates}.
+-spec add_rdates('Schedule.Agenda.Event'(), [rdate()]) -> 'Schedule.Agenda.Event'().
+add_rdates(Event, Rdates) -> Event#'Schedule.Agenda.Event'{rdate=Rdates}.
 
--spec add_exdates(event(), [exdate()]) -> event().
-add_exdates(Event, Exdates) -> Event#event{exdate=Exdates}.
+-spec add_exdates('Schedule.Agenda.Event'(), [exdate()]) -> 'Schedule.Agenda.Event'().
+add_exdates(Event, Exdates) -> Event#'Schedule.Agenda.Event'{exdate=Exdates}.
 
--spec check_bys(freq(),event_byweek(),[byday()]) -> ({ok,[byday()]}|{error,atom()}).
+-spec check_bys(freq(),byweek(),[byday()]) -> ({ok,[byday()]}|{error,atom()}).
 check_bys(daily,  none,Weekdays) -> check_weekdays(daily,Weekdays);
 check_bys(daily,   odd,   _) -> {error, rrule_illegal};
 check_bys(daily,  even,   _) -> {error, rrule_illegal};
@@ -264,9 +281,9 @@ check_nth_days([Day|T],First,Last,Acc) ->
     end. 
     
 
--spec check_nth_day(byday(),integer(),integer()) -> {ok,byday()} | {error,atom()}.
+-spec check_nth_day(byday(),integer(),integer()) -> {ok, byday()} | {error, atom()}.
 check_nth_day(Day,First,Last) -> 
-     case in_range(Day#byday.nth,First,Last) of
+     case in_range(Day,First,Last) of
        true  -> {ok,Day};
        false -> {error, nth_day_not_in_range}
      end.
@@ -282,11 +299,11 @@ to_schedule({Props}) -> to_schedule(Props);
 to_schedule(Props) ->
     DT = decode:xsd_info(<<"Schedule">>),
     #'Schedule'{
-         anayAttribs = decode:attrs(Props, DT)
+         anyAttribs = decode:attrs(Props, DT)
        , id = decode:value(<<"id">>, Props, DT)
        , meta = decode:value(<<"meta">>, Props, DT)
        , implicitRules = decode:value(<<"implicitRules">>, Props, DT)
-       , language = decode:value(<<"language">>, Props, DT),
+       , language = decode:value(<<"language">>, Props, DT)
        , text = decode:value(<<"text">>, Props, DT)
        , contained = decode:value(<<"contained">>, Props, DT)
        , extension = decode:value(<<"extension">>, Props, DT)
@@ -305,7 +322,7 @@ to_schedule(Props) ->
 
 to_schedule_agenda({Props}) -> to_schedule_agenda(Props);
 to_schedule_agenda(Props) -> 
-    DT = decode:xsd_info(<<"Schedule.Agenda">>, DT),
+    DT = decode:xsd_info(<<"Schedule.Agenda">>),
     #'Schedule.Agenda'{
          anyAttribs = decode:attrs(Props, DT)
        , id = decode:value(<<"id">>, Props, DT)
@@ -349,7 +366,7 @@ to_schedule_agenda_event_rRule(Props) ->
        , count = decode:value(<<"count">>, Props, DT)
     }.
 to_schedule_cSS({Props}) -> to_schedule_cSS(Props);
-to_schedule_cSS(Props)
+to_schedule_cSS(Props) ->
     DT = decode:xsd_info(<<"Schedule.CSS">>),
     #'Schedule.CSS'{
          anyAttribs = decode:attrs(Props, DT)
@@ -372,28 +389,30 @@ to_schedule_timing(Props) ->
        , exam = decode:value(<<"exam">>, Props, DT)
        , post = decode:value(<<"post">>, Props, DT)
        , overbookable = decode:value(<<"overbookable">>, Props, DT)
-       , blocking = decode:value(<<"blocking">>, Props, DT)
-       , overbookable = decode:value(<<"overbookable">>, Props, DT)
        , parallelPerHour = decode:value(<<"parallelPerHour">>, Props, DT)
+       , blocking = decode:value(<<"blocking">>, Props, DT)
        , prio = decode:value(<<"prio">>, Props, DT)
     }.
 
 
--spec new_schedule() -> schedule().
-new_schedule() -> #schedule{}.
+-spec new_schedule() -> 'Schedule'().
+new_schedule() -> #'Schedule'{}.
 
 %%
 %% ical API
 %%
+-spec new_icalendar() -> 'ICalendar'().
+new_icalendar() -> #'ICalendar'{}.
+
 to_iCalendar({Props}) -> to_iCalendar(Props);
 to_iCalendar(Props) ->
     DT = decode:xsd_info(<<"Schedule.CSS">>),
     #'ICalendar'{
-         anayAttribs = decode:attrs(Props, DT)
+         anyAttribs = decode:attrs(Props, DT)
        , id = decode:value(<<"id">>, Props, DT)
        , meta = decode:value(<<"meta">>, Props, DT)
        , implicitRules = decode:value(<<"implicitRules">>, Props, DT)
-       , language = decode:value(<<"language">>, Props, DT),
+       , language = decode:value(<<"language">>, Props, DT)
        , text = decode:value(<<"text">>, Props, DT)
        , contained = decode:value(<<"contained">>, Props, DT)
        , extension = decode:value(<<"extension">>, Props, DT)
@@ -410,7 +429,7 @@ to_iCalendar(Props) ->
        , schedule = decode:value(<<"schedule">>, Props, DT)
     }.
 
-to_iCalendar_schedule({Props}) -> to_icalendar_schedule(Props);
+to_iCalendar_schedule({Props}) -> to_iCalendar_schedule(Props);
 to_iCalendar_schedule(Props) ->
     DT = decode:xsd_info(<<"ICalendar.Schedule">>),
     #'ICalendar.Schedule'{

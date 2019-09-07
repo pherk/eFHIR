@@ -267,8 +267,8 @@ bundle_to_test() ->
                      [{'Bundle.Entry',[],undefined,[],[],[],
                           <<"http://eNahar.org/nabu/patient-test">>,
                           {'Patient',[],<<"p-21666">>,undefined,undefined, undefined,undefined,[],[],[],
-                           [],undefined,[],[], undefined,undefined,undefined,undefined,[],
-                           undefined,undefined,undefined,[],[],[],[], undefined,[]},
+                           [],undefined,[],[], undefined,undefined,undefined,[],
+                           undefined,undefined,[],[],[],[], undefined,[]},
                           undefined,undefined,undefined}],
                      undefined}
            ).
@@ -279,8 +279,8 @@ bundle_toprop_test() ->
                      [{'Bundle.Entry',[],undefined,[],[],[],
                           <<"http://eNahar.org/nabu/patient-test">>,
                           {'Patient',[],<<"p-21666">>,undefined,undefined, undefined,undefined,[],[],[],
-                           [],undefined,[],[], undefined,undefined,undefined,undefined,[],
-                           undefined,undefined,undefined,[],[],[],[], undefined,[]},
+                           [],undefined,[],[], undefined,undefined,undefined,[],
+                           undefined,undefined,[],[],[],[], undefined,[]},
                           undefined,undefined,undefined}],
                      undefined},
          {[{<<"resourceType">>,<<"Bundle">>},
@@ -299,8 +299,8 @@ bundle_json_test() ->
                      [{'Bundle.Entry',[],undefined,[],[],[],
                           <<"http://eNahar.org/nabu/patient-test">>,
                           {'Patient',[],<<"p-21666">>,undefined,undefined, undefined,undefined,[],[],[],
-                           [],undefined,[],[], undefined,undefined,undefined,undefined,[],
-                           undefined,undefined,undefined,[],[],[],[], undefined,[]},
+                           [],undefined,[],[], undefined,undefined,undefined,[],
+                           undefined,undefined,[],[],[],[], undefined,[]},
                           undefined,undefined,undefined}],
                      undefined},
             <<"{\"resourceType\":\"Bundle\",\"id\":\"p-21666\",\"type\":\"searchset\",\"entry\":[{\"fullUrl\":\"http://eNahar.org/nabu/patient-test\",\"resource\":{\"resourceType\":\"Patient\",\"id\":\"p-21666\"}}]}">>

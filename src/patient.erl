@@ -20,12 +20,10 @@
     , telecom     :: [complex:'ContactPoint'()]
     , gender      :: code()
     , birthDate   :: date()
-    , deceasedBoolean  :: boolean()
-    , deceasedDateTime :: dateTime()
+    , deceased    :: boolean() | dateTime() | undefined
     , address          :: [complex:'Address'()]
     , maritalStatus    :: complex:'CodeableConcept'()
-    , multipleBirthBoolean :: boolean()
-    , multipleBirthInteger :: integer()
+    , multipleBirth :: boolean() | integer() | undefined
     , photo                :: [complex:'Attachment'()]
     , contact              :: ['Patient.Contact'()]	
     , communication        :: ['Patient.Communication'()]
@@ -98,12 +96,10 @@ to_patient(Props) ->
     , telecom          = decode:value(<<"telecom">>, Props, DT)
     , gender           = decode:value(<<"gender">>, Props, DT)
     , birthDate        = decode:value(<<"birthDate">>, Props, DT)
-    , deceasedBoolean  = decode:value(<<"deceasedBoolean">>, Props, DT)
-    , deceasedDateTime = decode:value(<<"deceasedDateTime">>, Props, DT)
+    , deceased         = decode:value(<<"deceased">>, Props, DT)
     , address          = decode:value(<<"address">>, Props, DT)
     , maritalStatus    = decode:value(<<"maritalStatus">>, Props, DT)
-    , multipleBirthBoolean = decode:value(<<"multipleBirthBoolean">>, Props, DT)
-    , multipleBirthInteger = decode:value(<<"multipleBirthInteger">>, Props, DT)
+    , multipleBirth    = decode:value(<<"multipleBirth">>, Props, DT)
     , photo                = decode:value(<<"photo">>, Props, DT)
     , contact              = decode:value(<<"contact">>, Props, DT)	
     , communication        = decode:value(<<"communication">>, Props, DT)
@@ -172,27 +168,24 @@ text(#'Patient'{text=N}) ->
 
 patient_to_test() ->
    ?asrtto([{<<"id">>, <<"p-21666">>}],
-           {'Patient',[],<<"p-21666">>,undefined,undefined,undefined,
-                            undefined,[],[],[],[],undefined,[],[],undefined,
-                            undefined,undefined,undefined,[],undefined,
-                            undefined,undefined,[],[],[],[],undefined,[]}
+           {'Patient',[],<<"p-21666">>,undefined,undefined,undefined, undefined,[],[],[],
+            [],undefined,[],[],undefined, undefined,undefined,[],undefined,
+            undefined,[],[],[],[],undefined,[]}
           ).
 patient_toprop_test() ->
     ?asrtp(
-           {'Patient',[],<<"p-21666">>,undefined,undefined,undefined,
-                            undefined,[],[],[],[],undefined,[],[],undefined,
-                            undefined,undefined,undefined,[],undefined,
-                            undefined,undefined,[],[],[],[],undefined,[]},
+           {'Patient',[],<<"p-21666">>,undefined,undefined,undefined, undefined,[],[],[],
+            [],undefined,[],[],undefined, undefined,undefined,[],undefined,
+            undefined,[],[],[],[],undefined,[]},
            {[{<<"resourceType">>,<<"Patient">>},
               {<<"id">>,<<"p-21666">>}
             ]}).
 
 patient_json_test() ->
     ?asrtjson(
-           {'Patient',[],<<"p-21666">>,undefined,undefined,undefined,
-                            undefined,[],[],[],[],undefined,[],[],undefined,
-                            undefined,undefined,undefined,[],undefined,
-                            undefined,undefined,[],[],[],[],undefined,[]},
+           {'Patient',[],<<"p-21666">>,undefined,undefined,undefined, undefined,[],[],[],
+            [],undefined,[],[],undefined, undefined,undefined,[],undefined,
+            undefined,[],[],[],[],undefined,[]},
            <<"{\"resourceType\":\"Patient\",\"id\":\"p-21666\"}">>).
 
 -endif.
