@@ -57,7 +57,7 @@ value(Key, Props, {Base,FI,_Attrs,_Restriction}=_DT) when is_list(Props)->
     PropInfo = proplists:get_value(Key, BFI),
     analyse_propinfo(PropInfo, Key, Props);
 value(_Key, _Props, {_Base, _FI, _Attrs, _Restriction}=_DT) ->
-    throw(<<"proplists error, input malformat">>).
+    throw(<<"proplists error, input malformated">>).
 
 analyse_propinfo(undefined, _Key, _Props) ->
     throw(<<"analyze_propinfo: probably choice def missing">>);
