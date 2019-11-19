@@ -25,10 +25,10 @@ update(Resource, Props, Opts) ->
 %%
 %% path types
 %% prop              -> primitive
-%% prop-num          -> list primitive
+%% prop:num          -> list primitive
 %% prop-child        -> single complex
-%% prop-num-child    -> list complex
-%% prop-system-child -> list complex 
+%% prop:num-child    -> list complex
+%% prop:system-child -> list complex 
 canonize(Props) ->
     PVs= [{split_path(P), V} || {P, V} <- Props],
     Raw = lists:foldl(fun(PV, M) -> 
@@ -54,25 +54,27 @@ gather_complex(P,C, V, Accum) ->
       {badkey, K} -> maps:put(P, maps:put(C,V, maps:new()), Accum);
       Complex -> maps:update(P, gather({[C],V}, Complex), Accum)
     end.
-
+%% simple list
 gather_list(P, Index, undefined, V, Accum) when is_integer(Index) ->
     case maps:get(P, Accum, {badkey, P}) of
       {badkey, K} -> maps:put(P, array:set(Index, V, array:new()), Accum);
       List -> maps:update(P, array:set(Index, V, List), Accum)
     end;
+%% list with child
 gather_list(P, Index, C, V, Accum) when is_integer(Index) ->
     case maps:get(P, Accum, {badkey, P}) of
       {badkey, K} -> maps:put(P, array:set(Index, gather({[C], V}, maps:new()), array:new()), Accum);
       List -> Complex = array:get(Index, List),
               maps:update(P, array:set(Index, gather({[C], V}, Complex), List), Accum)
     end;
+%% list with codings
 gather_list(P, S, C, V, Accum) ->
     Complex = [{<<"system">>, S}, {<<"value">>, V}],
     case maps:get(P, Accum, {badkey, P}) of
       {badkey, K} -> maps:put(P, maps:put(S, Complex, maps:new()), Accum);
       List -> NewList = case maps:get(S, List, {badkey, P}) of
                 {badkey, K} -> maps:put(S, Complex, List);
-                Old         -> maps:update(S, Complex, Old)
+                Old         -> maps:update(S, Complex, List)
               end,
               maps:update(P, NewList, Accum)
     end.
@@ -84,7 +86,6 @@ split_path(P) when is_binary(P) ->
     [ split_index(E) || E <- binary:split(P, <<"-">>,[global])].
 
 split_index(E) -> 
-    io:format("~p~n", [E]),
     case binary:split(E, <<":">>,[global]) of
         [N,I|T] -> case string:to_integer(binary_to_list(I)) of
                        {Index, []} -> {N, Index};
@@ -109,6 +110,7 @@ update_path_test() ->
    ?asrts('name:0', [{<<"name">>, 0}]), 
    ?asrts('name:0-given:0', [{<<"name">>, 0}, {<<"given">>, 0}]), 
    ?asrts('identifier:mrn-value', [{<<"identifier">>, <<"mrn">>}, <<"value">>]), 
+   ?asrts('status-coding:test-code', [<<"status">>, {<<"coding">>,<<"test">>}, <<"code">>]), 
    ?asrts('birthDate', [<<"birthDate">>]), 
    ?asrts('complex-value', [<<"complex">>, <<"value">>]).
 
@@ -149,6 +151,10 @@ update_simple_test() ->
                              [{<<"system">>,<<"orbispid">>},
                               {<<"value">>,<<"0063730730">>}]}}
          ),
+   ?asrtc([{'status-coding:test-code', <<"completed">>}],
+          #{<<"status">> => 
+                  {#{<<"coding">> => [{<<"system">>, <<"test">>}, {<<"code">>, <<"completed">>]}}}
+         ), 
    ?asrtc([{status,<<"false">>},
            {status,<<"true">>}],
           #{<<"status">> => <<"true">>}
@@ -191,6 +197,14 @@ update_complex_test() ->
                     <<"orbispid">> =>
                              [{<<"system">>,<<"orbispid">>},
                               {<<"value">>,<<"0063730730">>}]}}
+         ),
+   ?asrtc([{'identifier:orbispid-value', <<"0063730730">>},
+           {'identifier:orbispid-value', <<"1234567890">>}
+          ],
+          #{<<"identifier">> =>
+                  #{<<"orbispid">> =>
+                             [{<<"system">>,<<"orbispid">>},
+                              {<<"value">>,<<"1234567890">>}]}}
          ).
 update_patient1_test() ->
    ?asrtuo(
