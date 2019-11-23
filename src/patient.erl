@@ -9,22 +9,22 @@
     , id          :: binary()
     , meta        :: special:'Meta'()
     , implicitRules :: uri()
-    , language    :: code()
+    , language    :: code()                                  % 5
     , text        :: special:'Narrative'()
     , contained   :: [resource:'Resource'()]
     , extension   :: [extensions:'Extension'()]
     , modifierExtension   :: [extensions:'Extension'()]
-    , 'identifier' :: complex:'Identifier'()
+    , 'identifier' :: complex:'Identifier'()                 % 10
     , active      :: boolean()
     , name        :: [complex:'HumanName'()]
     , telecom     :: [complex:'ContactPoint'()]
     , gender      :: code()
-    , birthDate   :: date()
+    , birthDate   :: date()                                  % 15
     , deceased    :: boolean() | dateTime() | undefined
     , address          :: [complex:'Address'()]
     , maritalStatus    :: complex:'CodeableConcept'()
     , multipleBirth :: boolean() | integer() | undefined
-    , photo                :: [complex:'Attachment'()]
+    , photo                :: [complex:'Attachment'()]       % 20
     , contact              :: ['Patient.Contact'()]	
     , communication        :: ['Patient.Communication'()]
     , generalPractitioner  :: [special:'Reference'()]
@@ -75,7 +75,10 @@
 %%====================================================================
 %% API functions
 %%====================================================================
-
+fields('Patient') -> record_info(fields, 'Patient');
+fields('Patient.Contact') -> record_info(fields, 'Patient.Contact');
+fields('Patient.Communication') -> record_info(fields, 'Patient.Communication');
+fields('Patient.Link') -> record_info(fields, 'Patient.Link').
 
 to_patient({Props}) -> to_patient(Props);
 to_patient(Props) ->
@@ -171,6 +174,26 @@ patient_to_test() ->
            {'Patient',[],<<"p-21666">>,undefined,undefined,undefined, undefined,[],[],[],
             [],undefined,[],[],undefined, undefined,undefined,[],undefined,
             undefined,[],[],[],[],undefined,[]}
+          ),
+   ?asrtto([{<<"id">>, <<"p-21666">>},{<<"birthDate">>, <<"2019-01-01">>}],
+           {'Patient',[],<<"p-21666">>,undefined,undefined,undefined, undefined,[],[],[],[],
+            undefined,[],[],undefined,<<"2019-01-01">>,undefined,[],undefined,
+            undefined,[],[],[],[],undefined,[]}
+          ),
+   ?asrtto([{<<"id">>, <<"p-21666">>},
+            {<<"identifier">>, [{[{<<"system">>,<<"orbispid">>}, {<<"value">>, <<"1234567890">>}]}]},
+            {<<"name">>, [{[{<<"family">>, <<"Polausi">>, {<<"given">>, [<<"Vausi">>]}, {<<"use">>, <<"offizial">>}}]}]},
+            {<<"multipleBirthInteger">>, <<"1">>}
+           ],
+           {'Patient',[],<<"p-21666">>,undefined,undefined,undefined, undefined,[],[],[],
+                     [{'Identifier',[],undefined,[],undefined,undefined,
+                          <<"orbispid">>,<<"1234567890">>,undefined,
+                          undefined}],
+                     undefined,
+                     [{'HumanName',[],undefined,[],undefined,undefined,
+                          undefined,[],[],[],undefined}],
+                     [],undefined,undefined,undefined,[],undefined,
+                     {<<"Integer">>,<<"1">>},[],[],[],[],undefined,[]}
           ).
 patient_toprop_test() ->
     ?asrtp(

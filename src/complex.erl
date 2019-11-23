@@ -486,6 +486,12 @@ complex_annotation_test() ->
     ?asrtto(complex:to_annotation({[{<<"author">>, {[{<<"reference">>, <<"u-admin">>}]}}, {<<"text">>, <<"test">>}]}),
             {'Annotation',[],undefined,[],undefined,undefined,<<"test">>}).
 
+complex_codeableConcept_test() ->
+    ?asrtto(complex:to_codeableConcept({[{<<"coding">>, [{[{<<"system">>, <<"pid">>}, {<<"code">>, <<"test">>}]}]}]}),
+            {'CodeableConcept',[],undefined,[],
+                     [{'Coding',[],undefined,[],<<"pid">>,undefined,
+                          <<"test">>,undefined,undefined}],
+                     undefined}).
 complex_coding_test() ->
     ?asrtto(complex:to_coding({[{<<"code">>, <<"test">>}]}),
             {'Coding',[], undefined, [], undefined,undefined,<<"test">>,undefined,undefined}),

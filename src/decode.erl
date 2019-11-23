@@ -49,14 +49,29 @@ to_unsignedInt(Bin) -> Bin.
 
 xsd_info(Key) -> maps:get(Key,?fhir_xsd).
 
-
-value(Key, Props, {Base,FI,_Attrs,_Restriction}=_DT) when is_list(Props)->
-    % io:format("value0: ~s~n",[Key]),
+prop_info(Key, {Base,FI,_Attrs,_Restriction}=_DT) ->
     BFI = resolve_base(Base,FI),
     % io:format("value1: ~p~n",[BFI]),
-    PropInfo = proplists:get_value(Key, BFI),
+    PropInfo = proplists:get_value(Key, BFI).
+
+base_name(Field, {Base,FI,_Attrs,_Restriction}=_DT) ->
+    BFI = resolve_base(Base,FI),
+    Keys = proplists:get_keys(BFI),
+    case lists:member(Field, Keys) of
+        true -> Field;
+        false -> case lists:filter(fun(Prefix) -> case binary:split(Field, Prefix) of [<<>>, Type] -> true; _ -> false end end, Keys) of
+                     [] -> throw("illegal field name");
+                     Fields -> lists:nth(1,Fields);
+                     Error ->
+                         io:format("~p~n",[Error])
+                 end
+    end.
+
+value(Key, Props, DT) when is_list(Props)->
+    % io:format("value0: ~s~n",[Key]),
+    PropInfo = prop_info(Key, DT),
     analyse_propinfo(PropInfo, Key, Props);
-value(_Key, _Props, {_Base, _FI, _Attrs, _Restriction}=_DT) ->
+value(_Key, _Props, _DT) ->
     throw(<<"proplists error, input malformated">>).
 
 analyse_propinfo(undefined, _Key, _Props) ->

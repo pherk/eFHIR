@@ -16,13 +16,64 @@
 update(Resource, Props) -> update(Resource, Props, []).
 
 update(Resource, Props, Opts) ->
-  RT = erlang:atom_to_binary(erlang:element(1,Resource), latin1),
   GP = canonize(Props), 
-  Resource.
+  io:format("update: ~p~n", [GP]),
+  update2(Resource, GP, Opts).
 
+%% TODO
+%% manipulating tuple as list
+%% lists:zip(record_info(fields, foobar), tl(tuple_to_list(Rec)));
+update2(Resource, Props, Opts) ->
+  RT = erlang:element(1,Resource),
+  RI = [atom_to_binary(F,latin1) || F <- patient:fields(RT)],
+  XSD = decode:xsd_info(atom_to_binary(RT,latin1)),
+  Keys = maps:keys(Props),
+%  io:format("update2: keys: ~p~n~p~n", [Keys, RI]),
+  lists:foldl(fun(K, R) -> update_prop(R, {K, maps:get(K, Props)}, RI, XSD, Opts) end, Resource, Keys).
+
+update_prop(R, KV, RI, XSD, Opts) ->
+  io:format("upd: ~p~n", [R]),
+  io:format("upd: ~p~n", [KV]),
+  {I, P} = transform_prop(KV, RI, XSD),
+  io:format("upd: ~p:~p~n", [I, P]),
+  setelement(I,R,P).
+
+transform_prop({K, V}=KV, RI, XSD) when is_binary(V) ->
+    Field = decode:base_name(K,XSD),
+    I = index_of(Field, RI) + 1,
+  io:format("t: ~p:~p:~p~n", [I, K, Field]),
+%    PropInfo = decode:prop_info(Field, XSD),
+%  io:format("t: ~p:~p~n", [K, PropInfo]),
+    {I, decode:value(Field, [KV], XSD)};
+transform_prop({K, V}, RI, XSD) when is_tuple(V) ->
+    Field = decode:base_name(K,XSD),
+    I = index_of(Field, RI) + 1,
+  io:format("t: ~p:~p:~p~n", [I, K, Field]),
+  io:format("t: ~p~n", [V]),
+    P = to_values(V),
+  io:format("t: ~p~n", [P]),
+    {I, decode:value(Field, [{K,P}], XSD)};
+transform_prop({K, V}, RI, XSD) when is_map(V) ->
+    Field = decode:base_name(K,XSD),
+    I = index_of(Field, RI) + 1,
+  io:format("t: ~p:~p:~p~n", [I, K, Field]),
+  io:format("t: ~p~n", [V]),
+    P = maps:values(V),
+    {I, decode:value(Field, [{K,P}], XSD)}.
+
+to_values(R) when is_binary(R) -> R;
+to_values(R) when is_tuple(R) -> [to_values(V) || V <- array:to_list(R)];
+to_values(R) when is_map(R) -> [{K,to_values(V)} || {K,V} <- maps:to_list(R)].
 %%
 %% internal functions
 %%
+-spec index_of(any(), list(any())) -> not_found | non_neg_integer().
+index_of(Item, List) -> index_of(Item, List, 1).
+
+-spec index_of(any(), list(any()), non_neg_integer()) -> not_found | non_neg_integer().
+index_of(_, [], _)  -> not_found;
+index_of(Item, [Item|_], Index) -> Index;
+index_of(Item, [_|Tl], Index) -> index_of(Item, Tl, Index+1).
 %% path types
 %% prop              -> primitive
 %% prop:num          -> list primitive
@@ -31,44 +82,47 @@ update(Resource, Props, Opts) ->
 %% prop:system-child -> list complex 
 canonize(Props) ->
     PVs= [{split_path(P), V} || {P, V} <- Props],
-    Raw = lists:foldl(fun(PV, M) -> 
-                gather(PV,M) end, maps:new(), PVs),
-    io:format("canonize: ~p~n", [Raw]),
-    io:format("canonize array: ~p~n ", [array:to_list(maps:get(<<"name">>, Raw, array:new()))]),
-    Raw.
+    lists:foldl(fun(PV, M) -> 
+                gather(PV,M) end, maps:new(), PVs).
 
-gather({[{P, I}, C|T], V}, Accum) when is_integer(I) ->               % name indexed plus complex
-    gather_list(P, I, C, V, Accum); 
-gather({[{P, S}, C|T], V}, Accum) when is_binary(S) ->                % name by system plus complex
-    gather_list(P, S, C, V, Accum); 
-gather({[{P, I}|T], V}, Accum) when is_integer(I) ->
-    gather_list(P, I, undefined, V, Accum); 
-gather({[{P, S}|T], V}, Accum) when is_binary(S) ->
-    gather_list(P, S, undefined, V, Accum); 
-gather({[P, C|T], V}, Accum) ->
-    gather_complex(P, C, V, Accum); 
-gather({[P|T], V}, Accum) -> maps:put(P, V, Accum).
+gather({[{P, I}|T], V}, Accum) ->               % name indexed 
+    gather_list(P, I, T, V, Accum); 
+gather({[P|T], V}, Accum) ->
+    gather_simple(P, T, V, Accum). 
 
-gather_complex(P,C, V, Accum) -> 
+gather_simple(P, [], V, Accum) -> maps:put(P, V, Accum);
+gather_simple(P, Tail, V, Accum) -> 
+    io:format("gather_simple: ~p~n", [P]),
+    io:format("gather_simple: ~p~n", [Tail]),
     case maps:get(P, Accum, {badkey,P}) of
-      {badkey, K} -> maps:put(P, maps:put(C,V, maps:new()), Accum);
-      Complex -> maps:update(P, gather({[C],V}, Complex), Accum)
+%      {badkey, K} -> maps:put(P, maps:put(Tail, V, maps:new()), Accum);
+      {badkey, K} -> maps:put(P, gather({Tail, V}, maps:new()), Accum);
+      Complex -> maps:update(P, gather({Tail, V}, Complex), Accum)
     end.
 %% simple list
-gather_list(P, Index, undefined, V, Accum) when is_integer(Index) ->
+gather_list(P, Index, [], V, Accum) when is_integer(Index) ->
+    io:format("gather_list: ~p:~p:~p=~p~n",[P,Index,V,Accum]),
     case maps:get(P, Accum, {badkey, P}) of
       {badkey, K} -> maps:put(P, array:set(Index, V, array:new()), Accum);
       List -> maps:update(P, array:set(Index, V, List), Accum)
     end;
 %% list with child
-gather_list(P, Index, C, V, Accum) when is_integer(Index) ->
+gather_list(P, Index, Tail, V, Accum) when is_integer(Index) ->
+    io:format("gather_list: wc ~p:~p~n",[P,Index]),
+    io:format("gather_list: wc ~p:~p~n",[Tail,V]),
+    io:format("gather_list: wc ~p~n",[Accum]),
     case maps:get(P, Accum, {badkey, P}) of
-      {badkey, K} -> maps:put(P, array:set(Index, gather({[C], V}, maps:new()), array:new()), Accum);
-      List -> Complex = array:get(Index, List),
-              maps:update(P, array:set(Index, gather({[C], V}, Complex), List), Accum)
+      {badkey, K} -> maps:put(P, array:set(Index, gather({Tail, V}, maps:new()), array:new()), Accum);
+      List -> io:format("gather_list: list ~p:~p~n",[Index,List]),
+              Complex = case array:get(Index, List) of
+                            undefined -> maps:new();
+                            C -> C
+                        end,
+              io:format("gather_list: list ~p~n",[Complex]),
+              maps:update(P, array:set(Index, gather({Tail, V}, Complex), List), Accum)
     end;
-%% list with codings
-gather_list(P, S, C, V, Accum) ->
+%% list with codings Tail==[]?
+gather_list(P, S, Tail, V, Accum) when is_binary(S) ->
     Complex = [{<<"system">>, S}, {<<"value">>, V}],
     case maps:get(P, Accum, {badkey, P}) of
       {badkey, K} -> maps:put(P, maps:put(S, Complex, maps:new()), Accum);
@@ -79,7 +133,8 @@ gather_list(P, S, C, V, Accum) ->
               maps:update(P, NewList, Accum)
     end.
 
-
+%% TODO
+%% convert back to atoms? 
 split_path(P) when is_atom(P) ->
     [ split_index(E) || E <- binary:split(atom_to_binary(P,latin1), <<"-">>,[global])];
 split_path(P) when is_binary(P) ->
@@ -116,10 +171,20 @@ update_path_test() ->
 
 update_simple_test() ->
    ?asrtc([{birthDate,<<"2019-01-01">>},
-           {multipleBirth,<<"1">>}],
+           {multipleBirthInteger,<<"1">>}],
           #{<<"birthDate">> => <<"2019-01-01">>,
-           <<"multipleBirth">> => <<"1">>}
+           <<"multipleBirthInteger">> => <<"1">>}
           ),
+   ?asrtc([{status,<<"false">>},
+           {status,<<"true">>}],
+          #{<<"status">> => <<"true">>}
+         ),
+   ?asrtc([{'status-coding-code',<<"false">>}],
+          #{<<"status">> =>
+                       #{<<"coding">> => #{<<"code">> => <<"false">>}}}
+         ).
+
+update_list_test() ->
    ?asrtc([{'name:0',<<"Vausi">>},
            {'name:1',<<"Polausi">>},
            {'name:2',<<"Marabusi">>}],
@@ -145,20 +210,50 @@ update_simple_test() ->
                             undefined,undefined,undefined,undefined,undefined,
                             undefined,undefined,undefined,undefined}}}
          ),
+   ?asrtc([{'name:0-given:0',<<"Vausi">>},
+           {'name:0-family',<<"Polausi">>},
+           {'name:0-use',<<"official">>},
+           {'name:1-given:0',<<"Vausi">>},
+           {'name:1-family',<<"Franzisi">>},
+           {'name:1-use',<<"official">>}],
+          #{<<"name">> =>
+                       {array,2,10,undefined,
+                           {#{<<"family">> => <<"Polausi">>,
+                              <<"given">> =>
+                                  {array,1,10,undefined,
+                                      {<<"Vausi">>,undefined,undefined,
+                                       undefined,undefined,undefined,
+                                       undefined,undefined,undefined,
+                                       undefined}},
+                              <<"use">> => <<"official">>},
+                            #{<<"family">> => <<"Franzisi">>,
+                              <<"given">> =>
+                                  {array,1,10,undefined,
+                                      {<<"Vausi">>,undefined,undefined,
+                                       undefined,undefined,undefined,
+                                       undefined,undefined,undefined,
+                                       undefined}},
+                              <<"use">> => <<"official">>},
+                            undefined,undefined,undefined,undefined,undefined,
+                            undefined,undefined,undefined}}}
+         ).
+
+update_system_test() ->
    ?asrtc([{'identifier:orbispid-value', <<"0063730730">>}],
           #{<<"identifier">> =>
                   #{<<"orbispid">> =>
                              [{<<"system">>,<<"orbispid">>},
                               {<<"value">>,<<"0063730730">>}]}}
-         ),
-   ?asrtc([{'status-coding:test-code', <<"completed">>}],
-          #{<<"status">> => 
-                  {#{<<"coding">> => [{<<"system">>, <<"test">>}, {<<"code">>, <<"completed">>]}}}
-         ), 
-   ?asrtc([{status,<<"false">>},
-           {status,<<"true">>}],
-          #{<<"status">> => <<"true">>}
          ).
+
+update_coding_test() ->
+   ?asrtc([{'status-coding:test-code', <<"completed">>}],
+          #{<<"status">> =>
+                       #{<<"coding">> =>
+                             #{<<"test">> =>
+                                   [{<<"system">>,<<"test">>},
+                                    {<<"value">>,<<"completed">>}]}}}
+         ). 
 
 update_complex_test() ->
    ?asrtc([{'name:0-given:0',<<"Vausi">>},
@@ -166,13 +261,13 @@ update_complex_test() ->
            {'name:0-use',<<"official">>},
            {'identifier:orbispid-value', <<"0063730730">>},
            {birthDate,<<"2019-01-01">>},
-           {multipleBirth,<<"1">>}],
+           {multipleBirthInteger,<<"1">>}],
           #{<<"birthDate">> => <<"2019-01-01">>,
             <<"identifier">> =>
                        #{<<"orbispid">> =>
                              [{<<"system">>,<<"orbispid">>},
                               {<<"value">>,<<"0063730730">>}]},
-            <<"multipleBirth">> => <<"1">>,
+            <<"multipleBirthInteger">> => <<"1">>,
             <<"name">> =>
                        {array,1,10,undefined,
                            {#{<<"family">> => <<"Polausi">>,
@@ -208,18 +303,47 @@ update_complex_test() ->
          ).
 update_patient1_test() ->
    ?asrtuo(
+           {'Patient',[],<<"p-21666">>,undefined,undefined,undefined,undefined,[],[],[],[],
+            undefined,[],[],undefined, undefined,undefined,[],undefined,
+            undefined,[],[],[],[],undefined,[]},
+           {'Patient',[],<<"p-21666">>,undefined,undefined,undefined,undefined,[],[],[],[],
+            undefined,[],[],undefined,<<"2019-01-01">>,undefined,[],undefined,
+            undefined,[],[],[],[],undefined,[]},
+            [
+             {birthDate,<<"2019-01-01">>}
+            ]),
+   ?asrtuo(
+           {'Patient',[],<<"p-21666">>,undefined,undefined,undefined,undefined,[],[],[],[],
+            undefined,[],[],undefined, undefined,undefined,[],undefined,
+            undefined,[],[],[],[],undefined,[]},
+           {'Patient',[],<<"p-21666">>,undefined,undefined,undefined,undefined,[],[],[],[],
+            undefined,[],[],undefined, undefined,undefined,[],undefined,
+            {<<"Integer">>,<<"1">>},[],[],[],[],undefined,[]},
+            [
+             {multipleBirthInteger,<<"1">>}
+            ]),
+   ?asrtuo(
            {'Patient',[],<<"p-21666">>,undefined,undefined,undefined, undefined,[],[],[],
             [],undefined,[],[],undefined, undefined,undefined,[],undefined,
             undefined,[],[],[],[],undefined,[]},
-           {'Patient',[],<<"p-21666">>,undefined,undefined,undefined, undefined,[],[],[],
+           {'Patient',[],<<"p-21666">>,undefined,undefined,undefined,undefined,[],[],[],
+            [{'Identifier',[],undefined,[],undefined,undefined, <<"orbispid">>,<<"0063730730">>,undefined, undefined}],
+            undefined,[],[],undefined,undefined,undefined,[],undefined,
+            undefined,[],[],[],[],undefined,[]},
+            [
+             {'identifier:orbispid-value', <<"0063730730">>}
+            ]),
+   ?asrtuo(
+           {'Patient',[],<<"p-21666">>,undefined,undefined,undefined,undefined,[],[],[],
             [],undefined,[],[],undefined, undefined,undefined,[],undefined,
             undefined,[],[],[],[],undefined,[]},
+           {'Patient',[],<<"p-21666">>,undefined,undefined,undefined,undefined,[],[],[],[],
+            undefined,
+            [{'HumanName',[],undefined,[],<<"official">>,undefined, <<"Polausi">>, [<<"Vausi">>], [],[],undefined}],
+            [],undefined,undefined,undefined,[],undefined,undefined,[],[],[],[],undefined,[]},
             [{'name:0-given:0',<<"Vausi">>},
              {'name:0-family',<<"Polausi">>},
-             {'name:0-use',<<"official">>},
-             {'identifier:orbispid-value', <<"0063730730">>},
-             {birthDate,<<"2019-01-01">>},
-             {multipleBirth,<<"1">>}]
+             {'name:0-use',<<"official">>}]
           ).
 update_patient2_test() ->
    ?asrtuo(
@@ -232,6 +356,27 @@ update_patient2_test() ->
                           [],undefined,undefined,undefined,[],undefined,undefined,[],
                           [],[],[],undefined,[]},
            {'Patient',[],undefined,undefined,undefined,undefined,
+                     undefined,[],[],[],
+                     [{'Identifier',[],undefined,[],undefined,undefined,
+                          <<"orbispid">>,<<"0063730730">>,undefined,
+                          undefined}],
+                     undefined,
+                     [{'HumanName',[],undefined,[],<<"official">>,undefined,
+                          <<"Polausi">>,
+                          [<<"Vausi">>],
+                          [],[],undefined}],
+                     [],undefined,<<"2019-01-01">>,undefined,[],undefined,
+                     {<<"Integer">>,<<"1">>},
+                     [],[],[],[],undefined,[]},
+            [{'name:0-given:0',<<"Vausi">>},
+             {'name:0-family',<<"Polausi">>},
+             {'name:0-use',<<"official">>},
+             {'identifier:orbispid-value', <<"0063730730">>},
+             {birthDate,<<"2019-01-01">>},
+             {multipleBirthInteger,<<"1">>}]
+          ),
+   ?asrtuo(
+           {'Patient',[],undefined,undefined,undefined,undefined,
                           undefined,[],[],[],[],undefined,
                           [{'HumanName',[],undefined,[],<<"official">>,undefined,
                                         <<"Dummy">>,
@@ -239,12 +384,25 @@ update_patient2_test() ->
                                         [],[],undefined}],
                           [],undefined,undefined,undefined,[],undefined,undefined,[],
                           [],[],[],undefined,[]},
+           {'Patient',[],undefined,undefined,undefined,undefined,
+                     undefined,[],[],[],[],undefined,
+                     [{'HumanName',[],undefined,[],<<"official">>,undefined,
+                          <<"Polausi">>,
+                          [<<"Vausi">>],
+                          [],[],undefined},
+                      {'HumanName',[],undefined,[],<<"official">>,undefined,
+                          <<"Franizisi">>,
+                          [<<"Vausi">>],
+                          [],[],undefined}],
+                     [],undefined,undefined,undefined,[],undefined,undefined,
+                     [],[],[],[],undefined,[]},
             [{'name:0-given:0',<<"Vausi">>},
              {'name:0-family',<<"Polausi">>},
              {'name:0-use',<<"official">>},
-             {'identifier:orbispid-value', <<"0063730730">>},
-             {birthDate,<<"2019-01-01">>},
-             {multipleBirth,<<"1">>}]
+             {'name:1-given:0',<<"Vausi">>},
+             {'name:1-family',<<"Franizisi">>},
+             {'name:1-use',<<"official">>}]
           ).
+
 
 -endif.
