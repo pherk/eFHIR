@@ -17,7 +17,7 @@ update(Resource, Props) -> update(Resource, Props, []).
 
 update(Resource, Props, Opts) ->
   GP = canonize(Props), 
-  io:format("update: ~p~n", [GP]),
+  % io:format("update: ~p~n", [GP]),
   update2(Resource, GP, Opts).
 
 %% TODO
@@ -32,37 +32,37 @@ update2(Resource, Props, Opts) ->
   lists:foldl(fun(K, R) -> update_prop(R, {K, maps:get(K, Props)}, RI, XSD, Opts) end, Resource, Keys).
 
 update_prop(R, KV, RI, XSD, Opts) ->
-  io:format("upd: ~p~n", [R]),
-  io:format("upd: ~p~n", [KV]),
+  % io:format("upd: ~p~n", [R]),
+  % io:format("upd: ~p~n", [KV]),
   {I, P} = transform_prop(KV, RI, XSD),
-  io:format("upd: ~p:~p~n", [I, P]),
+  % io:format("upd: ~p:~p~n", [I, P]),
   setelement(I,R,P).
 
 transform_prop({K, V}=KV, RI, XSD) when is_binary(V) ->
     Field = decode:base_name(K,XSD),
     I = index_of(Field, RI) + 1,
-  io:format("t: ~p:~p:~p~n", [I, K, Field]),
+  % io:format("t: ~p:~p:~p~n", [I, K, Field]),
 %    PropInfo = decode:prop_info(Field, XSD),
 %  io:format("t: ~p:~p~n", [K, PropInfo]),
     {I, decode:value(Field, [KV], XSD)};
 transform_prop({K, V}, RI, XSD) when is_tuple(V) ->
     Field = decode:base_name(K,XSD),
     I = index_of(Field, RI) + 1,
-  io:format("t: ~p:~p:~p~n", [I, K, Field]),
-  io:format("t: ~p~n", [V]),
+  % io:format("t: ~p:~p:~p~n", [I, K, Field]),
+  % io:format("t: ~p~n", [V]),
     P = to_values(V),
-  io:format("t: ~p~n", [P]),
+  % io:format("t: ~p~n", [P]),
     {I, decode:value(Field, [{K,P}], XSD)};
 transform_prop({K, V}, RI, XSD) when is_map(V) ->
     Field = decode:base_name(K,XSD),
     I = index_of(Field, RI) + 1,
-  io:format("t: ~p:~p:~p~n", [I, K, Field]),
-  io:format("t: ~p~n", [V]),
+  % io:format("t: ~p:~p:~p~n", [I, K, Field]),
+  % io:format("t: ~p~n", [V]),
     P = maps:values(V),
     {I, decode:value(Field, [{K,P}], XSD)}.
 
 to_values(R) when is_binary(R) -> R;
-to_values(R) when is_tuple(R) -> [to_values(V) || V <- array:to_list(R)];
+to_values(R) when is_tuple(R) -> [to_values(V) || V <- array:to_list(R), V=/=undefined];
 to_values(R) when is_map(R) -> [{K,to_values(V)} || {K,V} <- maps:to_list(R)].
 %%
 %% internal functions
@@ -92,8 +92,8 @@ gather({[P|T], V}, Accum) ->
 
 gather_simple(P, [], V, Accum) -> maps:put(P, V, Accum);
 gather_simple(P, Tail, V, Accum) -> 
-    io:format("gather_simple: ~p~n", [P]),
-    io:format("gather_simple: ~p~n", [Tail]),
+    % io:format("gather_simple: ~p~n", [P]),
+    % io:format("gather_simple: ~p~n", [Tail]),
     case maps:get(P, Accum, {badkey,P}) of
 %      {badkey, K} -> maps:put(P, maps:put(Tail, V, maps:new()), Accum);
       {badkey, K} -> maps:put(P, gather({Tail, V}, maps:new()), Accum);
@@ -101,24 +101,24 @@ gather_simple(P, Tail, V, Accum) ->
     end.
 %% simple list
 gather_list(P, Index, [], V, Accum) when is_integer(Index) ->
-    io:format("gather_list: ~p:~p:~p=~p~n",[P,Index,V,Accum]),
+    % io:format("gather_list: ~p:~p:~p=~p~n",[P,Index,V,Accum]),
     case maps:get(P, Accum, {badkey, P}) of
       {badkey, K} -> maps:put(P, array:set(Index, V, array:new()), Accum);
       List -> maps:update(P, array:set(Index, V, List), Accum)
     end;
 %% list with child
 gather_list(P, Index, Tail, V, Accum) when is_integer(Index) ->
-    io:format("gather_list: wc ~p:~p~n",[P,Index]),
-    io:format("gather_list: wc ~p:~p~n",[Tail,V]),
-    io:format("gather_list: wc ~p~n",[Accum]),
+    % io:format("gather_list: wc ~p:~p~n",[P,Index]),
+    % io:format("gather_list: wc ~p:~p~n",[Tail,V]),
+    % io:format("gather_list: wc ~p~n",[Accum]),
     case maps:get(P, Accum, {badkey, P}) of
       {badkey, K} -> maps:put(P, array:set(Index, gather({Tail, V}, maps:new()), array:new()), Accum);
-      List -> io:format("gather_list: list ~p:~p~n",[Index,List]),
+      List -> % io:format("gather_list: list ~p:~p~n",[Index,List]),
               Complex = case array:get(Index, List) of
                             undefined -> maps:new();
                             C -> C
                         end,
-              io:format("gather_list: list ~p~n",[Complex]),
+              % io:format("gather_list: list ~p~n",[Complex]),
               maps:update(P, array:set(Index, gather({Tail, V}, Complex), List), Accum)
     end;
 %% list with codings Tail==[]?
@@ -235,6 +235,34 @@ update_list_test() ->
                                        undefined}},
                               <<"use">> => <<"official">>},
                             undefined,undefined,undefined,undefined,undefined,
+                            undefined,undefined,undefined}}}
+         ),
+   ?asrtc([{'name:0-given:0',<<"Vausi">>},
+           {'name:0-family',<<"Polausi">>},
+           {'name:0-use',<<"official">>},
+           {'name:2-given:0',<<"Vausi">>},
+           {'name:2-family',<<"Franzisi">>},
+           {'name:2-use',<<"official">>}],
+          #{<<"name">> =>
+                       {array,3,10,undefined,
+                           {#{<<"family">> => <<"Polausi">>,
+                              <<"given">> =>
+                                  {array,1,10,undefined,
+                                      {<<"Vausi">>,undefined,undefined,
+                                       undefined,undefined,undefined,
+                                       undefined,undefined,undefined,
+                                       undefined}},
+                              <<"use">> => <<"official">>},
+                            undefined,
+                            #{<<"family">> => <<"Franzisi">>,
+                              <<"given">> =>
+                                  {array,1,10,undefined,
+                                      {<<"Vausi">>,undefined,undefined,
+                                       undefined,undefined,undefined,
+                                       undefined,undefined,undefined,
+                                       undefined}},
+                              <<"use">> => <<"official">>},
+                            undefined,undefined,undefined,undefined,
                             undefined,undefined,undefined}}}
          ).
 
@@ -402,6 +430,34 @@ update_patient2_test() ->
              {'name:1-given:0',<<"Vausi">>},
              {'name:1-family',<<"Franizisi">>},
              {'name:1-use',<<"official">>}]
+          ),
+   ?asrtuo(
+           {'Patient',[],undefined,undefined,undefined,undefined,
+                          undefined,[],[],[],[],undefined,
+                          [{'HumanName',[],undefined,[],<<"official">>,undefined,
+                                        <<"Dummy">>,
+                                        [<<"Detlef">>],
+                                        [],[],undefined}],
+                          [],undefined,undefined,undefined,[],undefined,undefined,[],
+                          [],[],[],undefined,[]},
+           {'Patient',[],undefined,undefined,undefined,undefined,
+                     undefined,[],[],[],[],undefined,
+                     [{'HumanName',[],undefined,[],<<"official">>,undefined,
+                          <<"Polausi">>,
+                          [<<"Vausi">>],
+                          [],[],undefined},
+                      {'HumanName',[],undefined,[],<<"official">>,undefined,
+                          <<"Franizisi">>,
+                          [<<"Vausi">>],
+                          [],[],undefined}],
+                     [],undefined,undefined,undefined,[],undefined,undefined,
+                     [],[],[],[],undefined,[]},
+            [{'name:0-given:0',<<"Vausi">>},
+             {'name:0-family',<<"Polausi">>},
+             {'name:0-use',<<"official">>},
+             {'name:2-given:0',<<"Vausi">>},
+             {'name:2-family',<<"Franizisi">>},
+             {'name:2-use',<<"official">>}]
           ).
 
 
