@@ -13,7 +13,7 @@
 %% API functions
 %%======================================================================================================
 
-update(Resource, Props) -> update(Resource, Props, []).
+update(Resource, Props) -> update(Resource, Props, [replace]).
 
 update(Resource, Props, Opts) ->
   GP = canonize(Props), 
@@ -31,7 +31,13 @@ update2(Resource, Props, Opts) ->
 %  io:format("update2: keys: ~p~n~p~n", [Keys, RI]),
   lists:foldl(fun(K, R) -> update_prop(R, {K, maps:get(K, Props)}, RI, XSD, Opts) end, Resource, Keys).
 
-update_prop(R, KV, RI, XSD, Opts) ->
+update_prop(R, KV, RI, XSD, [update]) ->
+  % io:format("upd: ~p~n", [R]),
+  % io:format("upd: ~p~n", [KV]),
+  {I, P} = transform_prop(KV, RI, XSD),
+  % io:format("upd: ~p:~p~n", [I, P]),
+  setelement(I,R,P);
+update_prop(R, KV, RI, XSD, [replace]) ->
   % io:format("upd: ~p~n", [R]),
   % io:format("upd: ~p~n", [KV]),
   {I, P} = transform_prop(KV, RI, XSD),
@@ -48,10 +54,10 @@ transform_prop({K, V}=KV, RI, XSD) when is_binary(V) ->
 transform_prop({K, V}, RI, XSD) when is_tuple(V) ->
     Field = decode:base_name(K,XSD),
     I = index_of(Field, RI) + 1,
-  % io:format("t: ~p:~p:~p~n", [I, K, Field]),
-  % io:format("t: ~p~n", [V]),
+   io:format("t: ~p:~p:~p~n", [I, K, Field]),
+   io:format("t: ~p~n", [V]),
     P = to_values(V),
-  % io:format("t: ~p~n", [P]),
+   io:format("t: ~p~n", [P]),
     {I, decode:value(Field, [{K,P}], XSD)};
 transform_prop({K, V}, RI, XSD) when is_map(V) ->
     Field = decode:base_name(K,XSD),
@@ -63,7 +69,8 @@ transform_prop({K, V}, RI, XSD) when is_map(V) ->
 
 to_values(R) when is_binary(R) -> R;
 to_values(R) when is_tuple(R) -> [to_values(V) || V <- array:to_list(R), V=/=undefined];
-to_values(R) when is_map(R) -> [{K,to_values(V)} || {K,V} <- maps:to_list(R)].
+to_values(R) when is_map(R) -> [{K,to_values(V)} || {K,V} <- maps:to_list(R)];
+to_values(R) when is_list(R) -> R.
 %%
 %% internal functions
 %%
@@ -74,6 +81,10 @@ index_of(Item, List) -> index_of(Item, List, 1).
 index_of(_, [], _)  -> not_found;
 index_of(Item, [Item|_], Index) -> Index;
 index_of(Item, [_|Tl], Index) -> index_of(Item, Tl, Index+1).
+
+merge(L1, L2) ->
+  orddict:to_list(orddict:merge(fun(_,X,Y) -> Y end, orddict:from_list(L1), orddict:from_list(L2))).
+
 %% path types
 %% prop              -> primitive
 %% prop:num          -> list primitive
@@ -122,7 +133,25 @@ gather_list(P, Index, Tail, V, Accum) when is_integer(Index) ->
               maps:update(P, array:set(Index, gather({Tail, V}, Complex), List), Accum)
     end;
 %% list with codings Tail==[]?
+gather_list(<<"extension">>, URL, Tail, V, Accum) when is_binary(URL) ->
+     io:format("gather_list: extension:~p~n",[URL]),
+     io:format("gather_list: ext ~p:~p~n",[Tail,V]),
+     io:format("gather_list: ext ~p~n",[Accum]),
+    Complex = [{<<"url">>, URL}, {lists:nth(1,Tail), V}],
+    case maps:get(<<"extension">>, Accum, {badkey, extension}) of
+      {badkey, K} -> maps:put(<<"extension">>, maps:put(URL, Complex, maps:new()), Accum);
+      List -> NewList = case maps:get(URL, List, {badkey, extension}) of
+                {badkey, K} -> maps:put(URL, Complex, List);
+                Old         -> maps:update(URL, Complex, List)
+              end,
+              maps:update(<<"extension">>, NewList, Accum)
+    end;
+
+%% TODO
 gather_list(P, S, Tail, V, Accum) when is_binary(S) ->
+     io:format("gather_list: wc ~p:~p~n",[P,S]),
+     io:format("gather_list: wc ~p:~p~n",[Tail,V]),
+     io:format("gather_list: wc ~p~n",[Accum]),
     Complex = [{<<"system">>, S}, {<<"value">>, V}],
     case maps:get(P, Accum, {badkey, P}) of
       {badkey, K} -> maps:put(P, maps:put(S, Complex, maps:new()), Accum);
@@ -156,10 +185,28 @@ split_index(E) ->
 
 -include_lib("eunit/include/eunit.hrl").
 
+-define(asrtm(A, B, P), ?assertEqual(B, update:merge(A, P))).
 -define(asrts(A, B), ?assertEqual(B, update:split_path(A))).
 -define(asrtc(A, B), ?assertEqual(B, update:canonize(A))).
 -define(asrtuo(A, B, P), ?assertEqual(B, update:update(A, P))).
 -define(asrtuw(A, B, P, O), ?assertEqual(B, update:update(A, P, O))).
+
+update_merge_test() ->
+   ?asrtm(
+          [{'name:0-given:0',<<"Vausi">>},
+           {'name:0-family',<<"Polausi">>},
+           {'name:0-text',<<"old text">>},
+           {'name:0-use',<<"official">>},
+           {'name:0-suffix:0',<<"von">>}],
+          [{'name:0-family',<<"Franzisi">>},
+                  {'name:0-given:0',<<"Vausi">>},
+                  {'name:0-suffix:0',<<"von">>},
+                  {'name:0-text',<<"old text">>},
+                  {'name:0-use',<<"official">>}],
+          [{'name:0-given:0',<<"Vausi">>},
+           {'name:0-family',<<"Franzisi">>},
+           {'name:0-use',<<"official">>}]
+     ).
 
 update_path_test() ->
    ?asrts('name:0', [{<<"name">>, 0}]), 
@@ -274,6 +321,14 @@ update_system_test() ->
                               {<<"value">>,<<"0063730730">>}]}}
          ).
 
+update_extension_test() ->
+   ?asrtc([{'extension:rank-valueBoolean',<<"false">>}],
+          #{<<"extension">> =>
+                       #{<<"rank">> =>
+                             [{<<"url">>,<<"rank">>},
+                              {<<"valueBoolean">>,<<"false">>}]}}
+         ).
+
 update_coding_test() ->
    ?asrtc([{'status-coding:test-code', <<"completed">>}],
           #{<<"status">> =>
@@ -373,6 +428,21 @@ update_patient1_test() ->
              {'name:0-family',<<"Polausi">>},
              {'name:0-use',<<"official">>}]
           ).
+
+update_patient_ext_test() ->
+   ?asrtuo(
+           {'Patient',[],<<"p-21666">>,undefined,undefined,undefined,undefined,[],[],[],[],
+            undefined,[],[],undefined, undefined,undefined,[],undefined,
+            undefined,[],[],[],[],undefined,[]},
+           {'Patient',[],<<"p-21666">>,undefined,undefined,undefined, undefined,[],
+                     [{'Extension',[],undefined,[],<<"rank">>,
+                          {valueBoolean,<<"false">>}}],
+                     [],[],undefined,[],[],undefined,undefined,undefined,[],
+                     undefined,undefined,[],[],[],[],undefined,[]},
+           [
+             {'extension:rank-valueBoolean',<<"false">>}
+           ]).
+
 update_patient2_test() ->
    ?asrtuo(
            {'Patient',[],undefined,undefined,undefined,undefined,
@@ -434,18 +504,18 @@ update_patient2_test() ->
    ?asrtuo(
            {'Patient',[],undefined,undefined,undefined,undefined,
                           undefined,[],[],[],[],undefined,
-                          [{'HumanName',[],undefined,[],<<"official">>,undefined,
+                          [{'HumanName',[],undefined,[],<<"official">>,<<"old text">>,
                                         <<"Dummy">>,
                                         [<<"Detlef">>],
-                                        [],[],undefined}],
+                                        [<<"von">>],[],undefined}],
                           [],undefined,undefined,undefined,[],undefined,undefined,[],
                           [],[],[],undefined,[]},
            {'Patient',[],undefined,undefined,undefined,undefined,
                      undefined,[],[],[],[],undefined,
-                     [{'HumanName',[],undefined,[],<<"official">>,undefined,
+                     [{'HumanName',[],undefined,[],<<"official">>,<<"old text">>,
                           <<"Polausi">>,
                           [<<"Vausi">>],
-                          [],[],undefined},
+                          [<<"von">>],[],undefined},
                       {'HumanName',[],undefined,[],<<"official">>,undefined,
                           <<"Franizisi">>,
                           [<<"Vausi">>],
@@ -460,5 +530,36 @@ update_patient2_test() ->
              {'name:2-use',<<"official">>}]
           ).
 
+update_partial_patient_test() ->
+   ?asrtuw(
+           {'Patient',[],undefined,undefined,undefined,undefined,
+                          undefined,[],[],[],[],undefined,
+                          [{'HumanName',[],undefined,[],<<"official">>,undefined,
+                                        <<"Dummy">>,
+                                        [<<"Detlef">>],
+                                        [],[],undefined}],
+                          [],undefined,undefined,undefined,[],undefined,undefined,[],
+                          [],[],[],undefined,[]},
+           {'Patient',[],undefined,undefined,undefined,undefined,
+                     undefined,[],[],[],
+                     [{'Identifier',[],undefined,[],undefined,undefined,
+                          <<"orbispid">>,<<"0063730730">>,undefined,
+                          undefined}],
+                     undefined,
+                     [{'HumanName',[],undefined,[],<<"official">>,undefined,
+                          <<"Polausi">>,
+                          [<<"Vausi">>],
+                          [],[],undefined}],
+                     [],undefined,<<"2019-01-01">>,undefined,[],undefined,
+                     {<<"Integer">>,<<"1">>},
+                     [],[],[],[],undefined,[]},
+            [{'name:0-given:0',<<"Vausi">>},
+             {'name:0-family',<<"Polausi">>},
+             {'name:0-use',<<"official">>},
+             {'identifier:orbispid-value', <<"0063730730">>},
+             {birthDate,<<"2019-01-01">>},
+             {multipleBirthInteger,<<"1">>}],
+            [update]
+          ).
 
 -endif.

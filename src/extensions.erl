@@ -127,7 +127,7 @@ to_extension_list(List) ->
 to_extension({Props}) ->    to_extension(Props);
 to_extension(Props) ->
     % DT = ?ext_info,
-    % io:format("e: ~p~n",[Props]),
+     io:format("e: ~p~n",[Props]),
     Keys = proplists:get_keys(Props),
     Content = lists:delete(<<"url">>,Keys),
     % io:format("e: ~p~n",[Content]),

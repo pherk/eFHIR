@@ -36,13 +36,13 @@
 -record('Patient.Contact', {
       anyAttribs :: anyAttribs()
 	, id :: string() | undefined
-	, extension :: [extensios:'Extension'()] | undefined
-	, modifierExtension :: [extensions:'Extension'()] | undefined
+	, extension :: [extensions:'Extension'()] | undefined
+	, modifierExtension :: [extensions:'Extension'()] | undefined    % 5
 	, relationship :: [complex:'CodeableConcept'()]
     , name         :: complex:'HumanName'()
     , telecom      :: [complex:'ContactPoint'()]
     , address      :: complex:'Address'()
-    , gender       :: code()
+    , gender       :: code()                                         % 10
     , organization :: special:'Reference'()
     , period       :: complex:'Period'()
     }).
@@ -51,7 +51,7 @@
 -record('Patient.Communication', {
       anyAttribs :: anyAttribs()
 	, id :: string() | undefined
-	, extension :: [extensios:'Extension'()] | undefined
+	, extension :: [extensions:'Extension'()] | undefined
 	, modifierExtension :: [extensions:'Extension'()] | undefined
     , language :: complex:'CodeableCOncept'()
     , preferred :: boolean()
@@ -61,7 +61,7 @@
 -record('Patient.Link', {
       anyAttribs :: anyAttribs()
 	, id :: string() | undefined
-	, extension :: [extensios:'Extension'()] | undefined
+	, extension :: [extensions:'Extension'()] | undefined
 	, modifierExtension :: [extensions:'Extension'()] | undefined
     , other :: special:'Reference'()
     , type  :: code()
