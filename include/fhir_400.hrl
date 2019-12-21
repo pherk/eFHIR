@@ -24,6 +24,7 @@
 %% If the element is present, it must have a value for at least one of the defined elements, an @id referenced from the Narrative, or extensions
 %%
       <<"Extension">> => {<<"Element">>,
+          [{<<"value">>,
             [
             {<<"valueBase64Binary">>, {{primitive, <<"base64Binary">>}, optional}},
             {<<"valueBoolean">>, {{primitive, <<"boolean">>}, optional}},
@@ -74,7 +75,8 @@
             {<<"valueTriggerDefinition">>, {{metadata, <<"TriggerDefinition">>}, optional}},
             {<<"valueUsageContext">>, {{metadata, <<"UsageContext">>}, optional}},
             {<<"valueDosage">>, {{bbelement, <<"Dosage">>}, optional}}
-            ],
+            ]}
+         ],
             [{<<"url">>, <<"uri">>}],
             [
             {<<"valueBase64Binary">>, <<"valueBoolean">>, <<"valueCanonical">>, <<"valueCode">>, <<"valueDate">>, <<"valueDateTime">>, <<"valueDecimal">>, <<"valueId">>, <<"valueInstant">>, <<"valueInteger">>, <<"valueMarkdown">>, <<"valueOid">>, <<"valuePositiveInt">>, <<"valueString">>, <<"valueTime">>, <<"valueUnsignedInt">>, <<"valueUri">>, <<"valueUrl">>, <<"valueUuid">>, <<"valueAddress">>, <<"valueAge">>, <<"valueAnnotation">>, <<"valueAttachment">>, <<"valueCodeableConcept">>, <<"valueCoding">>, <<"valueContactPoint">>, <<"valueCount">>, <<"valueDistance">>, <<"valueDuration">>, <<"valueHumanName">>, <<"valueIdentifier">>, <<"valueMoney">>, <<"valuePeriod">>, <<"valueQuantity">>, <<"valueRange">>, <<"valueRatio">>, <<"valueReference">>, <<"valueSampledData">>, <<"valueSignature">>, <<"valueTiming">>, <<"valueContactDetail">>, <<"valueContributor">>, <<"valueDataRequirement">>, <<"valueExpression">>, <<"valueParameterDefinition">>, <<"valueRelatedArtifact">>, <<"valueTriggerDefinition">>, <<"valueUsageContext">>, <<"valueDosage">>}
@@ -335,7 +337,7 @@
             [
             {<<"use">>, {{code, <<"nameuse">>}, optional}},
             {<<"text">>, {{primitive, <<"string">>}, optional}},
-            {<<"family">>, {{primitive, <<"string">>}, optional}},
+            {<<"family">>, {{primitive, <<"string">>}, list}},
             {<<"given">>, {{primitive, <<"string">>}, list}},
             {<<"prefix">>, {{primitive, <<"string">>}, list}},
             {<<"suffix">>, {{primitive, <<"string">>}, list}},

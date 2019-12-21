@@ -98,10 +98,10 @@
     , extension     :: [extensions:'Extension'()]
     ,  use       = <<"official">>   :: code()  %% usual | official | temp | nickname | anonymous | old | maiden
      , text                   :: binary()
-     , family                 :: [binary()]
-     , given                  :: [binary()]
-     , prefix                 :: [binary()]
-     , suffix                 :: [binary()]
+     , family                 :: binary()
+     , given     = []         :: [binary()]
+     , prefix    = []         :: [binary()]
+     , suffix    = []         :: [binary()]
      , period                 :: 'Period'()
 }).
 -opaque 'HumanName'() :: #'HumanName'{}.
@@ -228,6 +228,23 @@
 %%====================================================================
 %% API functions
 %%====================================================================
+fields('Address') -> record_info(fields, 'Address');
+fields('Annotation') -> record_info(fields, 'Annotation');
+fields('Attachment') -> record_info(fields, 'Attachment');
+fields('CodeableConcept') -> record_info(fields, 'CodeableConcept');
+fields('Coding') -> record_info(fields, 'Coding');
+fields('ContactPoint') -> record_info(fields, 'ContactPoint');
+fields('HumanName') -> record_info(fields, 'HumanName');
+fields('Identifier') -> record_info(fields, 'Identifier');
+fields('Money') -> record_info(fields, 'Money');
+fields('Period') -> record_info(fields, 'Period');
+fields('Quantity') -> record_info(fields, 'Quantity');
+fields('Range') -> record_info(fields, 'Range');
+fields('Ratio') -> record_info(fields, 'Ratio');
+fields('Signature') -> record_info(fields, 'Signature');
+fields('Timing') -> record_info(fields, 'Timing');
+fields('Timing.Repeat') -> record_info(fields, 'Timing.Repeat').
+
 to_address({Props}) -> to_address(Props);
 to_address(Props) -> 
     DT = decode:xsd_info(<<"Address">>),
@@ -502,9 +519,9 @@ complex_coding_test() ->
 
 complex_humanName_test() ->
     ?asrtto(complex:to_humanName({[{<<"use">>, <<"official">>}]}),
-            {'HumanName',[],undefined,[],<<"official">>,undefined,undefined,[],[],[],undefined}),
-    ?asrtto(complex:to_humanName({[{<<"use">>, <<"official">>},{<<"family">>,<<"Sokolow">>},{<<"given">>,[<<"Nicolai">>]}]}),
-            {'HumanName',[],undefined,[],<<"official">>,undefined,<<"Sokolow">>,[<<"Nicolai">>],[],[],undefined}).
+            {'HumanName',[],undefined,[],<<"official">>,undefined,[],[],[],[],undefined}),
+    ?asrtto(complex:to_humanName({[{<<"use">>, <<"official">>},{<<"family">>,[<<"Sokolow">>]},{<<"given">>,[<<"Nicolai">>]}]}),
+            {'HumanName',[],undefined,[],<<"official">>,undefined,[<<"Sokolow">>],[<<"Nicolai">>],[],[],undefined}).
 
 complex_signature_test() ->
     ?asrtto(complex:to_signature({[{<<"type">>, [{[{<<"coding">>, {[{<<"code">>, <<"1.2.840.10065.1.12.1.1">>},

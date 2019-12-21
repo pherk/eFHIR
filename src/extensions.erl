@@ -103,7 +103,9 @@
 
 %%
 %% API exports
--export([to_extension/1, to_extension_list/1]).
+-export([fields/1, to_extension/1, to_extension_list/1]).
+
+fields('Extension') -> record_info(fields, 'Extension'). 
 
 %%====================================================================
 %% API functions

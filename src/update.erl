@@ -32,8 +32,8 @@ update2(Resource, Props, Opts) ->
   lists:foldl(fun(K, R) -> update_prop(R, {K, maps:get(K, Props)}, RI, XSD, Opts) end, Resource, Keys).
 
 update_prop(R, KV, RI, XSD, [update]) ->
-  % io:format("upd: ~p~n", [R]),
-  % io:format("upd: ~p~n", [KV]),
+   io:format("upd: ~p~n", [R]),
+   io:format("upd: ~p~n", [KV]),
   {I, P} = transform_prop(KV, RI, XSD),
   % io:format("upd: ~p:~p~n", [I, P]),
   setelement(I,R,P);
@@ -69,8 +69,16 @@ transform_prop({K, V}, RI, XSD) when is_map(V) ->
 
 to_values(R) when is_binary(R) -> R;
 to_values(R) when is_tuple(R) -> [to_values(V) || V <- array:to_list(R), V=/=undefined];
-to_values(R) when is_map(R) -> [{K,to_values(V)} || {K,V} <- maps:to_list(R)];
-to_values(R) when is_list(R) -> R.
+to_values(R) when is_map(R) -> 
+    [case K of
+       <<"extension">> -> 
+   io:format("2v: map ~p:~p~n", [K,V]),
+            {K, maps:values(V)};
+       _ -> {K,to_values(V)}
+    end || {K,V} <- maps:to_list(R)];
+to_values(R) when is_list(R) ->
+   io:format("2v: list ~p~n", [R]),
+   R.
 %%
 %% internal functions
 %%

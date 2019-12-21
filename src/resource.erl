@@ -1,7 +1,7 @@
 -module(resource).
 -include("primitives.hrl").
 
--export([to_resource/1, text/1]).
+-export([fields/1, to_resource/1, text/1]).
 
 -type 'ResourceContainer'() ::
       activitydefinition:'ActivityDefinition'()
@@ -57,3 +57,24 @@ text(R) ->
     {Mod, _} = fhir_utils:type_to_fun(atom_to_binary(element(1,R),latin1)),
     apply(Mod,text,[R]).
 
+fields('Address') -> complex:fields('Address');
+fields('Annotation') -> complex:fields('Annotation');
+fields('Attachment') -> complex:fields('Attachment');
+fields('CodeableConcept') -> complex:fields('CodeableConcept');
+fields('Coding') -> complex:fields('Coding');
+fields('ContactPoint') -> complex:fields('ContactPoint');
+fields('HumanName') -> complex:fields('HumanName');
+fields('Identifier') -> complex:fields('Identifier');
+fields('Money') -> complex:fields('Money');
+fields('Period') -> complex:fields('Period');
+fields('Quantity') -> complex:fields('Quantity');
+fields('Range') -> complex:fields('Range');
+fields('Ratio') -> complex:fields('Ration');
+fields('Signature') -> complex:fields('Signature');
+fields('Timing') -> complex:fields('Timing');
+fields('Timing.Repeat') -> complex:fields('Timing.Repeat');
+fields('Extension') -> extensions:fields('Extension');
+fields('Patient') -> patient:fields('Patient');
+fields('Patient.Communication') -> patient:fields('Patient.Communication');
+fields('Patient.Contact') -> patient:fields('Patient.Contact');
+fields('Patient.Link') -> patient:fields('Patient.Link').
