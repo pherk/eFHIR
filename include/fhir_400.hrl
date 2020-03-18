@@ -337,7 +337,7 @@
             [
             {<<"use">>, {{code, <<"nameuse">>}, optional}},
             {<<"text">>, {{primitive, <<"string">>}, optional}},
-            {<<"family">>, {{primitive, <<"string">>}, list}},
+            {<<"family">>, {{primitive, <<"string">>}, optional}},
             {<<"given">>, {{primitive, <<"string">>}, list}},
             {<<"prefix">>, {{primitive, <<"string">>}, list}},
             {<<"suffix">>, {{primitive, <<"string">>}, list}},

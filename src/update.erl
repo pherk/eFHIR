@@ -28,7 +28,7 @@ update2(Resource, Props, Opts) ->
   RI = [atom_to_binary(F,latin1) || F <- patient:fields(RT)],
   XSD = decode:xsd_info(atom_to_binary(RT,latin1)),
   Keys = maps:keys(Props),
-%  io:format("update2: keys: ~p~n~p~n", [Keys, RI]),
+  % io:format("update2: keys: ~p~n~p~n", [Keys, RI]),
   lists:foldl(fun(K, R) -> update_prop(R, {K, maps:get(K, Props)}, RI, XSD, Opts) end, Resource, Keys).
 
 update_prop(R, KV, RI, XSD, [update]) ->
@@ -38,10 +38,10 @@ update_prop(R, KV, RI, XSD, [update]) ->
   % io:format("upd: ~p:~p~n", [I, P]),
   setelement(I,R,P);
 update_prop(R, KV, RI, XSD, [replace]) ->
-  % io:format("upd: ~p~n", [R]),
-  % io:format("upd: ~p~n", [KV]),
+   io:format("upd: ~p~n", [R]),
+   io:format("upd: ~p~n", [KV]),
   {I, P} = transform_prop(KV, RI, XSD),
-  % io:format("upd: ~p:~p~n", [I, P]),
+   io:format("upd: ~p:~p~n", [I, P]),
   setelement(I,R,P).
 
 transform_prop({K, V}=KV, RI, XSD) when is_binary(V) ->
@@ -480,7 +480,9 @@ update_patient2_test() ->
              {'identifier:orbispid-value', <<"0063730730">>},
              {birthDate,<<"2019-01-01">>},
              {multipleBirthInteger,<<"1">>}]
-          ),
+          ).
+
+update_patient3_test() ->
    ?asrtuo(
            {'Patient',[],undefined,undefined,undefined,undefined,
                           undefined,[],[],[],[],undefined,
@@ -520,10 +522,10 @@ update_patient2_test() ->
                           [],[],[],undefined,[]},
            {'Patient',[],undefined,undefined,undefined,undefined,
                      undefined,[],[],[],[],undefined,
-                     [{'HumanName',[],undefined,[],<<"official">>,<<"old text">>,
+                     [{'HumanName',[],undefined,[],<<"official">>,undefined,
                           <<"Polausi">>,
                           [<<"Vausi">>],
-                          [<<"von">>],[],undefined},
+                          [],[],undefined},
                       {'HumanName',[],undefined,[],<<"official">>,undefined,
                           <<"Franizisi">>,
                           [<<"Vausi">>],

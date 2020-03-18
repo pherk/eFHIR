@@ -519,9 +519,11 @@ complex_coding_test() ->
 
 complex_humanName_test() ->
     ?asrtto(complex:to_humanName({[{<<"use">>, <<"official">>}]}),
-            {'HumanName',[],undefined,[],<<"official">>,undefined,[],[],[],[],undefined}),
-    ?asrtto(complex:to_humanName({[{<<"use">>, <<"official">>},{<<"family">>,[<<"Sokolow">>]},{<<"given">>,[<<"Nicolai">>]}]}),
-            {'HumanName',[],undefined,[],<<"official">>,undefined,[<<"Sokolow">>],[<<"Nicolai">>],[],[],undefined}).
+            {'HumanName',[],undefined,[],<<"official">>,undefined,undefined,[],[],[],undefined}),
+    ?asrtto(complex:to_humanName({[{<<"text">>, <<"old name">>}]}),
+            {'HumanName',[],undefined,[],undefined,<<"old name">>,undefined,[],[],[],undefined}),
+    ?asrtto(complex:to_humanName({[{<<"use">>, <<"official">>},{<<"family">>,<<"Sokolow">>},{<<"given">>,[<<"Nicolai">>]}]}),
+            {'HumanName',[],undefined,[],<<"official">>,undefined,<<"Sokolow">>,[<<"Nicolai">>],[],[],undefined}).
 
 complex_signature_test() ->
     ?asrtto(complex:to_signature({[{<<"type">>, [{[{<<"coding">>, {[{<<"code">>, <<"1.2.840.10065.1.12.1.1">>},

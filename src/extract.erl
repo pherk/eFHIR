@@ -26,9 +26,9 @@ step([{Node, Index}| Tail], Resources) when is_list(Resources) ->
   io:format("step indexed list: ~p:~p-~p~n",[Node, Index, Tail]),
   Resource = match(Index, Resources),
   step(Tail, Resource);
-%step(_Steps, Resource) when is_binary(Resource) ->
-%  io:format("step bin ~p~n",[Resource]),
-%  Resource;
+step(_Steps, Resource) when is_binary(Resource) ->
+  io:format("step bin ~p~n",[Resource]),
+  Resource;
 step([{Node, Index}| Tail], Resource) when is_tuple(Resource) ->
   io:format("step tuple-list: ~p-~p~n~p~n",[Node, Tail, Resource]),
   {RI, XSD} = analyze(Resource),
@@ -106,7 +106,7 @@ pc_minimal() ->
                     [{'Extension',[],undefined,[],<<"post">>, {valueBoolean,false}},
                      {'Extension',[],undefined,[],<<"period">>, {valuePeriod,{'Period', [], undefined, [], <<"2019-01-01">>, <<"2020-01-01">>}}}],
                     [],[],
-                    {'HumanName',[],undefined,[], <<"official">>,undefined,[<<"Dummy">>],[<<"Detlef">>], [],[],undefined},
+                    {'HumanName',[],undefined,[], <<"official">>,undefined,<<"Dummy">>,[<<"Detlef">>], [],[],undefined},
                     [{'ContactPoint',[],undefined,[],undefined,undefined,<<"0221-478 5900">>,undefined,undefined},
                      {'ContactPoint',[],undefined,[],undefined,undefined,<<"0221-478 6580">>,undefined,undefined}],
                     undefined,<<"male">>,undefined,undefined}.
@@ -117,7 +117,7 @@ extract_binary_prop_test() ->
 extract_single_step_test() ->
     ?asrte('contact-gender', pc_minimal(), <<"male">>),
     ?asrte('contact-name', pc_minimal(), 
-           {'HumanName',[],undefined,[],<<"official">>,undefined,[<<"Dummy">>],[<<"Detlef">>],[],[],undefined}),
+           {'HumanName',[],undefined,[],<<"official">>,undefined,<<"Dummy">>,[<<"Detlef">>],[],[],undefined}),
     ?asrte('contact-telecom:0', pc_minimal(), 
            {'ContactPoint',[],undefined,[],undefined,undefined,
                                  <<"0221-478 5900">>,undefined,undefined}),
@@ -126,8 +126,7 @@ extract_single_step_test() ->
                                  <<"0221-478 6580">>,undefined,undefined}).
 
 extract_steps_test() ->
-    ?asrte('contact-name-family', pc_minimal(), [<<"Dummy">>]),
-    ?asrte('contact-name-family:0', pc_minimal(), <<"Dummy">>),
+    ?asrte('contact-name-family', pc_minimal(), <<"Dummy">>),
     ?asrte('contact-telecom:0-value', pc_minimal(), <<"0221-478 5900">>),
     ?asrte('contact-telecom:1-value', pc_minimal(), <<"0221-478 6580">>).
 
@@ -138,7 +137,7 @@ extract_ext_test() ->
     ?asrte('contact-extension:period-valuePeriod-start', pc_minimal(), <<"2019-01-01">>).
 
 extract_root_steps_test() ->
-    ?asrte('contact:0-name-family', pc_minimal(), [<<"Dummy">>]).
+    ?asrte('contact:0-name-family', pc_minimal(), <<"Dummy">>).
 
 
 

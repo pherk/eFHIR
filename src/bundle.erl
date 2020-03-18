@@ -102,7 +102,11 @@
 %% API functions
 %%====================================================================
 new('Bundle', {<<"batch-response">>, Entries}) ->
-    #'Bundle'{type = <<"batch-response">>, entry = Entries};
+    #'Bundle'{type = <<"batch-response">>,
+              entry = Entries};
+new('Bundle', {<<"searchset">>, Entries}) ->
+    #'Bundle'{type = <<"searchset">>,
+              entry = Entries};
 %% {ok, Uri, Resource} is a response from dao functions
 %% automatically generate a response prop for entry
 %%       <outcome>
