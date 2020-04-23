@@ -47,6 +47,9 @@
 %%====================================================================
 %% API functions
 %%====================================================================
+fields('Practitioner') -> record_info(fields, 'Practitioner');
+fields('Practitioner.Qualification') -> record_info(fields, 'Practitioner.Qualification').
+
 to_practitioner({Props}) -> to_practitioner(Props);
 to_practitioner(Props) ->
   DT = decode:xsd_info(<<"Practitioner">>),

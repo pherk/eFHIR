@@ -88,6 +88,12 @@
 %%====================================================================
 %% API functions
 %%====================================================================
+fields('Composition') ->           record_info(fields, 'Composition');
+fields('Composition.Attester') ->  record_info(fields, 'Composition.Attester');
+fields('Composition.RelatesTo') -> record_info(fields, 'Composition.RelatesTo');
+fields('Composition.Event') ->     record_info(fields, 'Composition.Event');
+fields('Composition.Section') ->   record_info(fields, 'Composition.Section').
+
 to_composition({Props}) -> to_composition(Props);
 to_composition(Props) ->
   DT = decode:xsd_info(<<"Composition">>),

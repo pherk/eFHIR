@@ -50,6 +50,10 @@
 %%====================================================================
 %% API functions
 %%====================================================================
+fields('Narrative') -> record_info(fields, 'Narrative');
+fields('Meta') ->      record_info(fields, 'Meta');
+fields('Reference') -> record_info(fields, 'Reference').
+
 to_narrative({Props}) -> to_narrative(Props);
 to_narrative(Props) ->
     DT = decode:xsd_info(<<"Narrative">>),

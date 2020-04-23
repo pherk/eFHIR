@@ -78,6 +78,7 @@ module({Type, _DT}=DR, Backbones, Dir) ->
     io:format(S,"%%=====================================================================~n",[]),
     io:format(S,"%% API exports~n",[]),
     io:format(S,"%%=====================================================================~n",[]),
+    write_fields([DR] ++ Backbones, S),
     io:format(S,"%%~n",[]),
     write_funs([DR] ++ Backbones, S),
     io:format(S,"%%~n",[]),
@@ -154,6 +155,11 @@ resolve_base(Base, L) ->
     % io:format("rb: ~p~n", [Base]),
     {NewBase, BI, Attrs, _Restrictions} = maps:get(Base,?fhir_xsd),
     resolve_base(NewBase, Attrs++BI++L).
+
+write_fields(List, S) -> 
+	lists:foreach(fun (T) -> write_field(T,S) end, List).
+write_field({Type,{Base,Info,_Attrs,_Restrictions}}, S) ->
+    io:format("fields('~s') ->           record_info(fields, '~s');~n",[Type,Type]).
 
 write_funs(List, S) -> 
 	lists:foreach(fun (T) -> write_fun(T,S) end, List).

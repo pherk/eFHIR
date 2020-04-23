@@ -60,7 +60,7 @@ base_name(Field, {Base,FI,_Attrs,_Restriction}=_DT) ->
     case lists:member(Field, Keys) of
         true -> Field;
         false -> case lists:filter(fun(Prefix) -> case binary:split(Field, Prefix) of [<<>>, Type] -> true; _ -> false end end, Keys) of
-                     [] -> throw("illegal field name");
+                     [] -> throw("illegal field name " ++ Field);
                      Fields -> lists:nth(1,Fields);
                      Error ->
                          io:format("~p~n",[Error])

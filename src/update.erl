@@ -25,15 +25,15 @@ update(Resource, Props, Opts) ->
 %% lists:zip(record_info(fields, foobar), tl(tuple_to_list(Rec)));
 update2(Resource, Props, Opts) ->
   RT = erlang:element(1,Resource),
-  RI = [atom_to_binary(F,latin1) || F <- patient:fields(RT)],
+  RI = [atom_to_binary(F,latin1) || F <- resource:fields(RT)],
   XSD = decode:xsd_info(atom_to_binary(RT,latin1)),
   Keys = maps:keys(Props),
   % io:format("update2: keys: ~p~n~p~n", [Keys, RI]),
   lists:foldl(fun(K, R) -> update_prop(R, {K, maps:get(K, Props)}, RI, XSD, Opts) end, Resource, Keys).
 
 update_prop(R, KV, RI, XSD, [update]) ->
-   io:format("upd: ~p~n", [R]),
-   io:format("upd: ~p~n", [KV]),
+   io:format("update:update_prop ~p~n", [R]),
+   io:format("update:update_prop ~p~n", [KV]),
   {I, P} = transform_prop(KV, RI, XSD),
   % io:format("upd: ~p:~p~n", [I, P]),
   setelement(I,R,P);
@@ -59,6 +59,12 @@ transform_prop({K, V}, RI, XSD) when is_tuple(V) ->
     P = to_values(V),
    io:format("t: ~p~n", [P]),
     {I, decode:value(Field, [{K,P}], XSD)};
+transform_prop({K, V}, RI, XSD) when is_list(V) ->
+    Field = decode:base_name(K,XSD),
+    I = index_of(Field, RI) + 1,
+  % io:format("t: ~p:~p:~p~n", [I, K, Field]),
+  % io:format("t: ~p~n", [V]),
+    {I, decode:value(Field, [{K,V}], XSD)};
 transform_prop({K, V}, RI, XSD) when is_map(V) ->
     Field = decode:base_name(K,XSD),
     I = index_of(Field, RI) + 1,

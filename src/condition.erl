@@ -61,6 +61,9 @@
 %%====================================================================
 %% API functions
 %%====================================================================
+fields('Condition') ->             record_info(fields, 'Condition');
+fields('Condition.Stage') ->       record_info(fields, 'Condition.Stage');
+fields('Condition.Evidence') ->    record_info(fields, 'Condition.Evidence').
 
 
 to_condition({Props}) -> to_condition(Props);

@@ -101,6 +101,13 @@
 %%====================================================================
 %% API functions
 %%====================================================================
+fields('Bundle') -> record_info(fields, 'Bundle');
+fields('Bundle.Link') -> record_info(fields, 'Bundle.Link');
+fields('Bundle.Entry') -> record_info(fields, 'Bundle.Entry');
+fields('Bundle.Search') -> record_info(fields, 'Bundle.Search');
+fields('Bundle.Request') -> record_info(fields, 'Bundle.Request');
+fields('Bundle.Response') -> record_info(fields, 'Bundle.Response').
+
 new('Bundle', {<<"batch-response">>, Entries}) ->
     #'Bundle'{type = <<"batch-response">>,
               entry = Entries};

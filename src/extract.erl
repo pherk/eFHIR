@@ -15,22 +15,25 @@
 %%======================================================================================================
 
 extract(Path, Resource) ->
-  io:format("extract ~p:~p~n",[Resource, Path]),
+  % io:format("extract ~p:~p~n",[Resource, Path]),
   [Parent|Steps] = update:split_path(Path),
   step(Steps, Resource ).
 
 step([], Resource) ->
-  io:format("step last ~p~n",[Resource]),
+  % io:format("step last ~p~n",[Resource]),
   Resource;
+step(_Steps, undefined) ->
+  % io:format("step bin ~p~n",[Resource]),
+  <<>>;
 step([{Node, Index}| Tail], Resources) when is_list(Resources) ->
-  io:format("step indexed list: ~p:~p-~p~n",[Node, Index, Tail]),
+  % io:format("step indexed list: ~p:~p-~p~n",[Node, Index, Tail]),
   Resource = match(Index, Resources),
   step(Tail, Resource);
 step(_Steps, Resource) when is_binary(Resource) ->
-  io:format("step bin ~p~n",[Resource]),
+  % io:format("step bin ~p~n",[Resource]),
   Resource;
 step([{Node, Index}| Tail], Resource) when is_tuple(Resource) ->
-  io:format("step tuple-list: ~p-~p~n~p~n",[Node, Tail, Resource]),
+  % io:format("step tuple-list: ~p-~p~n~p~n",[Node, Tail, Resource]),
   {RI, XSD} = analyze(Resource),
   Field = decode:base_name(Node, XSD),
   PropInfo = decode:prop_info(Field, XSD),
@@ -39,47 +42,50 @@ step([{Node, Index}| Tail], Resource) when is_tuple(Resource) ->
   Child = extract_field(Node, Field, V, PropInfo),
   step(Tail, match(Index, Child));
 step([Node|Tail], Resource) when is_tuple(Resource) ->
-  io:format("step tuple: ~p-~p~n~p~n",[Node, Tail, Resource]),
+  % io:format("step tuple: ~p-~p~n~p~n",[Node, Tail, Resource]),
   {RI, XSD} = analyze(Resource),
   Field = decode:base_name(Node, XSD),
   PropInfo = decode:prop_info(Field, XSD),
   I = index_of(Field, RI) + 1,
   V = element(I, Resource),
   Child = extract_field(Node, Field, V, PropInfo),
-  step(Tail, Child).
+  step(Tail, Child);
+step([Node|Tail], Resources) when is_list(Resources) ->
+  [step([Node|Tail],R) || R <- Resources].
 
 %%
 analyze(Resource) ->
   RT = erlang:element(1,Resource),
   RI = [atom_to_binary(F,latin1) || F <- resource:fields(RT)],
   XSD = decode:xsd_info(atom_to_binary(RT,latin1)),
-  io:format("extract type: ~p~n",[RT]),
+  % io:format("extract type: ~p~n",[RT]),
   %  io:format("extract Fields: ~p~n",[RI]),
   %  io:format("extract XSD: ~p~n",[XSD]),
   {RI, XSD}.
 
 match(Index, Rs)  when is_integer(Index) ->
   lists:nth(Index + 1, Rs);
-%% TODO match binary
+%% TODO match multiple and tuple with undefined element
 match(Index, Rs)  when is_binary(Index) ->
   R = lists:nth(1, Rs),
   case erlang:element(1,R) of
       'Extension' -> lists:keyfind(Index, 5, Rs);  % url
       'Coding'    -> lists:keyfind(Index, 5, Rs);  % system
-      _           -> throw("extract: match with binary only for Extension, Coding")
+      'HumanName' -> lists:keyfind(Index, 5, Rs);  % use in HumanName
+      _           -> throw("extract: match with binary only for Extension, Coding and HumanName")
   end.
 %%
 %%
 %% normal field
 extract_field(Field, Field, V, PropInfo) ->
-  io:format("extract_field: ~p:~p~n",[Field, PropInfo]),
-  io:format("extract_field: ~p~n",[V]),
+  % io:format("extract_field: ~p:~p~n",[Field, PropInfo]),
+  % io:format("extract_field: ~p~n",[V]),
   V;
 %% choice field
 extract_field(PathEl, Field, V, PropInfo) ->
   Info = proplists:get_value(PathEl, PropInfo),
-  io:format("extract_field choice: ~p:~p~n",[Field, Info]),
-  io:format("extract_field choice: ~p~n",[V]),
+  % io:format("extract_field choice: ~p:~p~n",[Field, Info]),
+  % io:format("extract_field choice: ~p~n",[V]),
   element(2,V).
 
 %% same in fhir update.erl
