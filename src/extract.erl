@@ -15,7 +15,7 @@
 %%======================================================================================================
 
 extract(Path, Resource) ->
-  % io:format("extract ~p:~p~n",[Resource, Path]),
+  io:format("extract:extract ~p:~p~n",[Resource, Path]),
   [Parent|Steps] = update:split_path(Path),
   step(Steps, Resource ).
 
@@ -25,6 +25,14 @@ step([], Resource) ->
 step(_Steps, undefined) ->
   % io:format("step bin ~p~n",[Resource]),
   <<>>;
+step([{Node,Index}|Tail], {Key,Value}) when is_list(Value) ->
+  case Node =:= erlang:atom_to_binary(Key,latin1) of
+    true ->
+      io:format("extract:step KVList ~p-~p~n~p~:~pn",[Node, Tail, Value, Index]),
+      step(Tail, match(Index,Value));
+    false ->
+      io:format("extract:step KV error ~p-~p~n~p:~p~n",[Node, Tail, Value,Index])
+  end;
 step([{Node, Index}| Tail], Resources) when is_list(Resources) ->
   % io:format("step indexed list: ~p:~p-~p~n",[Node, Index, Tail]),
   Resource = match(Index, Resources),
@@ -41,8 +49,16 @@ step([{Node, Index}| Tail], Resource) when is_tuple(Resource) ->
   V = element(I, Resource),
   Child = extract_field(Node, Field, V, PropInfo),
   step(Tail, match(Index, Child));
+step([Node|Tail], {Key,Value}) when is_tuple(Value) ->
+  case Node =:= erlang:atom_to_binary(Key,latin1) of
+    true ->
+      io:format("extract:step KV ~p-~p~n~p~n",[Node, Tail, Value]),
+      step(Tail, Value);
+    false ->
+      io:format("extract:step KV error ~p-~p~n~p~n",[Node, Tail, Value])
+  end;
 step([Node|Tail], Resource) when is_tuple(Resource) ->
-  % io:format("step tuple: ~p-~p~n~p~n",[Node, Tail, Resource]),
+  io:format("step tuple: ~p-~p~n~p~n",[Node, Tail, Resource]),
   {RI, XSD} = analyze(Resource),
   Field = decode:base_name(Node, XSD),
   PropInfo = decode:prop_info(Field, XSD),

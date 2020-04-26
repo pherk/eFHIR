@@ -1195,7 +1195,7 @@
 %%
     , <<"DomainResource">> => {<<"Resource">>,
             [
-            {<<"text">>, {{complex, <<"Narrative">>}, optional}},
+            {<<"text">>, {{special, <<"Narrative">>}, optional}},
             {<<"contained">>, {{complex, <<"ResourceContainer">>}, list}},
             {<<"extension">>, {{complex, <<"Extension">>}, list}},
             {<<"modifierExtension">>, {{complex, <<"Extension">>}, list}}
@@ -3240,7 +3240,7 @@
             {<<"code">>, {{complex, <<"CodeableConcept">>}, optional}},
             {<<"author">>, {{complex, <<"Reference">>}, list}},
             {<<"focus">>, {{complex, <<"Reference">>}, optional}},
-            {<<"text">>, {{complex, <<"Narrative">>}, optional}},
+            {<<"text">>, {{special, <<"Narrative">>}, optional}},
             {<<"mode">>, {{code, <<"listmode_list">>}, optional}},
             {<<"orderedBy">>, {{complex, <<"CodeableConcept">>}, optional}},
             {<<"entry">>, {{complex, <<"Reference">>}, list}},

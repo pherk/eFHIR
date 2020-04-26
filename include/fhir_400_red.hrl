@@ -626,7 +626,7 @@
 %%
     , <<"DomainResource">> => {<<"Resource">>,
             [
-            {<<"text">>, {{complex, <<"Narrative">>}, optional}},
+            {<<"text">>, {{special, <<"Narrative">>}, optional}},
             {<<"contained">>, {{complex, <<"ResourceContainer">>}, list}},
             {<<"extension">>, {{complex, <<"Extension">>}, list}},
             {<<"modifierExtension">>, {{complex, <<"Extension">>}, list}}

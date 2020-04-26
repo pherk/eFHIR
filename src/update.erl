@@ -17,61 +17,91 @@ update(Resource, Props) -> update(Resource, Props, [replace]).
 
 update(Resource, Props, Opts) ->
   GP = canonize(Props), 
-  % io:format("update: ~p~n", [GP]),
+  io:format("update:update ~p~n", [GP]),
   update2(Resource, GP, Opts).
 
 %% TODO
 %% manipulating tuple as list
 %% lists:zip(record_info(fields, foobar), tl(tuple_to_list(Rec)));
+%% extract Opts
 update2(Resource, Props, Opts) ->
   RT = erlang:element(1,Resource),
   RI = [atom_to_binary(F,latin1) || F <- resource:fields(RT)],
   XSD = decode:xsd_info(atom_to_binary(RT,latin1)),
   Keys = maps:keys(Props),
   % io:format("update2: keys: ~p~n~p~n", [Keys, RI]),
-  lists:foldl(fun(K, R) -> update_prop(R, {K, maps:get(K, Props)}, RI, XSD, Opts) end, Resource, Keys).
+  [Mode] = Opts,
+  lists:foldl(fun(K, R) -> update_prop(Mode, K, maps:get(K, Props), R, RI, XSD) end, Resource, Keys).
 
-update_prop(R, KV, RI, XSD, [update]) ->
-   io:format("update:update_prop ~p~n", [R]),
-   io:format("update:update_prop ~p~n", [KV]),
-  {I, P} = transform_prop(KV, RI, XSD),
-  % io:format("upd: ~p:~p~n", [I, P]),
+update_prop(update, K, V, R, RI, XSD) ->
+  io:format("update:update_prop upd ~p~n", [R]),
+  io:format("update:update_prop upd ~p:~p~n", [K,V]),
+  Field = decode:base_name(K,XSD),
+  I = index_of(Field, RI) + 1,
+  P = transform(K,V, Field, XSD),
+  io:format("update:update_prop upd ~p:~p~n", [I, P]),
   setelement(I,R,P);
-update_prop(R, KV, RI, XSD, [replace]) ->
-   io:format("upd: ~p~n", [R]),
-   io:format("upd: ~p~n", [KV]),
-  {I, P} = transform_prop(KV, RI, XSD),
-   io:format("upd: ~p:~p~n", [I, P]),
+update_prop(merge, K, V, R, RI, XSD) ->
+  io:format("update:update_prop merge ~p~n", [R]),
+  io:format("update:update_prop merge ~p:~p~n", [K,V]),
+  Field = decode:base_name(K,XSD),
+  I = index_of(Field, RI) + 1,
+  P0 = element(I,R), 
+  P = merge(K,V, P0, Field, XSD),
+  io:format("update:update_prop merge ~p:~p~n", [I, P]),
+  setelement(I,R,P);
+update_prop(replace, K, V, R, RI, XSD) ->
+  io:format("upd: ~p~n", [R]),
+  io:format("upd: ~p:~p~n", [K, V]),
+  Field = decode:base_name(K,XSD),
+  I = index_of(Field, RI) + 1,
+  P = transform(K,V, Field, XSD),
+  io:format("upd: ~p:~p~n", [I, P]),
   setelement(I,R,P).
 
-transform_prop({K, V}=KV, RI, XSD) when is_binary(V) ->
-    Field = decode:base_name(K,XSD),
-    I = index_of(Field, RI) + 1,
-  % io:format("t: ~p:~p:~p~n", [I, K, Field]),
-%    PropInfo = decode:prop_info(Field, XSD),
+transform(K, V, Field, XSD) when is_binary(V) ->
 %  io:format("t: ~p:~p~n", [K, PropInfo]),
-    {I, decode:value(Field, [KV], XSD)};
-transform_prop({K, V}, RI, XSD) when is_tuple(V) ->
-    Field = decode:base_name(K,XSD),
-    I = index_of(Field, RI) + 1,
-   io:format("t: ~p:~p:~p~n", [I, K, Field]),
-   io:format("t: ~p~n", [V]),
-    P = to_values(V),
-   io:format("t: ~p~n", [P]),
-    {I, decode:value(Field, [{K,P}], XSD)};
-transform_prop({K, V}, RI, XSD) when is_list(V) ->
-    Field = decode:base_name(K,XSD),
-    I = index_of(Field, RI) + 1,
-  % io:format("t: ~p:~p:~p~n", [I, K, Field]),
+  decode:value(Field, [{K,V}], XSD);
+transform(K, V, Field, XSD) when is_tuple(V) ->
+  io:format("t: ~p~n", [V]),
+  P = to_values(V),
+  io:format("t: ~p~n", [P]),
+  decode:value(Field, [{K,P}], XSD);
+transform(K, V, Field, XSD) when is_list(V) ->
   % io:format("t: ~p~n", [V]),
-    {I, decode:value(Field, [{K,V}], XSD)};
-transform_prop({K, V}, RI, XSD) when is_map(V) ->
-    Field = decode:base_name(K,XSD),
-    I = index_of(Field, RI) + 1,
-  % io:format("t: ~p:~p:~p~n", [I, K, Field]),
+  decode:value(Field, [{K,V}], XSD);
+transform(K, V, Field, XSD) when is_map(V) ->
   % io:format("t: ~p~n", [V]),
-    P = maps:values(V),
-    {I, decode:value(Field, [{K,P}], XSD)}.
+  P = maps:values(V),
+  decode:value(Field, [{K,P}], XSD).
+
+merge(K, V, P0, Field, XSD) when is_binary(V) ->
+  io:format("merge bin: ~p:~p:~p~n", [K, V, P0]),
+  decode:value(Field, [{K,V}], XSD);
+merge(K, V, P0, Field, XSD) when is_tuple(V) ->
+  io:format("merge tuple: ~p~n", [V]),
+  P = to_values(V),
+  io:format("merge tuple: ~p~n", [P]),
+  decode:value(Field, [{K,P}], XSD);
+merge(K, V, P0, Field, XSD) when is_list(V) ->  % V is KVList
+  io:format("merge list: ~p:~p~n", [K,V]),
+  D = decode:value(Field, [{K,V}], XSD),
+  RT = element(1,lists:nth(1,D)),
+  P1 = merge2(RT,P0,D),
+  io:format("merge list: ~p~n", [P1]),
+  P1;
+merge(K, V, P0, Field, XSD) when is_map(V) ->
+  io:format("merge map: ~p~n", [V]),
+  P = maps:values(V),
+  decode:value(Field, [{K,P}], XSD).
+
+merge2(Extension, E1, E2) ->
+  io:format("merge2 ~p~n", [E1]),
+  io:format("merge2 ~p~n", [E2]),
+  O1 = ordsets:from_list(E1), 
+  O2 = ordsets:from_list(E2), 
+  ordsets:to_list(ordsets:union(O1,O2)).
+
 
 to_values(R) when is_binary(R) -> R;
 to_values(R) when is_tuple(R) -> [to_values(V) || V <- array:to_list(R), V=/=undefined];
@@ -576,6 +606,53 @@ update_partial_patient_test() ->
              {birthDate,<<"2019-01-01">>},
              {multipleBirthInteger,<<"1">>}],
             [update]
+          ).
+
+update_merge_ext_test() ->
+   ?asrtuw(
+           {'Patient',[],undefined,undefined,undefined,undefined,
+                          undefined,[],
+                     [{'Extension',[],undefined,[],<<"#recipient">>,
+                          {valueReference,
+                              {'Reference',[],undefined,[],<<"absd">>,
+                                  undefined,undefined,
+                                  <<"Lowe123, Dick987">>}}}],
+                     [],[],undefined,
+                     [{'HumanName',[],undefined,[],<<"official">>,undefined,
+                                        <<"Dummy">>,
+                                        [<<"Detlef">>],
+                                        [],[],undefined}],
+                     [],undefined,undefined,undefined,[],undefined,undefined,[],
+                     [],[],[],undefined,[]},
+           {'Patient',[],undefined,undefined,undefined,undefined,
+                     undefined,[],
+                     [{'Extension',[],undefined,[],<<"#recipient">>,
+                          {valueReference,
+                              {'Reference',[],undefined,[],<<"absd">>,
+                                  undefined,undefined,
+                                  <<"Lowe123, Dick987">>}}},
+                      {'Extension',[],undefined,[],<<"#recipient">>,
+                          {valueReference,
+                              {'Reference',[],undefined,[],<<"ertz">>,
+                                  undefined,undefined,<<"Lowe345, Pussy">>}}}],
+                     [],[],undefined,
+                     [{'HumanName',[],undefined,[],<<"official">>,undefined,
+                          <<"Dummy">>,
+                          [<<"Detlef">>],
+                          [],[],undefined}],
+                     [],undefined,undefined,undefined,[],undefined,undefined,
+                     [],[],[],[],undefined,[]},
+            [
+             {<<"extension">>, [
+                  {[{<<"url">>, <<"#recipient">>},
+                    {<<"valueReference">>,{[
+                            {<<"reference">>, <<"ertz">>},
+                            {<<"display">>, <<"Lowe345, Pussy">>}
+                        ]}}
+                   ]}
+               ]}
+            ],
+            [merge]
           ).
 
 -endif.

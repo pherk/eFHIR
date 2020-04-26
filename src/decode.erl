@@ -215,7 +215,6 @@ validate({complex, <<"HumanName">>},      Value) -> complex:to_humanName(Value);
 validate({complex, <<"Identifier">>},     Value) -> complex:to_identifier(Value);
 validate({complex, <<"Money">>},          Value) -> complex:to_money(Value);
 validate({complex, <<"MoneyQuantity">>},  Value) -> complex:to_moneyQuantity(Value);
-validate({complex, <<"Narrative">>},      Value) -> complex:to_narrative(Value);
 validate({complex, <<"Period">>},         Value) -> complex:to_period(Value);
 validate({complex, <<"Range">>},          Value) -> complex:to_range(Value);
 validate({complex, <<"Ratio">>},          Value) -> complex:to_ratio(Value);

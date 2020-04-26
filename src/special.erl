@@ -115,6 +115,15 @@ narrative(#'Narrative'{'div'=Text}) -> Text.
 -define(asrtto(A, B), ?assertEqual(B, A)).
 -define(asrtpr(A, B), ?assertEqual(B, fhir_utils:rec_to_prop(A))).
 
+complex_narrative_test() ->
+    ?asrtto(special:to_narrative({[
+               {<<"status">>, <<"additional">>},
+               {<<"div">>, <<"<div xmlns=\"http://www.w3.org/1999/xhtml\"></div>">>}
+            ]}),
+            {'Narrative',[],undefined,[],<<"additional">>,
+                              <<"<div xmlns=\"http://www.w3.org/1999/xhtml\"></div>">>}
+           ).
+
 complex_meta_test() ->
     ?asrtto(special:to_meta({[{<<"versionId">>, <<"999">>},
                               {<<"lastUpdated">>,<<"2019-07-14T09:10:10">>},
@@ -125,7 +134,7 @@ complex_meta_test() ->
                                    [{[{<<"url">>, <<"http://eNahar.org/nabu/extension#lastUpdatedBy">>},
                                       {<<"valueReference">>,
                                              {[{<<"reference">>, <<"metis/practitioners/u-vkr">>},
-                                               {<<"display">>, <<"von Kleist-Retzow, JÃ¼rgen-Christoph">>}]}}]}]}
+                                               {<<"display">>, <<"von Kleist-Retzow, Jürgen-Christoph">>}]}}]}]}
                              ]}),
             {'Meta',[],undefined,
                      [{'Extension',[],undefined,[],
@@ -134,7 +143,7 @@ complex_meta_test() ->
                               {'Reference',[],undefined,[],
                                   <<"metis/practitioners/u-vkr">>,undefined,
                                   undefined,
-                                  <<"von Kleist-Retzow, JÃ¼rgen-Christoph">>}}}],
+                                  <<"von Kleist-Retzow, Jürgen-Christoph">>}}}],
                      <<"999">>,<<"2019-07-14T09:10:10">>,undefined,[],[],
                      [{'Coding',[],undefined,[],<<"http://eNahar.org/test">>,
                           undefined,<<"hello">>,undefined,undefined}]}).

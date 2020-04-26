@@ -3242,7 +3242,7 @@
             {<<"code">>, {{complex, <<"CodeableConcept">>}, optional}},
             {<<"author">>, {{special, <<"Reference">>}, list}},
             {<<"focus">>, {{special, <<"Reference">>}, optional}},
-            {<<"text">>, {{complex, <<"Narrative">>}, optional}},
+            {<<"text">>, {{special, <<"Narrative">>}, optional}},
             {<<"mode">>, {{code, <<"listmode">>}, optional}},
             {<<"orderedBy">>, {{complex, <<"CodeableConcept">>}, optional}},
             {<<"entry">>, {{special, <<"Reference">>}, list}},
