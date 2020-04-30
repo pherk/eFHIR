@@ -208,8 +208,9 @@ gather_extension(URL, Index, Tail, V, Accum) when is_binary(URL) ->
                                              gather({Tail, V}, maps:new())
                  end
         end,
-    NewExt0 = maps:put(<<"url">>, URL, maps:new()),
-    NewExt = array:set(0,maps:merge(NewExt0, KV),array:new()),
+    % NewExt0 = maps:put(<<"url">>, URL, maps:new()),
+    % NewExt = array:set(0,maps:merge(NewExt0, KV),array:new()),
+    NewExt = array:set(0,KV,array:new()),
     io:format("gather_ext ~p~n",[NewExt]),
     case maps:get(extension, Accum, {badkey, extension}) of
       {badkey, K} -> maps:put(extension, maps:put(URL, NewExt, maps:new()), Accum);
@@ -436,8 +437,7 @@ ppatch_extension1_test() ->
           #{extension =>
                        #{<<"rank">> =>
                          {array,1,10,undefined,
-                                    {#{<<"url">> => <<"rank">>,
-                                       <<"valueBoolean">> => <<"false">>},
+                                    {#{<<"valueBoolean">> => <<"false">>},
                                      undefined,undefined,undefined,undefined,
                                      undefined,undefined,undefined,undefined,
                                      undefined}}}}
@@ -450,12 +450,10 @@ ppatch_extension2_test() ->
                         {#{extension =>
                             #{<<"checked">> =>
                                {array,1,10,undefined,
-                                {#{<<"url">> => <<"checked">>,
-                                   <<"valueBoolean">> => false},
+                                {#{<<"valueBoolean">> => false},
                                  undefined,undefined,undefined,undefined,
                                  undefined,undefined,undefined,undefined,
-                                 undefined}}},
-                           <<"url">> => <<"condition">>},
+                                 undefined}}}},
                          undefined,undefined,undefined,undefined,undefined,
                          undefined,undefined,undefined,undefined}}}}
          ),
@@ -463,8 +461,7 @@ ppatch_extension2_test() ->
            #{extension =>
                        #{<<"condition">> =>
                               {array,1,10,undefined,
-                                    {#{<<"url">> => <<"condition">>,
-                                       <<"valueReference">> =>
+                                    {#{<<"valueReference">> =>
                                            #{<<"display">> => <<"test">>}},
                                      undefined,undefined,undefined,undefined,
                                      undefined,undefined,undefined,undefined,
@@ -484,7 +481,6 @@ ppatch_extension3_test() ->
                                  undefined,undefined,undefined,undefined,
                                  undefined,undefined,undefined,undefined,
                                  undefined}}},
-                           <<"url">> => <<"condition">>,
                            <<"valueReference">> =>
                             #{<<"display">> => <<"test">>}},
                          undefined,undefined,undefined,undefined,undefined,
