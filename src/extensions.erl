@@ -217,6 +217,11 @@ to_extensionValue(<<"valueReference">>, Props) ->
 
 extensions_type_test() ->
     ?asrte({[{<<"url">>,<<"text">>},
+             {<<"valueBoolean">>,true}]},
+           {'Extension',[],undefined,[],<<"text">>,
+                        {valueBoolean,true}}
+          ),
+    ?asrte({[{<<"url">>,<<"text">>},
              {<<"valueString">>,<<"Black or African American">>}]},
            {'Extension',[],undefined,[],<<"text">>,
                         {valueString,<<"Black or African American">>}}

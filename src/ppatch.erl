@@ -1,4 +1,4 @@
--module(update).
+-module(ppatch).
 -compile(export_all).
 -include("fhir.hrl").
 -include("primitives.hrl").
@@ -140,15 +140,28 @@ canonize(Props) ->
     lists:foldl(fun(PV, M) -> 
                 gather(PV,M) end, maps:new(), PVs).
 
-gather({[{P, I}|T], V}, Accum) ->               % name indexed 
+gather({[{array, P, I}|T], V}, Accum) ->           % name indexed 
     G = gather_list(P, I, T, V, Accum),
     io:format("gather list ~p~n",[G]),
+    G; 
+gather({[{coding, S}|T], V}, Accum) ->
+    G = gather_coding(S, T, V, Accum),
+    io:format("gather_coding  ~p~n",[G]),
+    G; 
+gather({[{identifier, S}|T], V}, Accum) ->
+    G = gather_identifier(S, T, V, Accum),
+    io:format("gather_identifier ~p~n",[G]),
+    G; 
+gather({[{extension, URL, I}|T], V}, Accum) ->   
+    G = gather_extension(URL, I, T, V, Accum),
+    io:format("gather_extension ~p~n",[G]),
     G; 
 gather({[P|T], V}, Accum) ->
     G = gather_simple(P, T, V, Accum), 
     io:format("gather simple ~p~n",[G]),
     G. 
 
+%-spec gather_simple(binary(), list(), binary(), maps:map()) -> (tuple(), maps:map()).
 gather_simple(P, [], V, Accum) -> maps:put(P, V, Accum);
 gather_simple(P, Tail, V, Accum) -> 
     % io:format("gather_simple: ~p~n", [P]),
@@ -179,79 +192,112 @@ gather_list(P, Index, Tail, V, Accum) when is_integer(Index) ->
                         end,
               % io:format("gather_list: list ~p~n",[Complex]),
               maps:update(P, array:set(Index, gather({Tail, V}, Complex), List), Accum)
-    end;
+    end.
 %% list with codings Tail==[]?
-% [{<<"extension:condition:0-extension:checked-valueBoolean">>,false},
-%  {<<"extension:condition:0-valueReference-display">>,<<"test">>}],
-% gather_list: extension:<<"condition">>
-% gather_list: ext [{<<"extension">>,<<"checked">>},<<"valueBoolean">>]:false
-% gather_list: ext #{}
-% gather_list: extension:<<"condition">>
-% gather_list: ext [<<"valueReference">>,<<"display">>]:<<>>
-% gather_list: ext #{<<"extension">> =>
-%                        #{<<"condition">> =>
-%                             [{<<"url">>,<<"condition">>},
-%                              {{<<"extension">>,<<"checked">>},false}]}}
 
-gather_list(<<"extension">>, URL, Tail, V, Accum) when is_binary(URL) ->
-    io:format("gather_list: ext ~p~n",[URL]),
-    io:format("gather_list: ext ~p:~p~n",[Tail,V]),
-    io:format("gather_list: ext ~p~n",[Accum]),
+gather_extension(URL, Index, Tail, V, Accum) when is_binary(URL) ->
+    io:format("gather_ext ~p~n",[URL]),
+    io:format("gather_ext ~p:~p~n",[Tail,V]),
+    io:format("gather_ext ~p~n",[Accum]),
     KV = case Tail of 
-        [Key] -> {Key, V};
+        [Key] -> maps:put(Key, V, maps:new());
         _     -> case lists:nth(1,Tail) of
-                 {<<"extension">>,SubURL} -> io:format("gather_list: ext recur ext ~p~n",[SubURL]),
+                 {extension,SubURL} -> io:format("gather_ext recur ext ~p~n",[SubURL]),
                                     SubExt = gather({Tail, V}, maps:new());
-                 Prop                     -> io:format("gather_list: ext recur non-ext ~p~n",[Prop]),
+                 Prop                     -> io:format("gather_ext recur non-ext ~p~n",[Prop]),
                                              gather({Tail, V}, maps:new())
                  end
         end,
-    NewExt = [{<<"url">>, URL}, KV],
-    io:format("gather_list: ext ~p~n",[NewExt]),
-    case maps:get(<<"extension">>, Accum, {badkey, extension}) of
-      {badkey, K} -> maps:put(<<"extension">>, maps:put(URL, NewExt, maps:new()), Accum);
-      OldExtList -> io:format("gather_list: found ~p~n",[OldExtList]),
+    NewExt0 = maps:put(<<"url">>, URL, maps:new()),
+    NewExt = array:set(0,maps:merge(NewExt0, KV),array:new()),
+    io:format("gather_ext ~p~n",[NewExt]),
+    case maps:get(extension, Accum, {badkey, extension}) of
+      {badkey, K} -> maps:put(extension, maps:put(URL, NewExt, maps:new()), Accum);
+      OldExtList -> io:format("gather_ext: found ~p~n",[OldExtList]),
               NewExtList = case maps:get(URL, OldExtList, {badkey, extension}) of
                 {badkey, K} -> maps:put(URL, NewExt, OldExtList);
-                OldExt      -> io:format("gather_list: update ~p~n",[OldExt]),
-                               io:format("gather_list: update ~p~n",[NewExt]),
-                               Old = ordsets:from_list(OldExt),
-                               New = ordsets:from_list(NewExt),
-                               Ext = ordsets:to_list(ordsets:union(New,Old)),
+                OldExt      -> io:format("gather_ext: update array ~p:~p~n",[OldExt,Index]),
+                               io:format("gather_ext: update array ~p~n",[NewExt]),
+                               Old = array:get(Index,OldExt),
+                               New = array:get(0,NewExt),
+                               Ext = array:set(Index,maps:merge(New,Old),OldExt),
                                maps:update(URL, Ext, OldExtList)
               end,
-              maps:update(<<"extension">>, NewExtList, Accum)
-    end;
+              maps:update(extension, NewExtList, Accum)
+    end.
 
-%% TODO
-gather_list(P, S, Tail, V, Accum) when is_binary(S) ->
-     io:format("gather_list: wc ~p:~p~n",[P,S]),
-     io:format("gather_list: wc ~p:~p~n",[Tail,V]),
-     io:format("gather_list: wc ~p~n",[Accum]),
+gather_coding(S, Tail, V, Accum) when is_binary(S) ->
+     io:format("gather_coding ~p~n",[S]),
+     io:format("gather_coding ~p:~p~n",[Tail,V]),
+     io:format("gather_coding ~p~n",[Accum]),
     Complex = [{<<"system">>, S}, {<<"value">>, V}],
-    case maps:get(P, Accum, {badkey, P}) of
-      {badkey, K} -> maps:put(P, maps:put(S, Complex, maps:new()), Accum);
-      List -> NewList = case maps:get(S, List, {badkey, P}) of
+    case maps:get(coding, Accum, {badkey, coding}) of
+      {badkey, K} -> maps:put(coding, maps:put(S, Complex, maps:new()), Accum);
+      List -> NewList = case maps:get(S, List, {badkey, coding}) of
                 {badkey, K} -> maps:put(S, Complex, List);
                 Old         -> maps:update(S, Complex, List)
               end,
-              maps:update(P, NewList, Accum)
+              maps:update(coding, NewList, Accum)
+    end.
+
+gather_identifier(S, Tail, V, Accum) when is_binary(S) ->
+     io:format("gather_identifier ~p~n",[S]),
+     io:format("gather_identifier ~p:~p~n",[Tail,V]),
+     io:format("gather_identifier ~p~n",[Accum]),
+    Complex = [{<<"system">>, S}, {<<"value">>, V}],
+    case maps:get(identifier, Accum, {badkey, identifier}) of
+      {badkey, K} -> maps:put(identifier, maps:put(S, Complex, maps:new()), Accum);
+      List -> NewList = case maps:get(S, List, {badkey, identifier}) of
+                {badkey, K} -> maps:put(S, Complex, List);
+                Old         -> maps:update(S, Complex, List)
+              end,
+              maps:update(identifier, NewList, Accum)
     end.
 
 %% TODO
 %% convert back to atoms? 
+%%
+%% split_path()
+%%
+%% uri component in path can't contain special chars as ':', '_', '-'.
+%% CSS selectors only allow '_' and '-'
+%% path is concatenated with '-'
+%% 
+-spec split_path( (atom()|binary()) ) -> list((binary()|tuple())).
 split_path(P) when is_atom(P) ->
-    [ split_index(E) || E <- binary:split(atom_to_binary(P,latin1), <<"-">>,[global])];
+    [ split_prop_expr(E) || E <- binary:split(atom_to_binary(P,latin1), <<"-">>,[global])];
 split_path(P) when is_binary(P) ->
-    [ split_index(E) || E <- binary:split(P, <<"-">>,[global])].
+    [ split_prop_expr(E) || E <- binary:split(P, <<"-">>,[global])].
 
-split_index(E) -> 
+%%
+%% split_prop_expr()
+%%
+%% uri component in path can't contain special chars as ':', '-'.
+%% CSS selectors only allow '_' and '-'
+%% simple prop       -> prop
+%% array prop:int    -> {array, prop, index)
+%% array identifier:uri -> {identifier, system)
+%% array coding:uri -> {coding, system)
+%% extension array   -> {extension, url, index}
+%%
+-spec split_prop_expr( binary() ) -> (binary()|tuple()). 
+split_prop_expr(E) -> 
     case binary:split(E, <<":">>,[global]) of
-        [N,I|T] -> case string:to_integer(binary_to_list(I)) of
-                       {Index, []} -> {N, Index};
-                       {error, _} ->  {N, I}
-                   end;
-        [N|T] -> N
+    [<<"extension">>,URL,I|T] when is_binary(URL) -> case string:to_integer(binary_to_list(I)) of
+                   {Index, []} -> {extension, URL, Index};
+                   {error, _} ->  throw("ppatch:split_index illegal extension path")
+               end;
+    [<<"extension">>,I|T] -> case string:to_integer(binary_to_list(I)) of
+                   {Index, []} -> {extension, undefined, Index};   %% ?? useful or not
+                   {error, _} ->  {extension, I, undefined}
+               end;
+    [<<"identifier">>,System|T] -> {identifier, System};
+    [<<"coding">>,System|T]     -> {coding, System};
+    [N,I|T] -> case string:to_integer(binary_to_list(I)) of
+                   {Index, []} -> {array, N, Index};
+                   {error, _} ->  {coding, N, I}
+               end;
+    [N|T] -> N
     end.
 %%
 %%
@@ -261,38 +307,26 @@ split_index(E) ->
 
 -include_lib("eunit/include/eunit.hrl").
 
--define(asrtm(A, B, P), ?assertEqual(B, update:merge(A, P))).
--define(asrts(A, B), ?assertEqual(B, update:split_path(A))).
--define(asrtc(A, B), ?assertEqual(B, update:canonize(A))).
--define(asrtuo(A, B, P), ?assertEqual(B, update:update(A, P))).
--define(asrtuw(A, B, P, O), ?assertEqual(B, update:update(A, P, O))).
+-define(asrts(A, B), ?assertEqual(B, ppatch:split_path(A))).
+-define(asrtc(A, B), ?assertEqual(B, ppatch:canonize(A))).
+-define(asrtm(A, B, P), ?assertEqual(B, ppatch:merge(A, P))).
+-define(asrtuo(A, B, P), ?assertEqual(B, ppatch:update(A, P))).
+-define(asrtuw(A, B, P, O), ?assertEqual(B, ppatch:update(A, P, O))).
 
-update_merge_test() ->
-   ?asrtm(
-          [{'name:0-given:0',<<"Vausi">>},
-           {'name:0-family',<<"Polausi">>},
-           {'name:0-text',<<"old text">>},
-           {'name:0-use',<<"official">>},
-           {'name:0-suffix:0',<<"von">>}],
-          [{'name:0-family',<<"Franzisi">>},
-                  {'name:0-given:0',<<"Vausi">>},
-                  {'name:0-suffix:0',<<"von">>},
-                  {'name:0-text',<<"old text">>},
-                  {'name:0-use',<<"official">>}],
-          [{'name:0-given:0',<<"Vausi">>},
-           {'name:0-family',<<"Franzisi">>},
-           {'name:0-use',<<"official">>}]
-     ).
-
-update_path_test() ->
-   ?asrts('name:0', [{<<"name">>, 0}]), 
-   ?asrts('name:0-given:0', [{<<"name">>, 0}, {<<"given">>, 0}]), 
-   ?asrts('identifier:mrn-value', [{<<"identifier">>, <<"mrn">>}, <<"value">>]), 
-   ?asrts('status-coding:test-code', [<<"status">>, {<<"coding">>,<<"test">>}, <<"code">>]), 
+ppatch_splitpath1_test() ->
    ?asrts('birthDate', [<<"birthDate">>]), 
+   ?asrts('name:0', [{array, <<"name">>, 0}]), 
+   ?asrts('name:0-given:0', [{array, <<"name">>, 0}, {array, <<"given">>, 0}]), 
+   ?asrts('identifier:mrn-value', [{identifier, <<"mrn">>}, <<"value">>]), 
+   ?asrts('status-coding:test-code', [<<"status">>, {coding,<<"test">>}, <<"code">>]), 
    ?asrts('complex-value', [<<"complex">>, <<"value">>]).
 
-update_simple_test() ->
+ppatch_splitpath2_test() ->
+   ?asrts('extension:url-valueBoolean', [{extension, <<"url">>, undefined},<<"valueBoolean">>]),
+   ?asrts('extension:0-valueBoolean', [{extension, undefined,0},<<"valueBoolean">>]),
+   ?asrts('extension:url:0-valueBoolean', [{extension, <<"url">>, 0},<<"valueBoolean">>]).
+
+ppatch_simple_test() ->
    ?asrtc([{birthDate,<<"2019-01-01">>},
            {multipleBirthInteger,<<"1">>}],
           #{<<"birthDate">> => <<"2019-01-01">>,
@@ -307,7 +341,7 @@ update_simple_test() ->
                        #{<<"coding">> => #{<<"code">> => <<"false">>}}}
          ).
 
-update_list_test() ->
+ppatch_list_test() ->
    ?asrtc([{'name:0',<<"Vausi">>},
            {'name:1',<<"Polausi">>},
            {'name:2',<<"Marabusi">>}],
@@ -389,64 +423,85 @@ update_list_test() ->
                             undefined,undefined,undefined}}}
          ).
 
-update_system_test() ->
+ppatch_system_test() ->
    ?asrtc([{'identifier:orbispid-value', <<"0063730730">>}],
-          #{<<"identifier">> =>
+          #{identifier =>
                   #{<<"orbispid">> =>
                              [{<<"system">>,<<"orbispid">>},
                               {<<"value">>,<<"0063730730">>}]}}
          ).
 
-update_extension1_test() ->
+ppatch_extension1_test() ->
    ?asrtc([{'extension:rank-valueBoolean',<<"false">>}],
-          #{<<"extension">> =>
+          #{extension =>
                        #{<<"rank">> =>
-                             [{<<"url">>,<<"rank">>},
-                              {<<"valueBoolean">>,<<"false">>}]}}
+                         {array,1,10,undefined,
+                                    {#{<<"url">> => <<"rank">>,
+                                       <<"valueBoolean">> => <<"false">>},
+                                     undefined,undefined,undefined,undefined,
+                                     undefined,undefined,undefined,undefined,
+                                     undefined}}}}
          ).
-update_extension2_test() ->
+ppatch_extension2_test() ->
    ?asrtc( [{<<"extension:condition:0-extension:checked-valueBoolean">>,false}],
-           #{<<"extension">> =>
+           #{extension =>
                        #{<<"condition">> =>
-                             [{<<"url">>,<<"condition">>},
-                              #{<<"extension">> =>
-                                    #{<<"checked">> =>
-                                          [{<<"url">>,<<"checked">>},
-                                           {<<"valueBoolean">>,false}]}}]}}
+                         {array,1,10,undefined,
+                        {#{extension =>
+                            #{<<"checked">> =>
+                               {array,1,10,undefined,
+                                {#{<<"url">> => <<"checked">>,
+                                   <<"valueBoolean">> => false},
+                                 undefined,undefined,undefined,undefined,
+                                 undefined,undefined,undefined,undefined,
+                                 undefined}}},
+                           <<"url">> => <<"condition">>},
+                         undefined,undefined,undefined,undefined,undefined,
+                         undefined,undefined,undefined,undefined}}}}
          ),
    ?asrtc( [{<<"extension:condition:0-valueReference-display">>,<<"test">>}],
-           #{<<"extension">> =>
+           #{extension =>
                        #{<<"condition">> =>
-                             [{<<"url">>,<<"condition">>},
-                              {<<"valueReference">>,
-                               [{<<"display">>,<<"test">>}]}]}}
-
+                              {array,1,10,undefined,
+                                    {#{<<"url">> => <<"condition">>,
+                                       <<"valueReference">> =>
+                                           #{<<"display">> => <<"test">>}},
+                                     undefined,undefined,undefined,undefined,
+                                     undefined,undefined,undefined,undefined,
+                                     undefined}}}}
         ).
-update_extension3_test() ->
+ppatch_extension3_test() ->
    ?asrtc( [{<<"extension:condition:0-extension:checked-valueBoolean">>,false},
             {<<"extension:condition:0-valueReference-display">>,<<"test">>}],
-           #{<<"extension">> =>
-                       #{<<"condition">> =>
-                             [{<<"url">>,<<"condition">>},
-                              {<<"valueReference">>,
-                               #{<<"display">> => <<"test">>}},
-                              #{<<"extension">> =>
-                                    #{<<"checked">> =>
-                                          [{<<"url">>,<<"checked">>},
-                                           {<<"valueBoolean">>,false}]}}]}}
+           #{extension =>
+                    #{<<"condition">> =>
+                       {array,1,10,undefined,
+                        {#{extension =>
+                            #{<<"checked">> =>
+                               {array,1,10,undefined,
+                                {#{<<"url">> => <<"checked">>,
+                                   <<"valueBoolean">> => false},
+                                 undefined,undefined,undefined,undefined,
+                                 undefined,undefined,undefined,undefined,
+                                 undefined}}},
+                           <<"url">> => <<"condition">>,
+                           <<"valueReference">> =>
+                            #{<<"display">> => <<"test">>}},
+                         undefined,undefined,undefined,undefined,undefined,
+                         undefined,undefined,undefined,undefined}}}}
         ).
 
 
-update_coding_test() ->
+ppatch_coding_test() ->
    ?asrtc([{'status-coding:test-code', <<"completed">>}],
           #{<<"status">> =>
-                       #{<<"coding">> =>
+                       #{coding =>
                              #{<<"test">> =>
                                    [{<<"system">>,<<"test">>},
                                     {<<"value">>,<<"completed">>}]}}}
          ). 
 
-update_complex_test() ->
+ppatch_complex_test() ->
    ?asrtc([{'name:0-given:0',<<"Vausi">>},
            {'name:0-family',<<"Polausi">>},
            {'name:0-use',<<"official">>},
@@ -454,7 +509,7 @@ update_complex_test() ->
            {birthDate,<<"2019-01-01">>},
            {multipleBirthInteger,<<"1">>}],
           #{<<"birthDate">> => <<"2019-01-01">>,
-            <<"identifier">> =>
+            identifier =>
                        #{<<"orbispid">> =>
                              [{<<"system">>,<<"orbispid">>},
                               {<<"value">>,<<"0063730730">>}]},
@@ -476,7 +531,7 @@ update_complex_test() ->
    ?asrtc([{'identifier:orbispid-value', <<"0063730730">>},
            {'identifier:mrn-value', <<"1234567890">>}
           ],
-          #{<<"identifier">> =>
+          #{identifier =>
                   #{<<"mrn">> =>
                              [{<<"system">>,<<"mrn">>},
                               {<<"value">>,<<"1234567890">>}],
@@ -487,12 +542,30 @@ update_complex_test() ->
    ?asrtc([{'identifier:orbispid-value', <<"0063730730">>},
            {'identifier:orbispid-value', <<"1234567890">>}
           ],
-          #{<<"identifier">> =>
+          #{identifier =>
                   #{<<"orbispid">> =>
                              [{<<"system">>,<<"orbispid">>},
                               {<<"value">>,<<"1234567890">>}]}}
          ).
-update_patient1_test() ->
+
+ppatch_merge_test() ->
+   ?asrtm(
+          [{'name:0-given:0',<<"Vausi">>},
+           {'name:0-family',<<"Polausi">>},
+           {'name:0-text',<<"old text">>},
+           {'name:0-use',<<"official">>},
+           {'name:0-suffix:0',<<"von">>}],
+          [{'name:0-family',<<"Franzisi">>},
+                  {'name:0-given:0',<<"Vausi">>},
+                  {'name:0-suffix:0',<<"von">>},
+                  {'name:0-text',<<"old text">>},
+                  {'name:0-use',<<"official">>}],
+          [{'name:0-given:0',<<"Vausi">>},
+           {'name:0-family',<<"Franzisi">>},
+           {'name:0-use',<<"official">>}]
+     ).
+
+ppatch_patient1_test() ->
    ?asrtuo(
            {'Patient',[],<<"p-21666">>,undefined,undefined,undefined,undefined,[],[],[],[],
             undefined,[],[],undefined, undefined,undefined,[],undefined,
@@ -537,7 +610,7 @@ update_patient1_test() ->
              {'name:0-use',<<"official">>}]
           ).
 
-update_patient_ext_test() ->
+ppatch_patient_ext_test() ->
    ?asrtuo(
            {'Patient',[],<<"p-21666">>,undefined,undefined,undefined,undefined,[],[],[],[],
             undefined,[],[],undefined, undefined,undefined,[],undefined,
@@ -551,7 +624,7 @@ update_patient_ext_test() ->
              {'extension:rank-valueBoolean',<<"false">>}
            ]).
 
-update_patient2_test() ->
+ppatch_patient2_test() ->
    ?asrtuo(
            {'Patient',[],undefined,undefined,undefined,undefined,
                           undefined,[],[],[],[],undefined,
@@ -582,7 +655,7 @@ update_patient2_test() ->
              {multipleBirthInteger,<<"1">>}]
           ).
 
-update_patient3_test() ->
+ppatch_patient3_test() ->
    ?asrtuo(
            {'Patient',[],undefined,undefined,undefined,undefined,
                           undefined,[],[],[],[],undefined,
@@ -640,7 +713,7 @@ update_patient3_test() ->
              {'name:2-use',<<"official">>}]
           ).
 
-update_partial_patient_test() ->
+ppatch_partial_patient_test() ->
    ?asrtuw(
            {'Patient',[],undefined,undefined,undefined,undefined,
                           undefined,[],[],[],[],undefined,
@@ -672,7 +745,7 @@ update_partial_patient_test() ->
             [update]
           ).
 
-update_merge_ext_test() ->
+ppatch_merge_ext_test() ->
    ?asrtuw(
            {'Patient',[],undefined,undefined,undefined,undefined,
                           undefined,[],

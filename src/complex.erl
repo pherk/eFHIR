@@ -118,12 +118,12 @@
       anyAttribs  :: anyAttribs()
     , id          :: string()
     , extension     :: [extensions:'Extension'()]
-    ,  use = <<"official">> :: code()    %% usual | official | temp | secondary 
-     , type           :: 'CodeableConcept'() %% Description of 'Identifier'
-     , system         :: uri()             %% The namespace for the 'Identifier'
-     , value          :: binary()          %% The value that is unique
-     , period         :: 'Period'()          %% Time period when id is/was valid for use
-     , assigner       :: special:'Reference'()  %% Organization that issued id (may be just text)
+    , use = <<"official">> :: code()    %% usual | official | temp | secondary 
+    , type           :: 'CodeableConcept'() %% Description of 'Identifier'
+    , system         :: uri()             %% The namespace for the 'Identifier'
+    , value          :: binary()          %% The value that is unique
+    , period         :: 'Period'()          %% Time period when id is/was valid for use
+    , assigner       :: special:'Reference'()  %% Organization that issued id (may be just text)
 }).
 -opaque 'Identifier'()   :: #'Identifier'{}.
 
