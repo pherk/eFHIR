@@ -476,8 +476,7 @@ ppatch_extension3_test() ->
                         {#{extension =>
                             #{<<"checked">> =>
                                {array,1,10,undefined,
-                                {#{<<"url">> => <<"checked">>,
-                                   <<"valueBoolean">> => false},
+                                {#{<<"valueBoolean">> => false},
                                  undefined,undefined,undefined,undefined,
                                  undefined,undefined,undefined,undefined,
                                  undefined}}},
