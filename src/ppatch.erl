@@ -36,44 +36,69 @@ update2(Resource, Props, Opts) ->
 update_prop(update, K, V, R, RI, XSD) ->
   io:format("update:update_prop upd ~p~n", [R]),
   io:format("update:update_prop upd ~p:~p~n", [K,V]),
-  Field = decode:base_name(K,XSD),
-  I = index_of(Field, RI) + 1,
-  P = transform(K,V, Field, XSD),
+  {K1,Field,I} = decode_base_name(K,RI,XSD),
+  P = transform(K1, V, Field, XSD),
   io:format("update:update_prop upd ~p:~p~n", [I, P]),
   setelement(I,R,P);
 update_prop(merge, K, V, R, RI, XSD) ->
   io:format("update:update_prop merge ~p~n", [R]),
   io:format("update:update_prop merge ~p:~p~n", [K,V]),
-  Field = decode:base_name(K,XSD),
-  I = index_of(Field, RI) + 1,
+  {K1,Field,I} = decode_base_name(K,RI,XSD),
   P0 = element(I,R), 
-  P = merge(K,V, P0, Field, XSD),
+  P = merge(K1, V, P0, Field, XSD),
   io:format("update:update_prop merge ~p:~p~n", [I, P]),
   setelement(I,R,P);
 update_prop(replace, K, V, R, RI, XSD) ->
   io:format("upd: ~p~n", [R]),
   io:format("upd: ~p:~p~n", [K, V]),
-  Field = decode:base_name(K,XSD),
-  I = index_of(Field, RI) + 1,
-  P = transform(K,V, Field, XSD),
+  {K1,Field,I} = decode_base_name(K,RI,XSD),
+  P = transform(K1, V, Field, XSD),
   io:format("upd: ~p:~p~n", [I, P]),
   setelement(I,R,P).
+
+decode_base_name(coding,RI,XSD) ->
+  Field = decode:base_name(<<"coding">>,XSD),
+  I = index_of(Field, RI) + 1,
+  {<<"coding">>,Field,I};
+decode_base_name(extension,RI,XSD) ->
+  Field = decode:base_name(<<"extension">>,XSD),
+  I = index_of(Field, RI) + 1,
+  {<<"extension">>,Field,I};
+decode_base_name(identifier,RI,XSD) ->
+  Field = decode:base_name(<<"identifier">>,XSD),
+  I = index_of(Field, RI) + 1,
+  {<<"identifier">>,Field,I};
+decode_base_name(K,RI,XSD) ->
+  Field = decode:base_name(K,XSD),
+  I = index_of(Field, RI) + 1,
+  {K,Field,I}.
 
 transform(K, V, Field, XSD) when is_binary(V) ->
 %  io:format("t: ~p:~p~n", [K, PropInfo]),
   decode:value(Field, [{K,V}], XSD);
 transform(K, V, Field, XSD) when is_tuple(V) ->
-  io:format("t: ~p~n", [V]),
+  io:format("t: tuple ~p~n", [V]),
   P = to_values(V),
-  io:format("t: ~p~n", [P]),
+  io:format("t: tuple ~p~n", [P]),
   decode:value(Field, [{K,P}], XSD);
 transform(K, V, Field, XSD) when is_list(V) ->
-  % io:format("t: ~p~n", [V]),
+  % io:format("t: list ~p~n", [V]),
   decode:value(Field, [{K,V}], XSD);
-transform(K, V, Field, XSD) when is_map(V) ->
-  io:format("t: ~p:~p~n", [K,V]),
+transform(<<"coding">>, V, Field, XSD) ->
+  io:format("t: coding :~p~n", [V]),
+  P = to_values(V),
+  io:format("t: coding ~p~n", [P]),
+  decode:value(Field, [{<<"coding">>,P}], XSD);
+transform(<<"extension">>, V, Field, XSD) ->
+  io:format("t: extension :~p~n", [V]),
+  P = ext_to_kvlist(V),
+  io:format("t: extension ~p~n", [P]),
+  decode:value(Field, [{<<"extension">>,P}], XSD);
+transform(<<"identifier">>, V, Field, XSD) ->
+  io:format("t: identifier :~p~n", [V]),
   P = maps:values(V),
-  decode:value(Field, [{K,P}], XSD).
+  io:format("t: identifier ~p~n", [P]),
+  decode:value(Field, [{<<"identifier">>,P}], XSD).
 
 merge(K, V, P0, Field, XSD) when is_binary(V) ->
   io:format("merge bin: ~p:~p:~p~n", [K, V, P0]),
@@ -108,13 +133,21 @@ to_values(R) when is_tuple(R) -> [to_values(V) || V <- array:to_list(R), V=/=und
 to_values(R) when is_map(R) -> 
     [case K of
        <<"extension">> -> 
-   io:format("2v: map ~p:~p~n", [K,V]),
-            {K, maps:values(V)};
-       _ -> {K,to_values(V)}
+            ext_to_kvlist(V);
+       _ -> 
+            io:format("2v: map recur ~p:~p~n", [K,V]),
+            {K,to_values(V)}
     end || {K,V} <- maps:to_list(R)];
 to_values(R) when is_list(R) ->
    io:format("2v: list ~p~n", [R]),
    R.
+
+ext_to_kvlist(E) ->
+    io:format("ext_to_kvlist ~p~n", [E]),
+    lists:flatten([[{[{<<"url">>,URL}, map_to_value(V)]} || V <- array:to_list(Values)] || {URL,Values} <- maps:to_list(E)]).
+
+map_to_value(R) ->
+    lists:nth(1,maps:to_list(R)).
 %%
 %% internal functions
 %%
@@ -217,11 +250,15 @@ gather_extension(URL, Index, Tail, V, Accum) when is_binary(URL) ->
       OldExtList -> io:format("gather_ext: found ~p~n",[OldExtList]),
               NewExtList = case maps:get(URL, OldExtList, {badkey, extension}) of
                 {badkey, K} -> maps:put(URL, NewExt, OldExtList);
-                OldExt      -> io:format("gather_ext: update array ~p:~p~n",[OldExt,Index]),
+                OldExt      -> io:format("gather_ext: update array ~p:~p~n",[Index,OldExt]),
                                io:format("gather_ext: update array ~p~n",[NewExt]),
                                Old = array:get(Index,OldExt),
                                New = array:get(0,NewExt),
-                               Ext = array:set(Index,maps:merge(New,Old),OldExt),
+                               io:format("gather_ext: update array ~p:~p~n",[Old,New]),
+                               Ext = case Old of
+                                     undefined -> array:set(Index, New,OldExt);
+                                     _         -> array:set(Index, maps:merge(New,Old),OldExt)
+                                     end,
                                maps:update(URL, Ext, OldExtList)
               end,
               maps:update(extension, NewExtList, Accum)
@@ -467,6 +504,7 @@ ppatch_extension2_test() ->
                                      undefined,undefined,undefined,undefined,
                                      undefined}}}}
         ).
+
 ppatch_extension3_test() ->
    ?asrtc( [{<<"extension:condition:0-extension:checked-valueBoolean">>,false},
             {<<"extension:condition:0-valueReference-display">>,<<"test">>}],
@@ -485,6 +523,37 @@ ppatch_extension3_test() ->
                          undefined,undefined,undefined,undefined,undefined,
                          undefined,undefined,undefined,undefined}}}}
         ).
+
+ppatch_extlist_test() ->
+   ?asrtc( [{<<"extension:condition:0-extension:checked-valueBoolean">>,false},
+            {<<"extension:condition:0-valueReference-display">>,<<"dumbo">>},
+            {<<"extension:condition:1-extension:checked-valueBoolean">>,false},
+            {<<"extension:condition:1-valueReference-display">>,<<"mambo">>}],
+           #{extension =>
+                    #{<<"condition">> =>
+                       {array,2,10,undefined,
+                        {#{extension =>
+                            #{<<"checked">> =>
+                               {array,1,10,undefined,
+                                {#{<<"valueBoolean">> => false},
+                                 undefined,undefined,undefined,undefined,
+                                 undefined,undefined,undefined,undefined,
+                                 undefined}}},
+                           <<"valueReference">> =>
+                            #{<<"display">> => <<"dumbo">>}},
+                         #{extension =>
+                            #{<<"checked">> =>
+                               {array,1,10,undefined,
+                                {#{<<"valueBoolean">> => false},
+                                 undefined,undefined,undefined,undefined,
+                                 undefined,undefined,undefined,undefined,
+                                 undefined}}},
+                           <<"valueReference">> =>
+                            #{<<"display">> => <<"mambo">>}},
+                         undefined,undefined,undefined,undefined,undefined,
+                         undefined,undefined,undefined}}}}
+        ).
+
 
 
 ppatch_coding_test() ->
@@ -617,6 +686,27 @@ ppatch_patient_ext_test() ->
                      undefined,undefined,[],[],[],[],undefined,[]},
            [
              {'extension:rank-valueBoolean',<<"false">>}
+           ]).
+
+ppatch_patient_extlist_test() ->
+   ?asrtuo(
+           {'Patient',[],<<"p-21666">>,undefined,undefined,undefined,undefined,[],[],[],[],
+            undefined,[],[],undefined, undefined,undefined,[],undefined,
+            undefined,[],[],[],[],undefined,[]},
+           {'Patient',[],<<"p-21666">>,undefined,undefined,undefined,
+                     undefined,[],
+                     [{'Extension',[],undefined,[],<<"rank">>,
+                          {valueString,<<"dumbo">>}},
+                      {'Extension',[],undefined,[],<<"rank">>,
+                          {valueString,<<"mambo">>}},
+                      {'Extension',[],undefined,[],<<"rank">>,
+                          {valueString,<<"tango">>}}],
+                     [],[],undefined,[],[],undefined,undefined,undefined,[],
+                     undefined,undefined,[],[],[],[],undefined,[]},
+           [
+             {'extension:rank:0-valueString',<<"dumbo">>},
+             {'extension:rank:1-valueString',<<"mambo">>},
+             {'extension:rank:2-valueString',<<"tango">>}
            ]).
 
 ppatch_patient2_test() ->
