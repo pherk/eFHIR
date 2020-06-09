@@ -15,7 +15,7 @@
 %%======================================================================================================
 
 extract(Path, Resource) ->
-  io:format("extract:extract ~p:~p~n",[Resource, Path]),
+  % io:format("extract:extract ~p:~p~n",[Resource, Path]),
   [Parent|Steps] = update:split_path(Path),
   step(Steps, Resource ).
 
