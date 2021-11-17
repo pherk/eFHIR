@@ -1,0 +1,13 @@
+{application, efhir,
+ [{description, "An OTP App"},
+  {vsn, "0.3.7"},
+  {registered, []},
+  {applications,
+   [kernel,
+    stdlib
+   ]},
+  {env,[]},
+  {mod, {efhir_app, []}},
+  {licenses, ["Apache 2.0"]},
+  {links, []}
+ ]}.
