@@ -5,8 +5,8 @@
 %%% Non-FHIR resource
 %%%
 
--include_lib("fhir/include/fhir.hrl").
--include_lib("fhir/include/primitives.hrl").
+-include("fhir.hrl").
+-include("primitives.hrl").
 
 -export([to_leave/1]).
 -export_type(['Leave'/0]).
