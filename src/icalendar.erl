@@ -2,8 +2,8 @@
 -author("pmh").
 -vsn("0.0.1").
 
--include_lib("fhir/include/fhir.hrl").
--include_lib("fhir/include/primitives.hrl").
+-include("fhir.hrl").
+-include("primitives.hrl").
 
 -export([
           new_agenda/3
